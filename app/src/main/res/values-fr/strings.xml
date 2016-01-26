@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MapX</string>
+
+    <string name="navigation_drawer_open">Ouvrir la barre de navigation</string>
+    <string name="navigation_drawer_close">Fermer la barre de navigation</string>
+
+    <string name="action_settings">Paramètres</string>
+
+
+    <!-- Navigation Bar -->
+    <string name="navigation_drawer_story-lines">Histoire</string> <!-- TODO -->
+    <string name="navigation_drawer_museum_map">Carte du musée</string>
+    <string name="navigation_drawer_qr_scanner">Lecteur QR</string>
+    <string name="navigation_drawer_settings">Paramètres</string>
+    <string name="navigation_drawer_help_feedback">Aide</string> <!-- TODO -->
+
+    <!-- action bar -->
+    <string name="action_bar_search">Rechercher</string> <!-- TODO -->
+
+    <!-- Settings -->
+    <string name="settings_language">Langues</string>
+    <string name="language_english">English</string>
+    <string name="language_french">Français</string>
+
+</resources>
