@@ -13,7 +13,7 @@ import soen390.mapx.R;
 public class MapFragmentViewHolder extends BaseViewHolder {
 
 
-    WebView webView;
+    private WebView webView;
 
     public MapFragmentViewHolder(View viewHolder) {
         super(viewHolder);

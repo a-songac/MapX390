@@ -3,34 +3,26 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_map"
+            android:icon="@drawable/ic_navigation_black_24dp"
+            android:title="@string/navigation_drawer_museum_map" />
+        <item
+            android:id="@+id/nav_storyline"
+            android:icon="@drawable/ic_view_list_black_24dp"
+            android:title="@string/navigation_drawer_story_lines" />
+        <item
+            android:id="@+id/nav_qr_scanner"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:title="@string/navigation_drawer_qr_scanner" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/navigation_drawer_settings" />
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+        <item
+            android:id="@+id/nav_help_feedback"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:title="@string/navigation_drawer_settings" />
+    </group>
 
 </menu>

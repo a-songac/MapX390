@@ -48,7 +48,7 @@ public class MapFragment extends Fragment implements IBaseFragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         ActionBarHelper.getInstance().setMapFragmentActionBar();
