@@ -10,7 +10,7 @@
 
 
     <!-- Navigation Bar -->
-    <string name="navigation_drawer_story-lines">Histoire</string> <!-- TODO -->
+    <string name="navigation_drawer_story_lines">Histoire</string> <!-- TODO -->
     <string name="navigation_drawer_museum_map">Carte du musée</string>
     <string name="navigation_drawer_qr_scanner">Lecteur QR</string>
     <string name="navigation_drawer_settings">Paramètres</string>

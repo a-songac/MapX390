@@ -7,7 +7,7 @@
     <string name="action_settings">Settings</string>
 
     <!-- Navigation Bar -->
-    <string name="navigation_drawer_story-lines">Story-lines</string>
+    <string name="navigation_drawer_story_lines">Story-lines</string>
     <string name="navigation_drawer_museum_map">Museum Map</string>
     <string name="navigation_drawer_qr_scanner">QR Scanner</string>
     <string name="navigation_drawer_settings">Settings</string>
@@ -20,5 +20,8 @@
     <string name="settings_language">Languages</string>
     <string name="language_english">English</string>
     <string name="language_french">Français</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

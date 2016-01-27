@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
+import soen390.mapx.fragment.MapFragment;
 
 /**
  * Class to implement navigation helper
@@ -39,10 +40,34 @@ public class NavigationHelper {
     }
 
     /**
+     * Pop back stack if there are currently at least 2 fragments
+     */
+    public void navigateToLastFragment() {
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1)
+            getSupportFragmentManager().popBackStack();
+    }
+
+    /**
+     * Navigate to Map Fragment
+     */
+    public void navigateToMapFragment() {
+
+        Fragment fragment = MapFragment.newInstance();
+        replaceFragment(
+                fragment,
+                false,
+                true,
+                ConstantsHelper.MAP_FRAGMENT_TAG,
+                null
+        );
+    }
+
+    /**
      * Navigate to main fragment
      */
     public void navigateToMainFragment() {
-        //TODO
+        navigateToMapFragment();
     }
 
     /**

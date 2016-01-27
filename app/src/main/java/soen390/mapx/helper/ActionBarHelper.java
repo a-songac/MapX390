@@ -28,6 +28,13 @@ public class ActionBarHelper {
         this.actionBar = actionBar;
     }
 
+    /**
+     * Action bar for map fragment
+     */
+    public void setMapFragmentActionBar() {
+        //TODO set action bar for map fragment
+    }
+
 
 
 }
