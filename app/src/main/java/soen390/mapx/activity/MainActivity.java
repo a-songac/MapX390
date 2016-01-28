@@ -41,7 +41,21 @@ public class MainActivity extends BaseActivity
         initNavigationDrawer();
         PreferenceHelper.getInstance().init(this);
 
-        NavigationHelper.getInstance().navigateToMainFragment();
+        if (savedInstanceState == null) {
+            NavigationHelper.getInstance().navigateToMainFragment();
+        } else {
+            loadLastFragment(savedInstanceState.getString(ConstantsHelper.LAST_FRAGMENT_TAG_KEY, ""));
+        }
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(
+                ConstantsHelper.LAST_FRAGMENT_TAG_KEY,
+                NavigationHelper.getInstance().getContainerFragment().getTag());
 
     }
 
@@ -58,7 +72,7 @@ public class MainActivity extends BaseActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.nav_map) {
@@ -122,5 +136,27 @@ public class MainActivity extends BaseActivity
         getResources().updateConfiguration(
                 config,
                 this.getResources().getDisplayMetrics());
+        LogUtils.info(this.getClass(), "setApplicationLanguage", "language set to " + languageToLoad);
+    }
+
+    /**
+     * Load the last fragment referenced in the activity's saved instance state
+     * @param tag : Tag of the last fragment
+     */
+    private void loadLastFragment(String tag){
+
+        switch (tag) {
+            case ConstantsHelper.MAP_FRAGMENT_TAG:
+                NavigationHelper.getInstance().navigateToMapFragment();
+                break;
+
+            case ConstantsHelper.SETTINGS_FRAGMENT_TAG:
+                NavigationHelper.getInstance().navigateToSettingsFragment();
+                break;
+
+            default:
+                NavigationHelper.getInstance().navigateToMainFragment();
+        }
+
     }
 }

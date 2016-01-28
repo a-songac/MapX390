@@ -69,17 +69,12 @@ public class NavigationHelper {
      */
     public void navigateToSettingsFragment() {
 
-        /*
-         * Settings fragment extends PreferenceFragment that is not a support fragment
-         * This is why I call the normal fragment manager instead of using instead of
-         * Support fragment manager
-         */
-        Context context = MapXApplication.getGlobalContext();
-        MainActivity.class.cast(context).getFragmentManager()
-                 .beginTransaction()
-                 .replace(R.id.container, new SettingsFragment())
-                 .addToBackStack(ConstantsHelper.SETTINGS_FRAGMENT_TAG)
-                 .commit();
+        replaceFragment(
+                new SettingsFragment(),
+                false,
+                true,
+                ConstantsHelper.SETTINGS_FRAGMENT_TAG,
+                null);
 
     }
 

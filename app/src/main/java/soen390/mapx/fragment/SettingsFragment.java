@@ -3,9 +3,9 @@ package soen390.mapx.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.arnaud.android.core.fragment.IBaseFragment;
 
@@ -16,18 +16,16 @@ import soen390.mapx.helper.NavigationHelper;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingsFragment extends PreferenceFragment implements IBaseFragment,
+public class SettingsFragment extends PreferenceFragmentCompat implements IBaseFragment,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
 
     public SettingsFragment() {
         // Required empty public constructor
     }
-
-
+    
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
     }
 
