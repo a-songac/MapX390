@@ -10,6 +10,7 @@ import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.MapFragment;
+import soen390.mapx.fragment.SettingsFragment;
 
 /**
  * Class to implement navigation helper
@@ -61,6 +62,25 @@ public class NavigationHelper {
                 ConstantsHelper.MAP_FRAGMENT_TAG,
                 null
         );
+    }
+
+    /**
+     * Navigate to Settings Fragment
+     */
+    public void navigateToSettingsFragment() {
+
+        /*
+         * Settings fragment extends PreferenceFragment that is not a support fragment
+         * This is why I call the normal fragment manager instead of using instead of
+         * Support fragment manager
+         */
+        Context context = MapXApplication.getGlobalContext();
+        MainActivity.class.cast(context).getFragmentManager()
+                 .beginTransaction()
+                 .replace(R.id.container, new SettingsFragment())
+                 .addToBackStack(ConstantsHelper.SETTINGS_FRAGMENT_TAG)
+                 .commit();
+
     }
 
     /**

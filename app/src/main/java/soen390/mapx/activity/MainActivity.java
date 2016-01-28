@@ -1,6 +1,9 @@
 package soen390.mapx.activity;
 
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,9 +14,12 @@ import android.view.MenuItem;
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
 
+import java.util.Locale;
+
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.helper.ActionBarHelper;
+import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.PreferenceHelper;
 
@@ -28,7 +34,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setApplicationLanguage();
         setContentView(R.layout.activity_main);
         BaseApplication.setGlobalContext(this);
         initActionBar();
@@ -62,6 +68,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_qr_scanner) {
 
         } else if (id == R.id.nav_settings) {
+            NavigationHelper.getInstance().navigateToSettingsFragment();
 
         } else if (id == R.id.nav_help_feedback) {
 
@@ -98,5 +105,22 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    /**
+     * Set application language
+     */
+    private void setApplicationLanguage() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String languageToLoad =  preferences.getString(
+                ConstantsHelper.PREF_LANGUAGE,
+                ConstantsHelper.PREF_LANGUAGE_DEFAULT);
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(
+                config,
+                this.getResources().getDisplayMetrics());
     }
 }
