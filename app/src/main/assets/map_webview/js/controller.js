@@ -4,14 +4,41 @@ function Controller(){
 	this.floorPlans = [];
 	this.mapHeight = 0;
 	this.mapWidth = 0;
+	this.currentFloor = 0;
+	this.markers = [];
 
 	this.initialize = function(options){
 		var self = this;
 
-		function setFloorPlans(){
-			
+		/* TEST DATA */
+		this.floorPlans = [
+			'tiles/floor_1.jpg',
+			'tiles/floor_2.png',
+			'tiles/floor_3.png',
+			'tiles/floor_4.png',
+			'tiles/floor_5.png'
+		];
+		/* END TEST DATA */
 
+		function setFirstFloorImageOverlay(NORTH, EAST, SOUTH, WEST){
+		    try{
+		    	var imageUrl;
 
+			    if(self.floorPlans.length !== 0){
+			    	imageUrl = self.floorPlans[0];
+			    }else{
+			    	throw "No floor plans available!";
+			    }
+
+			    var imageBounds = [[SOUTH, WEST], [NORTH, EAST]];
+			    L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+			    self.currentFloor = 1;
+			}
+
+			catch(err){
+				alert(err);
+			}
 		}
 
 		function setMap(options){
@@ -43,10 +70,23 @@ function Controller(){
 				var levelControl = document.createElement("a");
 				$(levelControl).prop("href", "#");
 				$(levelControl).text(i+1);
+
+				if(i === 0){
+					$(levelControl).css("background-color", "#ccc");
+				}
+
 				$(levelControl).click(function(){
+					//Note: not the best way to do this... or maybe?
+					$("div.leaflet-control.leaflet-bar").find("a").css("background-color", "");
+
+					$(this).css("background-color", "#ccc");
 					var imgOverlayElement = $("img.leaflet-image-layer.leaflet-zoom-animated")[0];
-					var level = parseInt($(this).text())-1;
-					$(imgOverlayElement).prop("src", self.floorPlans[level]);
+					var level = parseInt($(this).text());
+					$(imgOverlayElement).prop("src", self.floorPlans[level-1]);
+
+					self.currentFloor = level;
+					removePOIs();
+					setPOIs("TEMPORARY");
 				});
 
 				$(zoomControlContainer).prepend(levelControl);
@@ -54,14 +94,51 @@ function Controller(){
 
 		}
 
-		this.floorPlans = [
-			'tiles/floor_1.jpg',
-			'tiles/floor_2.png',
-			'tiles/floor_3.png',
-			'tiles/floor_4.png',
-			'tiles/floor_5.png'
-		];
+		function removePOIs(){
+			for(var i = 0; i < self.markers.length; i++){
+				map.removeLayer(self.markers[i]);
+			}
 
+			self.markers = [];
+			//Note to self: ^MAYBE better way is to keep a 2D array so that rather than DELETING markers, just keep them and reference and call them back on the map whenever we want?
+		}
+
+		/* POI = Point of Interest */
+		function setPOIs(POIs){
+			//Temp
+			var TEMP_POIS = [{
+								"floor":1,
+								"x":100,
+								"y":90,
+								"title":"First Steps",
+								"short_desc":"Hello world"
+							},
+							{
+								"floor":1,
+								"x":410,
+								"y":210,
+								"title":"Second Steps",
+								"short_desc":"Hello world"
+							},
+							{
+								"floor":3,
+								"x":320,
+								"y":75,
+								"title":"Third steps",
+								"short_desc":"Hello world"
+							}
+							];
+
+			for(var i = 0; i < TEMP_POIS.length; i++){
+				var poi = TEMP_POIS[i];
+				if(parseInt(self.currentFloor) === poi["floor"]){
+					var marker = L.marker([poi["y"], poi["x"]]).addTo(map);
+					self.markers.push(marker);
+				}
+			}
+		}
+
+		//TEST DATA
 		setMap({
 			"south":0,
 			"east":0,
@@ -71,32 +148,12 @@ function Controller(){
 			"init_position_y":0
 		});
 
+		setFirstFloorImageOverlay(500, 0, 0, 1000); //TEST DATA
 		setLevelsControl();
-		var NORTH = 500;//771.3;//this.mapHeight; //Width
-		var EAST = 0;
-		var SOUTH = 0;
-		var WEST = 1000;//1592.1;//this.mapWidth; //Height
-
-
-		
-
-	    try{
-	    	var imageUrl;
-
-		    if(this.floorPlans.length !== 0){
-		    	imageUrl = this.floorPlans[0];
-		    }else{
-		    	throw "No floor plans available!";
-		    }
-
-		    var imageBounds = [[SOUTH, WEST], [NORTH, EAST]];
-		    L.imageOverlay(imageUrl, imageBounds).addTo(map);
-		}
-
-		catch(err){
-			console.log(err);
-		}
+		setPOIs("TEMPORARY");
 	};
+
+	this.changeFloor = function(){};
 }
 
 var controller = new Controller();
