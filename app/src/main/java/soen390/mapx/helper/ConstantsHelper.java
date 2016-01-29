@@ -26,4 +26,11 @@ public class ConstantsHelper {
     public static final String PREF_LANGUAGE_INIT_KEY = "pref_language_init";
     public static final String DB_INIT_KEY = "db_init_key";
 
+    /**
+     * IBeacon 1. Testing
+     */
+    public static final String IBEACON_TEST1_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
+    public static final int IBEACON_TEST1_MAJOR = 32424;
+    public static final int IBEACON_TEST1_MINOR = 62674;
+
 }
