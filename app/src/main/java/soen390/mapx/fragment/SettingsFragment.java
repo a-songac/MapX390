@@ -23,7 +23,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
     public SettingsFragment() {
         // Required empty public constructor
     }
-    
+
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);

@@ -5,4 +5,10 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#FFFFFF</color>
+
+    <!-- Android Material Design - Text colors on light backgrounds -->
+    <color name="black">#000000</color>
+    <color name="light_dividers">#1f000000</color>
+
+
 </resources>
