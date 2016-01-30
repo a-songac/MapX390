@@ -8,6 +8,12 @@
 
     <string name="action_settings">Paramètres</string>
 
+    <string name="ok">Ok</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+    <string name="confirm">Confirmer</string>
+    <string name="accept">Accepter</string>
+    <string name="cancel">Annuler</string>
 
     <!-- Navigation Bar -->
     <string name="navigation_drawer_story_lines">Histoire</string> <!-- TODO -->
@@ -21,5 +27,7 @@
 
     <!-- Settings -->
     <string name="settings_language">Langues</string>
+    <string name="language_init_dialog_title">Paramètres de langues</string>
+    <string name="language_init_dialog_body">La langue par défaut de cette application est le Français.  Voudriez-vous la changer?</string>
 
 </resources>

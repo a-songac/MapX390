@@ -66,11 +66,14 @@ public class NavigationHelper {
 
     /**
      * Navigate to Settings Fragment
+     * @param triggerLanguage : whether trigger the language settings upon loading the fragment
      */
-    public void navigateToSettingsFragment() {
+    public void navigateToSettingsFragment(boolean triggerLanguage) {
+
+        Fragment settingsFragment = SettingsFragment.newInstance(triggerLanguage);
 
         replaceFragment(
-                new SettingsFragment(),
+                settingsFragment,
                 false,
                 true,
                 ConstantsHelper.SETTINGS_FRAGMENT_TAG,

@@ -36,6 +36,31 @@ public class PreferenceHelper {
 
     }
 
+    /**
+     * Get language preference
+     * @return String: Language preference
+     */
+    public String getLanguagePreference(){
+        return sharedPreferences.getString(ConstantsHelper.PREF_LANGUAGE_KEY, ConstantsHelper.PREF_LANGUAGE_DEFAULT);
+    }
+
+
+    /**
+     * Whether the user was prompt to change the language of preference of the application on first use
+     * @return Boolean
+     */
+    public boolean isLanguagePreferenceInit(){
+        return sharedPreferences.getBoolean(ConstantsHelper.PREF_LANGUAGE_INIT_KEY, false);
+    }
+
+    /**
+     * Set that the user was prompt to change the language of preference on first use
+     */
+    public void completeLanguagePreferenceInit() {
+        editor.putBoolean(ConstantsHelper.PREF_LANGUAGE_INIT_KEY, true);
+        editor.commit();
+    }
+
     public void clear(){
         editor.clear();
         editor.commit();

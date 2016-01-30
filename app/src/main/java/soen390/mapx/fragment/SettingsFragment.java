@@ -9,6 +9,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.arnaud.android.core.fragment.IBaseFragment;
 
+import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
@@ -19,6 +20,23 @@ import soen390.mapx.helper.NavigationHelper;
 public class SettingsFragment extends PreferenceFragmentCompat implements IBaseFragment,
         SharedPreferences.OnSharedPreferenceChangeListener {
 
+    /**
+     * Create new instance of settings fragment
+     * @param triggerLanguageSettings: whether trigger the language settings upon loading the fragment
+     * @return Fragment
+     */
+    public static SettingsFragment newInstance(boolean triggerLanguageSettings) {
+
+        Bundle arguments = new Bundle();
+        if (triggerLanguageSettings) {
+            arguments.putBoolean(ConstantsHelper.SETTINGS_FRAGMENT_ARG_KEY_TRIGGER_LANGUAGE, true);
+        }
+        SettingsFragment settingsFragment = new SettingsFragment();
+        settingsFragment.setArguments(arguments);
+        return settingsFragment;
+
+    }
+
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -27,6 +45,20 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
     @Override
     public void onCreatePreferences(Bundle bundle, String s) {
         addPreferencesFromResource(R.xml.preferences);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (null != getArguments()) {
+
+            if (getArguments().getBoolean(ConstantsHelper.SETTINGS_FRAGMENT_ARG_KEY_TRIGGER_LANGUAGE)) {
+                getPreferenceScreen().findPreference(ConstantsHelper.PREF_LANGUAGE_KEY).performClick(); //TODO performclick not triggered
+                LogUtils.info(this.getClass(), "onActivityCreated" , "click perform click");
+            }
+        }
+
     }
 
     @Override
@@ -46,7 +78,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-        if (key.equals(ConstantsHelper.PREF_LANGUAGE)) {
+        if (key.equals(ConstantsHelper.PREF_LANGUAGE_KEY)) {
 
             Preference languagePref = findPreference(key);
             languagePref.setSummary(sharedPreferences.getString(key, ""));
