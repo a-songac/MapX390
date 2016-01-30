@@ -18,8 +18,8 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:src="@drawable/navigation_horizontal_separator"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rca_divider"
         android:layout_alignParentBottom="true" />
 
 </RelativeLayout>
