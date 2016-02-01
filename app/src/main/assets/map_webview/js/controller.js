@@ -5,8 +5,9 @@ function Controller(){
 	this.mapHeight = 0;
 	this.mapWidth = 0;
 	this.currentFloor = 0;
-	this.markers = [];
+	this.poiMarkers = [];
 
+	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
 		var self = this;
 
@@ -20,6 +21,7 @@ function Controller(){
 		];
 		/* END TEST DATA */
 
+		/* Upon initialization, "manually" overlay the first image */
 		function setFirstFloorImageOverlay(NORTH, EAST, SOUTH, WEST){
 		    try{
 		    	var imageUrl;
@@ -41,11 +43,13 @@ function Controller(){
 			}
 		}
 
+		/* Set the map frame: Map Size, Map Controls*/
 		function setMap(options){
 			var MIN_ZOOM = -1;
 			var MAX_ZOOM = 2;
 			var INIT_ZOOM = -1;
 
+			//Map settings
 			map = L.map('map', {
 		        maxZoom: MAX_ZOOM,
 		        minZoom: MIN_ZOOM,
@@ -56,25 +60,31 @@ function Controller(){
 		    map.setView([options.init_position_x, options.init_position_y], INIT_ZOOM);
 
 			new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
-	   		map.setMaxBounds(new L.LatLngBounds([options.south, options.west], [options.north, options.east]));
+	   		map.setMaxBounds(new L.LatLngBounds([options.south, options.west], [options.north, options.east])); 
 		}
 
+		/* Function will set as many floor level controls as needed */
 		function setLevelsControl(){
 			var levels = self.floorPlans.length;
 
-			var zoomControlContainer = document.createElement("div");
-			$(zoomControlContainer).addClass("leaflet-control leaflet-bar");
-			$(".leaflet-bottom.leaflet-right").prepend(zoomControlContainer);
+			var levelControlContainer = document.createElement("div");
+			$(levelControlContainer).addClass("leaflet-control leaflet-bar");
 
+			//Find the current zoom control container and add a level control container in it
+			$(".leaflet-bottom.leaflet-right").prepend(levelControlContainer); 
+
+			//Loop for creating every floor button
 			for(var i = 0; i < levels; i++){
 				var levelControl = document.createElement("a");
 				$(levelControl).prop("href", "#");
 				$(levelControl).text(i+1);
 
+				//First floor has to have the selected css
 				if(i === 0){
 					$(levelControl).css("background-color", "#ccc");
 				}
 
+				//Add a click function to every element
 				$(levelControl).click(function(){
 					//Note: not the best way to do this... or maybe?
 					$("div.leaflet-control.leaflet-bar").find("a").css("background-color", "");
@@ -89,51 +99,52 @@ function Controller(){
 					setPOIs("TEMPORARY");
 				});
 
-				$(zoomControlContainer).prepend(levelControl);
+				$(levelControlContainer).prepend(levelControl);
 			}
 
 		}
 
+		/* Remove the current POIs displayed on the map */
 		function removePOIs(){
-			for(var i = 0; i < self.markers.length; i++){
-				map.removeLayer(self.markers[i]);
+			for(var i = 0; i < self.poiMarkers.length; i++){
+				map.removeLayer(self.poiMarkers[i]);
 			}
 
-			self.markers = [];
+			self.poiMarkers = [];
 			//Note to self: ^MAYBE better way is to keep a 2D array so that rather than DELETING markers, just keep them and reference and call them back on the map whenever we want?
 		}
 
-		/* POI = Point of Interest */
+		/* Display the POIs related to the current floor on the map */
 		function setPOIs(POIs){
 			//Temp
 			var TEMP_POIS = [{
 								"floor":1,
-								"x":100,
-								"y":90,
-								"title":"First Steps",
-								"short_desc":"Hello world"
+								"x_coordinate":100,
+								"y_coordinate":90,
+								"title":"Title: POI #1"
 							},
 							{
 								"floor":1,
-								"x":410,
-								"y":210,
-								"title":"Second Steps",
-								"short_desc":"Hello world"
+								"x_coordinate":410,
+								"y_coordinate":210,
+								"title":"Title: POI #2"
 							},
 							{
 								"floor":3,
-								"x":320,
-								"y":75,
-								"title":"Third steps",
-								"short_desc":"Hello world"
+								"x_coordinate":320,
+								"y_coordinate":75,
+								"title":"Title: POI #3"
 							}
 							];
 
 			for(var i = 0; i < TEMP_POIS.length; i++){
 				var poi = TEMP_POIS[i];
 				if(parseInt(self.currentFloor) === poi["floor"]){
-					var marker = L.marker([poi["y"], poi["x"]]).addTo(map);
-					self.markers.push(marker);
+					var popupContent = "<p class='mapx-poi-title'>"+ poi["title"] +"</p><p>Hello World</p>";
+
+					var marker = L.marker([poi["y_coordinate"], poi["x_coordinate"]]).addTo(map);
+					marker.bindPopup(popupContent);
+					self.poiMarkers.push(marker);
 				}
 			}
 		}
