@@ -121,26 +121,29 @@ function Controller(){
 								"floor":1,
 								"x_coordinate":100,
 								"y_coordinate":90,
-								"title":"POI #1"
+								"title":"Title: POI #1"
 							},
 							{
 								"floor":1,
 								"x_coordinate":410,
 								"y_coordinate":210,
-								"title":"POI #2"
+								"title":"Title: POI #2"
 							},
 							{
 								"floor":3,
 								"x_coordinate":320,
 								"y_coordinate":75,
-								"title":"POI #3"
+								"title":"Title: POI #3"
 							}
 							];
 
 			for(var i = 0; i < TEMP_POIS.length; i++){
 				var poi = TEMP_POIS[i];
 				if(parseInt(self.currentFloor) === poi["floor"]){
+					var popupContent = "<p class='mapx-poi-title'>"+ poi["title"] +"</p><p>Hello World</p>";
+
 					var marker = L.marker([poi["y_coordinate"], poi["x_coordinate"]]).addTo(map);
+					marker.bindPopup(popupContent);
 					self.poiMarkers.push(marker);
 				}
 			}
