@@ -84,11 +84,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         if (key.equals(ConstantsHelper.PREF_LANGUAGE_KEY)) {
-
-            Preference languagePref = findPreference(key);
-            languagePref.setSummary(sharedPreferences.getString(key, ""));
             getActivity().recreate();
-
         }
 
     }
