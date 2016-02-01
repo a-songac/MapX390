@@ -42,9 +42,9 @@ function Controller(){
 		}
 
 		function setMap(options){
-			var MIN_ZOOM = 1;
-			var MAX_ZOOM = 3;
-			var INIT_ZOOM = 1;
+			var MIN_ZOOM = -1;
+			var MAX_ZOOM = 2;
+			var INIT_ZOOM = -1;
 
 			map = L.map('map', {
 		        maxZoom: MAX_ZOOM,

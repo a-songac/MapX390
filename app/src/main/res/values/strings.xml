@@ -6,6 +6,13 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="ok">Ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="confirm">Confirm</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+
     <!-- Navigation Bar -->
     <string name="navigation_drawer_story_lines">Story-lines</string>
     <string name="navigation_drawer_museum_map">Museum Map</string>
@@ -16,12 +23,14 @@
     <!-- action bar -->
     <string name="action_bar_search">Search Museum</string>
 
-    <!-- Settings -->
+    <!-- Language Settings -->
     <string name="settings_language">Languages</string>
     <string name="language_english">English</string>
     <string name="language_french">Français</string>
+    <string name="language_init_dialog_title">Language Preferences</string>
+    <string name="language_init_dialog_body">The default language of the application is English.  Would you like to change it?</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
 
 </resources>

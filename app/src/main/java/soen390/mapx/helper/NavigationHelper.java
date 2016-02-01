@@ -10,6 +10,7 @@ import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.MapFragment;
+import soen390.mapx.fragment.SettingsFragment;
 
 /**
  * Class to implement navigation helper
@@ -61,6 +62,23 @@ public class NavigationHelper {
                 ConstantsHelper.MAP_FRAGMENT_TAG,
                 null
         );
+    }
+
+    /**
+     * Navigate to Settings Fragment
+     * @param triggerLanguage : whether trigger the language settings upon loading the fragment
+     */
+    public void navigateToSettingsFragment(boolean triggerLanguage) {
+
+        Fragment settingsFragment = SettingsFragment.newInstance(triggerLanguage);
+
+        replaceFragment(
+                settingsFragment,
+                false,
+                true,
+                ConstantsHelper.SETTINGS_FRAGMENT_TAG,
+                null);
+
     }
 
     /**

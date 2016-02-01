@@ -4,6 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_map"
+            android:checked="true"
             android:icon="@drawable/ic_navigation_black_24dp"
             android:title="@string/navigation_drawer_museum_map" />
         <item
@@ -22,7 +23,7 @@
         <item
             android:id="@+id/nav_help_feedback"
             android:icon="@drawable/ic_help_black_24dp"
-            android:title="@string/navigation_drawer_settings" />
+            android:title="@string/navigation_drawer_help_feedback" />
     </group>
 
 </menu>

@@ -5,6 +5,7 @@
     >
 
     <uses-sdk tools:overrideLibrary="com.arnaud.android.core"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"

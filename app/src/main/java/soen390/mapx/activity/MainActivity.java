@@ -1,5 +1,6 @@
 package soen390.mapx.activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,9 +12,14 @@ import android.view.MenuItem;
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
 
+import java.util.Locale;
+
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
+import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.helper.ActionBarHelper;
+import soen390.mapx.helper.AlertDialogHelper;
+import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.PreferenceHelper;
 
@@ -24,18 +30,36 @@ public class MainActivity extends BaseActivity
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        PreferenceHelper.getInstance().init(this);
+        setApplicationLanguage();
         setContentView(R.layout.activity_main);
         BaseApplication.setGlobalContext(this);
         initActionBar();
         initNavigationDrawer();
-        PreferenceHelper.getInstance().init(this);
+        initLanguagePreference();
 
-        NavigationHelper.getInstance().navigateToMainFragment();
+
+        if (savedInstanceState == null) {
+            NavigationHelper.getInstance().navigateToMainFragment();
+        } else {
+            loadLastFragment(savedInstanceState.getString(ConstantsHelper.LAST_FRAGMENT_TAG_KEY, ""));
+        }
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(
+                ConstantsHelper.LAST_FRAGMENT_TAG_KEY,
+                NavigationHelper.getInstance().getContainerFragment().getTag());
 
     }
 
@@ -49,10 +73,9 @@ public class MainActivity extends BaseActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.nav_map) {
@@ -62,6 +85,7 @@ public class MainActivity extends BaseActivity
         } else if (id == R.id.nav_qr_scanner) {
 
         } else if (id == R.id.nav_settings) {
+            NavigationHelper.getInstance().navigateToSettingsFragment(false);
 
         } else if (id == R.id.nav_help_feedback) {
 
@@ -96,7 +120,68 @@ public class MainActivity extends BaseActivity
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    /**
+     * Set application language
+     */
+    private void setApplicationLanguage() {
+
+        String languageToLoad =  PreferenceHelper.getInstance().getLanguagePreference();
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(
+                config,
+                this.getResources().getDisplayMetrics());
+        LogUtils.info(this.getClass(), "setApplicationLanguage", "language set to " + languageToLoad);
+    }
+
+    /**
+     * Load the last fragment referenced in the activity's saved instance state
+     * @param tag : Tag of the last fragment
+     */
+    private void loadLastFragment(String tag){
+
+        switch (tag) {
+            case ConstantsHelper.MAP_FRAGMENT_TAG:
+                NavigationHelper.getInstance().navigateToMapFragment();
+                break;
+
+            case ConstantsHelper.SETTINGS_FRAGMENT_TAG:
+                NavigationHelper.getInstance().navigateToSettingsFragment(false);
+                break;
+
+            default:
+                NavigationHelper.getInstance().navigateToMainFragment();
+        }
+
+    }
+
+    /**
+     * Prompt the user for language preference if it is the first time he uses the application
+     */
+    private void initLanguagePreference() {
+        if (!PreferenceHelper.getInstance().isLanguagePreferenceInit()) {
+
+            navigationView.getMenu().getItem(3).setChecked(true);
+            PreferenceHelper.getInstance().completeLanguagePreferenceInit();
+
+            AlertDialogHelper.showInitLanguagePreferenceAlertDialog(new IDialogResponseCallBack() {
+                @Override
+                public void onPositiveResponse() {
+                    NavigationHelper.getInstance().navigateToSettingsFragment(true);
+                }
+
+                @Override
+                public void onNegativeResponse() {
+
+                }
+            });
+        }
+
     }
 }
