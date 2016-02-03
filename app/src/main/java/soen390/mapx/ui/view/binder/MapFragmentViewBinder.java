@@ -7,6 +7,7 @@ import com.arnaud.android.core.ui.BaseViewBinder;
 import com.arnaud.android.core.ui.BaseViewHolder;
 
 import soen390.mapx.ui.view.holder.MapFragmentViewHolder;
+import soen390.mapx.webapp.MyWebViewClient;
 
 /**
  * View binder for Map fragment
@@ -15,6 +16,7 @@ public class MapFragmentViewBinder extends BaseViewBinder {
 
     private MapFragmentViewHolder viewHolder;
     private WebView webView;
+    private WebViewClient webViewClient;
 
     public MapFragmentViewBinder(BaseViewHolder viewHolder) {
         super(viewHolder);
@@ -30,7 +32,8 @@ public class MapFragmentViewBinder extends BaseViewBinder {
     @SuppressWarnings("setJavascriptEnabled")
     public void bind() {
 
-        webView.setWebViewClient(new WebViewClient());
+        webViewClient = new MyWebViewClient();
+        webView.setWebViewClient(webViewClient);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("file:///android_asset/map_webview/index.html");
 
