@@ -6,3 +6,11 @@
 .leaflet-right{
 	right:3vw;
 }
+
+.leaflet-popup-content p{
+	margin: 0;
+}
+
+.mapx-poi-title{
+	font-weight:bold;
+}

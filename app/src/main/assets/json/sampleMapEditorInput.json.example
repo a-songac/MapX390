@@ -1,0 +1,42 @@
+{
+	"poi": [{
+		"_id": "<POI_Identification",
+		"title": "<POI_Title>",
+		"type": "<POI_Type_(EXPOSITION_SERVICE_TRANSITION)>",
+		"floor": "<POI_floor>",
+		"x_coord": "<POI_X_COORDINATE>",
+		"y_coord": "<POI_Y_COORDINATE>",
+		"ibeacon_info": {
+			"uuid": "<iBeacon_Unique_Identifier>",
+			"minor": "<iBeacon_Minor_Value>",
+			"major": "<iBeacon_Major_Value>"
+		},
+		"content": {
+			"text": "<POI_Description>",
+			"image": ["<POI_Corresponding_Image_Path>", "<POI_Corresponding_Image_Path>"],
+			"video": ["<POI_Corresponding_Video_Path>", "<POI_Corresponding_Video_Path>"],
+			"audio": ["<POI_Corresponding_Audio_Path>", "<POI_Corresponding_Audio_Path>"]
+		},
+		"extra_content": {
+			"text": "<POI_Description>",
+			"image": ["<POI_Corresponding_Image_Path>", "<POI_Corresponding_Image_Path>"],
+			"video": ["<POI_Corresponding_Video_Path>", "<POI_Corresponding_Video_Path>"],
+			"audio": ["<POI_Corresponding_Audio_Path>", "<POI_Corresponding_Audio_Path>"]
+		},
+		"storyline": [
+			"<Storyline_id>", "<Storyline_id>", "<Storyline_id>"
+		]
+	}],
+	"edges": [
+      {
+          "poi_id": "<POI_ID>",
+          "connectedTo": "<POI_ID>",
+          "distance": "<Distance_From_Returned_POI_To_This>"
+      },
+      {
+          "poi_id": "<POI_ID>",
+          "connectedTo": "<POI_ID>",
+          "distance": "<Distance_From_Returned_POI_To_This>"
+      }
+	]
+}
