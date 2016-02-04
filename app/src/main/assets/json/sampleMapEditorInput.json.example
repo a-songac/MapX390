@@ -3,9 +3,13 @@
 		"_id": "<POI_Identification",
 		"title": "<POI_Title>",
 		"type": "<POI_Type_(EXPOSITION_SERVICE_TRANSITION)>",
-		"floor": "<POI_floor>",
+	  	"subtype": "..",
 		"x_coord": "<POI_X_COORDINATE>",
 		"y_coord": "<POI_Y_COORDINATE>",
+	  	"floor": {
+		  "id": "..",
+		  "link": ".."
+		},
 		"ibeacon_info": {
 			"uuid": "<iBeacon_Unique_Identifier>",
 			"minor": "<iBeacon_Minor_Value>",
@@ -29,13 +33,8 @@
 	}],
 	"edges": [
       {
-          "poi_id": "<POI_ID>",
-          "connectedTo": "<POI_ID>",
-          "distance": "<Distance_From_Returned_POI_To_This>"
-      },
-      {
-          "poi_id": "<POI_ID>",
-          "connectedTo": "<POI_ID>",
+          "poi1": "<POI_ID>",
+          "poi2": "<POI_ID>",
           "distance": "<Distance_From_Returned_POI_To_This>"
       }
 	]
