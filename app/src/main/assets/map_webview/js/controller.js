@@ -20,23 +20,32 @@ function Controller(){
 			{
 		      "floor_num" : "1",
 		      "floor_path" : "tiles/floor_1.jpg",
-		      "floor_width" : 700
+		      "floor_width" : 857,
+		      "floor_height" : 1796
 		    },
 		    {
 		      "floor_num" : "2",
-		      "floor_path" : "tiles/floor_2.png"
+		      "floor_path" : "tiles/floor_2.png",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
 		    },
 		    {
 		      "floor_num" : "3",
-		      "floor_path" : "tiles/floor_3.png"
+		      "floor_path" : "tiles/floor_3.png",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
 		    },
 		    {
 		      "floor_num" : "4",
-		      "floor_path" : "tiles/floor_4.png"
+		      "floor_path" : "tiles/floor_4.png",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
 		    },
 		    {
 		      "floor_num" : "5",
-		      "floor_path" : "tiles/floor_5.png"
+		      "floor_path" : "tiles/floor_5.png",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
 		    }
 		];
 
@@ -68,8 +77,8 @@ function Controller(){
 			var INIT_POSITION_X = 0, INIT_POSITION_Y = 0;
 
 			var south = 0, east = 0;
-			var north = 857;  //TEST DATA
-			var west = 1796;  //TEST DATA
+			var north = self.floorsJSON[0]["floor_width"];  
+			var west = self.floorsJSON[0]["floor_height"]; 
 
 			//Map settings
 			map = L.map('map', {
@@ -90,8 +99,8 @@ function Controller(){
 		    try{
 		    	var imageUrl;
 		    	var south = 0, east = 0;
-				var north = 857;  //TEST DATA
-				var west = 1796;  //TEST DATA
+				var north = self.floorsJSON[0]["floor_width"];  
+				var west = self.floorsJSON[0]["floor_height"]; 
 
 
 			    if(self.floorsJSON.length !== 0){
