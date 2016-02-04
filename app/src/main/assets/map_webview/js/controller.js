@@ -1,38 +1,115 @@
 var map;
 
 function Controller(){
-	this.floorPlans = [];
+	this.floorsJSON = [];
 	this.mapHeight = 0;
 	this.mapWidth = 0;
 	this.currentFloor = 0;
-	this.poiMarkers = [];
+	this.poisJSON = [];
+	this.currentPOIs = [];
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
 		var self = this;
 
+		//this.poisJSON = Android.getPOIsJSON();
+		//this.floorsJSON = Android.getFloorsJSON();
+
 		/* TEST DATA */
-		this.floorPlans = [
-			'tiles/floor_1.jpg',
-			'tiles/floor_2.png',
-			'tiles/floor_3.png',
-			'tiles/floor_4.png',
-			'tiles/floor_5.png'
+		this.floorsJSON = [
+			{
+		      "floor_num" : "1",
+		      "floor_path" : "tiles/floor_1.jpg",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
+		    },
+		    {
+		      "floor_num" : "2",
+		      "floor_path" : "tiles/floor_2.png",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
+		    },
+		    {
+		      "floor_num" : "3",
+		      "floor_path" : "tiles/floor_3.png",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
+		    },
+		    {
+		      "floor_num" : "4",
+		      "floor_path" : "tiles/floor_4.png",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
+		    },
+		    {
+		      "floor_num" : "5",
+		      "floor_path" : "tiles/floor_5.png",
+		      "floor_width" : 857,
+		      "floor_height" : 1796
+		    }
+		];
+
+		this.poisJSON = [
+			{
+		      "_id": "1",
+		      "title": "POI_1",
+		      "type": "exposition",
+		      "sub_type": "null",
+		      "floor": "1",
+		      "x_coord": "75",
+		      "y_coord": "100"
+		    },
+		    {
+		      "_id": "2",
+		      "title": "POI_2",
+		      "type": "exposition",
+		      "sub_type": "null",
+		      "floor": "2",
+		      "x_coord": "500",
+		      "y_coord": "100"
+		    }
 		];
 		/* END TEST DATA */
 
+		/* Set the map frame: Map Size, Map Controls*/
+		function setMap(){
+			var MIN_ZOOM = 0, MAX_ZOOM = 3, INIT_ZOOM = 1;
+			var INIT_POSITION_X = 0, INIT_POSITION_Y = 0;
+
+			var south = 0, east = 0;
+			var north = self.floorsJSON[0]["floor_width"];  
+			var west = self.floorsJSON[0]["floor_height"]; 
+
+			//Map settings
+			map = L.map('map', {
+		        minZoom: MIN_ZOOM,
+		        maxZoom: MAX_ZOOM,
+		        zoomControl: false , //Don't change this; we are setting it to false because we will be adding a new one
+		        crs: L.CRS.Simple //Don't Change this; don't know what it does, but API says to not touch this if we don't understand it
+		    });
+
+		    map.setView([INIT_POSITION_X, INIT_POSITION_Y], INIT_ZOOM);
+
+			new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
+	   		map.setMaxBounds(new L.LatLngBounds([south, west], [north, east])); 
+		}
+
 		/* Upon initialization, "manually" overlay the first image */
-		function setFirstFloorImageOverlay(NORTH, EAST, SOUTH, WEST){
+		function setFirstFloorImageOverlay(){
 		    try{
 		    	var imageUrl;
+		    	var south = 0, east = 0;
+				var north = self.floorsJSON[0]["floor_width"];  
+				var west = self.floorsJSON[0]["floor_height"]; 
 
-			    if(self.floorPlans.length !== 0){
-			    	imageUrl = self.floorPlans[0];
+
+			    if(self.floorsJSON.length !== 0){
+			    	imageUrl = self.floorsJSON[0]["floor_path"];
 			    }else{
 			    	throw "No floor plans available!";
 			    }
 
-			    var imageBounds = [[SOUTH, WEST], [NORTH, EAST]];
+			    var imageBounds = [[south, west], [north, east]];
 			    L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
 			    self.currentFloor = 1;
@@ -43,34 +120,14 @@ function Controller(){
 			}
 		}
 
-		/* Set the map frame: Map Size, Map Controls*/
-		function setMap(options){
-			var MIN_ZOOM = -1;
-			var MAX_ZOOM = 2;
-			var INIT_ZOOM = -1;
-
-			//Map settings
-			map = L.map('map', {
-		        maxZoom: MAX_ZOOM,
-		        minZoom: MIN_ZOOM,
-		        zoomControl: false , //Don't change this; we are setting it to false because we will be adding a new one
-		        crs: L.CRS.Simple //Don't Change this; don't know what it does, but API says to not touch this if we don't understand it
-		    });
-
-		    map.setView([options.init_position_x, options.init_position_y], INIT_ZOOM);
-
-			new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
-	   		map.setMaxBounds(new L.LatLngBounds([options.south, options.west], [options.north, options.east])); 
-		}
-
-		/* Function will set as many floor level controls as needed */
-		function setLevelsControl(){
-			var levels = self.floorPlans.length;
+		/* Function will create the floor controller UI element*/
+		function createFloorControlUI(){
+			var levels = self.floorsJSON.length;
 
 			var levelControlContainer = document.createElement("div");
 			$(levelControlContainer).addClass("leaflet-control leaflet-bar");
 
-			//Find the current zoom control container and add a level control container in it
+			//Find the current zoom control container and create a level control element in it
 			$(".leaflet-bottom.leaflet-right").prepend(levelControlContainer); 
 
 			//Loop for creating every floor button
@@ -86,82 +143,55 @@ function Controller(){
 
 				//Add a click function to every element
 				$(levelControl).click(function(){
-					//Note: not the best way to do this... or maybe?
+					//Unselect current floor
 					$("div.leaflet-control.leaflet-bar").find("a").css("background-color", "");
 
+					//Select current floor
 					$(this).css("background-color", "#ccc");
+
+					//Replace current floor img source with new floor img source
 					var imgOverlayElement = $("img.leaflet-image-layer.leaflet-zoom-animated")[0];
 					var level = parseInt($(this).text());
-					$(imgOverlayElement).prop("src", self.floorPlans[level-1]);
+					$(imgOverlayElement).prop("src", self.floorsJSON[level-1]["floor_path"]);
 
 					self.currentFloor = level;
 					removePOIs();
-					setPOIs("TEMPORARY");
+					setPOIs();
 				});
 
+				//Prepend the floor button to the floor control element
 				$(levelControlContainer).prepend(levelControl);
 			}
 
 		}
 
-		/* Remove the current POIs displayed on the map */
-		function removePOIs(){
-			for(var i = 0; i < self.poiMarkers.length; i++){
-				map.removeLayer(self.poiMarkers[i]);
-			}
-
-			self.poiMarkers = [];
-			//Note to self: ^MAYBE better way is to keep a 2D array so that rather than DELETING markers, just keep them and reference and call them back on the map whenever we want?
-		}
-
 		/* Display the POIs related to the current floor on the map */
-		function setPOIs(POIs){
-			//Temp
-			var TEMP_POIS = [{
-								"floor":1,
-								"x_coordinate":100,
-								"y_coordinate":90,
-								"title":"Title: POI #1"
-							},
-							{
-								"floor":1,
-								"x_coordinate":410,
-								"y_coordinate":210,
-								"title":"Title: POI #2"
-							},
-							{
-								"floor":3,
-								"x_coordinate":320,
-								"y_coordinate":75,
-								"title":"Title: POI #3"
-							}
-							];
-
-			for(var i = 0; i < TEMP_POIS.length; i++){
-				var poi = TEMP_POIS[i];
-				if(parseInt(self.currentFloor) === poi["floor"]){
+		function setPOIs(){
+			for(var i = 0; i < self.poisJSON.length; i++){
+				var poi = self.poisJSON[i];
+				if(parseInt(self.currentFloor) === parseInt(poi["floor"])){
 					var popupContent = "<p class='mapx-poi-title'>"+ poi["title"] +"</p><p>Hello World</p>";
 
-					var marker = L.marker([poi["y_coordinate"], poi["x_coordinate"]]).addTo(map);
+					var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
 					marker.bindPopup(popupContent);
-					self.poiMarkers.push(marker);
+					self.currentPOIs.push(marker);
 				}
 			}
 		}
 
-		//TEST DATA
-		setMap({
-			"south":0,
-			"east":0,
-			"north":500,//771.3,
-			"west":1000,//1592.1,
-			"init_position_x":0,
-			"init_position_y":0
-		});
+		/* Remove the current POIs displayed on the map */
+		function removePOIs(){
+			for(var i = 0; i < self.currentPOIs.length; i++){
+				map.removeLayer(self.currentPOIs[i]);
+			}
 
-		setFirstFloorImageOverlay(500, 0, 0, 1000); //TEST DATA
-		setLevelsControl();
-		setPOIs("TEMPORARY");
+			self.currentPOIs = [];
+		}
+
+		setMap();
+		setFirstFloorImageOverlay();
+		createFloorControlUI();
+		setPOIs();
 	};
 
 	this.changeFloor = function(){};
