@@ -3,13 +3,11 @@
 		"_id": "<POI_Identification",
 		"title": "<POI_Title>",
 		"type": "<POI_Type_(EXPOSITION_SERVICE_TRANSITION)>",
+		"sub_type": "<POI_SubType_(INTERSECTION_STAIRS_ELEVATOR_WASHROOMS_INFO-CENTER)>",
+		"floor": "<POI_floor>",
 	  	"subtype": "..",
 		"x_coord": "<POI_X_COORDINATE>",
 		"y_coord": "<POI_Y_COORDINATE>",
-	  	"floor": {
-		  "id": "..",
-		  "link": ".."
-		},
 		"ibeacon_info": {
 			"uuid": "<iBeacon_Unique_Identifier>",
 			"minor": "<iBeacon_Minor_Value>",
@@ -33,9 +31,24 @@
 	}],
 	"edges": [
       {
-          "poi1": "<POI_ID>",
-          "poi2": "<POI_ID>",
-          "distance": "<Distance_From_Returned_POI_To_This>"
+          "poi_1": "<POI_ID>",
+          "poi_2": "<POI_ID>",
+          "distance": "<distance_between_p1_and_p2>"
       }
+	],
+	"storylines": [
+		{
+			"id": "<storyline_id>",
+			"title": "<storyline_title>",
+			"description": "<storyline_description>",
+			"color": "<storyline_color>",
+			"sequence": ["<poi_id>", "<poi_id>", "<poi_id>"]
+		}
+	],
+	"floor": [
+		{
+			"id": "<floor_id>",
+			"link": "<link_where_to_fetch_the_floor_image_file>"
+		}
 	]
 }
