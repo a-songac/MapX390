@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import soen390.mapx.model.Floor;
 import soen390.mapx.model.POI;
 
 /**
@@ -22,40 +23,30 @@ public class POIJSInterface {
         this.context = context;
     }
 
-
+    /**
+     * Return JSON that contains information of POIs
+     * @return JSON with POIs information
+     */
     public String getPOIsJSON() {
         JSONObject jsonObj = new JSONObject();
 
         JSONArray poiArr = new JSONArray();
-        JSONObject poisObj = new JSONObject();
-
-        JSONArray floorArr = new JSONArray();
-        JSONObject floorObj = new JSONObject();
+        JSONObject poisObj;
 
         List<POI> pois = POI.listAll(POI.class);
-        List<Floor> floors = Floor.listAll(Floor.class);
-
 
         try{
             for(POI poi: pois) {
                 poisObj = new JSONObject();
-                poisObj.put("_id", poi.id);
-                poisObj.put("title", poi.title);
-                poisObj.put("type", poi.type);
-                poisObj.put("floor", poi.floor);
-                poisObj.put("x_coord", poi.x_coord);
-                poisObj.put("y_coord", poi.y_coord);
+                poisObj.put("_id", poi.getId());
+                poisObj.put("title", poi.getTitle());
+                poisObj.put("type", poi.getType());
+                poisObj.put("floor", poi);
+                poisObj.put("x_coord", poi.getxCoord());
+                poisObj.put("y_coord", poi.getyCoord());
                 poiArr.put(poisObj);
             }
 
-            for(Floor floor: floors) {
-                floorObj = new JSONObject();
-                floorObj.put("floor_num", floor.num);
-                floorObj.put("floor_path", floor.path);
-                floorArr.put(poisObj);
-            }
-
-            jsonObj.put("floor", floorArr);
             jsonObj.put("poi", poiArr);
 
         } catch (JSONException e){
@@ -64,6 +55,33 @@ public class POIJSInterface {
 
         return jsonObj.toString();
     }
+    /**
+     * Return JSON that contains information of the museum floors
+     * @return JSON string of the floor information
+     */
+    public String getFloorJSON(){
+        JSONObject jsonObj = new JSONObject();
 
+        JSONArray floorArr = new JSONArray();
+        JSONObject floorObj;
+
+        List<Floor> floors = Floor.listAll(Floor.class);
+
+        try{
+            for(Floor floor: floors) {
+                floorObj = new JSONObject();
+                floorObj.put("floor_num", floor.getFloorNum());
+                floorObj.put("floor_path", floor.getImageFilePath());
+                floorArr.put(floorObj);
+            }
+
+            jsonObj.put("floor", floorArr);
+
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return jsonObj.toString();
+    }
 
 }
