@@ -4,6 +4,7 @@
       "_id": "<POI_Identification",
       "title": "<POI_Title>",
       "type": "<POI_Type_(EXPOSITION_SERVICE_TRANSITION)>",
+      "sub_type": "<POI_SubType_(INTERSECTION_STAIRS_ELEVATOR_WASHROOMS_INFO-CENTER)>",
       "floor": "<POI_floor>",
       "x_coord": "<POI_X_COORDINATE>",
       "y_coord": "<POI_Y_COORDINATE>"
