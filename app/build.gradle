@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "soen390.mapx"
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -23,6 +23,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.9.5'
     compile project(path: ':android-core')
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
@@ -32,11 +33,7 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
     androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'com.android.support.test:rules:0.3'
-
-    // add this for intent mocking support
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2'
-    // add this for webview testing support
-    //androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.1'
-
     androidTestCompile 'com.android.support:support-annotations:23.1.1'
+    compile 'com.github.satyan:sugar:1.4'
 }

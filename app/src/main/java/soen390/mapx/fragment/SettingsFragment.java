@@ -11,6 +11,7 @@ import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
+import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 
@@ -51,11 +52,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        ActionBarHelper.getInstance().setSettingsFragmentActionBar();
+
         if (null != getArguments()) {
 
             if (getArguments().getBoolean(ConstantsHelper.SETTINGS_FRAGMENT_ARG_KEY_TRIGGER_LANGUAGE)) {
+
                 getPreferenceScreen().findPreference(ConstantsHelper.PREF_LANGUAGE_KEY).performClick(); //TODO performclick not triggered
                 LogUtils.info(this.getClass(), "onActivityCreated" , "click perform click");
+
             }
         }
 
@@ -79,11 +84,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         if (key.equals(ConstantsHelper.PREF_LANGUAGE_KEY)) {
-
-            Preference languagePref = findPreference(key);
-            languagePref.setSummary(sharedPreferences.getString(key, ""));
             getActivity().recreate();
-
         }
 
     }

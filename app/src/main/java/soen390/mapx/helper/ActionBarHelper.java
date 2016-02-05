@@ -3,6 +3,8 @@ package soen390.mapx.helper;
 
 import android.support.v7.app.ActionBar;
 
+import soen390.mapx.R;
+
 /**
  * Class to implement action bar helper
  */
@@ -32,9 +34,26 @@ public class ActionBarHelper {
      * Action bar for map fragment
      */
     public void setMapFragmentActionBar() {
-        //TODO set action bar for map fragment
+
+        getActionBar().setTitle(R.string.navigation_drawer_museum_map);
+
     }
 
+    /**
+     * Action bar for story-lines Fragment
+     */
+    public void setStorylineFragmentActionBar() {
+
+        getActionBar().setTitle(R.string.navigation_drawer_story_lines);
+    }
+
+    /**
+     * Action bar for settings fragment
+     */
+    public void setSettingsFragmentActionBar() {
+
+        getActionBar().setTitle(R.string.navigation_drawer_settings);
+    }
 
 
 }
