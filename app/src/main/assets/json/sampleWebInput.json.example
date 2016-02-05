@@ -21,11 +21,15 @@
   "floor": [
     {
       "floor_num" : "<Floor_number>",
-      "floor_path" : "<Floor_path>"
+      "floor_path" : "<Floor_path>",
+      "floor_width" : "<Floor_width>",
+      "floor_height" : "<floor_height>"
     },
     {
       "floor_num" : "<Floor_number>",
-      "floor_path" : "<Floor_path>"
+      "floor_path" : "<Floor_path>",
+      "floor_width" : "<Floor_width>",
+      "floor_height" : "<floor_height>"
     }
   ]
 }

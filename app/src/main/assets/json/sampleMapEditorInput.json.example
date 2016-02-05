@@ -47,7 +47,9 @@
 	"floor": [
 		{
 			"id": "<floor_id>",
-			"link": "<link_where_to_fetch_the_floor_image_file>"
+			"link": "<link_where_to_fetch_the_floor_image_file>",
+			"width" : "<Floor_width>",
+			"height" : "<floor_height>"
 		}
 	]
 }

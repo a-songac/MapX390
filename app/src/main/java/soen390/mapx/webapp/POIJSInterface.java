@@ -72,6 +72,8 @@ public class POIJSInterface {
                 floorObj = new JSONObject();
                 floorObj.put("floor_num", floor.getFloorNum());
                 floorObj.put("floor_path", floor.getImageFilePath());
+                floorObj.put("floor_width", floor.getImageWidth());
+                floorObj.put("floor_height", floor.getImageHeight());
                 floorArr.put(floorObj);
             }
 
