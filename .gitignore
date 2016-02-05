@@ -88,3 +88,6 @@ Thumbs.db
 
 .idea/gradle.xml
 
+#Sonar
+.sonar/
+
