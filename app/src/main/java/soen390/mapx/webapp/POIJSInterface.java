@@ -18,6 +18,7 @@ public class POIJSInterface {
 
     private Context context;
 
+    public POIJSInterface() {}
 
     public POIJSInterface(Context context) {
         this.context = context;
@@ -28,12 +29,29 @@ public class POIJSInterface {
      * @return JSON with POIs information
      */
     public String getPOIsJSON() {
+        List<POI> pois  = POI.listAll(POI.class);
+        return buildPOIJSON(pois);
+    }
+
+    /**
+     * Return JSON that contains information of the museum floors
+     * @return JSON string of the floor information
+     */
+    public String getFloorJSON(){
+        List<Floor> floors = Floor.listAll(Floor.class);
+        return buildFloorJSON(floors);
+    }
+
+    /**
+     * Given a list of POIs build a JSON corresponding to it
+     * @param pois List of POIs
+     * @return JSON corresponding to the lsit of POIs
+     */
+    public String buildPOIJSON(List<POI> pois){
         JSONObject jsonObj = new JSONObject();
 
         JSONArray poiArr = new JSONArray();
         JSONObject poisObj;
-
-        List<POI> pois = POI.listAll(POI.class);
 
         try{
             for(POI poi: pois) {
@@ -41,7 +59,7 @@ public class POIJSInterface {
                 poisObj.put("_id", poi.getId());
                 poisObj.put("title", poi.getTitle());
                 poisObj.put("type", poi.getType());
-                poisObj.put("floor", poi);
+                poisObj.put("floor", poi.getFloorId());
                 poisObj.put("x_coord", poi.getxCoord());
                 poisObj.put("y_coord", poi.getyCoord());
                 poiArr.put(poisObj);
@@ -56,16 +74,15 @@ public class POIJSInterface {
         return jsonObj.toString();
     }
     /**
-     * Return JSON that contains information of the museum floors
-     * @return JSON string of the floor information
+     * Given a list of floors build a JSON corresponding to it
+     * @param floors List of floors
+     * @return JSON corresponding to the list of floors
      */
-    public String getFloorJSON(){
+    public String buildFloorJSON(List<Floor> floors){
         JSONObject jsonObj = new JSONObject();
 
         JSONArray floorArr = new JSONArray();
         JSONObject floorObj;
-
-        List<Floor> floors = Floor.listAll(Floor.class);
 
         try{
             for(Floor floor: floors) {
@@ -84,6 +101,7 @@ public class POIJSInterface {
         }
 
         return jsonObj.toString();
+
     }
 
 }
