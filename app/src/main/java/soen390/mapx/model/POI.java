@@ -22,8 +22,9 @@ public class POI extends SugarRecord {
 
     /**
      * Discriminant for type of the POI between Transition point, Service point or Exhibition
+     * Is a String instead of char because JSONObject encodes char to ascii
      */
-    private char type;
+    private String type;
 
     /**
      * Subtype relevant to transition (i (intersection), s (stairs), e (elevator))
@@ -60,11 +61,11 @@ public class POI extends SugarRecord {
         this.yCoord = yCoord;
     }
 
-    public char getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(char type) {
+    public void setType(String type) {
         this.type = type;
     }
 

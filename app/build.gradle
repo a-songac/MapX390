@@ -21,9 +21,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
+    testCompile 'org.json:json:20140107'
     compile project(path: ':android-core')
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
@@ -36,4 +37,5 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2'
     androidTestCompile 'com.android.support:support-annotations:23.1.1'
     compile 'com.github.satyan:sugar:1.4'
+    compile files('src/main/assets/libs/jsonassert-1.2.3.jar')
 }
