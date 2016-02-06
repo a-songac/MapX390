@@ -30,6 +30,9 @@
     <string name="language_init_dialog_title">Language Preferences</string>
     <string name="language_init_dialog_body">The default language of the application is English.  Would you like to change it?</string>
 
+    <!-- POI -->
+    <string name="poi_selected_as_destination">Selected exhibition point %1$s as destination</string>
+
 
 
 

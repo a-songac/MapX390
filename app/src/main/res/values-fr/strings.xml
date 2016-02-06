@@ -30,4 +30,7 @@
     <string name="language_init_dialog_title">Paramètres de langues</string>
     <string name="language_init_dialog_body">La langue par défaut de cette application est le Français.  Voudriez-vous la changer?</string>
 
+    <!-- POI -->
+    <string name="poi_selected_as_destination">En destination vers l\'exposition %1$s</string>
+
 </resources>
