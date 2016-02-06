@@ -21,9 +21,9 @@
   "floor": [
     {
       "floor_num" : "<Floor_number>",
-      "floor_path" : "<Floor_path>",
-      "floor_width" : "<Floor_width>",
-      "floor_height" : "<floor_height>"
+      "floor_path" : "<Floor_path>"
+      "floor_image_width" : "<Floor_path>"
+      "floor_image_width" : "<Floor_path>"
     },
     {
       "floor_num" : "<Floor_number>",
