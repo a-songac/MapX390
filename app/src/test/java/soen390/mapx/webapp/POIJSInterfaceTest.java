@@ -3,8 +3,10 @@ package soen390.mapx.webapp;
 import android.content.Context;
 import android.test.mock.MockContext;
 
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,12 +47,20 @@ public class POIJSInterfaceTest {
     }
 
     @Test
-    public void testgetPOIsJSON(){
-        assertEquals("{\"poi\":[{\"x_coord\":75,\"y_coord\":100,\"_id\":1,\"title\":\"POI_1\",\"type\":\"e\",\"floor\":1}]}", poi_int.buildPOIJSON(list_poi));
+    public void testgetPOIsJSON() {
+        try {
+            JSONAssert.assertEquals("{\"poi\":[{\"x_coord\":75,\"y_coord\":100,\"_id\":1,\"title\":\"POI_1\",\"type\":\"e\",\"floor\":1}]}", poi_int.buildPOIJSON(list_poi), true);
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void testgetFloorJSON(){
-        assertEquals("{\"floor\":[{\"floor_num\":1,\"floor_path\":\"tiles/floor_1.jpg\",\"floor_width\":1800,\"floor_height\":700}]}", poi_int.buildFloorJSON(list_floor));
+        try{
+            JSONAssert.assertEquals("{\"floor\":[{\"floor_num\":1,\"floor_path\":\"tiles/floor_1.jpg\",\"floor_width\":1800,\"floor_height\":700}]}", poi_int.buildFloorJSON(list_floor), true);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

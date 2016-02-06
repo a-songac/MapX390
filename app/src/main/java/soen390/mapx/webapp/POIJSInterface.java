@@ -30,7 +30,7 @@ public class POIJSInterface {
      */
     public String getPOIsJSON() {
         List<POI> pois  = POI.listAll(POI.class);
-        return buildPOIJSON(pois);
+        return buildPOIJSON(pois).toString();
     }
 
     /**
@@ -39,7 +39,7 @@ public class POIJSInterface {
      */
     public String getFloorJSON(){
         List<Floor> floors = Floor.listAll(Floor.class);
-        return buildFloorJSON(floors);
+        return buildFloorJSON(floors).toString();
     }
 
     /**
@@ -47,7 +47,7 @@ public class POIJSInterface {
      * @param pois List of POIs
      * @return JSON corresponding to the lsit of POIs
      */
-    public String buildPOIJSON(List<POI> pois){
+    public JSONObject buildPOIJSON(List<POI> pois){
         JSONObject jsonObj = new JSONObject();
 
         JSONArray poiArr = new JSONArray();
@@ -71,14 +71,14 @@ public class POIJSInterface {
             e.printStackTrace();
         }
 
-        return jsonObj.toString();
+        return jsonObj;
     }
     /**
      * Given a list of floors build a JSON corresponding to it
      * @param floors List of floors
      * @return JSON corresponding to the list of floors
      */
-    public String buildFloorJSON(List<Floor> floors){
+    public JSONObject buildFloorJSON(List<Floor> floors){
         JSONObject jsonObj = new JSONObject();
 
         JSONArray floorArr = new JSONArray();
@@ -100,7 +100,7 @@ public class POIJSInterface {
             e.printStackTrace();
         }
 
-        return jsonObj.toString();
+        return jsonObj;
 
     }
 
