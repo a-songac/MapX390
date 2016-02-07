@@ -170,7 +170,7 @@ function Controller(){
 			for(var i = 0; i < self.poisJSON.length; i++){
 				var poi = self.poisJSON[i];
 				if(parseInt(self.currentFloor) === parseInt(poi["floor"])){
-					var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><p id='mapx-poi-description'>Description</p><button onclick='navigateToPOI()'>Go to destination</button>";
+					var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><p id='mapx-poi-description'>Description</p><button onclick='navigateToPOI(\"" + poi["title"] + "\")'>Go to destination</button>";
 
 					var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
 					marker.bindPopup(popupContent);
@@ -202,10 +202,9 @@ function Controller(){
 var controller = new Controller();
 controller.initialize();
 
-function navigateToPOI() {
+function navigateToPOI(poiTitle) {
 
+	Android.navigateToPOI(poiTitle);
 
-            Android.navigateToPOI('test');
-            
-        }
+}
 
