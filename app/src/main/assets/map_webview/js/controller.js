@@ -73,7 +73,7 @@ function Controller(){
 
 		/* Set the map frame: Map Size, Map Controls*/
 		function setMap(){
-			var MIN_ZOOM = 0, MAX_ZOOM = 3, INIT_ZOOM = 1;
+			var MIN_ZOOM = -1, MAX_ZOOM = 2, INIT_ZOOM = 0;
 			var INIT_POSITION_X = 0, INIT_POSITION_Y = 0;
 
 			var south = 0, east = 0;
