@@ -170,7 +170,7 @@ function Controller(){
 			for(var i = 0; i < self.poisJSON.length; i++){
 				var poi = self.poisJSON[i];
 				if(parseInt(self.currentFloor) === parseInt(poi["floor"])){
-					var popupContent = "<p class='mapx-poi-title'>"+ poi["title"] +"</p><p>Hello World</p><p><a onclick='navigateToPOI()'>Navigate to</a></p>";
+					var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><p id='mapx-poi-description'>Description</p><button onclick='navigateToPOI()'>Go to destination</button>";
 
 					var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
 					marker.bindPopup(popupContent);
