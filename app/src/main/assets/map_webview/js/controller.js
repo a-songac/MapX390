@@ -52,7 +52,7 @@ function Controller(){
 		this.poisJSON = [
 			{
 		      "_id": "1",
-		      "title": "POI_1",
+		      "title": "TITLE",
 		      "type": "exposition",
 		      "sub_type": "null",
 		      "floor": "1",
@@ -61,7 +61,7 @@ function Controller(){
 		    },
 		    {
 		      "_id": "2",
-		      "title": "POI_2",
+		      "title": "TITLE",
 		      "type": "exposition",
 		      "sub_type": "null",
 		      "floor": "2",
@@ -170,7 +170,7 @@ function Controller(){
 			for(var i = 0; i < self.poisJSON.length; i++){
 				var poi = self.poisJSON[i];
 				if(parseInt(self.currentFloor) === parseInt(poi["floor"])){
-					var popupContent = "<p class='mapx-poi-title'>"+ poi["title"] +"</p><p>Hello World</p>";
+					var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><p id='mapx-poi-description'>Description</p><button>Go To Destination</button>";
 
 					var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
 					marker.bindPopup(popupContent);
