@@ -6,4 +6,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+
+    <!-- Storyline list item -->
+    <dimen name="stoyline_list_item_height">100dp</dimen>
+    <dimen name="stoyline_list_item_width">100dp</dimen>
+
 </resources>
