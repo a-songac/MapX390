@@ -81,6 +81,7 @@ public class MainActivity extends BaseActivity
         if (id == R.id.nav_map) {
             NavigationHelper.getInstance().navigateToMapFragment();
         } else if (id == R.id.nav_storyline) {
+            NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
 
@@ -154,6 +155,8 @@ public class MainActivity extends BaseActivity
             case ConstantsHelper.SETTINGS_FRAGMENT_TAG:
                 NavigationHelper.getInstance().navigateToSettingsFragment(false);
                 break;
+            case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
+                NavigationHelper.getInstance().navigateToStorylineFragment();
 
             default:
                 NavigationHelper.getInstance().navigateToMainFragment();
