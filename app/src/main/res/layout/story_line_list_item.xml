@@ -25,7 +25,10 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/storyline_list_item_title"
                 android:layout_marginBottom="10dp"
-                tools:text="Nipper Search"/>
+                android:singleLine="false"
+                tools:text="Nipper"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/stoyline_description" />
 
             <ImageView
                 android:id="@+id/storyline_image"
