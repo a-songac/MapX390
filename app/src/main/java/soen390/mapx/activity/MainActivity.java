@@ -171,13 +171,14 @@ public class MainActivity extends BaseActivity
     private void initLanguagePreference() {
         if (!PreferenceHelper.getInstance().isLanguagePreferenceInit()) {
 
-            navigationView.getMenu().getItem(3).setChecked(true);
+
             PreferenceHelper.getInstance().completeLanguagePreferenceInit();
 
             AlertDialogHelper.showInitLanguagePreferenceAlertDialog(new IDialogResponseCallBack() {
                 @Override
                 public void onPositiveResponse() {
                     NavigationHelper.getInstance().navigateToSettingsFragment(true);
+                    navigationView.getMenu().getItem(3).setChecked(true);
                 }
 
                 @Override
