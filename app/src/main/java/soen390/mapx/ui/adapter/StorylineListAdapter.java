@@ -9,8 +9,9 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 
 import soen390.mapx.R;
+import soen390.mapx.UiUtils;
+import soen390.mapx.fragment.StorylineListFragment;
 import soen390.mapx.model.Storyline;
-import soen390.mapx.ui.view.binder.StorylineListItemViewBinder;
 import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
 
 /**
@@ -20,7 +21,6 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
 
     private final Context context;
     private StorylineListItemViewHolder viewHolder;
-    private StorylineListItemViewBinder binder;
     private Storyline storyline;
 
     /**
@@ -48,14 +48,31 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
 
         storyline = getItem(position);
 
-        binder = new StorylineListItemViewBinder(viewHolder);
-        binder.bind(storyline);
+        if (position == StorylineListFragment.expandedPosition) {
+            viewHolder.expand(context);
+        } else {
+            viewHolder.collapse(context);
+        }
 
+        bindDataToView();
 
         return convertView;
     }
 
 
+    /**
+     * Populate list item
+     */
+    public void bindDataToView() {
 
+        viewHolder.getTitle().setText(storyline.getTitle());
+        viewHolder.getDescription().setText(storyline.getDescription());
+        viewHolder.getStartButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UiUtils.displayToast("Start button clicked");
+            }
+        });
+    }
 
 }

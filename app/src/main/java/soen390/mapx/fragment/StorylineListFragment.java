@@ -23,10 +23,8 @@ import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
  */
 public class StorylineListFragment extends ListFragment implements IBaseFragment {
 
-    public static final int COLLAPSED_DESCRIPTION_MAX_LINES = 4;
-    public static final int EXPANDED_DESCRIPTION_MAX_LINES = 10;
     private View expandedView = null;
-    private StorylineListItemViewHolder itemViewHolder;
+    public static int expandedPosition = -1;
 
     /**
      * Create new instance of Profile fragment
@@ -71,22 +69,24 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
         super.onListItemClick(l, v, position, id);
 
         if (null != expandedView && expandedView != v) {
-            collapseItem((StorylineListItemViewHolder) expandedView.getTag());
+            StorylineListItemViewHolder.class.cast(expandedView.getTag()).collapse(getContext());
         }
 
 
         Object tag = v.getTag();
         if (null != tag) {
 
-            itemViewHolder = (StorylineListItemViewHolder) tag;
-            if (!isExpanded(itemViewHolder)) {
-                expandItem(itemViewHolder);
+            StorylineListItemViewHolder itemViewHolder = (StorylineListItemViewHolder) tag;
+            if (itemViewHolder.isExpanded()) {
+                itemViewHolder.collapse(getContext());
             } else {
-                collapseItem(itemViewHolder);
+                itemViewHolder.expand(getContext());
             }
             expandedView = v;
+            expandedPosition = position;
 
         }
+        getListView().smoothScrollToPosition(position);
 
     }
 
@@ -98,27 +98,4 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
 
     }
 
-    public void expandItem(StorylineListItemViewHolder viewHolder) {
-
-        viewHolder.getDescription().setMaxLines(EXPANDED_DESCRIPTION_MAX_LINES);
-        viewHolder.getStartButton().setVisibility(View.VISIBLE);
-        viewHolder.getViewHolder().setBackgroundColor(getResources().getColor(R.color.storyline_clicked_card));
-
-    }
-
-    public void collapseItem(StorylineListItemViewHolder viewHolder) {
-
-        if (viewHolder != null) {
-            viewHolder.getStartButton().setVisibility(View.GONE);
-            viewHolder.getDescription().setMaxLines(COLLAPSED_DESCRIPTION_MAX_LINES);
-            viewHolder.getViewHolder().setBackgroundColor(getResources().getColor(R.color.white));
-        }
-    }
-
-
-    public boolean isExpanded(StorylineListItemViewHolder v) {
-
-        return v.getStartButton().getVisibility() == View.VISIBLE;
-
-    }
 }

@@ -1,5 +1,6 @@
 package soen390.mapx.ui.view.holder;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,6 +19,9 @@ public class StorylineListItemViewHolder extends BaseViewHolder {
     private TextView title;
     private TextView description;
     private Button startButton;
+
+    public static final int COLLAPSED_DESCRIPTION_MAX_LINES = 4;
+    public static final int EXPANDED_DESCRIPTION_MAX_LINES = 10;
 
     public StorylineListItemViewHolder(View viewHolder) {
         super(viewHolder);
@@ -43,5 +47,31 @@ public class StorylineListItemViewHolder extends BaseViewHolder {
 
     public Button getStartButton() {
         return startButton;
+    }
+
+    public boolean isExpanded() {
+
+        return startButton.getVisibility() == View.VISIBLE;
+
+    }
+
+    /**
+     * Whether the view is collapsed
+     * @param context
+     */
+    public void collapse(Context context) {
+        startButton.setVisibility(View.GONE);
+        description.setMaxLines(COLLAPSED_DESCRIPTION_MAX_LINES);
+        getViewHolder().setBackgroundColor(context.getResources().getColor(R.color.white));
+    }
+
+    /**
+     * Whether the view is expanded
+     * @param context
+     */
+    public void expand(Context context) {
+        startButton.setVisibility(View.VISIBLE);
+        description.setMaxLines(EXPANDED_DESCRIPTION_MAX_LINES);
+        getViewHolder().setBackgroundColor(context.getResources().getColor(R.color.storyline_clicked_card));
     }
 }
