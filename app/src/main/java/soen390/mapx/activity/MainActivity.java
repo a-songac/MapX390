@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
@@ -78,9 +79,11 @@ public class MainActivity extends BaseActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.nav_map) {
-            NavigationHelper.getInstance().navigateToMapFragment();
-        } else if (id == R.id.nav_storyline) {
+        if (!isMapFragmentCurrentlyDisplayed()) {
+            NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+        }
+
+        if (id == R.id.nav_storyline) {
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
@@ -95,6 +98,14 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * Whether the fragment currently displayed is the map fragment
+     * @return : bool
+     */
+    private boolean isMapFragmentCurrentlyDisplayed() {
+        return NavigationHelper.getInstance().getContainerFragment().getTag().equals(ConstantsHelper.MAP_FRAGMENT_TAG);
     }
 
     /**
@@ -117,7 +128,31 @@ public class MainActivity extends BaseActivity
     private void initNavigationDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
+                int position = 0;
+
+                String tag = NavigationHelper.getInstance().getContainerFragment().getTag();
+                switch (tag) {
+                    case ConstantsHelper.MAP_FRAGMENT_TAG:
+                        position = 0;
+                        break;
+                    case ConstantsHelper.SETTINGS_FRAGMENT_TAG:
+                        position = 3;
+                        break;
+                    case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
+                        position = 1;
+                        break;
+
+                }
+
+                navigationView.getMenu().getItem(position).setChecked(true);
+            }
+        };
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 

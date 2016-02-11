@@ -61,19 +61,19 @@ public class NavigationHelper {
                 false,
                 true,
                 ConstantsHelper.MAP_FRAGMENT_TAG,
-                null
+                ConstantsHelper.MAP_FRAGMENT_BAC_KSTACK_ENTRY_NAME
         );
     }
 
     /**
-     * Navigate to Settings Fragment
+     * Add settings fragment over current fragment (always map fragment)
      * @param triggerLanguage : whether trigger the language settings upon loading the fragment
      */
     public void navigateToSettingsFragment(boolean triggerLanguage) {
 
         Fragment settingsFragment = SettingsFragment.newInstance(triggerLanguage);
 
-        replaceFragment(
+        addFragment(
                 settingsFragment,
                 false,
                 true,
@@ -82,9 +82,12 @@ public class NavigationHelper {
 
     }
 
+    /**
+     * Add storyline fragment over current fragment (always map fragment)
+     */
     public void navigateToStorylineFragment() {
 
-        replaceFragment(
+        addFragment(
                 new StorylineListFragment(),
                 false,
                 true,
@@ -92,6 +95,13 @@ public class NavigationHelper {
                 null
         );
 
+    }
+
+    /**
+     * Pop fragments in the back stack until the map fragment is reached
+     */
+    public void popFragmentBackStackToMapFragment() {
+        getSupportFragmentManager().popBackStackImmediate(ConstantsHelper.MAP_FRAGMENT_BAC_KSTACK_ENTRY_NAME, 0);
     }
 
     /**
@@ -114,6 +124,33 @@ public class NavigationHelper {
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment, tag);
+        if (addToBackStack) {
+            fragmentTransaction.addToBackStack(backStackEntryName);
+        }
+        if (withTransition) {
+            fragmentTransaction.setCustomAnimations(
+                    android.R.anim.fade_in,
+                    android.R.anim.slide_out_right);
+        }
+
+        fragmentTransaction.commit();
+
+    }
+
+
+    /**
+     * Replace fragment
+     * @param fragment : fragment to display
+     * @param withTransition : whether transition is used in the replacement
+     * @param addToBackStack : whether the fragment is added to the back stack
+     * @param tag : fragment tag
+     * @param backStackEntryName : back stack entry name
+     */
+    private void addFragment(Fragment fragment, boolean withTransition, boolean addToBackStack,
+                                 @Nullable String tag, @Nullable String backStackEntryName) {
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.container, fragment, tag);
         if (addToBackStack) {
             fragmentTransaction.addToBackStack(backStackEntryName);
         }

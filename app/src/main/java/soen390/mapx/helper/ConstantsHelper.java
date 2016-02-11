@@ -9,6 +9,7 @@ public class ConstantsHelper {
      * Fragment tags
      */
     public static final String MAP_FRAGMENT_TAG = "map_fragment_tag";
+    public static final String MAP_FRAGMENT_BAC_KSTACK_ENTRY_NAME = "map_fragment_backstack_entry_name";
     public static final String SETTINGS_FRAGMENT_TAG = "settings_fragment_tag";
     public static final String SETTINGS_FRAGMENT_ARG_KEY_TRIGGER_LANGUAGE = "settings_fragment_trigger_language";
     public static final String LAST_FRAGMENT_TAG_KEY = "last_fragment_key";

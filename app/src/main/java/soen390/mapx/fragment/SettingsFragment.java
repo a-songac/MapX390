@@ -2,9 +2,9 @@ package soen390.mapx.fragment;
 
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.arnaud.android.core.fragment.IBaseFragment;
@@ -51,6 +51,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getView().setBackgroundColor(Color.WHITE);
 
         ActionBarHelper.getInstance().setSettingsFragmentActionBar();
 
