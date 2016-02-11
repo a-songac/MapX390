@@ -157,6 +157,7 @@ public class MainActivity extends BaseActivity
                 break;
             case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
                 NavigationHelper.getInstance().navigateToStorylineFragment();
+                break;
 
             default:
                 NavigationHelper.getInstance().navigateToMainFragment();
