@@ -72,11 +72,12 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
             StorylineListItemViewHolder.class.cast(expandedView.getTag()).collapse(getContext());
         }
 
-
         Object tag = v.getTag();
+
         if (null != tag) {
 
             StorylineListItemViewHolder itemViewHolder = (StorylineListItemViewHolder) tag;
+
             if (itemViewHolder.isExpanded()) {
                 itemViewHolder.collapse(getContext());
             } else {
@@ -84,10 +85,21 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
             }
             expandedView = v;
             expandedPosition = position;
-
         }
-        getListView().smoothScrollToPosition(position);
 
+        fullyShowHalfHiddenItem(position);
+
+    }
+
+    /**
+     * Scroll the list to fully show half hidden list items
+     * @param position
+     */
+    private void fullyShowHalfHiddenItem(int position) {
+        getListView().smoothScrollToPosition(position);
+        if (position == getListAdapter().getCount() - 1) {
+            getListView().setSelection(position);
+        }
     }
 
 
