@@ -11,6 +11,14 @@
 	margin: 0;
 }
 
-.mapx-poi-title{
+#mapx-poi-title{
 	font-weight:bold;
+	margin-bottom:5%;
+	text-align: center;
+	border-bottom: 1px solid black;
+	padding-bottom: 2px;
+}
+
+#mapx-poi-description{
+	margin-bottom:10%;
 }

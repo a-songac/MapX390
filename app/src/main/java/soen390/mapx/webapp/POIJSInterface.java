@@ -1,6 +1,7 @@
 package soen390.mapx.webapp;
 
 import android.content.Context;
+import android.webkit.JavascriptInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,6 +9,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import soen390.mapx.R;
+import soen390.mapx.UiUtils;
 import soen390.mapx.model.Floor;
 import soen390.mapx.model.POI;
 
@@ -17,6 +20,7 @@ import soen390.mapx.model.POI;
 public class POIJSInterface {
 
     private Context context;
+    public static final String ANDROID_JAVASCRIPT_OBJECT = "Android";
 
     public POIJSInterface() {}
 
@@ -28,6 +32,7 @@ public class POIJSInterface {
      * Return JSON that contains information of POIs
      * @return JSON with POIs information
      */
+    @JavascriptInterface
     public String getPOIsJSON() {
         List<POI> pois  = POI.listAll(POI.class);
         return buildPOIJSON(pois).toString();
@@ -37,9 +42,22 @@ public class POIJSInterface {
      * Return JSON that contains information of the museum floors
      * @return JSON string of the floor information
      */
+    @JavascriptInterface
     public String getFloorJSON(){
         List<Floor> floors = Floor.listAll(Floor.class);
         return buildFloorJSON(floors).toString();
+    }
+
+    /**
+     * Receive from javascript POI to navigate to
+     * @param poiId
+     */
+    @JavascriptInterface
+    public void navigateToPOI(String poiId) {
+        //TODO Temporary for sprint 1 to show that a destination has been selected
+        String str = context.getResources().getString(R.string.poi_selected_as_destination, poiId);
+        UiUtils.displayToastLong(str);
+
     }
 
     /**
