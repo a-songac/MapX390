@@ -12,6 +12,7 @@ import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.MapFragment;
 import soen390.mapx.fragment.SettingsFragment;
 import soen390.mapx.fragment.StorylineListFragment;
+import soen390.mapx.manager.MapManager;
 
 /**
  * Class to implement navigation helper
@@ -66,6 +67,14 @@ public class NavigationHelper {
     }
 
     /**
+     * Whether the current fragment on top is the map fragment
+     * @return
+     */
+    public boolean isMapFragmentDisplayed() {
+        return getContainerFragment().getTag().equals(ConstantsHelper.MAP_FRAGMENT_TAG);
+    }
+
+    /**
      * Add settings fragment over current fragment (always map fragment)
      * @param triggerLanguage : whether trigger the language settings upon loading the fragment
      */
@@ -102,6 +111,7 @@ public class NavigationHelper {
      */
     public void popFragmentBackStackToMapFragment() {
         getSupportFragmentManager().popBackStackImmediate(ConstantsHelper.MAP_FRAGMENT_BAC_KSTACK_ENTRY_NAME, 0);
+        MapManager.getInstance().syncActionBarStateWithCurrentMode();
     }
 
     /**
