@@ -12,9 +12,9 @@ import android.widget.ListView;
 import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.R;
-import soen390.mapx.database.DummyData;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.NavigationHelper;
+import soen390.mapx.model.Storyline;
 import soen390.mapx.ui.adapter.StorylineListAdapter;
 import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
 
@@ -57,9 +57,9 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
         super.onCreate(savedInstanceState);
 
         ActionBarHelper.getInstance().setStorylineFragmentActionBar();
+        getActivity().invalidateOptionsMenu();
 
-//        StorylineListAdapter listAdapter = new StorylineListAdapter(getActivity(), Storyline.listAll(Storyline.class));
-        StorylineListAdapter listAdapter = new StorylineListAdapter(getActivity(), DummyData.getStorylinesList());
+        StorylineListAdapter listAdapter = new StorylineListAdapter(getActivity(), Storyline.listAll(Storyline.class));
         setListAdapter(listAdapter);
 
     }
@@ -106,7 +106,7 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
 
     @Override
     public void onBackPressed() {
-        NavigationHelper.getInstance().navigateToLastFragment();
+        NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
 
     }
 

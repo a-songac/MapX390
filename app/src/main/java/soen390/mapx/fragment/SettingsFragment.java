@@ -54,6 +54,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
         getView().setBackgroundColor(Color.WHITE);
 
         ActionBarHelper.getInstance().setSettingsFragmentActionBar();
+        getActivity().invalidateOptionsMenu();
 
         if (null != getArguments()) {
 
@@ -93,7 +94,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
 
     @Override
     public void onBackPressed() {
-        NavigationHelper.getInstance().navigateToLastFragment();
+        NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
     }
 
 }

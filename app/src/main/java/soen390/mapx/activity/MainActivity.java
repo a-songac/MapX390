@@ -7,6 +7,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,12 +19,15 @@ import java.util.Locale;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
+import soen390.mapx.UiUtils;
 import soen390.mapx.callback.IDialogResponseCallBack;
+import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.PreferenceHelper;
+import soen390.mapx.manager.MapManager;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,6 +49,7 @@ public class MainActivity extends BaseActivity
         initActionBar();
         initNavigationDrawer();
         initLanguagePreference();
+        DbContentManager.initDatabaseContent();
 
 
         if (savedInstanceState == null) {
@@ -79,11 +85,10 @@ public class MainActivity extends BaseActivity
 
         int id = item.getItemId();
 
-        if (!isMapFragmentCurrentlyDisplayed()) {
+        if (id == R.id.nav_map) {
             NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
         }
-
-        if (id == R.id.nav_storyline) {
+        else if (id == R.id.nav_storyline) {
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
@@ -100,12 +105,31 @@ public class MainActivity extends BaseActivity
         return true;
     }
 
-    /**
-     * Whether the fragment currently displayed is the map fragment
-     * @return : bool
-     */
-    private boolean isMapFragmentCurrentlyDisplayed() {
-        return NavigationHelper.getInstance().getContainerFragment().getTag().equals(ConstantsHelper.MAP_FRAGMENT_TAG);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.map_in_mode_options, menu);
+
+        if (NavigationHelper.getInstance().isMapFragmentDisplayed() && (MapManager.getInstance().isNavigationMode() || MapManager.getInstance().isStorylineMode()))
+            menu.getItem(0).setVisible(true);
+        else
+            menu.getItem(0).setVisible(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.map_options_cancel_mode:
+                UiUtils.displayToast("Cancel current mode");
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
