@@ -1,8 +1,5 @@
 package soen390.mapx.database;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import soen390.mapx.model.Storyline;
 
 /**
@@ -10,9 +7,13 @@ import soen390.mapx.model.Storyline;
  */
 public class DummyData {
 
-    public static List<Storyline> getStorylinesList() {
+    public static void populateDb() {
 
-        List<Storyline> list = new ArrayList<>();
+       populateStorylines();
+
+    }
+
+    private static void populateStorylines(){
 
         Storyline st = new Storyline();
         st.setTitle("Title1");
@@ -20,7 +21,7 @@ public class DummyData {
         st.setDescription("Description En description description description description description description description description description description");
         st.setDescriptionFr("Description En description description description description description description description description description description");
         st.setImagePath("TODO");
-        list.add(st);
+        st.save();
 
         Storyline st2 = new Storyline();
         st2.setTitle("Title2");
@@ -28,7 +29,7 @@ public class DummyData {
         st2.setDescription("Description En description description description description description description description description description description");
         st2.setDescriptionFr("Description En description description description description description description description description description description");
         st2.setImagePath("TODO");
-        list.add(st2);
+        st2.save();
 
         Storyline st3 = new Storyline();
         st3.setTitle("Title3");
@@ -36,7 +37,7 @@ public class DummyData {
         st3.setDescription("Description En description description description description description description description description description description");
         st3.setDescriptionFr("Description En description description description description description description description description description description");
         st3.setImagePath("TODO");
-        list.add(st3);
+        st3.save();
 
         Storyline st4 = new Storyline();
         st4.setTitle("Title4");
@@ -44,7 +45,7 @@ public class DummyData {
         st4.setDescription("Description En description description description description description description description description description description");
         st4.setDescriptionFr("Description En description description description description description description description description description description");
         st4.setImagePath("TODO");
-        list.add(st4);
+        st4.save();
 
         Storyline st5 = new Storyline();
         st5.setTitle("Title5");
@@ -52,7 +53,7 @@ public class DummyData {
         st5.setDescription("Description En description description description description description description description description description description");
         st5.setDescriptionFr("Description En description description description description description description description description description description");
         st5.setImagePath("TODO");
-        list.add(st5);
+        st5.save();
 
         Storyline st6 = new Storyline();
         st6.setTitle("Title6");
@@ -60,8 +61,7 @@ public class DummyData {
         st6.setDescription("Description En description description description description description description description description description description");
         st6.setDescriptionFr("Description En description description description description description description description description description description");
         st6.setImagePath("TODO");
-        list.add(st6);
+        st6.save();
 
-        return list;
     }
 }

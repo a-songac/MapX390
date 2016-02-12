@@ -66,5 +66,13 @@ public class PreferenceHelper {
         editor.commit();
     }
 
+    public void initDB() {
+        editor.putBoolean(ConstantsHelper.DB_INIT_KEY, true);
+        editor.commit();
+    }
+
+    public boolean isDbInitPreference() {
+        return sharedPreferences.getBoolean(ConstantsHelper.DB_INIT_KEY, false);
+    }
 
 }
