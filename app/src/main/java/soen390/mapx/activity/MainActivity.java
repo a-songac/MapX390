@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.map_in_mode_options, menu);
 
-        if (NavigationHelper.getInstance().isMapFragmentDisplayed() && (MapManager.getInstance().isNavigationMode() || MapManager.getInstance().isStorylineMode()))
+        if (NavigationHelper.getInstance().isMapFragmentDisplayed() && (MapManager.isNavigationMode() || MapManager.isStorylineMode()))
             menu.getItem(0).setVisible(true);
         else
             menu.getItem(0).setVisible(false);
@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity
 
         switch (item.getItemId()) {
             case R.id.map_options_cancel_mode:
-                MapManager.getInstance().leaveCurrentMode();
+                MapManager.leaveCurrentMode();
                 return true;
 
             default:

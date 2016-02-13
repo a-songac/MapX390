@@ -6,37 +6,32 @@ import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
+import soen390.mapx.datastructure.PathFinder;
+import soen390.mapx.datastructure.WeightedGraph;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.model.POI;
 import soen390.mapx.model.Storyline;
+import soen390.mapx.webapp.MapJSBridge;
 
 /**
  * Manage the state of the map
  */
 public class MapManager {
-    private static MapManager ourInstance = new MapManager();
 
-    public static MapManager getInstance() {
-        return ourInstance;
-    }
-
-    private MapManager() {
-    }
-
-    private boolean storylineMode = false;
-    private boolean  navigationMode = false;
-    private POI lastPOI = null;
-    private POI currentPOIDestination= null;
-    private Storyline currentStoryline = null;
+    private static boolean storylineMode = false;
+    private static boolean  navigationMode = false;
+    private static POI lastPOI = null; //TODO set initial POI as museum info center maybe
+    private static POI currentPOIDestination= null;
+    private static Storyline currentStoryline = null;
 
 
-    public boolean isStorylineMode() {
+    public static boolean isStorylineMode() {
         return storylineMode;
     }
 
-    public boolean isNavigationMode() {
+    public static boolean isNavigationMode() {
         return navigationMode;
     }
 
@@ -44,7 +39,7 @@ public class MapManager {
      * Launch the storyline mode
      * @param storylineId
      */
-    public void launchStoryline(Long storylineId) {
+    public static void launchStoryline(Long storylineId) {
 
         if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
 
@@ -59,8 +54,6 @@ public class MapManager {
         syncActionBarStateWithCurrentMode();
 
 
-        //TODO call web client to display storyline path
-
 
     }
 
@@ -68,7 +61,7 @@ public class MapManager {
      * Launch the storyline mode
      * @param poiId
      */
-    public void launchNavigation(Long poiId) {
+    public static void launchNavigation(Long poiId) {
 
         if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
 
@@ -82,13 +75,12 @@ public class MapManager {
 
         syncActionBarStateWithCurrentMode();
 
-
-        //TODO call web client to display storyline path
-
+        int[] path = PathFinder.computeShortestPath(new WeightedGraph(1), poiId); //TODO how do we deal with the Weighted graph?
+        MapJSBridge.getInstance().drawPath(path);
 
     }
 
-    public void leaveCurrentMode() {
+    public static void leaveCurrentMode() {
         if (storylineMode) {
             leaveStorylineMode();
         } else if (navigationMode) {
@@ -100,7 +92,7 @@ public class MapManager {
     /**
      * leave storyline mode
      */
-    public void leaveStorylineMode() {
+    public static void leaveStorylineMode() {
 
         Context context = MapXApplication.getGlobalContext();
 
@@ -129,7 +121,7 @@ public class MapManager {
     /**
      * leave storyline mode
      */
-    public void leaveNavigationMode() {
+    public static void leaveNavigationMode() {
 
         Context context = MapXApplication.getGlobalContext();
 
@@ -159,7 +151,7 @@ public class MapManager {
     /**
      * Set action bar accordingly to the current map mode (navigation, storyline, normal
      */
-    public void syncActionBarStateWithCurrentMode() {
+    public static void syncActionBarStateWithCurrentMode() {
 
         if (storylineMode) {
 

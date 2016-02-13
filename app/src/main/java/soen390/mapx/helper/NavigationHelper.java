@@ -111,7 +111,7 @@ public class NavigationHelper {
      */
     public void popFragmentBackStackToMapFragment() {
         getSupportFragmentManager().popBackStackImmediate(ConstantsHelper.MAP_FRAGMENT_BAC_KSTACK_ENTRY_NAME, 0);
-        MapManager.getInstance().syncActionBarStateWithCurrentMode();
+        MapManager.syncActionBarStateWithCurrentMode();
     }
 
     /**

@@ -51,7 +51,7 @@ public class MapFragment extends Fragment implements IBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MapManager.getInstance().syncActionBarStateWithCurrentMode();
+        MapManager.syncActionBarStateWithCurrentMode();
 
         MapFragmentViewHolder viewHolder = new MapFragmentViewHolder(getView());
         MapFragmentViewBinder viewBinder = new MapFragmentViewBinder(viewHolder);
