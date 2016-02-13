@@ -177,37 +177,8 @@ function Controller(){
 		self.setPOIs();
 	};
 
-	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON. See test data below as example*/
+	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
 	this.changeLanguage = function(newJSONs){
-		// /* TEST DATA */
-		// newJSONs = {
-		// 	"poi":[
-		// 		{
-		// 	      "_id": "1",
-		// 	      "title": "POI_1_FR",
-		// 	      "type": "exposition",
-		// 	      "sub_type": "null",
-		// 	      "floor": "1",
-		// 	      "x_coord": "75",
-		// 	      "y_coord": "100"
-		// 	    },
-		// 	    {
-		// 	      "_id": "2",
-		// 	      "title": "POI_2_FR",
-		// 	      "type": "exposition",
-		// 	      "sub_type": "null",
-		// 	      "floor": "2",
-		// 	      "x_coord": "500",
-		// 	      "y_coord": "100"
-		// 	    }
-		// 	],
-		// 	"language":
-		// 	{
-		// 		"mapx-poi-button":"Aller vers destination"
-		// 	}
-		// };
-		// /*TEST DATA */
-
 		this.languageJSON = newJSONs["language"];
 		this.poisJSON = newJSONs["poi"];
 
@@ -220,10 +191,11 @@ function Controller(){
 		for(var i = 0; i < this.poisJSON.length; i++){
 			var poi = this.poisJSON[i];
 			if(parseInt(this.currentFloor) === parseInt(poi["floor"])){
-				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' onclick='navigateToPOI(\"" + poi["title"] + "\")'>" + this.languageJSON["mapx-poi-button"] + "</button>";
+				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + this.languageJSON["mapx-poi-button"] + "</button>";
 
 				var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
 				marker.bindPopup(popupContent);
+				marker.poiID = poi["_id"];
 				this.currentPOIs.push(marker);
 			}
 		}
@@ -237,18 +209,44 @@ function Controller(){
 
 		this.currentPOIs = [];
 	};
+
+	/* Send call to Android to initiate a navigation to the selected POI */
+	this.navigateToPOI = function(elementClicked){
+		Android.navigateToPOI($(elementClicked).attr("data-poi-title"));	
+	};
+
+	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
+	this.startNavigation = function(startingPOIID, endingPOIID, options){
+		this.changePOIIcon('js/images/marker-icon.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
+		//Add path creation here in Sprint 3
+	};
+
+	/* Called by Android when the navigation to a POI is cancelled */
+	this.cancelNavigation = function(startingPOIID, endingPOIID){
+		this.changePOIIcon('js/images/marker-icon.png');
+		//Add the path cancellation here in Sprint 3
+	};
+
+	/* Change POI icon of Starting and Ending POIs */
+	this.changePOIIcon = function(imagePath){
+		for(var i = 0; i < this.currentPOIs.length; i++){
+			var marker = this.currentPOIs[i];
+
+			if(parseInt(marker.poiID) == parseInt(startingPOIID) || parseInt(marker.poiID) == parseInt(endingPOIID)){
+				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
+				var normalIcon = L.icon({
+				    iconUrl: 'js/images/marker-icon.png',
+				    iconSize:    [25, 41],
+					iconAnchor:  [12, 41],
+					popupAnchor: [1, -34],
+					shadowSize:  [41, 41]
+				});
+
+				marker.setIcon(normalIcon);
+			}
+		}
+	};
 }
 
 var controller = new Controller();
 controller.initialize();
-
-// /*TEST*/
-// controller.changeLanguage(null);
-// /*TEST*/
-
-function navigateToPOI(poiTitle) {
-
-	Android.navigateToPOI(poiTitle);
-
-}
-
