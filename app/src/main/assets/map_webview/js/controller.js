@@ -181,11 +181,23 @@ function Controller(){
 
 	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
 	this.changeLanguage = function(newJSONs){
-		this.languageJSON = newJSONs["language"];
-		this.poisJSON = newJSONs["poi"];
+		try{
+			if(!newJSONs){
+				throw "Error in function: changeLanguage \nVariable: newJSONs \nMessage: newJSONs is null";
+			}
 
-		this.removePOIs();
-		this.setPOIs();
+			this.languageJSON = newJSONs["language"];
+			this.poisJSON = newJSONs["poi"];
+
+			this.removePOIs();
+			this.setPOIs();
+		}
+
+		catch(error){
+			alert(error); //Dev only
+			//console.log(error); //Prod only
+			//Send a message to Android perhasp?
+		}
 	};
 
 	/* Display the POIs related to the current floor on the map */
@@ -219,10 +231,22 @@ function Controller(){
 
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
 	this.startNavigation = function(path){
-		this.startingPOIID = path[0];
-		this.endingPOIID = path[path.length-1];
-		this.changeStartAndEndPOIIcons('js/images/marker-icon.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
-		//Add path creation here in Sprint 3
+		try{
+			if(!path){
+				throw "Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0";
+			}
+
+			this.startingPOIID = path[0];
+			this.endingPOIID = path[path.length-1];
+			this.changeStartAndEndPOIIcons('js/images/marker-icon.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
+			//Add path creation here in Sprint 3
+		}
+
+		catch(error){
+			alert(error); //Dev only
+			//console.log(error); //Prod only
+			//Send a message to Android perhasp?
+		}
 	};
 
 	/* Called by Android when the navigation to a POI is cancelled */
