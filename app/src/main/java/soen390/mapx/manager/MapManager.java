@@ -64,6 +64,30 @@ public class MapManager {
 
     }
 
+    /**
+     * Launch the storyline mode
+     * @param poiId
+     */
+    public void launchNavigation(Long poiId) {
+
+        if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
+
+            NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+
+        }
+
+        navigationMode = true;
+        storylineMode = false;
+        currentPOIDestination = POI.findById(POI.class, poiId);
+
+        syncActionBarStateWithCurrentMode();
+
+
+        //TODO call web client to display storyline path
+
+
+    }
+
     public void leaveCurrentMode() {
         if (storylineMode) {
             leaveStorylineMode();

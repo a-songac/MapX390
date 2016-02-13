@@ -1,6 +1,7 @@
 package soen390.mapx.webapp;
 
 import android.content.Context;
+import android.os.Handler;
 import android.webkit.JavascriptInterface;
 
 import org.json.JSONArray;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import soen390.mapx.R;
 import soen390.mapx.UiUtils;
+import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Floor;
 import soen390.mapx.model.POI;
 
@@ -54,9 +56,19 @@ public class POIJSInterface {
      */
     @JavascriptInterface
     public void navigateToPOI(String poiId) {
+
         //TODO Temporary for sprint 1 to show that a destination has been selected
         String str = context.getResources().getString(R.string.poi_selected_as_destination, poiId);
         UiUtils.displayToastLong(str);
+
+        Handler mainHandler = new Handler(context.getMainLooper());
+        Runnable myRunnable = new Runnable() {
+            @Override
+            public void run() {
+                MapManager.getInstance().launchNavigation(1L); //TODO hardcoded id temporarily
+            }
+        };
+        mainHandler.post(myRunnable);
 
     }
 
