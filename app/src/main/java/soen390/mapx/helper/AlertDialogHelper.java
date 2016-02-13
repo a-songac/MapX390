@@ -13,13 +13,17 @@ import soen390.mapx.callback.IDialogResponseCallBack;
  */
 public class AlertDialogHelper {
 
-    public static void showInitLanguagePreferenceAlertDialog(final IDialogResponseCallBack callBack){
+    /**
+     * Show regular alert dialog message with title, message, positive button and negative button
+     * @param callBack
+     */
+    public static void showAlertDialog(String title, String message, final IDialogResponseCallBack callBack){
 
         Context context = MapXApplication.getGlobalContext();
 
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setTitle(R.string.language_init_dialog_title)
-                .setMessage(R.string.language_init_dialog_body)
+                .setTitle(title)
+                .setMessage(message)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -1,8 +1,13 @@
 package soen390.mapx.manager;
 
+import android.content.Context;
+
+import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
+import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.helper.ActionBarHelper;
+import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.model.POI;
 import soen390.mapx.model.Storyline;
@@ -58,6 +63,74 @@ public class MapManager {
 
 
     }
+
+    public void leaveCurrentMode() {
+        if (storylineMode) {
+            leaveStorylineMode();
+        } else if (navigationMode) {
+            leaveNavigationMode();
+        }
+    }
+
+
+    /**
+     * leave storyline mode
+     */
+    public void leaveStorylineMode() {
+
+        Context context = MapXApplication.getGlobalContext();
+
+        String title= context.getResources().getString(R.string.storyline_leave);
+        String message = context.getResources().getString(R.string.storyline_leave_message);
+
+        AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
+            @Override
+            public void onPositiveResponse() {
+                navigationMode = false;
+                storylineMode = false;
+                currentStoryline = null;
+
+                //TODO call web client to erase storyline path
+                syncActionBarStateWithCurrentMode();
+            }
+
+            @Override
+            public void onNegativeResponse() {
+
+            }
+        });
+
+    }
+
+    /**
+     * leave storyline mode
+     */
+    public void leaveNavigationMode() {
+
+        Context context = MapXApplication.getGlobalContext();
+
+        String title= context.getResources().getString(R.string.navigation_leave);
+        String message = context.getResources().getString(R.string.navigation_leave_message);
+
+        AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
+            @Override
+            public void onPositiveResponse() {
+                navigationMode = false;
+                storylineMode = false;
+                currentPOIDestination = null;
+
+                //TODO call web client to erase navigation path
+
+                syncActionBarStateWithCurrentMode();
+            }
+
+            @Override
+            public void onNegativeResponse() {
+            }
+        });
+
+    }
+
 
     /**
      * Set action bar accordingly to the current map mode (navigation, storyline, normal

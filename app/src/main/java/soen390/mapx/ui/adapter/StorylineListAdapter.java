@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 
 import soen390.mapx.R;
+import soen390.mapx.UiUtils;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.StorylineListFragment;
 import soen390.mapx.manager.MapManager;
@@ -20,6 +21,7 @@ import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
  */
 public class StorylineListAdapter extends ArrayAdapter<Storyline> {
 
+    private Context context;
     private StorylineListItemViewHolder viewHolder;
 
     /**
@@ -27,7 +29,7 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
      */
     public StorylineListAdapter(Context context, List<Storyline> items) {
         super(context, R.layout.story_line_list_item, items);
-
+        this.context = context;
     }
 
 
@@ -72,7 +74,10 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
             @Override
             public void onClick(View v) {
 
+                String toast = context.getResources().getString(R.string.storyline_start_toast, storyline.getTitle());
+                UiUtils.displayToastLong(toast);
                 MapManager.getInstance().launchStoryline(storyline.getId());
+                StorylineListFragment.expandedPosition = -1;
 
             }
         });

@@ -37,5 +37,7 @@
     <!-- Storylines -->
     <string name="storyline_list_item_start">DÉBUTER LE TOUR</string>
     <string name="storyline_leave">Quitter le tour</string>
+    <string name="storyline_leave_message">Voulez-vous quitter le tour?</string>
+    <string name="storyline_start_toast">Le tour %1$s a débuté</string>
 
 </resources>

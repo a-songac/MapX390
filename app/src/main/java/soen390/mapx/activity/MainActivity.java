@@ -19,7 +19,6 @@ import java.util.Locale;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
-import soen390.mapx.UiUtils;
 import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
@@ -124,7 +123,7 @@ public class MainActivity extends BaseActivity
 
         switch (item.getItemId()) {
             case R.id.map_options_cancel_mode:
-                UiUtils.displayToast("Cancel current mode");
+                MapManager.getInstance().leaveCurrentMode();
                 return true;
 
             default:
@@ -233,7 +232,10 @@ public class MainActivity extends BaseActivity
 
             PreferenceHelper.getInstance().completeLanguagePreferenceInit();
 
-            AlertDialogHelper.showInitLanguagePreferenceAlertDialog(new IDialogResponseCallBack() {
+            String title = getString(R.string.language_init_dialog_title);
+            String message = getString(R.string.language_init_dialog_body);
+
+            AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
                 @Override
                 public void onPositiveResponse() {
                     NavigationHelper.getInstance().navigateToSettingsFragment(true);
