@@ -31,5 +31,9 @@
       "floor_width" : "<Floor_width>",
       "floor_height" : "<floor_height>"
     }
-  ]
+  ],
+  "language":{
+    "<ID_OF_ELEMENT>":"VALUE_OF_ELEMENT",
+    "<ID_OF_ELEMENT>":"VALUE_OF_ELEMENT"
+  }
 }

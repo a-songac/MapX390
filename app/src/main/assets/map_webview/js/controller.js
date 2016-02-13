@@ -7,6 +7,7 @@ function Controller(){
 	this.currentFloor = 0;
 	this.poisJSON = [];
 	this.currentPOIs = [];
+	this.languageJSON = {};
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
@@ -14,6 +15,7 @@ function Controller(){
 
 		//this.poisJSON = Android.getPOIsJSON();
 		//this.floorsJSON = Android.getFloorsJSON();
+		//this.languageJSON = Android.getLanguageJSON();
 
 		/* TEST DATA */
 		this.floorsJSON = [
@@ -69,6 +71,10 @@ function Controller(){
 		      "y_coord": "100"
 		    }
 		];
+
+		this.languageJSON = {
+			"mapx-poi-button":"Go To Destination"
+		};
 		/* END TEST DATA */
 
 		/* Set the map frame: Map Size, Map Controls*/
@@ -155,8 +161,8 @@ function Controller(){
 					$(imgOverlayElement).prop("src", self.floorsJSON[level-1]["floor_path"]);
 
 					self.currentFloor = level;
-					removePOIs();
-					setPOIs();
+					self.removePOIs();
+					self.setPOIs();
 				});
 
 				//Prepend the floor button to the floor control element
@@ -165,42 +171,80 @@ function Controller(){
 
 		}
 
-		/* Display the POIs related to the current floor on the map */
-		function setPOIs(){
-			for(var i = 0; i < self.poisJSON.length; i++){
-				var poi = self.poisJSON[i];
-				if(parseInt(self.currentFloor) === parseInt(poi["floor"])){
-					var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><p id='mapx-poi-description'>Description</p><button onclick='navigateToPOI(\"" + poi["title"] + "\")'>Go to destination</button>";
-
-					var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
-					marker.bindPopup(popupContent);
-					self.currentPOIs.push(marker);
-				}
-			}
-		}
-        
-        
-
-		/* Remove the current POIs displayed on the map */
-		function removePOIs(){
-			for(var i = 0; i < self.currentPOIs.length; i++){
-				map.removeLayer(self.currentPOIs[i]);
-			}
-
-			self.currentPOIs = [];
-		}
-
 		setMap();
 		setFirstFloorImageOverlay();
 		createFloorControlUI();
-		setPOIs();
+		self.setPOIs();
 	};
 
-	this.changeFloor = function(){};
+	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON. See test data below as example*/
+	this.changeLanguage = function(newJSONs){
+		// /* TEST DATA */
+		// newJSONs = {
+		// 	"poi":[
+		// 		{
+		// 	      "_id": "1",
+		// 	      "title": "POI_1_FR",
+		// 	      "type": "exposition",
+		// 	      "sub_type": "null",
+		// 	      "floor": "1",
+		// 	      "x_coord": "75",
+		// 	      "y_coord": "100"
+		// 	    },
+		// 	    {
+		// 	      "_id": "2",
+		// 	      "title": "POI_2_FR",
+		// 	      "type": "exposition",
+		// 	      "sub_type": "null",
+		// 	      "floor": "2",
+		// 	      "x_coord": "500",
+		// 	      "y_coord": "100"
+		// 	    }
+		// 	],
+		// 	"language":
+		// 	{
+		// 		"mapx-poi-button":"Aller vers destination"
+		// 	}
+		// };
+		// /*TEST DATA */
+
+		this.languageJSON = newJSONs["language"];
+		this.poisJSON = newJSONs["poi"];
+
+		this.removePOIs();
+		this.setPOIs();
+	};
+
+	/* Display the POIs related to the current floor on the map */
+	this.setPOIs = function(){
+		for(var i = 0; i < this.poisJSON.length; i++){
+			var poi = this.poisJSON[i];
+			if(parseInt(this.currentFloor) === parseInt(poi["floor"])){
+				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' onclick='navigateToPOI(\"" + poi["title"] + "\")'>" + this.languageJSON["mapx-poi-button"] + "</button>";
+
+				var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
+				marker.bindPopup(popupContent);
+				this.currentPOIs.push(marker);
+			}
+		}
+	};
+
+	/* Remove the current POIs displayed on the map */
+	this.removePOIs = function(){
+		for(var i = 0; i < this.currentPOIs.length; i++){
+			map.removeLayer(this.currentPOIs[i]);
+		}
+
+		this.currentPOIs = [];
+	};
 }
 
 var controller = new Controller();
 controller.initialize();
+
+// /*TEST*/
+// controller.changeLanguage(null);
+// /*TEST*/
 
 function navigateToPOI(poiTitle) {
 
