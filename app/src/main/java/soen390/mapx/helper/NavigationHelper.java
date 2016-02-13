@@ -11,6 +11,7 @@ import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.MapFragment;
 import soen390.mapx.fragment.SettingsFragment;
+import soen390.mapx.fragment.StorylineListFragment;
 
 /**
  * Class to implement navigation helper
@@ -78,6 +79,18 @@ public class NavigationHelper {
                 true,
                 ConstantsHelper.SETTINGS_FRAGMENT_TAG,
                 null);
+
+    }
+
+    public void navigateToStorylineFragment() {
+
+        replaceFragment(
+                new StorylineListFragment(),
+                false,
+                true,
+                ConstantsHelper.STORYLINE_FRAGMENT_TAG,
+                null
+        );
 
     }
 

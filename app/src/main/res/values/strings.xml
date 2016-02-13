@@ -33,7 +33,8 @@
     <!-- POI -->
     <string name="poi_selected_as_destination">Selected exhibition point %1$s as destination</string>
 
-
+    <!-- Storylines -->
+    <string name="storyline_list_item_start">START STORYLINE</string>
 
 
 </resources>

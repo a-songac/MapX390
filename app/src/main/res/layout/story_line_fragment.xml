@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:background="@color/light_background"
+    android:layout_width="match_parent">
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/story_line_list_item"
+        android:padding="@dimen/fab_margin"
+        android:background="@color/light_background"
+        android:divider="@color/light_background"
+        android:dividerHeight="10dp">
+
+    </ListView>
+</LinearLayout>

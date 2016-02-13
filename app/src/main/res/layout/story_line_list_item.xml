@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/fab_margin"
+    android:animateLayoutChanges="true"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/fab_margin">
+        <RelativeLayout
+            android:id="@+id/storyline_info_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/storyline_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/storyline_list_item_title"
+                android:layout_marginBottom="10dp"
+                android:singleLine="false"
+                tools:text="Nipper"
+                android:layout_alignParentStart="true"
+                android:layout_alignEnd="@+id/stoyline_description" />
+
+            <ImageView
+                android:id="@+id/storyline_image"
+                android:layout_width="@dimen/stoyline_list_item_width"
+                android:layout_height="@dimen/stoyline_list_item_height"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/fab_margin"
+                android:src="@drawable/moeb_logo"/>
+
+            <TextView
+                android:id="@+id/stoyline_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="10"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer sit amet erat faucibus dolor pellentesque pulvinar posuere vel elit. Pellentesque porta, leo ut sollicitudin vestibulum, neque diam varius lorem, eget imperdiet felis lectus vel mi. Ut congue porta consequat. Nullam non mi tortor."
+                android:layout_below="@+id/storyline_title"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/storyline_image" />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/storyline_start_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/storyline_start_button_selector"
+            android:text="@string/storyline_list_item_start"
+            android:textAppearance="@style/storyline_list_item_start_button_text"
+            android:visibility="visible"
+            android:minHeight="0dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_marginTop="20dp"
+            />
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

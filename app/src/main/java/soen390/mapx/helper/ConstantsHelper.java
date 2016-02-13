@@ -12,6 +12,7 @@ public class ConstantsHelper {
     public static final String SETTINGS_FRAGMENT_TAG = "settings_fragment_tag";
     public static final String SETTINGS_FRAGMENT_ARG_KEY_TRIGGER_LANGUAGE = "settings_fragment_trigger_language";
     public static final String LAST_FRAGMENT_TAG_KEY = "last_fragment_key";
+    public static final String STORYLINE_FRAGMENT_TAG = "storyline_fragment_tag";
 
     /**
      * Preferences
