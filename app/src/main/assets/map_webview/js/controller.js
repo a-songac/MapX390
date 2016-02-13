@@ -8,6 +8,8 @@ function Controller(){
 	this.poisJSON = [];
 	this.currentPOIs = [];
 	this.languageJSON = {};
+	this.startingPOIID = null;
+	this.endingPOIID = null;
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
@@ -212,27 +214,29 @@ function Controller(){
 
 	/* Send call to Android to initiate a navigation to the selected POI */
 	this.navigateToPOI = function(elementClicked){
-		Android.navigateToPOI($(elementClicked).attr("data-poi-title"));	
+		Android.navigateToPOI($(elementClicked).attr("data-poi-id"));
 	};
 
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
-	this.startNavigation = function(startingPOIID, endingPOIID, options){
-		this.changePOIIcon('js/images/marker-icon.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
+	this.startNavigation = function(path){
+		this.startingPOIID = path[0];
+		this.endingPOIID = path[path.length-1];
+		this.changeStartAndEndPOIIcons('js/images/marker-icon.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
 		//Add path creation here in Sprint 3
 	};
 
 	/* Called by Android when the navigation to a POI is cancelled */
-	this.cancelNavigation = function(startingPOIID, endingPOIID){
-		this.changePOIIcon('js/images/marker-icon.png');
-		//Add the path cancellation here in Sprint 3
+	this.cancelNavigation = function(){
+		this.changeStartAndEndPOIIcons('js/images/marker-icon.png');
+		//Add path deletion here in Sprint 3
 	};
 
 	/* Change POI icon of Starting and Ending POIs */
-	this.changePOIIcon = function(imagePath){
+	this.changeStartAndEndPOIIcons = function(imagePath){
 		for(var i = 0; i < this.currentPOIs.length; i++){
 			var marker = this.currentPOIs[i];
 
-			if(parseInt(marker.poiID) == parseInt(startingPOIID) || parseInt(marker.poiID) == parseInt(endingPOIID)){
+			if(parseInt(marker.poiID) == parseInt(this.startingPOIID) || parseInt(marker.poiID) == parseInt(this.endingPOIID)){
 				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
 				var normalIcon = L.icon({
 				    iconUrl: 'js/images/marker-icon.png',
