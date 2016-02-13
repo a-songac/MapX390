@@ -2,6 +2,9 @@ package soen390.mapx.model;
 
 import com.orm.SugarRecord;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Storyline model
  */
@@ -64,5 +67,12 @@ public class Storyline extends SugarRecord {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public List<Long>  getPath() {
+
+        List<Long> path = new ArrayList<>();
+        // TODO
+        return path;
     }
 }

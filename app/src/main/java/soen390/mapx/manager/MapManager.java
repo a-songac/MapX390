@@ -80,6 +80,20 @@ public class MapManager {
 
     }
 
+
+    /**
+     * Reached a POI
+     * @param poiId
+     */
+    public static void reachPOI(Long poiId) {
+        lastPOI = POI.findById(POI.class, poiId);
+        MapJSBridge.getInstance().reachedPOI(poiId);
+    }
+
+
+    /**
+     * Leave current mode (storyline or navigation)
+     */
     public static void leaveCurrentMode() {
         if (storylineMode) {
             leaveStorylineMode();
@@ -106,8 +120,9 @@ public class MapManager {
                 storylineMode = false;
                 currentStoryline = null;
 
-                //TODO call web client to erase storyline path
                 syncActionBarStateWithCurrentMode();
+
+                MapJSBridge.getInstance().leaveStoryline();
             }
 
             @Override
@@ -135,9 +150,9 @@ public class MapManager {
                 storylineMode = false;
                 currentPOIDestination = null;
 
-                //TODO call web client to erase navigation path
-
                 syncActionBarStateWithCurrentMode();
+
+                MapJSBridge.getInstance().leaveNavigation();
             }
 
             @Override

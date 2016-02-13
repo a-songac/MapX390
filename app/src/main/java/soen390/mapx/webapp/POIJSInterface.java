@@ -57,7 +57,6 @@ public class POIJSInterface {
     @JavascriptInterface
     public void navigateToPOI(String poiId) {
 
-        //TODO Temporary for sprint 1 to show that a destination has been selected
         String str = context.getResources().getString(R.string.poi_selected_as_destination, poiId);
         UiUtils.displayToastLong(str);
 
@@ -65,7 +64,7 @@ public class POIJSInterface {
         Runnable myRunnable = new Runnable() {
             @Override
             public void run() {
-                MapManager.getInstance().launchNavigation(1L); //TODO hardcoded id temporarily
+                MapManager.launchNavigation(1L); //TODO hardcoded id temporarily because the javascript does not return a long yet
             }
         };
         mainHandler.post(myRunnable);
