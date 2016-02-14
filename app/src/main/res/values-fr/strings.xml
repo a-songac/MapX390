@@ -40,4 +40,8 @@
     <string name="storyline_leave_message">Voulez-vous quitter le tour?</string>
     <string name="storyline_start_toast">Le tour %1$s a débuté</string>
 
+    <!-- Navigation -->
+    <string name="navigation_leave">Quiter la Destination</string>
+    <string name="navigation_leave_message">Voulez-vous quitter la navigation vers le point d\'intérêt actuel?</string>
+
 </resources>
