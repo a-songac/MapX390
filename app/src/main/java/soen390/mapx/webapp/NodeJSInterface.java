@@ -14,19 +14,19 @@ import soen390.mapx.R;
 import soen390.mapx.UiUtils;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Floor;
-import soen390.mapx.model.POI;
+import soen390.mapx.model.Node;
 
 /**
- * Interface to react to POI-related actions on the map
+ * Interface to react to Node-related actions on the map
  */
-public class POIJSInterface {
+public class NodeJSInterface {
 
     private Context context;
     public static final String ANDROID_JAVASCRIPT_OBJECT = "Android";
 
-    public POIJSInterface() {}
+    public NodeJSInterface() {}
 
-    public POIJSInterface(Context context) {
+    public NodeJSInterface(Context context) {
         this.context = context;
     }
 
@@ -36,8 +36,8 @@ public class POIJSInterface {
      */
     @JavascriptInterface
     public String getPOIsJSON() {
-        List<POI> pois  = POI.listAll(POI.class);
-        return buildPOIJSON(pois).toString();
+        List<Node> nodes = Node.listAll(Node.class);
+        return buildPOIJSON(nodes).toString();
     }
 
     /**
@@ -51,7 +51,7 @@ public class POIJSInterface {
     }
 
     /**
-     * Receive from javascript POI to navigate to
+     * Receive from javascript Node to navigate to
      * @param poiId
      */
     @JavascriptInterface
@@ -73,24 +73,24 @@ public class POIJSInterface {
 
     /**
      * Given a list of POIs build a JSON corresponding to it
-     * @param pois List of POIs
+     * @param nodes List of POIs
      * @return JSON corresponding to the lsit of POIs
      */
-    public JSONObject buildPOIJSON(List<POI> pois){
+    public JSONObject buildPOIJSON(List<Node> nodes){
         JSONObject jsonObj = new JSONObject();
 
         JSONArray poiArr = new JSONArray();
         JSONObject poisObj;
 
         try{
-            for(POI poi: pois) {
+            for(Node node : nodes) {
                 poisObj = new JSONObject();
-                poisObj.put("_id", poi.getId());
-                poisObj.put("title", poi.getTitle());
-                poisObj.put("type", poi.getType());
-                poisObj.put("floor", poi.getFloorId());
-                poisObj.put("x_coord", poi.getxCoord());
-                poisObj.put("y_coord", poi.getyCoord());
+                poisObj.put("_id", node.getId());
+                poisObj.put("title", node.getTitle());
+                poisObj.put("type", node.getType());
+                poisObj.put("floor", node.getFloorId());
+                poisObj.put("x_coord", node.getxCoord());
+                poisObj.put("y_coord", node.getyCoord());
                 poiArr.put(poisObj);
             }
 

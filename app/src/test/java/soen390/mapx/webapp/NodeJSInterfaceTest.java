@@ -12,29 +12,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import soen390.mapx.model.Floor;
-import soen390.mapx.model.POI;
+import soen390.mapx.model.Node;
 
-import static org.junit.Assert.*;
+public class NodeJSInterfaceTest {
 
-public class POIJSInterfaceTest {
-
-    private POIJSInterface poi_int;
+    private NodeJSInterface poi_int;
     Context context = new MockContext();
-    List<POI> list_poi;
+    List<Node> list_node;
     List<Floor> list_floor;
 
     @Before
     public void initialize() {
-        list_poi = new ArrayList<POI>();
-        poi_int = new POIJSInterface(context);
-        POI poi = new POI();
-        poi.setId((long) 1);
-        poi.setTitle("POI_1");
-        poi.setType("e");
-        poi.setFloorId((long) 1);
-        poi.setxCoord(75);
-        poi.setyCoord(100);
-        list_poi.add(poi);
+        list_node = new ArrayList<Node>();
+        poi_int = new NodeJSInterface(context);
+        Node node = new Node();
+        node.setId((long) 1);
+        node.setTitle("POI_1");
+        node.setType("e");
+        node.setFloorId((long) 1);
+        node.setxCoord(75);
+        node.setyCoord(100);
+        list_node.add(node);
 
         list_floor = new ArrayList<Floor>();
         Floor floor = new Floor();
@@ -49,7 +47,7 @@ public class POIJSInterfaceTest {
     @Test
     public void testgetPOIsJSON() {
         try {
-            JSONAssert.assertEquals("{\"poi\":[{\"x_coord\":75,\"y_coord\":100,\"_id\":1,\"title\":\"POI_1\",\"type\":\"e\",\"floor\":1}]}", poi_int.buildPOIJSON(list_poi), true);
+            JSONAssert.assertEquals("{\"poi\":[{\"x_coord\":75,\"y_coord\":100,\"_id\":1,\"title\":\"POI_1\",\"type\":\"e\",\"floor\":1}]}", poi_int.buildPOIJSON(list_node), true);
         }catch(JSONException e){
             e.printStackTrace();
         }

@@ -6,9 +6,9 @@ import com.orm.SugarRecord;
  * Point of interest model.
  */
 
-public class POI extends SugarRecord {
+public class Node extends SugarRecord {
 
-    private final char EXPOSITION_TYPE = 'e';
+    private final char POI_TYPE = 'p';
     private final char SERVICE_TYPE = 's';
     private final char TRANSITION_TYPE = 't';
 
@@ -21,7 +21,7 @@ public class POI extends SugarRecord {
     private int yCoord;
 
     /**
-     * Discriminant for type of the POI between Transition point, Service point or Exhibition
+     * Discriminant for type of the Node between Transition point, Service point or Exhibition
      * Is a String instead of char because JSONObject encodes char to ascii
      */
     private String type;
@@ -31,7 +31,7 @@ public class POI extends SugarRecord {
      * and to Service point (w (washrooms), i (information service))
      * Null otherwise
      */
-    private char subType;
+    private String subType;
 
     private long floorId;
 
@@ -69,11 +69,11 @@ public class POI extends SugarRecord {
         this.type = type;
     }
 
-    public char getSubType() {
+    public String getSubType() {
         return subType;
     }
 
-    public void setSubType(char subType) {
+    public void setSubType(String subType) {
         this.subType = subType;
     }
 

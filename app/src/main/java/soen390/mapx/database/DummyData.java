@@ -1,6 +1,6 @@
 package soen390.mapx.database;
 
-import soen390.mapx.model.POI;
+import soen390.mapx.model.Node;
 import soen390.mapx.model.Storyline;
 
 /**
@@ -69,8 +69,8 @@ public class DummyData {
     }
 
     private static void populatePOIs() {
-        POI poi = new POI();
-        poi.setTitle("POI1");
-        poi.save();
+        Node node = new Node();
+        node.setTitle("POI1");
+        node.save();
     }
 }
