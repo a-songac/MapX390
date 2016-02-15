@@ -1,20 +1,30 @@
 package soen390.mapx.model;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Ignore;
+
+import java.util.List;
+
+import soen390.mapx.helper.PreferenceHelper;
 
 /**
- * Point of interest model.
+ * Node model.
  */
 
 public class Node extends SugarRecord {
 
-    private final char POI_TYPE = 'p';
-    private final char SERVICE_TYPE = 's';
-    private final char TRANSITION_TYPE = 't';
-
-    private final char TRANSITION_STAIR_SUBTYPE = 's';
-    private final char TRANSITION_INTERSECTION_SUBTYPE = 'i';
-    private final char TRANSITION_ELEVATOR_SUBTYPE = 'e';
+    @Ignore
+    public static final String POI_TYPE = ".{1}";
+    @Ignore
+    public static final String SERVICE_TYPE = "s";
+    @Ignore
+    public static final String TRANSITION_TYPE = "t";
+    @Ignore
+    public static final String TRANSITION_STAIR_SUBTYPE = "s";
+    @Ignore
+    public static final String TRANSITION_INTERSECTION_SUBTYPE = "i";
+    @Ignore
+    public static final String TRANSITION_ELEVATOR_SUBTYPE = "e";
 
     private String title;
     private int xCoord;
@@ -32,10 +42,56 @@ public class Node extends SugarRecord {
      * Null otherwise
      */
     private String subType;
+    private Long floorId;
+    private Long iBeaconId;
+    private Long qrId;
 
-    private long floorId;
+    public Node(){}
 
-    private long iBeaconId;
+    public Node(String title, int xCoord, int yCoord, String type, String subType, Long floorId, Long iBeaconId, Long qrId) {
+        this.title = title;
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+        this.type = type;
+        this.subType = subType;
+        this.floorId = floorId;
+        this.iBeaconId = iBeaconId;
+        this.qrId = qrId;
+    }
+
+    /**
+     * Get node description based on the language
+     * @return
+     */
+    private NodeDescription getNodeDescription() {
+        String language = PreferenceHelper.getInstance().getLanguagePreference();
+
+        List<NodeDescription> nodeDescriptionList = NodeDescription.find(
+                NodeDescription.class,
+                "node_id = ? AND language = ?",
+                String.valueOf(this.getId()), language);
+
+        if (!nodeDescriptionList.isEmpty()) {
+            NodeDescription nodeDescription = nodeDescriptionList.get(0);
+            if (null != nodeDescription) {
+                return nodeDescription;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get title of the node based on the language
+     * @return
+     */
+    public String getTitleLanguageSupport() {
+
+        NodeDescription nd = getNodeDescription();
+        if (null != nd) {
+            return nd.getTitle();
+        }
+        return title;
+    }
 
     public String getTitle() {
         return title;
@@ -91,5 +147,37 @@ public class Node extends SugarRecord {
 
     public void setiBeaconId(long iBeaconId) {
         this.iBeaconId = iBeaconId;
+    }
+
+    public Long getQrId() {
+        return qrId;
+    }
+
+    public void setQrId(Long qrId) {
+        this.qrId = qrId;
+    }
+
+    public boolean isPointOfInterest() {
+        return type.equals(POI_TYPE);
+    }
+
+    public boolean isTransitionPoint() {
+        return type.equals(TRANSITION_TYPE);
+    }
+
+    public boolean isServicePoint() {
+        return type.equals(SERVICE_TYPE);
+    }
+
+    public boolean isStairsTransitionPoint() {
+        return type.equals(TRANSITION_TYPE) && subType.equals(TRANSITION_STAIR_SUBTYPE);
+    }
+
+    public boolean isElevatorTransitionPoint() {
+        return type.equals(TRANSITION_TYPE) && subType.equals(TRANSITION_ELEVATOR_SUBTYPE);
+    }
+
+    public boolean isIntersectionTransitionPoint() {
+        return type.equals(TRANSITION_TYPE) && subType.equals(TRANSITION_INTERSECTION_SUBTYPE);
     }
 }

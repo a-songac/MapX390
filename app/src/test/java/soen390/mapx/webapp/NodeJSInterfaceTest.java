@@ -37,7 +37,7 @@ public class NodeJSInterfaceTest {
         list_floor = new ArrayList<Floor>();
         Floor floor = new Floor();
         floor.setId((long) 1);
-        floor.setFloorNum(1);
+        floor.setFloorNum("1");
         floor.setImageFilePath("tiles/floor_1.jpg");
         floor.setImageHeight(700);
         floor.setImageWidth(1800);
@@ -56,7 +56,7 @@ public class NodeJSInterfaceTest {
     @Test
     public void testgetFloorJSON(){
         try{
-            JSONAssert.assertEquals("{\"floor\":[{\"floor_num\":1,\"floor_path\":\"tiles/floor_1.jpg\",\"floor_width\":1800,\"floor_height\":700}]}", poi_int.buildFloorJSON(list_floor), true);
+            JSONAssert.assertEquals("{\"floor\":[{\"floor_num\":\"1\",\"floor_path\":\"tiles/floor_1.jpg\",\"floor_width\":1800,\"floor_height\":700}]}", poi_int.buildFloorJSON(list_floor), true);
         } catch (JSONException e) {
             e.printStackTrace();
         }
