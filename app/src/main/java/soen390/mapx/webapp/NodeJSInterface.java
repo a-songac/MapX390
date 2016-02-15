@@ -72,6 +72,28 @@ public class NodeJSInterface {
     }
 
     /**
+     * Provide content for languages on the web client side
+     * @return
+     */
+    @JavascriptInterface
+    public String getLanguageJSON() {
+
+        JSONObject jsonObj = new JSONObject();
+        try {
+            jsonObj.put("web_change_destination", context.getString(R.string.web_change_destination));
+            jsonObj.put("web_go_to_destination", context.getString(R.string.web_go_to_destination));
+            jsonObj.put("web_view_info", context.getString(R.string.web_view_info));
+
+            return jsonObj.toString();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
+    /**
      * Given a list of POIs build a JSON corresponding to it
      * @param nodes List of POIs
      * @return JSON corresponding to the lsit of POIs

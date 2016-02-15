@@ -17,7 +17,7 @@ function Controller(){
 
 		//this.poisJSON = Android.getPOIsJSON();
 		//this.floorsJSON = Android.getFloorsJSON();
-		//this.languageJSON = Android.getLanguageJSON();
+		this.languageJSON = JSON.parse(Android.getLanguageJSON());
 
 		/* TEST DATA */
 		this.floorsJSON = [
@@ -74,9 +74,9 @@ function Controller(){
 		    }
 		];
 
-		this.languageJSON = {
-			"mapx-poi-button":"Go To Destination"
-		};
+//		this.languageJSON = {
+//			"mapx-poi-button":"Go To Destination"
+//		};
 		/* END TEST DATA */
 
 		/* Set the map frame: Map Size, Map Controls*/
@@ -205,7 +205,7 @@ function Controller(){
 		for(var i = 0; i < this.poisJSON.length; i++){
 			var poi = this.poisJSON[i];
 			if(parseInt(this.currentFloor) === parseInt(poi["floor"])){
-				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + this.languageJSON["mapx-poi-button"] + "</button>";
+				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + this.languageJSON["web_go_to_destination"] + "</button>";
 
 				var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
 				marker.bindPopup(popupContent);
