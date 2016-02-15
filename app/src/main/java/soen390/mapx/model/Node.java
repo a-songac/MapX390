@@ -14,7 +14,7 @@ import soen390.mapx.helper.PreferenceHelper;
 public class Node extends SugarRecord {
 
     @Ignore
-    public static final String POI_TYPE = ".{1}";
+    public static final String POI_TYPE = "p";
     @Ignore
     public static final String SERVICE_TYPE = "s";
     @Ignore
