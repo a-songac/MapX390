@@ -44,4 +44,8 @@
     <string name="navigation_leave">Quiter la Destination</string>
     <string name="navigation_leave_message">Voulez-vous quitter la navigation vers le point d\'intérêt actuel?</string>
 
+    <!-- Web Client strings -->
+    <string name="web_go_to_destination">Aller vers ce point</string>
+    <string name="web_change_destination">Changer la destination</string>
+    <string name="web_view_info">Voir information</string>
 </resources>

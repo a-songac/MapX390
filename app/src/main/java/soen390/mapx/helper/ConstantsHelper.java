@@ -21,6 +21,8 @@ public class ConstantsHelper {
     public static final String PREF_MAIN_KEY = "preferences_main";
     public static final String PREF_LANGUAGE_KEY = "pref_language";
     public static final String PREF_LANGUAGE_DEFAULT = "en";
+    public static final String PREF_LANGUAGE_ENGLISH = "en";
+    public static final String PREF_LANGUAGE_FRENCH = "fr";
     public static final String PREF_LANGUAGE_INIT_KEY = "pref_language_init";
     public static final String DB_INIT_KEY = "db_init_key";
 

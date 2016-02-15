@@ -44,5 +44,10 @@
     <string name="navigation_leave">Leave Navigation</string>
     <string name="navigation_leave_message">Do you want to leave your navigation toward the current point of interest?</string>
 
+    
+    <!-- Web Client strings -->
+    <string name="web_go_to_destination">Go to Destination</string>
+    <string name="web_change_destination">Change Destination</string>
+    <string name="web_view_info">View Info</string>
 
 </resources>

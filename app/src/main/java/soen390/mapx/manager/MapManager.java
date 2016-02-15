@@ -9,7 +9,7 @@ import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.NavigationHelper;
-import soen390.mapx.model.POI;
+import soen390.mapx.model.Node;
 import soen390.mapx.model.Storyline;
 import soen390.mapx.webapp.MapJSBridge;
 
@@ -20,8 +20,8 @@ public class MapManager {
 
     private static boolean storylineMode = false;
     private static boolean  navigationMode = false;
-    private static POI lastPOI = null; //TODO set initial POI as museum info center maybe
-    private static POI currentPOIDestination= null;
+    private static Node lastNode = null; //TODO set initial POI as museum info center maybe
+    private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
 
 
@@ -69,7 +69,7 @@ public class MapManager {
 
         navigationMode = true;
         storylineMode = false;
-        currentPOIDestination = POI.findById(POI.class, poiId);
+        currentNodeDestination = Node.findById(Node.class, poiId);
 
         syncActionBarStateWithCurrentMode();
 
@@ -85,8 +85,8 @@ public class MapManager {
      * @param poiId
      */
     public static void reachPOI(Long poiId) {
-        lastPOI = POI.findById(POI.class, poiId);
-        MapJSBridge.getInstance().reachedPOI(poiId);
+        lastNode = Node.findById(Node.class, poiId);
+        MapJSBridge.getInstance().reachedNode(poiId);
     }
 
 
@@ -147,7 +147,7 @@ public class MapManager {
             public void onPositiveResponse() {
                 navigationMode = false;
                 storylineMode = false;
-                currentPOIDestination = null;
+                currentNodeDestination = null;
 
                 syncActionBarStateWithCurrentMode();
 
@@ -173,7 +173,7 @@ public class MapManager {
 
         } else if (navigationMode) {
 
-            ActionBarHelper.getInstance().setMapFragmentNavigationModeActionBar(currentPOIDestination.getTitle());
+            ActionBarHelper.getInstance().setMapFragmentNavigationModeActionBar(currentNodeDestination.getTitle());
 
         } else {
             ActionBarHelper.getInstance().setMapFragmentActionBar();

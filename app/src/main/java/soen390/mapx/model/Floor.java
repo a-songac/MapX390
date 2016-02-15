@@ -3,19 +3,19 @@ package soen390.mapx.model;
 import com.orm.SugarRecord;
 
 /**
- * Created by ericl on 2/4/2016.
+ * Floor Plan
  */
 public class Floor extends SugarRecord {
-    private int floorNum;
+    private String floorNum;
     private String imageFilePath;
     private int imageWidth;
     private int imageHeight;
 
-    public int getFloorNum() {
+    public String getFloorNum() {
         return floorNum;
     }
 
-    public void setFloorNum(int floorNum) {
+    public void setFloorNum(String floorNum) {
         this.floorNum = floorNum;
     }
 

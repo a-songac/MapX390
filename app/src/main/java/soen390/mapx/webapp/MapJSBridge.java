@@ -27,7 +27,7 @@ public class MapJSBridge {
 
     /**
      * Path to draw on the map
-     * @param path : list of POI ids that form the path
+     * @param path : list of Node ids that form the path
      */
     public void drawPath(List<Long> path) {
 
@@ -43,7 +43,7 @@ public class MapJSBridge {
 
     /**
      * Path to draw on the map
-     * @param path : array POI ids of POI that form the path
+     * @param path : array Node ids of Node that form the path
      */
     public void drawPath(int[] path) {
 
@@ -59,10 +59,10 @@ public class MapJSBridge {
 
 
     /**
-     * Notice the map the user has reached a POI
-     * @param poiId
+     * Notice the map the user has reached a Node
+     * @param nodeId
      */
-    public void reachedPOI(Long poiId) {
+    public void reachedNode(Long nodeId) {
 
         //TODO
 
