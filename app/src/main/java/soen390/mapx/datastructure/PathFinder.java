@@ -1,5 +1,7 @@
 package soen390.mapx.datastructure;
 
+import java.util.ArrayList;
+
 public class PathFinder {
 
     public static int[] computeShortestPath(WeightedGraph g, long source) {
@@ -45,5 +47,22 @@ public class PathFinder {
             }
         }
         return nodeToVisit;
+    }
+
+    public static ArrayList<Integer> getShortestPath (int [] pred, int s, int d) {
+        ArrayList<Integer> path = new ArrayList<Integer>();
+        // Set position to destination to begin with before backtracking
+        int x = d;
+        // Backtrack if current position is not yet the source
+        while (x != s) {
+            // Add node to path
+            path.add (0, x);
+            // Set current position to the predecessor of the node
+            x = pred[x];
+        }
+        // Add source to path
+        path.add (0, x);
+
+        return path;
     }
 }
