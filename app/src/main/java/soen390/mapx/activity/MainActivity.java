@@ -7,7 +7,10 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
@@ -17,11 +20,13 @@ import java.util.Locale;
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.callback.IDialogResponseCallBack;
+import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.PreferenceHelper;
+import soen390.mapx.manager.MapManager;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +48,7 @@ public class MainActivity extends BaseActivity
         initActionBar();
         initNavigationDrawer();
         initLanguagePreference();
+        DbContentManager.initDatabaseContent();
 
 
         if (savedInstanceState == null) {
@@ -79,8 +85,9 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_map) {
-            NavigationHelper.getInstance().navigateToMapFragment();
-        } else if (id == R.id.nav_storyline) {
+            NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+        }
+        else if (id == R.id.nav_storyline) {
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
@@ -95,6 +102,33 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.map_in_mode_options, menu);
+
+        if (NavigationHelper.getInstance().isMapFragmentDisplayed() && (MapManager.isNavigationMode() || MapManager.isStorylineMode()))
+            menu.getItem(0).setVisible(true);
+        else
+            menu.getItem(0).setVisible(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.map_options_cancel_mode:
+                MapManager.leaveCurrentMode();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
@@ -117,7 +151,31 @@ public class MainActivity extends BaseActivity
     private void initNavigationDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+
+                int position = 0;
+
+                String tag = NavigationHelper.getInstance().getContainerFragment().getTag();
+                switch (tag) {
+                    case ConstantsHelper.MAP_FRAGMENT_TAG:
+                        position = 0;
+                        break;
+                    case ConstantsHelper.SETTINGS_FRAGMENT_TAG:
+                        position = 3;
+                        break;
+                    case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
+                        position = 1;
+                        break;
+
+                }
+
+                navigationView.getMenu().getItem(position).setChecked(true);
+            }
+        };
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
@@ -174,7 +232,10 @@ public class MainActivity extends BaseActivity
 
             PreferenceHelper.getInstance().completeLanguagePreferenceInit();
 
-            AlertDialogHelper.showInitLanguagePreferenceAlertDialog(new IDialogResponseCallBack() {
+            String title = getString(R.string.language_init_dialog_title);
+            String message = getString(R.string.language_init_dialog_body);
+
+            AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
                 @Override
                 public void onPositiveResponse() {
                     NavigationHelper.getInstance().navigateToSettingsFragment(true);

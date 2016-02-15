@@ -10,7 +10,9 @@ import java.util.List;
 
 import soen390.mapx.R;
 import soen390.mapx.UiUtils;
+import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.StorylineListFragment;
+import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Storyline;
 import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
 
@@ -19,22 +21,22 @@ import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
  */
 public class StorylineListAdapter extends ArrayAdapter<Storyline> {
 
-    private final Context context;
+    private Context context;
     private StorylineListItemViewHolder viewHolder;
-    private Storyline storyline;
 
     /**
      * Constructor
      */
     public StorylineListAdapter(Context context, List<Storyline> items) {
         super(context, R.layout.story_line_list_item, items);
-
         this.context = context;
     }
 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
+        Context context = MapXApplication.getGlobalContext();
 
         if(convertView == null){
 
@@ -46,7 +48,7 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
             viewHolder = (StorylineListItemViewHolder) convertView.getTag();
         }
 
-        storyline = getItem(position);
+        Storyline storyline = getItem(position);
 
         if (position == StorylineListFragment.expandedPosition) {
             viewHolder.expand(context);
@@ -54,7 +56,7 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
             viewHolder.collapse(context);
         }
 
-        bindDataToView();
+        bindDataToView(storyline);
 
         return convertView;
     }
@@ -62,15 +64,21 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
 
     /**
      * Populate list item
+     * @param storyline
      */
-    public void bindDataToView() {
+    public void bindDataToView(final Storyline storyline) {
 
         viewHolder.getTitle().setText(storyline.getTitle());
         viewHolder.getDescription().setText(storyline.getDescription());
         viewHolder.getStartButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiUtils.displayToast("Start button clicked");
+
+                String toast = context.getResources().getString(R.string.storyline_start_toast, storyline.getTitle());
+                UiUtils.displayToastLong(toast);
+                MapManager.launchStoryline(storyline.getId());
+                StorylineListFragment.expandedPosition = -1;
+
             }
         });
     }

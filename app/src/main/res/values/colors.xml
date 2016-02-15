@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
@@ -14,6 +14,10 @@
 
     <color name="green_storyline_item_go_button">#009000</color>
     <color name="green_storyline_item_go_button_clicked">#006500</color>
+    <color name="green_navigation_mode">#57B657</color>
+
+    <color name="blue_storyline_mode">#1aa3d1</color>
+
     <color name="storyline_clicked_card">#e0e0e0</color>
 
 

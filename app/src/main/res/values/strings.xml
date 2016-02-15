@@ -32,9 +32,17 @@
 
     <!-- POI -->
     <string name="poi_selected_as_destination">Selected exhibition point %1$s as destination</string>
+    <string name="poi_leave_navigation">Leave Navigation</string>
 
     <!-- Storylines -->
     <string name="storyline_list_item_start">START STORYLINE</string>
+    <string name="storyline_leave">Leave Storyline</string>
+    <string name="storyline_leave_message">Do you want to leave the current storyline?</string>
+    <string name="storyline_start_toast">Started %1$s Storyline</string>
+
+    <!-- Navigation -->
+    <string name="navigation_leave">Leave Navigation</string>
+    <string name="navigation_leave_message">Do you want to leave your navigation toward the current point of interest?</string>
 
 
 </resources>

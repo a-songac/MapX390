@@ -1,9 +1,12 @@
 package soen390.mapx.helper;
 
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 
 import soen390.mapx.R;
+import soen390.mapx.application.MapXApplication;
 
 /**
  * Class to implement action bar helper
@@ -35,8 +38,38 @@ public class ActionBarHelper {
      */
     public void setMapFragmentActionBar() {
 
-        getActionBar().setTitle(R.string.navigation_drawer_museum_map);
+        int backgroundColor = MapXApplication.getGlobalContext().getResources().getColor(R.color.colorPrimary);
 
+        getActionBar().setTitle(R.string.navigation_drawer_museum_map);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
+
+    }
+
+    /**
+     * Action bar for map fragment in navigation mode
+     * @param title : Point of interest destination title
+     */
+    public void setMapFragmentNavigationModeActionBar(String title) {
+
+        int backgroundColor = MapXApplication.getGlobalContext().getResources().getColor(R.color.green_navigation_mode);
+
+        getActionBar().setTitle(title);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
+    }
+
+    /**
+     * Action bar for map fragment in storyline mode
+     * @param title : Storyline title
+     * @param color : Storyline theme color
+     */
+    public void setMapFragmentStorylineModeActionBar(String title, String color) {
+
+        int backgroundColor = color !=null ?
+                Color.parseColor(color):
+                MapXApplication.getGlobalContext().getResources().getColor(R.color.blue_storyline_mode);
+
+        getActionBar().setTitle(title);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
     }
 
     /**
@@ -44,7 +77,10 @@ public class ActionBarHelper {
      */
     public void setStorylineFragmentActionBar() {
 
+        int backgroundColor = MapXApplication.getGlobalContext().getResources().getColor(R.color.colorPrimary);
+
         getActionBar().setTitle(R.string.navigation_drawer_story_lines);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
     }
 
     /**
@@ -52,7 +88,10 @@ public class ActionBarHelper {
      */
     public void setSettingsFragmentActionBar() {
 
+        int backgroundColor = MapXApplication.getGlobalContext().getResources().getColor(R.color.colorPrimary);
+
         getActionBar().setTitle(R.string.navigation_drawer_settings);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
     }
 
 

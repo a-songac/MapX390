@@ -8,6 +8,7 @@ import com.arnaud.android.core.ui.BaseViewHolder;
 
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.ui.view.holder.MapFragmentViewHolder;
+import soen390.mapx.webapp.MapJSBridge;
 import soen390.mapx.webapp.MyWebViewClient;
 import soen390.mapx.webapp.POIJSInterface;
 
@@ -39,6 +40,7 @@ public class MapFragmentViewBinder extends BaseViewBinder {
         webView.setWebViewClient(webViewClient);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("file:///android_asset/map_webview/index.html");
+        MapJSBridge.getInstance().setWebView(webView);
 
 
     }
