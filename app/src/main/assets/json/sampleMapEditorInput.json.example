@@ -1,5 +1,5 @@
 {
-	"poi": [{
+	"node": [{
 		"_id": "<POI_Identification",
 		"title": "<POI_Title>",
 		"type": "<POI_Type_(EXPOSITION_SERVICE_TRANSITION)>",
