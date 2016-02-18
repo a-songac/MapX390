@@ -10,6 +10,7 @@ function Controller(){
 	this.languageJSON = {};
 	this.startingPOIID = null;
 	this.endingPOIID = null;
+	this.inNavigation = false;
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
@@ -203,9 +204,17 @@ function Controller(){
 	/* Display the POIs related to the current floor on the map */
 	this.setPOIs = function(){
 		for(var i = 0; i < this.poisJSON.length; i++){
+			var buttonLabel;
+
+			if(inNavigation){
+				buttonLabel = this.languageJSON["web_go_to_destination"];
+			}else{
+				buttonLabel = this.languageJSON["web_change_destination"];
+			}
+
 			var poi = this.poisJSON[i];
 			if(parseInt(this.currentFloor) === parseInt(poi["floor"])){
-				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + this.languageJSON["web_go_to_destination"] + "</button>";
+				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
 
 				var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
 				marker.bindPopup(popupContent);
@@ -236,6 +245,7 @@ function Controller(){
 				throw "Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0";
 			}
 
+			this.inNavigation = true;
 			this.startingPOIID = path[0];
 			this.endingPOIID = path[path.length-1];
 			this.changeStartAndEndPOIIcons('js/images/marker-icon.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
@@ -252,6 +262,7 @@ function Controller(){
 	/* Called by Android when the navigation to a POI is cancelled */
 	this.cancelNavigation = function(){
 		this.changeStartAndEndPOIIcons('js/images/marker-icon.png');
+		this.inNavigation = false;
 		//Add path deletion here in Sprint 3
 	};
 
