@@ -75,9 +75,9 @@ function Controller(){
 		    }
 		];
 
-//		this.languageJSON = {
-//			"mapx-poi-button":"Go To Destination"
-//		};
+		// this.languageJSON = {
+		// 	"mapx-poi-button":"Go To Destination"
+		// };
 		/* END TEST DATA */
 
 		/* Set the map frame: Map Size, Map Controls*/
@@ -206,10 +206,10 @@ function Controller(){
 		for(var i = 0; i < this.poisJSON.length; i++){
 			var buttonLabel;
 
-			if(inNavigation){
-				buttonLabel = this.languageJSON["web_go_to_destination"];
-			}else{
+			if(this.inNavigation){
 				buttonLabel = this.languageJSON["web_change_destination"];
+			}else{
+				buttonLabel = this.languageJSON["web_go_to_destination"];
 			}
 
 			var poi = this.poisJSON[i];
@@ -219,7 +219,28 @@ function Controller(){
 				var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
 				marker.bindPopup(popupContent);
 				marker.poiID = poi["_id"];
+				marker.poiTitle = poi["title"];
 				this.currentPOIs.push(marker);
+			}
+		}
+	};
+
+	this.changePopupContent = function(){
+		for(var i = 0; i < this.poisJSON.length; i++){
+			var buttonLabel;
+
+			if(this.inNavigation){
+				buttonLabel = this.languageJSON["web_change_destination"];
+			}else{
+				buttonLabel = this.languageJSON["web_go_to_destination"];
+			}
+
+			for(var i = 0; i < this.currentPOIs.length; i++){
+				var marker = this.currentPOIs[i];
+				var popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
+
+				marker.unbindPopup();
+				marker.bindPopup(popupContent);
 			}
 		}
 	};
@@ -239,8 +260,10 @@ function Controller(){
 	};
 
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
-	this.startNavigation = function(path){
+	this.startNavigation = function(){
 		try{
+			var path = [0,1,2,3,4];
+			
 			if(!path){
 				throw "Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0";
 			}
@@ -250,6 +273,13 @@ function Controller(){
 			this.endingPOIID = path[path.length-1];
 			this.changeStartAndEndPOIIcons('js/images/marker-icon.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
 			//Add path creation here in Sprint 3
+
+			for(var i = 0; i < this.currentPOIs.length; i++){
+				var marker = this.currentPOIs[i];
+				marker.closePopup();
+			}
+
+			this.changePopupContent();
 		}
 
 		catch(error){
@@ -263,6 +293,7 @@ function Controller(){
 	this.cancelNavigation = function(){
 		this.changeStartAndEndPOIIcons('js/images/marker-icon.png');
 		this.inNavigation = false;
+		this.changePopupContent();
 		//Add path deletion here in Sprint 3
 	};
 
