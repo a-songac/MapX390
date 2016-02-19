@@ -11,6 +11,10 @@ function Controller(){
 	this.startingPOIID = -1;
 	this.endingPOIID = -1;
 	this.inNavigation = false;
+	this.offsetY = 0;
+	this.offsetX = 0;
+	this.mapHeight = 0;
+	this.mapWidth = 0;
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
@@ -61,8 +65,8 @@ function Controller(){
 		      "type": "exposition",
 		      "sub_type": "null",
 		      "floor": "1",
-		      "x_coord": "75",
-		      "y_coord": "100"
+		      "x_coord": "71",
+		      "y_coord": "91"
 		    },
 		    {
 		      "_id": "2",
@@ -85,9 +89,11 @@ function Controller(){
 			var MIN_ZOOM = -1, MAX_ZOOM = 2, INIT_ZOOM = 0;
 			var INIT_POSITION_X = 0, INIT_POSITION_Y = 0;
 
-			var south = 0, east = 0;
-			var north = self.floorsJSON[0]["floor_width"];  
-			var west = self.floorsJSON[0]["floor_height"]; 
+			var south = -500, east = 1050, north = 500, west = -1050;
+			self.mapWidth = 1050;
+			self.mapHeight = 500;
+			//var north = self.floorsJSON[0]["floor_width"];  
+			//var west = self.floorsJSON[0]["floor_height"]; 
 
 			//Map settings
 			map = L.map('map', {
@@ -107,10 +113,13 @@ function Controller(){
 		function setFirstFloorImageOverlay(){
 		    try{
 		    	var imageUrl;
-		    	var south = 0, east = 0;
-				var north = self.floorsJSON[0]["floor_width"];  
-				var west = self.floorsJSON[0]["floor_height"]; 
+		    	var west = -parseInt(self.floorsJSON[0]["floor_height"])/2;
+		    	var north = parseInt(self.floorsJSON[0]["floor_width"])/2;
+				var east = parseInt(self.floorsJSON[0]["floor_height"])/2;
+				var south = -parseInt(self.floorsJSON[0]["floor_width"])/2; 
 
+				self.offsetX = self.mapWidth - east;
+				self.offsetY = self.mapHeight - north;
 
 			    if(self.floorsJSON.length !== 0){
 			    	imageUrl = self.floorsJSON[0]["floor_path"];
@@ -227,7 +236,9 @@ function Controller(){
 			if(parseInt(this.currentFloor) === parseInt(poi["floor"])){
 				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
 
-				var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
+				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
+				var y = -this.mapHeight + (this.offsetY + parseInt(poi["y_coord"]));
+				var marker = L.marker([y,x]).addTo(map);
 				marker.setIcon(normalIcon);
 				marker.bindPopup(popupContent);
 				marker.poiID = poi["_id"];
