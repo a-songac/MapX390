@@ -92,11 +92,6 @@ public class MapJSBridge {
 
         //TODO
 
-        webView.evaluateJavascript("TODO Javascript function", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-
-            }
-        });
+        webView.evaluateJavascript("controller.cancelNavigation()", null);
     }
 }

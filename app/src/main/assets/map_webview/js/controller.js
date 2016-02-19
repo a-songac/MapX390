@@ -166,6 +166,7 @@ function Controller(){
 					self.currentFloor = level;
 					self.removePOIs();
 					self.setPOIs();
+					self.changeStartAndEndPOIIcons(); 
 				});
 
 				//Prepend the floor button to the floor control element
@@ -203,6 +204,13 @@ function Controller(){
 
 	/* Display the POIs related to the current floor on the map */
 	this.setPOIs = function(){
+		var normalIcon = L.icon({
+		    iconUrl: 'js/images/marker-icon-2x.png',
+		    iconSize:    [41, 41],
+			iconAnchor:  [20, 41],
+			popupAnchor: [1, -34]
+		});
+
 		for(var i = 0; i < this.poisJSON.length; i++){
 			var buttonLabel;
 
@@ -217,6 +225,7 @@ function Controller(){
 				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
 
 				var marker = L.marker([poi["y_coord"], poi["x_coord"]]).addTo(map);
+				marker.setIcon(normalIcon);
 				marker.bindPopup(popupContent);
 				marker.poiID = poi["_id"];
 				marker.poiTitle = poi["title"];
@@ -227,17 +236,19 @@ function Controller(){
 
 	this.changePopupContent = function(){
 		for(var i = 0; i < this.poisJSON.length; i++){
-			var buttonLabel;
+			var buttonLabel, javascriptMethod;
 
 			if(this.inNavigation){
 				buttonLabel = this.languageJSON["web_change_destination"];
+				javascriptMethod = "";
 			}else{
 				buttonLabel = this.languageJSON["web_go_to_destination"];
+				javascriptMethod =  "onclick='controller.navigateToPOI(this)'";
 			}
 
 			for(var i = 0; i < this.currentPOIs.length; i++){
 				var marker = this.currentPOIs[i];
-				var popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
+				var popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
 
 				marker.unbindPopup();
 				marker.bindPopup(popupContent);
@@ -262,7 +273,7 @@ function Controller(){
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
 	this.startNavigation = function(){
 		try{
-			var path = [0,1,2,3,4];
+			var path = [1,2,3,4]; //we'll need a call Android.getPath(); OR find a way to receive data
 			
 			if(!path){
 				throw "Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0";
@@ -271,7 +282,7 @@ function Controller(){
 			this.inNavigation = true;
 			this.startingPOIID = path[0];
 			this.endingPOIID = path[path.length-1];
-			this.changeStartAndEndPOIIcons('js/images/marker-icon.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
+			this.changeStartAndEndPOIIcons('js/images/pin1.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
 			//Add path creation here in Sprint 3
 
 			for(var i = 0; i < this.currentPOIs.length; i++){
@@ -291,9 +302,11 @@ function Controller(){
 
 	/* Called by Android when the navigation to a POI is cancelled */
 	this.cancelNavigation = function(){
-		this.changeStartAndEndPOIIcons('js/images/marker-icon.png');
+		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
 		this.inNavigation = false;
 		this.changePopupContent();
+		this.startingPOIID = null;
+		this.endingPOIID = null;
 		//Add path deletion here in Sprint 3
 	};
 
@@ -305,11 +318,10 @@ function Controller(){
 			if(parseInt(marker.poiID) == parseInt(this.startingPOIID) || parseInt(marker.poiID) == parseInt(this.endingPOIID)){
 				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
 				var normalIcon = L.icon({
-				    iconUrl: 'js/images/marker-icon.png',
-				    iconSize:    [25, 41],
-					iconAnchor:  [12, 41],
-					popupAnchor: [1, -34],
-					shadowSize:  [41, 41]
+				    iconUrl: imagePath,
+				    iconSize:    [41, 41],
+					iconAnchor:  [20, 41],
+					popupAnchor: [1, -34]
 				});
 
 				marker.setIcon(normalIcon);
