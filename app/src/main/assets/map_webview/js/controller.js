@@ -166,7 +166,9 @@ function Controller(){
 					self.currentFloor = level;
 					self.removePOIs();
 					self.setPOIs();
-					self.changeStartAndEndPOIIcons(); 
+					if(self.inNavigation){
+						self.changeStartAndEndPOIIcons('js/images/pin1.png'); 
+					}
 				});
 
 				//Prepend the floor button to the floor control element
@@ -248,7 +250,13 @@ function Controller(){
 
 			for(var i = 0; i < this.currentPOIs.length; i++){
 				var marker = this.currentPOIs[i];
-				var popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
+				var popupContent;
+
+				if(parseInt(marker.poiID) == parseInt(this.startingPOIID) || parseInt(marker.poiID) == parseInt(this.endingPOIID)){
+					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
+				}else{
+					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
+				}
 
 				marker.unbindPopup();
 				marker.bindPopup(popupContent);
@@ -282,7 +290,7 @@ function Controller(){
 			this.inNavigation = true;
 			this.startingPOIID = path[0];
 			this.endingPOIID = path[path.length-1];
-			this.changeStartAndEndPOIIcons('js/images/pin1.png'); //<-- TO BE CHANGED FOR ANOTHER ICON
+			this.changeStartAndEndPOIIcons('js/images/pin1.png');
 			//Add path creation here in Sprint 3
 
 			for(var i = 0; i < this.currentPOIs.length; i++){
