@@ -309,11 +309,17 @@ function Controller(){
 
 	/* Called by Android when the navigation to a POI is cancelled */
 	this.cancelNavigation = function(){
+		for(var i = 0; i < this.currentPOIs.length; i++){
+			var marker = this.currentPOIs[i];
+			marker.closePopup();
+		}
+		
 		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
 		this.inNavigation = false;
 		this.startingPOIID = -1;
 		this.endingPOIID = -1;
 		this.changePopupContent();
+
 		//Add path deletion here in Sprint 3
 	};
 
