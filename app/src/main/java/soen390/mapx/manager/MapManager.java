@@ -3,6 +3,7 @@ package soen390.mapx.manager;
 import android.content.Context;
 
 import soen390.mapx.R;
+import soen390.mapx.UiUtils;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
@@ -63,7 +64,7 @@ public class MapManager {
 
         final Node newNode = Node.findById(Node.class, poiId);
 
-        Context context = MapXApplication.getGlobalContext();
+        final Context context = MapXApplication.getGlobalContext();
 
         if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
 
@@ -78,7 +79,7 @@ public class MapManager {
                     new IDialogResponseCallBack() {
                         @Override
                         public void onPositiveResponse() {
-                            launchNavigation(newNode);
+                            launchNavigation(newNode, context);
                         }
 
                         @Override
@@ -87,7 +88,7 @@ public class MapManager {
                         }
                     });
         } else {
-            launchNavigation(newNode);
+            launchNavigation(newNode, context);
         }
 
     }
@@ -95,8 +96,9 @@ public class MapManager {
     /**
      * Launch navigation mode helper
      * @param newNode
+     * @param context
      */
-    private static void launchNavigation(Node newNode){
+    private static void launchNavigation(Node newNode, Context context){
         navigationMode = true;
         storylineMode = false;
         currentNodeDestination = newNode;
@@ -106,6 +108,11 @@ public class MapManager {
         int[] path = new int[0];
 //        path = PathFinder.computeShortestPath(new WeightedGraph(1), poiId); //TODO how do we deal with the Weighted graph?
         MapJSBridge.getInstance().drawPath(path);
+
+        String str = context.getResources().getString(
+                R.string.poi_selected_as_destination, newNode.getTitle());
+        UiUtils.displayToastLong(str);
+
     }
 
 
