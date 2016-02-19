@@ -1,4 +1,4 @@
-package soen390.mapx.webapp;
+package soen390.mapx.datastructure;
 
 import junit.framework.Assert;
 
