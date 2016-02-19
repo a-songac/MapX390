@@ -15,6 +15,13 @@ public class StorylineDescription extends SugarRecord {
     private String description;
     private Long storylineId;
 
+    /**
+     * Constructor
+     * @param language
+     * @param title
+     * @param description
+     * @param storylineId
+     */
     public StorylineDescription(String language, String title, String description, Long storylineId) {
         this.language = language;
         this.title = title;

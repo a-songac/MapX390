@@ -1,0 +1,128 @@
+{
+	"floorPlan": [{
+		"floorID": "<floor number>",
+		"imagePath": "<path>",
+		"imageWidth": "<width>",
+		"imageHeight": "<height"
+		}, ...
+	],
+
+	"node": [{
+		"poi": [{
+			"id": "<id number>",
+			"title": [{
+          		"language": "<language>",
+          		"title": "<title>"
+        		}, ...
+        	],
+        	"description": [{
+          		"language": "<language>",
+          		"description": "<description>"
+        		}, ...
+        	],
+			"x": "<coordinate x>",
+			"y": "<coordinate y>",
+			"floorID": "<floor ID>",
+			"iBeacon": {
+				"uuid": "<UUID>", 
+				"major": "<major>", 
+				"minor": "<minor>"
+				},
+			"media": {
+          		"image": [{
+            		"path": "<URL>",
+            		"language": "<language>",
+            		"caption": "<caption>"
+          			}, ...
+          		],
+          		"video": [{
+            		"path": "<URL>",
+            		"language": "<language>",
+            		"caption": "<caption>"
+          			}, ...
+          		],
+          		"audio": [{
+           			"path": "<URL>",
+            		"language": "<language>",
+            		"caption": "<caption>"
+          			}, ...
+          		]
+        	},
+			"storyPoint": [{
+				"storylineID": "<storyline ID>",
+				"title": [{
+          			"language": "<language>",
+          			"title": "<title>"
+        			}, ...
+        		],
+        		"description": [{
+          			"language": "<language>",
+          			"description": "<description>"
+        			}, ...
+        		],
+				"media": {
+	          		"image": [{
+	            		"path": "<URL>",
+	            		"language": "<language>",
+	            		"caption": "<caption>"
+	          			}, ...
+	          		],
+	          		"video": [{
+	            		"path": "<URL>",
+	            		"language": "<language>",
+	            		"caption": "<caption>"
+	          			}, ...
+	          		],
+	          		"audio": [{
+	           			"path": "<URL>",
+	            		"language": "<language>",
+	            		"caption": "<caption>"
+	          			}, ...
+	          		]
+	        	}
+			}, ...
+			],
+		}, ...
+		],
+
+		"pot": [{
+			"id": "<ID number>",
+        	"label": {
+          		"language": "<language>",
+          		"label": "<ramp or stairs or elevator or intersection or washroom or exit or entrance or emergency exit>"
+        	},
+        	"x": "<coordinate x>",
+        	"y": "<coordinate y>",
+        	"floorID": "<floor ID>",
+		}, ...
+		]
+	}
+	],
+
+	"edge": [{
+      	"startNode": "<node>",
+      	"endNode": "<node>",
+      	"floorNumber": "<floor ID>",
+      	"distance": "<distance>"
+    }, ...
+  	],
+
+  	"storyline": [{
+    	"id": "<ID number>",
+     	"title": [{
+        	"language": "<language>",
+        	"title": "<title>"
+      		}, ...
+      	],
+      	"description": [{
+        	"language": "<language>",
+        	"description": "<description>"
+      		}, ...
+      	],
+      "path": ["<poiID or potID>", ..., "<poiID or potID>"],
+      "thumbnail": "<path of thumbnail>",
+      "walkingTimeInMinutes": "<minutes>",
+      "floorsCovered": "<number of floors covered>"
+    }, ...
+  	]
+}

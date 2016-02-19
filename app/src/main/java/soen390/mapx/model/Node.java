@@ -48,6 +48,17 @@ public class Node extends SugarRecord {
 
     public Node(){}
 
+    /**
+     * Constructor
+     * @param title
+     * @param xCoord
+     * @param yCoord
+     * @param type
+     * @param subType
+     * @param floorId
+     * @param iBeaconId
+     * @param qrId
+     */
     public Node(String title, int xCoord, int yCoord, String type, String subType, Long floorId, Long iBeaconId, Long qrId) {
         this.title = title;
         this.xCoord = xCoord;

@@ -6,10 +6,26 @@ import com.orm.SugarRecord;
  * Floor Plan
  */
 public class Floor extends SugarRecord {
+
     private String floorNum;
     private String imageFilePath;
     private int imageWidth;
     private int imageHeight;
+    private int order;
+
+    /**
+     * Constructor
+     * @param floorNum
+     * @param imageFilePath
+     * @param imageWidth
+     * @param imageHeight
+     */
+    public Floor(String floorNum, String imageFilePath, int imageWidth, int imageHeight) {
+        this.floorNum = floorNum;
+        this.imageFilePath = imageFilePath;
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
+    }
 
     public String getFloorNum() {
         return floorNum;
@@ -41,5 +57,13 @@ public class Floor extends SugarRecord {
 
     public void setImageHeight(int imageHeight) {
         this.imageHeight = imageHeight;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 }

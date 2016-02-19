@@ -21,6 +21,20 @@ public class Storyline extends SugarRecord {
     private String color;
 
     /**
+     *
+     * @param title
+     * @param description
+     * @param imagePath
+     * @param color
+     */
+    public Storyline(String title, String description, String imagePath, String color) {
+        this.title = title;
+        this.description = description;
+        this.imagePath = imagePath;
+        this.color = color;
+    }
+
+    /**
      * Get storyline description based on the language
      * @return
      */
@@ -99,6 +113,11 @@ public class Storyline extends SugarRecord {
         this.imagePath = imagePath;
     }
 
+
+    /**
+     * Get path that makes the storyline
+     * @return
+     */
     public List<Node>  getPath() {
 
         String[] whereArgs = {this.getId().toString()};

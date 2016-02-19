@@ -15,14 +15,17 @@ public class ExpositionContent extends SugarRecord {
     @Ignore
     public static final String TEXT_TYPE = "t";
     @Ignore
-    public static String IMAGE_TYPE = "i";
+    public static final String IMAGE_TYPE = "i";
 
 
     private Long nodeId;
     private String language;
     private String type;
-    private boolean qrTriggered;
     private String title;
+    /**
+     * When null, it is generic info not associated to any storyline
+     */
+    private Long storylineId;
 
     /**
      * Content is relative to type:
@@ -30,13 +33,28 @@ public class ExpositionContent extends SugarRecord {
      */
     private String content;
 
-    public ExpositionContent(Long nodeId, String language, String type, boolean qrTriggered, String title, String content) {
+    /**
+     * Default Constructor
+     */
+    public ExpositionContent() {}
+
+
+    /**
+     * Constructor
+     * @param nodeId
+     * @param language
+     * @param type
+     * @param storylineId
+     * @param title
+     * @param content
+     */
+    public ExpositionContent(Long nodeId, String language, String type, Long storylineId, String title, String content) {
         this.nodeId = nodeId;
         this.language = language;
         this.type = type;
-        this.qrTriggered = qrTriggered;
         this.title = title;
         this.content = content;
+        this.storylineId = storylineId;
     }
 
     public String getContent() {
@@ -55,8 +73,8 @@ public class ExpositionContent extends SugarRecord {
         return type;
     }
 
-    public boolean isQrTriggered() {
-        return qrTriggered;
+    public Long getStorylineId() {
+        return storylineId;
     }
 
     public String getTitle() {
@@ -77,5 +95,29 @@ public class ExpositionContent extends SugarRecord {
 
     public boolean isImage() {
         return type.equals(IMAGE_TYPE);
+    }
+
+    public void setNodeId(Long nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setStorylineId(Long storylineId) {
+        this.storylineId = storylineId;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

@@ -4,6 +4,7 @@ import com.orm.SugarRecord;
 
 /**
  * QRCode Model
+ * on stand by, will probably be scoped out
  */
 public class QRCode extends SugarRecord {
 
@@ -17,4 +18,7 @@ public class QRCode extends SugarRecord {
         return link;
     }
 
+    public void setLink(String link) {
+        this.link = link;
+    }
 }

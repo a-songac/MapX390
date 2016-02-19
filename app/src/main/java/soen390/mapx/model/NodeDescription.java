@@ -14,6 +14,12 @@ public class NodeDescription extends SugarRecord {
     private String title;
     private Long nodeId;
 
+    /**
+     * Constructor
+     * @param language
+     * @param title
+     * @param nodeId
+     */
     public NodeDescription(String language, String title, Long nodeId) {
         this.language = language;
         this.title = title;
@@ -32,4 +38,15 @@ public class NodeDescription extends SugarRecord {
         return nodeId;
     }
 
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setNodeId(Long nodeId) {
+        this.nodeId = nodeId;
+    }
 }
