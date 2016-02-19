@@ -48,13 +48,8 @@ public class MapJSBridge {
     public void drawPath(int[] path) {
 
         //TODO
-
-        webView.evaluateJavascript("TODO Javascript function", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-
-            }
-        });
+        webView.evaluateJavascript("controller.startNavigation()", null);
+        //webView.evaluateJavascript("test()", null);
     }
 
 
@@ -97,11 +92,6 @@ public class MapJSBridge {
 
         //TODO
 
-        webView.evaluateJavascript("TODO Javascript function", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-
-            }
-        });
+        webView.evaluateJavascript("controller.cancelNavigation()", null);
     }
 }

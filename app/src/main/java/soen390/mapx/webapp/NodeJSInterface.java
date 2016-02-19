@@ -69,6 +69,11 @@ public class NodeJSInterface {
         };
         mainHandler.post(myRunnable);
 
+        //TEST
+        int[] path = {2,3,4};
+        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
+        mapJSBridge.drawPath(path);
+        //TEST END
     }
 
     /**
