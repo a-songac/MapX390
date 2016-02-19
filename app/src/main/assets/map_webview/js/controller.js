@@ -8,8 +8,8 @@ function Controller(){
 	this.poisJSON = [];
 	this.currentPOIs = [];
 	this.languageJSON = {};
-	this.startingPOIID = null;
-	this.endingPOIID = null;
+	this.startingPOIID = -1;
+	this.endingPOIID = -1;
 	this.inNavigation = false;
 
 	/* Initiliazes the map upon opening the webview */
@@ -168,6 +168,7 @@ function Controller(){
 					self.setPOIs();
 					if(self.inNavigation){
 						self.changeStartAndEndPOIIcons('js/images/pin1.png'); 
+						self.changePopupContent();
 					}
 				});
 
@@ -248,19 +249,17 @@ function Controller(){
 				javascriptMethod =  "onclick='controller.navigateToPOI(this)'";
 			}
 
-			for(var i = 0; i < this.currentPOIs.length; i++){
-				var marker = this.currentPOIs[i];
-				var popupContent;
+			var marker = this.currentPOIs[i];
+			var popupContent;
 
-				if(parseInt(marker.poiID) == parseInt(this.startingPOIID) || parseInt(marker.poiID) == parseInt(this.endingPOIID)){
-					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
-				}else{
-					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
-				}
-
-				marker.unbindPopup();
-				marker.bindPopup(popupContent);
+			if(parseInt(marker.poiID) == parseInt(this.startingPOIID) || parseInt(marker.poiID) == parseInt(this.endingPOIID)){
+				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
+			}else{
+				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
 			}
+
+			marker.unbindPopup();
+			marker.bindPopup(popupContent);
 		}
 	};
 
@@ -312,9 +311,9 @@ function Controller(){
 	this.cancelNavigation = function(){
 		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
 		this.inNavigation = false;
+		this.startingPOIID = -1;
+		this.endingPOIID = -1;
 		this.changePopupContent();
-		this.startingPOIID = null;
-		this.endingPOIID = null;
 		//Add path deletion here in Sprint 3
 	};
 
