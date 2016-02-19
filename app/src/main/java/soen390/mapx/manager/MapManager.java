@@ -3,6 +3,7 @@ package soen390.mapx.manager;
 import android.content.Context;
 
 import soen390.mapx.R;
+import soen390.mapx.UiUtils;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
@@ -56,10 +57,14 @@ public class MapManager {
     }
 
     /**
-     * Launch the storyline mode
+     * Launch the navigation mode helper class
      * @param poiId
      */
     public static void launchNavigation(Long poiId) {
+
+        final Node newNode = Node.findById(Node.class, poiId);
+
+        final Context context = MapXApplication.getGlobalContext();
 
         if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
 
@@ -67,15 +72,46 @@ public class MapManager {
 
         }
 
+        if (navigationMode || storylineMode) {
+            AlertDialogHelper.showAlertDialog(
+                    context.getString(R.string.navigation_change),
+                    context.getString(R.string.navigation_change_message, newNode.getTitleLanguageSupport()),
+                    new IDialogResponseCallBack() {
+                        @Override
+                        public void onPositiveResponse() {
+                            launchNavigation(newNode, context);
+                        }
+
+                        @Override
+                        public void onNegativeResponse() {
+
+                        }
+                    });
+        } else {
+            launchNavigation(newNode, context);
+        }
+
+    }
+
+    /**
+     * Launch navigation mode helper
+     * @param newNode
+     * @param context
+     */
+    private static void launchNavigation(Node newNode, Context context){
         navigationMode = true;
         storylineMode = false;
-        currentNodeDestination = Node.findById(Node.class, poiId);
+        currentNodeDestination = newNode;
 
         syncActionBarStateWithCurrentMode();
 
         int[] path = new int[0];
 //        path = PathFinder.computeShortestPath(new WeightedGraph(1), poiId); //TODO how do we deal with the Weighted graph?
         MapJSBridge.getInstance().drawPath(path);
+
+        String str = context.getResources().getString(
+                R.string.poi_selected_as_destination, newNode.getTitle());
+        UiUtils.displayToastLong(str);
 
     }
 

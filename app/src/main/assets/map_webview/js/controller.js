@@ -254,7 +254,7 @@ function Controller(){
 
 			if(this.inNavigation){
 				buttonLabel = this.languageJSON["web_change_destination"];
-				javascriptMethod = "";
+				javascriptMethod = "onclick='controller.navigateToPOI(this)'";
 			}else{
 				buttonLabel = this.languageJSON["web_go_to_destination"];
 				javascriptMethod =  "onclick='controller.navigateToPOI(this)'";

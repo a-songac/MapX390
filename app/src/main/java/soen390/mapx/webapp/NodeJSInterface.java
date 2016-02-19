@@ -11,7 +11,6 @@ import org.json.JSONObject;
 import java.util.List;
 
 import soen390.mapx.R;
-import soen390.mapx.UiUtils;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Floor;
 import soen390.mapx.model.Node;
@@ -56,9 +55,6 @@ public class NodeJSInterface {
      */
     @JavascriptInterface
     public void navigateToPOI(String poiId) {
-
-        String str = context.getResources().getString(R.string.poi_selected_as_destination, poiId);
-        UiUtils.displayToastLong(str);
 
         Handler mainHandler = new Handler(context.getMainLooper());
         Runnable myRunnable = new Runnable() {

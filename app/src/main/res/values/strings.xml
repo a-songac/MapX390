@@ -43,6 +43,8 @@
     <!-- Navigation -->
     <string name="navigation_leave">Leave Navigation</string>
     <string name="navigation_leave_message">Do you want to leave your navigation toward the current point of interest?</string>
+    <string name="navigation_change">Change Destination</string>
+    <string name="navigation_change_message">Do you want to leave the current navigation for the newly selected one: %1$s?</string>
 
     
     <!-- Web Client strings -->
