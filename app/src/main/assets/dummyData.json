@@ -64,9 +64,9 @@
 		"floorID": "2",
 		"iBeacon":
 		{
-		  "uuid": "<TODO>",
-		  "major": "<TODO>",
-		  "minor": "<TODO>"
+		  "uuid": "tldr",
+		  "major": "32424",
+		  "minor": "62674"
 		},
 		"media":
 		{
@@ -181,8 +181,8 @@
 		"iBeacon":
 		{
 		  "uuid": "<TODO>",
-		  "major": "<TODO>",
-		  "minor": "<TODO>"
+		  "major": "0",
+		  "minor": "0"
 		},
 		"media":
 		{
@@ -297,8 +297,8 @@
 		"iBeacon":
 		{
 		  "uuid": "<TODO>",
-		  "major": "<TODO>",
-		  "minor": "<TODO>"
+		  "major": "0",
+		  "minor": "0"
 		},
 		"media":
 		{
@@ -413,8 +413,8 @@
 		"iBeacon":
 		{
 		  "uuid": "<TODO>",
-		  "major": "<TODO>",
-		  "minor": "<TODO>"
+		  "major": "0",
+		  "minor": "0"
 		},
 		"media":
 		{
@@ -529,8 +529,8 @@
 		"iBeacon":
 		{
 		  "uuid": "<TODO>",
-		  "major": "<TODO>",
-		  "minor": "<TODO>"
+		  "major": "0",
+		  "minor": "0"
 		},
 		"media":
 		{
@@ -662,43 +662,43 @@
 	  "startNode": "1",
 	  "endNode": "99",
 	  "floorNumber": "<DOES NOT MAKE SENSE>",
-	  "distance": "<TODO>"
+	  "distance": "1"
 	},
 	{
 	  "startNode": "99",
 	  "endNode": "2",
 	  "floorNumber": "<DOES NOT MAKE SENSE>",
-	  "distance": "<TODO>"
+	  "distance": "1"
 	},
 	{
 	  "startNode": "2",
 	  "endNode": "3",
 	  "floorNumber": "<DOES NOT MAKE SENSE>",
-	  "distance": "<TODO>"
+	  "distance": "1"
 	},
 	{
 	  "startNode": "3",
 	  "endNode": "98",
 	  "floorNumber": "<DOES NOT MAKE SENSE>",
-	  "distance": "<TODO>"
+	  "distance": "1"
 	},
 	{
 	  "startNode": "98",
 	  "endNode": "4",
 	  "floorNumber": "<DOES NOT MAKE SENSE>",
-	  "distance": "<TODO>"
+	  "distance": "1"
 	},
 	{
 	  "startNode": "4",
 	  "endNode": "97",
 	  "floorNumber": "<DOES NOT MAKE SENSE>",
-	  "distance": "<TODO>"
+	  "distance": "1"
 	},
 	{
 	  "startNode": "97",
 	  "endNode": "5",
 	  "floorNumber": "<DOES NOT MAKE SENSE>",
-	  "distance": "<TODO>"
+	  "distance": "1"
 	}
   ],
 
@@ -716,9 +716,9 @@
 	  }
 	  ],
 	  "path": ["1", "99", "2", "3", "98", "4", "97", "5"],
-	  "thumbnail": "<TODO>",
-	  "walkingTimeInMinutes": "<TODO>",
-	  "floorsCovered": "<TODO>"
+	  "thumbnail": "",
+	  "walkingTimeInMinutes": "0",
+	  "floorsCovered": "1"
 	}
   ]
 }
