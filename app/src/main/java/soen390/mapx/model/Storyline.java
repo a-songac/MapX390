@@ -4,6 +4,7 @@ import com.orm.SugarRecord;
 
 import java.util.List;
 
+import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.PreferenceHelper;
 
 /**
@@ -11,90 +12,79 @@ import soen390.mapx.helper.PreferenceHelper;
  */
 public class Storyline extends SugarRecord {
 
-    private String title;
-    private String description;
     private String imagePath;
-
+    private int time;
+    private int nbFloorsCovered;
     /**
      * Color in hex format: #RRGGBB
      */
     private String color;
 
     /**
-     *
-     * @param title
-     * @param description
+     * Default constructor
+     */
+    public Storyline(){}
+
+    /**
+     * Constructor
+     * @param id
      * @param imagePath
+     * @param time
+     * @param nbFloorsCovered
      * @param color
      */
-    public Storyline(String title, String description, String imagePath, String color) {
-        this.title = title;
-        this.description = description;
+    public Storyline(Long id, String imagePath, int time, int nbFloorsCovered, String color) {
+        setId(id);
         this.imagePath = imagePath;
+        this.time = time;
+        this.nbFloorsCovered = nbFloorsCovered;
         this.color = color;
     }
 
     /**
-     * Get storyline description based on the language
+     * Get title or description of node
+     * @param isTitle
      * @return
      */
-    private StorylineDescription getStorylineDescription() {
-        String language = PreferenceHelper.getInstance().getLanguagePreference();
+    private String getDescription(boolean isTitle) {
 
-        List<StorylineDescription> storylineDescriptionList = StorylineDescription.find(
-                StorylineDescription.class,
-                "storyline_id = ? AND language = ?",
-                String.valueOf(this.getId()), language);
+        Description slDesc =
+                Description.getDescription(
+                        PreferenceHelper.getInstance().getLanguagePreference(),
+                        Description.STORYLINE_DESC,
+                        this.getId()
+                );
 
-        if (!storylineDescriptionList.isEmpty()) {
-            StorylineDescription storylineDescription = storylineDescriptionList.get(0);
-            if (null != storylineDescription) {
-                return storylineDescription;
-            }
+        if (null != slDesc) {
+            return isTitle? slDesc.getTitle(): slDesc.getDescription();
         }
+
+        slDesc = Description.getDescription(
+                ConstantsHelper.PREF_LANGUAGE_ENGLISH,
+                Description.STORYLINE_DESC,
+                this.getId()
+        );
+        if (null != slDesc)
+            return isTitle? slDesc.getTitle(): slDesc.getDescription();
+
         return null;
+
     }
 
     /**
-     * Get title of the storyline based on the language
+     * Get title of the node based on the language
      * @return
      */
-    public String getTitleLanguageSupport() {
-
-        StorylineDescription sd = getStorylineDescription();
-        if (null != sd) {
-            return sd.getTitle();
-        }
-        return title;
-    }
-
     public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        return  getDescription(true);
     }
 
     /**
-     * Get Description based on the language
+     * Get description of the node based on the language
      * @return
      */
-    public String getDescriptionLanguageSupport() {
-
-        StorylineDescription sd = getStorylineDescription();
-        if (null != sd) {
-            return sd.getDescription();
-        }
-        return description;
-    }
-
     public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+        return  getDescription(false);
     }
 
     public String getColor() {
@@ -113,6 +103,21 @@ public class Storyline extends SugarRecord {
         this.imagePath = imagePath;
     }
 
+    public int getTime() {
+        return time;
+    }
+
+    public void setTime(int time) {
+        this.time = time;
+    }
+
+    public int getNbFloorsCovered() {
+        return nbFloorsCovered;
+    }
+
+    public void setNbFloorsCovered(int nbFloorsCovered) {
+        this.nbFloorsCovered = nbFloorsCovered;
+    }
 
     /**
      * Get path that makes the storyline
@@ -120,6 +125,7 @@ public class Storyline extends SugarRecord {
      */
     public List<Node>  getPath() {
 
+        //TODO
         String[] whereArgs = {this.getId().toString()};
 //        List<StorylineNode> path = StorylineNode.find(StorylineNode.class, "storyline_id = ?", whereArgs, null, "position ASC", null);
         String query = "SELECT N.* " +

@@ -10,6 +10,15 @@ public class QRCode extends SugarRecord {
 
     private String link;
 
+    /**
+     * Default constructor
+     */
+    public QRCode(){}
+
+    /**
+     * Constructor
+     * @param link
+     */
     public QRCode(String link) {
         this.link = link;
     }

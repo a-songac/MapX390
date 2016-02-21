@@ -12,6 +12,11 @@ public class StorylineNode extends SugarRecord {
     private int position;
 
     /**
+     * Default constructor
+     */
+    public StorylineNode(){}
+
+    /**
      * Constructor
      * @param storylineId
      * @param nodeId

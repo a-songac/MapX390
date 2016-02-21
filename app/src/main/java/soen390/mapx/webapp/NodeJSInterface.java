@@ -139,7 +139,7 @@ public class NodeJSInterface {
         try{
             for(Floor floor: floors) {
                 floorObj = new JSONObject();
-                floorObj.put("floor_num", floor.getFloorNum());
+                floorObj.put("floor_num", floor.getFloorId());
                 floorObj.put("floor_path", floor.getImageFilePath());
                 floorObj.put("floor_width", floor.getImageWidth());
                 floorObj.put("floor_height", floor.getImageHeight());

@@ -8,8 +8,13 @@ import com.orm.SugarRecord;
 public class IBeacon extends SugarRecord {
 
     private String UUID;
-    private String minor;
-    private String major;
+    private int minor;
+    private int major;
+
+    /**
+     * Default constructor
+     */
+    public IBeacon(){}
 
     /**
      * Constructor
@@ -17,7 +22,7 @@ public class IBeacon extends SugarRecord {
      * @param minor
      * @param major
      */
-    public IBeacon(String UUID, String minor, String major) {
+    public IBeacon(String UUID, int minor, int major) {
         this.UUID = UUID;
         this.minor = minor;
         this.major = major;
@@ -27,11 +32,11 @@ public class IBeacon extends SugarRecord {
         return UUID;
     }
 
-    public String getMinor() {
+    public int getMinor() {
         return minor;
     }
 
-    public String getMajor() {
+    public int getMajor() {
         return major;
     }
 
@@ -39,11 +44,11 @@ public class IBeacon extends SugarRecord {
         this.UUID = UUID;
     }
 
-    public void setMinor(String minor) {
+    public void setMinor(int minor) {
         this.minor = minor;
     }
 
-    public void setMajor(String major) {
+    public void setMajor(int major) {
         this.major = major;
     }
 }

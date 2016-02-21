@@ -7,32 +7,37 @@ import com.orm.SugarRecord;
  */
 public class Floor extends SugarRecord {
 
-    private String floorNum;
+    private String floorId;
     private String imageFilePath;
     private int imageWidth;
     private int imageHeight;
-    private int order;
+    private int floorOrdering;
+
+    /**
+     * Default constructor
+     */
+    public Floor(){}
 
     /**
      * Constructor
-     * @param floorNum
+     * @param floorId
      * @param imageFilePath
      * @param imageWidth
      * @param imageHeight
      */
-    public Floor(String floorNum, String imageFilePath, int imageWidth, int imageHeight) {
-        this.floorNum = floorNum;
+    public Floor(String floorId, String imageFilePath, int imageWidth, int imageHeight) {
+        this.floorId = floorId;
         this.imageFilePath = imageFilePath;
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
     }
 
-    public String getFloorNum() {
-        return floorNum;
+    public String getFloorId() {
+        return floorId;
     }
 
-    public void setFloorNum(String floorNum) {
-        this.floorNum = floorNum;
+    public void setFloorId(String floorId) {
+        this.floorId = floorId;
     }
 
     public String getImageFilePath() {
@@ -59,11 +64,11 @@ public class Floor extends SugarRecord {
         this.imageHeight = imageHeight;
     }
 
-    public int getOrder() {
-        return order;
+    public int getFloorOrdering() {
+        return floorOrdering;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setFloorOrdering(int floorOrdering) {
+        this.floorOrdering = floorOrdering;
     }
 }

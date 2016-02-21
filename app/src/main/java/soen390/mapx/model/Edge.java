@@ -13,7 +13,12 @@ public class Edge extends SugarRecord{
     private Long floorId;
 
     /**
-     * Cosntructor
+     * Default constructor
+     */
+    public Edge(){}
+
+    /**
+     * Constructor
      * @param p1Id
      * @param p2Id
      * @param weight
