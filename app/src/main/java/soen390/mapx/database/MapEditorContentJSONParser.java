@@ -240,8 +240,9 @@ public class MapEditorContentJSONParser {
     }
 
     /**
-     * Parse Node or storyline descriptions
+     * Parse Description of a POI or Storyline
      * @param arr
+     * @param type Description type; 'p' for poi or 's' for storyline
      * @return
      */
     public static List<Description> parseDescriptions(JsonArray arr, String type) {
