@@ -75,7 +75,7 @@ public class MapManager {
         if (navigationMode || storylineMode) {
             AlertDialogHelper.showAlertDialog(
                     context.getString(R.string.navigation_change),
-                    context.getString(R.string.navigation_change_message, newNode.getTitleLanguageSupport()),
+                    context.getString(R.string.navigation_change_message, newNode.getTitle()),
                     new IDialogResponseCallBack() {
                         @Override
                         public void onPositiveResponse() {
