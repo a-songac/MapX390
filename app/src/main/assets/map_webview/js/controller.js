@@ -15,6 +15,7 @@ function Controller(){
 	this.offsetX = 0;
 	this.mapHeight = 0;
 	this.mapWidth = 0;
+	this.floorsOverlay = [];
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
@@ -22,39 +23,39 @@ function Controller(){
 
 		//this.poisJSON = Android.getPOIsJSON();
 		//this.floorsJSON = Android.getFloorsJSON();
-		this.languageJSON = JSON.parse(Android.getLanguageJSON());
+		//this.languageJSON = JSON.parse(Android.getLanguageJSON());
 
 		/* TEST DATA */
 		this.floorsJSON = [
 			{
 		      "floor_num" : "1",
 		      "floor_path" : "tiles/floor_1.jpg",
-		      "floor_width" : 857,
-		      "floor_height" : 1796
+		      "floor_width" : 1796,
+		      "floor_height" : 857
 		    },
 		    {
 		      "floor_num" : "2",
 		      "floor_path" : "tiles/floor_2.png",
-		      "floor_width" : 857,
-		      "floor_height" : 1796
+		      "floor_width" : 2066,
+		      "floor_height" : 1032
 		    },
 		    {
 		      "floor_num" : "3",
 		      "floor_path" : "tiles/floor_3.png",
-		      "floor_width" : 857,
-		      "floor_height" : 1796
+		      "floor_width" : 2060,
+		      "floor_height" : 1038
 		    },
 		    {
 		      "floor_num" : "4",
 		      "floor_path" : "tiles/floor_4.png",
-		      "floor_width" : 857,
-		      "floor_height" : 1796
+		      "floor_width" : 2076,
+		      "floor_height" : 1046
 		    },
 		    {
 		      "floor_num" : "5",
 		      "floor_path" : "tiles/floor_5.png",
-		      "floor_width" : 857,
-		      "floor_height" : 1796
+		      "floor_width" : 2050,
+		      "floor_height" : 1030
 		    }
 		];
 
@@ -86,12 +87,12 @@ function Controller(){
 
 		/* Set the map frame: Map Size, Map Controls*/
 		function setMap(){
-			var MIN_ZOOM = -1, MAX_ZOOM = 2, INIT_ZOOM = 0;
+			var MIN_ZOOM = -2, MAX_ZOOM = 0, INIT_ZOOM = -1;
 			var INIT_POSITION_X = 0, INIT_POSITION_Y = 0;
 
-			var south = -500, east = 1050, north = 500, west = -1050;
-			self.mapWidth = 1050;
-			self.mapHeight = 500;
+			var south = -1100, east = 500, north = 1100, west = -500;
+			self.mapWidth = 500;
+			self.mapHeight = 1050;
 			//var north = self.floorsJSON[0]["floor_width"];  
 			//var west = self.floorsJSON[0]["floor_height"]; 
 
@@ -110,27 +111,36 @@ function Controller(){
 		}
 
 		/* Upon initialization, "manually" overlay the first image */
-		function setFirstFloorImageOverlay(){
+		function setFloorImagesOverlay(){
 		    try{
-		    	var imageUrl;
-		    	var west = -parseInt(self.floorsJSON[0]["floor_height"])/2;
-		    	var north = parseInt(self.floorsJSON[0]["floor_width"])/2;
-				var east = parseInt(self.floorsJSON[0]["floor_height"])/2;
-				var south = -parseInt(self.floorsJSON[0]["floor_width"])/2; 
+		    	for(var i = 0; i < self.floorsJSON.length; i++){
+		    		var imageUrl;
+			    	var west = -parseInt(self.floorsJSON[i]["floor_height"])/2;
+			    	var north = parseInt(self.floorsJSON[i]["floor_width"])/2;
+					var east = parseInt(self.floorsJSON[i]["floor_height"])/2;
+					var south = -parseInt(self.floorsJSON[i]["floor_width"])/2; 
 
-				self.offsetX = self.mapWidth - east;
-				self.offsetY = self.mapHeight - north;
+					imageUrl = self.floorsJSON[i]["floor_path"];
 
-			    if(self.floorsJSON.length !== 0){
-			    	imageUrl = self.floorsJSON[0]["floor_path"];
-			    }else{
-			    	throw "No floor plans available!";
-			    }
+					var imageBounds = [[south, west], [north, east]];
+			    	var imageOverlay = L.imageOverlay(imageUrl, imageBounds); 
+			    	imageOverlay.addTo(map);
+			    	imageOverlay.setOpacity(0);
+			    	self.floorsOverlay.push({
+			    		leafletObj:imageOverlay,
+			    		north: north,
+			    		east: east,
+			    		imageUrl: imageUrl
+			    	}); 
+		    	}
 
-			    var imageBounds = [[south, west], [north, east]];
-			    L.imageOverlay(imageUrl, imageBounds).addTo(map);
+		    	self.currentFloor = 1;
+		    	var currentImageOverlay = self.floorsOverlay[self.currentFloor-1];
 
-			    self.currentFloor = 1;
+				self.offsetX = self.mapWidth - currentImageOverlay["east"];
+				self.offsetY = self.mapHeight - currentImageOverlay["north"];
+
+				currentImageOverlay.leafletObj.setOpacity(1);
 			}
 
 			catch(err){
@@ -168,9 +178,19 @@ function Controller(){
 					$(this).css("background-color", "#ccc");
 
 					//Replace current floor img source with new floor img source
-					var imgOverlayElement = $("img.leaflet-image-layer.leaflet-zoom-animated")[0];
+					var currentImageOverlay = self.floorsOverlay[self.currentFloor-1];
+					currentImageOverlay.leafletObj.setOpacity(0);
+
+					// var imgOverlayElement = $("img.leaflet-image-layer.leaflet-zoom-animated")[0];
 					var level = parseInt($(this).text());
-					$(imgOverlayElement).prop("src", self.floorsJSON[level-1]["floor_path"]);
+					var newImageOverlay = self.floorsOverlay[level-1];
+
+					self.offsetX = self.mapWidth - newImageOverlay["east"];
+					self.offsetY = self.mapHeight - newImageOverlay["north"];
+
+					newImageOverlay.leafletObj.setOpacity(1);
+
+					// $(imgOverlayElement).prop("src", self.floorsJSON[level-1]["floor_path"]);
 
 					self.currentFloor = level;
 					self.removePOIs();
@@ -188,7 +208,7 @@ function Controller(){
 		}
 
 		setMap();
-		setFirstFloorImageOverlay();
+		setFloorImagesOverlay();
 		createFloorControlUI();
 		self.setPOIs();
 	};
