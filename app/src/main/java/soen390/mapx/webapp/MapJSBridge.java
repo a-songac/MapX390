@@ -59,7 +59,7 @@ public class MapJSBridge {
      */
     public void reachedNode(Long nodeId) {
 
-        //TODO
+        //TODO call  javascript function with nodeId so that web side can handle it
 
         webView.evaluateJavascript("TODO Javascript function", new ValueCallback<String>() {
             @Override
