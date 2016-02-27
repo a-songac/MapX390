@@ -118,11 +118,11 @@ public class MapManager {
 
     /**
      * Reached a POI
-     * @param poiId
+     * @param poi
      */
-    public static void reachPOI(Long poiId) {
-        lastNode = Node.findById(Node.class, poiId);
-        MapJSBridge.getInstance().reachedNode(poiId);
+    public static void reachPOI(Node poi) {
+        lastNode = poi;
+        MapJSBridge.getInstance().reachedNode(poi.getId());
     }
 
 

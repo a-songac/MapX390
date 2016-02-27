@@ -27,10 +27,7 @@ public class ConstantsHelper {
     public static final String DB_INIT_KEY = "db_init_key";
 
     /**
-     * IBeacon 1. Testing
+     * Intents, pending intents
      */
-    public static final String IBEACON_TEST1_UUID = "b9407f30-f5f8-466e-aff9-25556b57fe6d";
-    public static final int IBEACON_TEST1_MAJOR = 32424;
-    public static final int IBEACON_TEST1_MINOR = 62674;
-
+    public static final int PENDING_INTENT_NOTIFICATION_POI_REACHED = 1;
 }

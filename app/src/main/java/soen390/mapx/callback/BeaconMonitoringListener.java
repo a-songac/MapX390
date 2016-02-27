@@ -7,6 +7,7 @@ import com.estimote.sdk.Region;
 import java.util.List;
 
 import soen390.mapx.LogUtils;
+import soen390.mapx.manager.NodeManager;
 
 /**
  * Listener for IBeacon Detection
@@ -16,7 +17,10 @@ public class BeaconMonitoringListener implements BeaconManager.MonitoringListene
 
     @Override
     public void onEnteredRegion(Region region, List<Beacon> list) {
-        LogUtils.info(this.getClass(), "onEnteredRegion", "Entered iBeacon region; Detected beacon " + list.get(0).getMacAddress());
+        Beacon beacon= list.get(0);
+        LogUtils.info(this.getClass(), "onEnteredRegion", "Entered iBeacon region; Detected beacon " + beacon.getMacAddress());
+        NodeManager.reachedPOI(beacon);
+
     }
 
     @Override
