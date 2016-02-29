@@ -16,6 +16,7 @@ function Controller(){
 	this.mapHeight = 0;
 	this.mapWidth = 0;
 	this.floorsOverlay = [];
+	this.userMarker;
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
@@ -211,6 +212,10 @@ function Controller(){
 		setFloorImagesOverlay();
 		createFloorControlUI();
 		self.setPOIs();
+
+		if(Android.hasUserPosition()){
+			self.updateUserMarker();
+		}
 	};
 
 	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
@@ -370,6 +375,61 @@ function Controller(){
 
 				marker.setIcon(normalIcon);
 			}
+		}
+	};
+
+	this.updateUserMarker = function(){
+		var latLng = Android.getUserPosition();
+		
+		/*TEST DATA*/
+		// var latLng = {
+		// 	lat:25,
+		// 	lng:25
+		// };
+
+		var x = -this.mapWidth + (this.offsetX + parseInt(latLng["lng"]));
+		var y = -this.mapHeight + (this.offsetY + parseInt(latLng["lat"]));
+
+		this.setUserMarker(x, y);
+	};
+
+	this.setUserMarker = function(x, y){
+		if(!this.userMarker){
+			this.userMarker = L.circleMarker(
+				[y, x], 
+				{
+					clickable: false,
+				}
+			);
+
+			this.userMarker.addTo(map);
+
+			/* 
+			 * Leaflet has a weird behavior for drawn components, where they 
+			 * will change size depending on your zoom level. This will keep
+			 * the components the same size at all levels
+			*/
+			
+			var myZoom = {
+			  start:  map.getZoom(),
+			  end: map.getZoom()
+			};
+
+			map.on('zoomstart', function(e) {
+			   myZoom.start = map.getZoom();
+			});
+
+			map.on('zoomend', function(e) {
+			    myZoom.end = map.getZoom();
+			    var diff = myZoom.start - myZoom.end;
+			    if (diff > 0) {
+			        controller.userMarker.setRadius(controller.userMarker.getRadius() / 2);
+			    } else if (diff < 0) {
+			        controller.userMarker.setRadius(controller.userMarker.getRadius() * 2);
+			    }
+			});
+		}else{
+			this.userMarker.setLatLng([y, x]);
 		}
 	};
 }
