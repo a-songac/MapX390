@@ -16,69 +16,70 @@ function Controller(){
 	this.mapHeight = 0;
 	this.mapWidth = 0;
 	this.floorsOverlay = [];
+	this.userMarker;
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
 		var self = this;
 
-		//this.poisJSON = Android.getPOIsJSON();
-		//this.floorsJSON = Android.getFloorsJSON();
-		//this.languageJSON = JSON.parse(Android.getLanguageJSON());
+		this.poisJSON = Android.getPOIsJSON();
+		this.floorsJSON = Android.getFloorsJSON();
+		this.languageJSON = JSON.parse(Android.getLanguageJSON());
 
 		/* TEST DATA */
-		this.floorsJSON = [
-			{
-		      "floor_num" : "1",
-		      "floor_path" : "tiles/floor_1.jpg",
-		      "floor_width" : 1796,
-		      "floor_height" : 857
-		    },
-		    {
-		      "floor_num" : "2",
-		      "floor_path" : "tiles/floor_2.png",
-		      "floor_width" : 2066,
-		      "floor_height" : 1032
-		    },
-		    {
-		      "floor_num" : "3",
-		      "floor_path" : "tiles/floor_3.png",
-		      "floor_width" : 2060,
-		      "floor_height" : 1038
-		    },
-		    {
-		      "floor_num" : "4",
-		      "floor_path" : "tiles/floor_4.png",
-		      "floor_width" : 2076,
-		      "floor_height" : 1046
-		    },
-		    {
-		      "floor_num" : "5",
-		      "floor_path" : "tiles/floor_5.png",
-		      "floor_width" : 2050,
-		      "floor_height" : 1030
-		    }
-		];
+		// this.floorsJSON = [
+		// 	{
+		//       "floor_num" : "1",
+		//       "floor_path" : "tiles/floor_1.jpg",
+		//       "floor_width" : 1796,
+		//       "floor_height" : 857
+		//     },
+		//     {
+		//       "floor_num" : "2",
+		//       "floor_path" : "tiles/floor_2.png",
+		//       "floor_width" : 2066,
+		//       "floor_height" : 1032
+		//     },
+		//     {
+		//       "floor_num" : "3",
+		//       "floor_path" : "tiles/floor_3.png",
+		//       "floor_width" : 2060,
+		//       "floor_height" : 1038
+		//     },
+		//     {
+		//       "floor_num" : "4",
+		//       "floor_path" : "tiles/floor_4.png",
+		//       "floor_width" : 2076,
+		//       "floor_height" : 1046
+		//     },
+		//     {
+		//       "floor_num" : "5",
+		//       "floor_path" : "tiles/floor_5.png",
+		//       "floor_width" : 2050,
+		//       "floor_height" : 1030
+		//     }
+		// ];
 
-		this.poisJSON = [
-			{
-		      "_id": "1",
-		      "title": "POI_1",
-		      "type": "exposition",
-		      "sub_type": "null",
-		      "floor": "1",
-		      "x_coord": "71",
-		      "y_coord": "91"
-		    },
-		    {
-		      "_id": "2",
-		      "title": "POI_2",
-		      "type": "exposition",
-		      "sub_type": "null",
-		      "floor": "2",
-		      "x_coord": "500",
-		      "y_coord": "100"
-		    }
-		];
+		// this.poisJSON = [
+		// 	{
+		//       "_id": "1",
+		//       "title": "POI_1",
+		//       "type": "exposition",
+		//       "sub_type": "null",
+		//       "floor": "1",
+		//       "x_coord": "71",
+		//       "y_coord": "91"
+		//     },
+		//     {
+		//       "_id": "2",
+		//       "title": "POI_2",
+		//       "type": "exposition",
+		//       "sub_type": "null",
+		//       "floor": "2",
+		//       "x_coord": "500",
+		//       "y_coord": "100"
+		//     }
+		// ];
 
 		// this.languageJSON = {
 		// 	"mapx-poi-button":"Go To Destination"
@@ -211,6 +212,10 @@ function Controller(){
 		setFloorImagesOverlay();
 		createFloorControlUI();
 		self.setPOIs();
+
+		if(Android.hasUserPosition()){
+			self.updateUserMarker();
+		}
 	};
 
 	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
@@ -370,6 +375,61 @@ function Controller(){
 
 				marker.setIcon(normalIcon);
 			}
+		}
+	};
+
+	this.updateUserMarker = function(){
+		var latLng = Android.getUserPosition();
+		
+		/*TEST DATA*/
+		// var latLng = {
+		// 	lat:25,
+		// 	lng:25
+		// };
+
+		var x = -this.mapWidth + (this.offsetX + parseInt(latLng["lng"]));
+		var y = -this.mapHeight + (this.offsetY + parseInt(latLng["lat"]));
+
+		this.setUserMarker(x, y);
+	};
+
+	this.setUserMarker = function(x, y){
+		if(!this.userMarker){
+			this.userMarker = L.circleMarker(
+				[y, x], 
+				{
+					clickable: false,
+				}
+			);
+
+			this.userMarker.addTo(map);
+
+			/* 
+			 * Leaflet has a weird behavior for drawn components, where they 
+			 * will change size depending on your zoom level. This will keep
+			 * the components the same size at all levels
+			*/
+			
+			var myZoom = {
+			  start:  map.getZoom(),
+			  end: map.getZoom()
+			};
+
+			map.on('zoomstart', function(e) {
+			   myZoom.start = map.getZoom();
+			});
+
+			map.on('zoomend', function(e) {
+			    myZoom.end = map.getZoom();
+			    var diff = myZoom.start - myZoom.end;
+			    if (diff > 0) {
+			        controller.userMarker.setRadius(controller.userMarker.getRadius() / 2);
+			    } else if (diff < 0) {
+			        controller.userMarker.setRadius(controller.userMarker.getRadius() * 2);
+			    }
+			});
+		}else{
+			this.userMarker.setLatLng([y, x]);
 		}
 	};
 }
