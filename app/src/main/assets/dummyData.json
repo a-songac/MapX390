@@ -8,25 +8,25 @@
 	},
 	{
 	  "floorID": "2",
-	  "imagePath": "tiles/floor_2.jpg",
+	  "imagePath": "tiles/floor_2.png",
 	  "imageWidth": "2066",
 	  "imageHeight": "1032"
 	},
 	{
 	  "floorID": "3",
-	  "imagePath": "tiles/floor_3.jpg",
+	  "imagePath": "tiles/floor_3.png",
 	  "imageWidth": "2060",
 	  "imageHeight": "1038"
 	},
 	{
 	  "floorID": "4",
-	  "imagePath": "tiles/floor_4.jpg",
+	  "imagePath": "tiles/floor_4.png",
 	  "imageWidth": "2076",
 	  "imageHeight": "1046"
 	},
 	{
 	  "floorID": "5",
-	  "imagePath": "tiles/floor_5.jpg",
+	  "imagePath": "tiles/floor_5.png",
 	  "imageWidth": "2050",
 	  "imageHeight": "1030"
 	}
@@ -59,8 +59,8 @@
 			"description": "Description POI 1"
 		  }
 		],
-		"x": "1844",
-		"y": "487",
+		"x": "487",
+		"y": "1844",
 		"floorID": "2",
 		"iBeacon":
 		{

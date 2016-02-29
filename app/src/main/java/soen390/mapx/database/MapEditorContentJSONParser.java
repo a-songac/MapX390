@@ -121,7 +121,7 @@ public class MapEditorContentJSONParser {
                     poiJsonObj.get("y").getAsInt(),
                     Node.POI_TYPE,
                     null,
-                    floor.getId(),
+                    floor.getFloorId(),
                     beaconId
             ));
             LogUtils.info(
@@ -156,7 +156,7 @@ public class MapEditorContentJSONParser {
                     potJsonObj.get("y").getAsInt(),
                     getType(labelJsonObject.get("label").getAsString()),
                     getSubType(labelJsonObject.get("label").getAsString()),
-                    floor.getId(),
+                    floor.getFloorId(),
                     null
             ));
             LogUtils.info(MapEditorContentJSONParser.class, "parsePOTNodes", "Parsed POT: " + potJsonObj.get("id").getAsString());

@@ -34,6 +34,10 @@ public class MapManager {
         return navigationMode;
     }
 
+    public static Node getLastNode(){
+        return lastNode;
+    }
+
     /**
      * Launch the storyline mode
      * @param storylineId

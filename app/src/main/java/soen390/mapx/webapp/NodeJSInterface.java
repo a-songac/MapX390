@@ -36,7 +36,8 @@ public class NodeJSInterface {
     @JavascriptInterface
     public String getPOIsJSON() {
         List<Node> nodes = Node.listAll(Node.class);
-        return buildPOIJSON(nodes).toString();
+        String str =  buildPOIJSON(nodes).toString();
+        return str;
     }
 
     /**
@@ -44,9 +45,10 @@ public class NodeJSInterface {
      * @return JSON string of the floor information
      */
     @JavascriptInterface
-    public String getFloorJSON(){
+    public String getFloorsJSON(){
         List<Floor> floors = Floor.listAll(Floor.class);
-        return buildFloorJSON(floors).toString();
+        String str = buildFloorJSON(floors).toString();
+        return str;
     }
 
     /**
@@ -95,11 +97,27 @@ public class NodeJSInterface {
     }
 
     /**
+     * Send id of current node where the user is at
+     * @return
+     */
+    @JavascriptInterface
+    public String getUserPosition() {
+
+        Node lastNode = MapManager.getLastNode();
+
+        if (null != lastNode) {
+            return String.valueOf(lastNode.getId());
+        }
+
+        return null;
+    }
+
+    /**
      * Given a list of POIs build a JSON corresponding to it
      * @param nodes List of POIs
      * @return JSON corresponding to the lsit of POIs
      */
-    public JSONObject buildPOIJSON(List<Node> nodes){
+    public JSONArray buildPOIJSON(List<Node> nodes){
         JSONObject jsonObj = new JSONObject();
 
         JSONArray poiArr = new JSONArray();
@@ -117,20 +135,20 @@ public class NodeJSInterface {
                 poiArr.put(poisObj);
             }
 
-            jsonObj.put("poi", poiArr);
+//            jsonObj.put("poi", poiArr);
 
         } catch (JSONException e){
             e.printStackTrace();
         }
 
-        return jsonObj;
+        return poiArr;
     }
     /**
      * Given a list of floors build a JSON corresponding to it
      * @param floors List of floors
      * @return JSON corresponding to the list of floors
      */
-    public JSONObject buildFloorJSON(List<Floor> floors){
+    public JSONArray buildFloorJSON(List<Floor> floors){
         JSONObject jsonObj = new JSONObject();
 
         JSONArray floorArr = new JSONArray();
@@ -140,19 +158,20 @@ public class NodeJSInterface {
             for(Floor floor: floors) {
                 floorObj = new JSONObject();
                 floorObj.put("floor_num", floor.getFloorId());
+                floorObj.put("floor_id", floor.getId());
                 floorObj.put("floor_path", floor.getImageFilePath());
                 floorObj.put("floor_width", floor.getImageWidth());
                 floorObj.put("floor_height", floor.getImageHeight());
                 floorArr.put(floorObj);
             }
 
-            jsonObj.put("floor", floorArr);
+//            jsonObj.put("floor", floorArr);
 
         } catch (JSONException e){
             e.printStackTrace();
         }
 
-        return jsonObj;
+        return floorArr;
 
     }
 

@@ -22,8 +22,8 @@ function Controller(){
 	this.initialize = function(options){
 		var self = this;
 
-		this.poisJSON = Android.getPOIsJSON();
-		this.floorsJSON = Android.getFloorsJSON();
+		this.poisJSON = JSON.parse(Android.getPOIsJSON());
+		this.floorsJSON = JSON.parse(Android.getFloorsJSON());
 		this.languageJSON = JSON.parse(Android.getLanguageJSON());
 
 		/* TEST DATA */
@@ -119,7 +119,7 @@ function Controller(){
 			    	var west = -parseInt(self.floorsJSON[i]["floor_height"])/2;
 			    	var north = parseInt(self.floorsJSON[i]["floor_width"])/2;
 					var east = parseInt(self.floorsJSON[i]["floor_height"])/2;
-					var south = -parseInt(self.floorsJSON[i]["floor_width"])/2; 
+					var south = -parseInt(self.floorsJSON[i]["floor_width"])/2;
 
 					imageUrl = self.floorsJSON[i]["floor_path"];
 
@@ -213,9 +213,9 @@ function Controller(){
 		createFloorControlUI();
 		self.setPOIs();
 
-		if(Android.hasUserPosition()){
-			self.updateUserMarker();
-		}
+//		if(Android.hasUserPosition()){
+//			self.updateUserMarker();
+//		}
 	};
 
 	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
