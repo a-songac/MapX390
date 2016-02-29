@@ -22,64 +22,64 @@ function Controller(){
 	this.initialize = function(options){
 		var self = this;
 
-		//this.poisJSON = Android.getPOIsJSON();
-		//this.floorsJSON = Android.getFloorsJSON();
-		//this.languageJSON = JSON.parse(Android.getLanguageJSON());
+		this.poisJSON = Android.getPOIsJSON();
+		this.floorsJSON = Android.getFloorsJSON();
+		this.languageJSON = JSON.parse(Android.getLanguageJSON());
 
 		/* TEST DATA */
-		this.floorsJSON = [
-			{
-		      "floor_num" : "1",
-		      "floor_path" : "tiles/floor_1.jpg",
-		      "floor_width" : 1796,
-		      "floor_height" : 857
-		    },
-		    {
-		      "floor_num" : "2",
-		      "floor_path" : "tiles/floor_2.png",
-		      "floor_width" : 2066,
-		      "floor_height" : 1032
-		    },
-		    {
-		      "floor_num" : "3",
-		      "floor_path" : "tiles/floor_3.png",
-		      "floor_width" : 2060,
-		      "floor_height" : 1038
-		    },
-		    {
-		      "floor_num" : "4",
-		      "floor_path" : "tiles/floor_4.png",
-		      "floor_width" : 2076,
-		      "floor_height" : 1046
-		    },
-		    {
-		      "floor_num" : "5",
-		      "floor_path" : "tiles/floor_5.png",
-		      "floor_width" : 2050,
-		      "floor_height" : 1030
-		    }
-		];
+		// this.floorsJSON = [
+		// 	{
+		//       "floor_num" : "1",
+		//       "floor_path" : "tiles/floor_1.jpg",
+		//       "floor_width" : 1796,
+		//       "floor_height" : 857
+		//     },
+		//     {
+		//       "floor_num" : "2",
+		//       "floor_path" : "tiles/floor_2.png",
+		//       "floor_width" : 2066,
+		//       "floor_height" : 1032
+		//     },
+		//     {
+		//       "floor_num" : "3",
+		//       "floor_path" : "tiles/floor_3.png",
+		//       "floor_width" : 2060,
+		//       "floor_height" : 1038
+		//     },
+		//     {
+		//       "floor_num" : "4",
+		//       "floor_path" : "tiles/floor_4.png",
+		//       "floor_width" : 2076,
+		//       "floor_height" : 1046
+		//     },
+		//     {
+		//       "floor_num" : "5",
+		//       "floor_path" : "tiles/floor_5.png",
+		//       "floor_width" : 2050,
+		//       "floor_height" : 1030
+		//     }
+		// ];
 
-		this.poisJSON = [
-			{
-		      "_id": "1",
-		      "title": "POI_1",
-		      "type": "exposition",
-		      "sub_type": "null",
-		      "floor": "1",
-		      "x_coord": "71",
-		      "y_coord": "91"
-		    },
-		    {
-		      "_id": "2",
-		      "title": "POI_2",
-		      "type": "exposition",
-		      "sub_type": "null",
-		      "floor": "2",
-		      "x_coord": "500",
-		      "y_coord": "100"
-		    }
-		];
+		// this.poisJSON = [
+		// 	{
+		//       "_id": "1",
+		//       "title": "POI_1",
+		//       "type": "exposition",
+		//       "sub_type": "null",
+		//       "floor": "1",
+		//       "x_coord": "71",
+		//       "y_coord": "91"
+		//     },
+		//     {
+		//       "_id": "2",
+		//       "title": "POI_2",
+		//       "type": "exposition",
+		//       "sub_type": "null",
+		//       "floor": "2",
+		//       "x_coord": "500",
+		//       "y_coord": "100"
+		//     }
+		// ];
 
 		// this.languageJSON = {
 		// 	"mapx-poi-button":"Go To Destination"
