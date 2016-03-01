@@ -61,6 +61,7 @@ public class MapJSBridge {
      */
     public void reachedNode(Long nodeId) {
 
+
         webView.evaluateJavascript("controller.updateUserMarker()", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
