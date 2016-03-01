@@ -26,4 +26,8 @@ public class ConstantsHelper {
     public static final String PREF_LANGUAGE_INIT_KEY = "pref_language_init";
     public static final String DB_INIT_KEY = "db_init_key";
 
+    /**
+     * Intents, pending intents
+     */
+    public static final int PENDING_INTENT_NOTIFICATION_POI_REACHED = 1;
 }

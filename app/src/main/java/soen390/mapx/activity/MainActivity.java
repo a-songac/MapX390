@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
+import com.estimote.sdk.SystemRequirementsChecker;
 
 import java.util.Locale;
 
@@ -50,6 +51,8 @@ public class MainActivity extends BaseActivity
         initLanguagePreference();
         DbContentManager.initDatabaseContent();
 
+        PreferenceHelper.getInstance().init(this);
+        initIbeacon();
 
         if (savedInstanceState == null) {
             NavigationHelper.getInstance().navigateToMainFragment();
@@ -248,6 +251,9 @@ public class MainActivity extends BaseActivity
                 }
             });
         }
+    }
 
+    private void initIbeacon() {
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
     }
 }

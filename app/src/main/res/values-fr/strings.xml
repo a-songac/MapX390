@@ -53,4 +53,8 @@
     <string name="web_go_to_destination">Aller vers ce point</string>
     <string name="web_change_destination">Changer la destination</string>
     <string name="web_view_info">Voir information</string>
+
+    <!-- Notifications -->
+    <string name="notification_poi_reached_title">Vous êtes à un point d\'intérêt</string>
+    <string name="notification_poi_reached_text">Vous avez atteint le point d\'intérêt : %1$s</string>
 </resources>
