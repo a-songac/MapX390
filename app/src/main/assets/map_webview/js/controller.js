@@ -18,6 +18,8 @@ function Controller(){
 	this.floorsOverlay = [];
 	this.userMarker;
 
+	this.demoPOI = null; //TO REMOVE AFTER DEMO 2
+
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
 		var self = this;
@@ -310,13 +312,14 @@ function Controller(){
 
 	/* Send call to Android to initiate a navigation to the selected POI */
 	this.navigateToPOI = function(elementClicked){
-		Android.navigateToPOI($(elementClicked).attr("data-poi-id"));
+		this.demoPOI = $(elementClicked).attr("data-poi-id");
+		Android.navigateToPOI(this.demoPOI);
 	};
 
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
 	this.startNavigation = function(){
 		try{
-			var path = [1,2,3,4]; //we'll need a call Android.getPath(); OR find a way to receive data
+			var path = [this.demoPOI,this.demoPOI]; //we'll need a call Android.getPath(); OR find a way to receive data
 			
 			if(!path){
 				throw "Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0";
