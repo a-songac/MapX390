@@ -56,13 +56,13 @@ public class NodeJSInterface {
      * @param poiId
      */
     @JavascriptInterface
-    public void navigateToPOI(String poiId) {
+    public void navigateToPOI(final String poiId) {
 
         Handler mainHandler = new Handler(context.getMainLooper());
         Runnable myRunnable = new Runnable() {
             @Override
             public void run() {
-                MapManager.launchNavigation(1L); //TODO hardcoded id temporarily because the javascript does not return a long yet
+                MapManager.launchNavigation(Long.parseLong(poiId));
             }
         };
         mainHandler.post(myRunnable);
