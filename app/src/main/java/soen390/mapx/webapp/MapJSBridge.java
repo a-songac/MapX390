@@ -5,6 +5,8 @@ import android.webkit.WebView;
 
 import java.util.List;
 
+import soen390.mapx.LogUtils;
+
 /**
  * Class to call the javascript functions of the MapController on the web client side
  */
@@ -59,12 +61,14 @@ public class MapJSBridge {
      */
     public void reachedNode(Long nodeId) {
 
-        //TODO call  javascript function with nodeId so that web side can handle it
 
-        webView.evaluateJavascript("TODO Javascript function", new ValueCallback<String>() {
+        webView.evaluateJavascript("controller.updateUserMarker()", new ValueCallback<String>() {
             @Override
             public void onReceiveValue(String value) {
-
+                LogUtils.info(
+                        this.getClass(),
+                        "evaluateJavascript - controller.updateUserMarker() - onReceiveValue",
+                        "Called js side with return value: " + value);
             }
         });
 

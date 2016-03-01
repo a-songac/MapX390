@@ -39,12 +39,16 @@
     <string name="storyline_leave">Leave Storyline</string>
     <string name="storyline_leave_message">Do you want to leave the current storyline?</string>
     <string name="storyline_start_toast">Started %1$s Storyline</string>
+    <string name="storyline_change">New Storyline</string>
+    <string name="storyline_change_message_sl">Do you want to leave the current storyline for the newly selected one: %1$s?</string>
+    <string name="storyline_change_message_poi">Do you want to leave the current navigation for this storyline: %1$s?</string>
 
     <!-- Navigation -->
     <string name="navigation_leave">Leave Navigation</string>
-    <string name="navigation_leave_message">Do you want to leave your navigation toward the current point of interest?</string>
-    <string name="navigation_change">Change Destination</string>
-    <string name="navigation_change_message">Do you want to leave the current navigation for the newly selected one: %1$s?</string>
+    <string name="navigation_leave_message">Do you want to leave your navigation towards the current point of interest?</string>
+    <string name="navigation_change">New Destination</string>
+    <string name="navigation_change_message_sl">Do you want to leave the current storyline for the newly selected point of interest: %1$s?</string>
+    <string name="navigation_change_message_poi">Do you want to leave the current navigation for the newly selected one: %1$s?</string>
 
     
     <!-- Web Client strings -->

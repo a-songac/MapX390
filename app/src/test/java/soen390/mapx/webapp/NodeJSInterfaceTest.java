@@ -30,7 +30,7 @@ public class NodeJSInterfaceTest {
         node.setId((long) 1);
 //        node.setTitle("POI_1");
         node.setType("e");
-        node.setFloorId((long) 1);
+        node.setFloorId("1");
         node.setxCoord(75);
         node.setyCoord(100);
         list_node.add(node);

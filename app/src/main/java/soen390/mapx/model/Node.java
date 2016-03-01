@@ -50,7 +50,7 @@ public class Node extends SugarRecord {
      * Null otherwise
      */
     private String subType;
-    private Long floorId;
+    private String floorId;
     private Long iBeaconId;
     private Long qrId;
 
@@ -69,7 +69,7 @@ public class Node extends SugarRecord {
      * @param floorId
      * @param iBeaconId
      */
-    public Node(Long id, int xCoord, int yCoord, String type, String subType, Long floorId, Long iBeaconId) {
+    public Node(Long id, int xCoord, int yCoord, String type, String subType, String floorId, Long iBeaconId) {
         setId(id);
         this.xCoord = xCoord;
         this.yCoord = yCoord;
@@ -158,11 +158,11 @@ public class Node extends SugarRecord {
         this.subType = subType;
     }
 
-    public long getFloorId() {
+    public String getFloorId() {
         return floorId;
     }
 
-    public void setFloorId(long floorId) {
+    public void setFloorId(String floorId) {
         this.floorId = floorId;
     }
 
