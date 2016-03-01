@@ -59,8 +59,8 @@
 			"description": "Description POI 1"
 		  }
 		],
-		"x": "487",
-		"y": "1844",
+		"x": "182",
+		"y": "1491",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -175,8 +175,8 @@
 			"description": "Description POI 2"
 		  }
 		],
-		"x": "1758",
-		"y": "339",
+		"x": "182",
+		"y": "892",
 		"floorID": "2",
 		"iBeacon":
 		{
