@@ -34,11 +34,52 @@ public class MapManager {
         return navigationMode;
     }
 
+    public static Node getLastNode(){
+        return lastNode;
+    }
+
     /**
      * Launch the storyline mode
      * @param storylineId
      */
     public static void launchStoryline(Long storylineId) {
+
+        final Storyline storyline = Storyline.findById(Storyline.class, storylineId);
+
+        Context context = MapXApplication.getGlobalContext();
+
+        if (navigationMode || storylineMode) {
+
+            int messageId = navigationMode?
+                    R.string.storyline_change_message_poi:
+                    R.string.storyline_change_message_sl;
+
+            AlertDialogHelper.showAlertDialog(
+                    context.getString(R.string.navigation_change),
+                    context.getString(messageId, storyline.getTitle()),
+                    new IDialogResponseCallBack() {
+                        @Override
+                        public void onPositiveResponse() {
+                            MapJSBridge.getInstance().leaveNavigation();
+                            launchStoryline(storyline);
+                        }
+
+                        @Override
+                        public void onNegativeResponse() {
+
+                        }
+                    });
+        } else {
+            launchStoryline(storyline);
+        }
+
+    }
+
+    /**
+     * Launch Storyline helper
+     * @param storyline
+     */
+    private static void launchStoryline(Storyline storyline) {
 
         if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
 
@@ -48,16 +89,15 @@ public class MapManager {
 
         navigationMode = false;
         storylineMode = true;
-        currentStoryline = Storyline.findById(Storyline.class, storylineId);
+        currentStoryline = storyline;
 
         syncActionBarStateWithCurrentMode();
-
 
 
     }
 
     /**
-     * Launch the navigation mode helper class
+     * Launch the navigation mode
      * @param poiId
      */
     public static void launchNavigation(Long poiId) {
@@ -73,12 +113,18 @@ public class MapManager {
         }
 
         if (navigationMode || storylineMode) {
+
+            int messageId = navigationMode?
+                    R.string.navigation_change_message_poi:
+                    R.string.navigation_change_message_sl;
+
             AlertDialogHelper.showAlertDialog(
                     context.getString(R.string.navigation_change),
-                    context.getString(R.string.navigation_change_message, newNode.getTitleLanguageSupport()),
+                    context.getString(messageId, newNode.getTitle()),
                     new IDialogResponseCallBack() {
                         @Override
                         public void onPositiveResponse() {
+                            MapJSBridge.getInstance().leaveNavigation();
                             launchNavigation(newNode, context);
                         }
 

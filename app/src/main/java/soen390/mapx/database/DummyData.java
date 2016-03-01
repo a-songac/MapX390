@@ -1,70 +1,44 @@
 package soen390.mapx.database;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.res.AssetManager;
+import android.util.Log;
 
-import soen390.mapx.model.Node;
-import soen390.mapx.model.Storyline;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import soen390.mapx.LogUtils;
+import soen390.mapx.application.MapXApplication;
 
 /**
  * Class to generate dummy data
  */
 public class DummyData {
 
-    public static void populateDb() {
+    /**
+     * Load dummy data from local json
+     * @return JsonElement
+     */
+    public static JsonElement loadJSON() {
+        JsonParser jsonParser = new JsonParser();
 
-       populateStorylines();
-        populatePOIs();
+        AssetManager assetManager = MapXApplication.getGlobalContext().getAssets();
+        try {
 
+            InputStream input = assetManager.open("dummyData.json");
+            BufferedReader br = new BufferedReader(new InputStreamReader(input));
+            return jsonParser.parse(br).getAsJsonObject();
 
-    }
+        } catch (IOException e) {
+            LogUtils.error(DummyData.class, "loadJSON", Log.getStackTraceString(e));
+        }
 
-    private static void populateStorylines(){
-
-        List<Storyline> list = new ArrayList<>();
-
-        Storyline st = new Storyline();
-        st.setTitle("Title1");
-        st.setDescription("Description En description description description description description description description description description description");
-        st.setImagePath("TODO");
-        list.add(st);
-
-        Storyline st2 = new Storyline();
-        st2.setTitle("Title2");
-        st2.setDescription("Description En description description description description description description description description description description");
-        st2.setImagePath("TODO");
-        list.add(st2);
-
-        Storyline st3 = new Storyline();
-        st3.setTitle("Title3");
-        st3.setDescription("Description En description description description description description description description description description description");
-        st3.setImagePath("TODO");
-        list.add(st3);
-
-        Storyline st4 = new Storyline();
-        st4.setTitle("Title4");
-        st4.setDescription("Description En description description description description description description description description description description");
-        st4.setImagePath("TODO");
-        list.add(st4);
-
-        Storyline st5 = new Storyline();
-        st5.setTitle("Title5");
-        st5.setDescription("Description En description description description description description description description description description description");
-        st5.setImagePath("TODO");
-        list.add(st5);
-
-        Storyline st6 = new Storyline();
-        st6.setTitle("Title6");
-        st6.setDescription("Description En description description description description description description description description description description");
-        st6.setImagePath("TODO");
-        list.add(st6);
-
-        Storyline.saveInTx(list);
+        return null;
 
     }
 
-    private static void populatePOIs() {
-        Node node = new Node("POI1",1,1,Node.POI_TYPE, null, null, null, null);
-        node.save();
-    }
 }

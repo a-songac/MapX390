@@ -74,7 +74,9 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
             @Override
             public void onClick(View v) {
 
-                String toast = context.getResources().getString(R.string.storyline_start_toast, storyline.getTitle());
+                String toast = context.getResources().getString(
+                        R.string.storyline_start_toast,
+                        storyline.getTitle());
                 UiUtils.displayToastLong(toast);
                 MapManager.launchStoryline(storyline.getId());
                 StorylineListFragment.expandedPosition = -1;

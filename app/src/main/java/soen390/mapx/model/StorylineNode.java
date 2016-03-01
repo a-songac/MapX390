@@ -11,6 +11,17 @@ public class StorylineNode extends SugarRecord {
     private Long nodeId;
     private int position;
 
+    /**
+     * Default constructor
+     */
+    public StorylineNode(){}
+
+    /**
+     * Constructor
+     * @param storylineId
+     * @param nodeId
+     * @param position
+     */
     public StorylineNode(Long storylineId, Long nodeId, int position) {
         this.storylineId = storylineId;
         this.nodeId = nodeId;

@@ -3,8 +3,7 @@ package soen390.mapx.model;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
-import java.util.List;
-
+import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.PreferenceHelper;
 
 /**
@@ -18,6 +17,16 @@ public class Node extends SugarRecord {
     @Ignore
     public static final String SERVICE_TYPE = "s";
     @Ignore
+    public static final String SERVICE_WASHROOM_SUBTYPE = "w";
+    @Ignore
+    public static final String SERVICE_INFO_SUBTYPE = "info";
+    @Ignore
+    public static final String SERVICE_EXIT_SUBTYPE = "exit";
+    @Ignore
+    public static final String SERVICE_EMERGENCY_EXIT_SUBTYPE = "emergency";
+    @Ignore
+    public static final String SERVICE_ENTRANCE_SUBTYPE = "entrance";
+    @Ignore
     public static final String TRANSITION_TYPE = "t";
     @Ignore
     public static final String TRANSITION_STAIR_SUBTYPE = "s";
@@ -26,7 +35,6 @@ public class Node extends SugarRecord {
     @Ignore
     public static final String TRANSITION_ELEVATOR_SUBTYPE = "e";
 
-    private String title;
     private int xCoord;
     private int yCoord;
 
@@ -42,63 +50,80 @@ public class Node extends SugarRecord {
      * Null otherwise
      */
     private String subType;
-    private Long floorId;
+    private String floorId;
     private Long iBeaconId;
     private Long qrId;
 
+    /**
+     * Default constructor
+     */
     public Node(){}
 
-    public Node(String title, int xCoord, int yCoord, String type, String subType, Long floorId, Long iBeaconId, Long qrId) {
-        this.title = title;
+    /**
+     * Constructor
+     * @param id
+     * @param xCoord
+     * @param yCoord
+     * @param type
+     * @param subType
+     * @param floorId
+     * @param iBeaconId
+     */
+    public Node(Long id, int xCoord, int yCoord, String type, String subType, String floorId, Long iBeaconId) {
+        setId(id);
         this.xCoord = xCoord;
         this.yCoord = yCoord;
         this.type = type;
         this.subType = subType;
         this.floorId = floorId;
         this.iBeaconId = iBeaconId;
-        this.qrId = qrId;
     }
 
+
     /**
-     * Get node description based on the language
+     * Get title or description of node
+     * @param isTitle
      * @return
      */
-    private NodeDescription getNodeDescription() {
-        String language = PreferenceHelper.getInstance().getLanguagePreference();
+    private String getDescription(boolean isTitle) {
 
-        List<NodeDescription> nodeDescriptionList = NodeDescription.find(
-                NodeDescription.class,
-                "node_id = ? AND language = ?",
-                String.valueOf(this.getId()), language);
+        Description ndDesc =
+                Description.getDescription(
+                        PreferenceHelper.getInstance().getLanguagePreference(),
+                        Description.POI_DESC,
+                        this.getId()
+                        );
 
-        if (!nodeDescriptionList.isEmpty()) {
-            NodeDescription nodeDescription = nodeDescriptionList.get(0);
-            if (null != nodeDescription) {
-                return nodeDescription;
-            }
+        if (null != ndDesc) {
+            return isTitle? ndDesc.getTitle(): ndDesc.getDescription();
         }
+
+        ndDesc = Description.getDescription(
+                        ConstantsHelper.PREF_LANGUAGE_ENGLISH,
+                        Description.POI_DESC,
+                        this.getId()
+                );
+        if (null != ndDesc)
+            return isTitle? ndDesc.getTitle(): ndDesc.getDescription();
+
         return null;
+
     }
 
     /**
      * Get title of the node based on the language
      * @return
      */
-    public String getTitleLanguageSupport() {
-
-        NodeDescription nd = getNodeDescription();
-        if (null != nd) {
-            return nd.getTitle();
-        }
-        return title;
-    }
-
     public String getTitle() {
-        return title;
+        return  getDescription(true);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    /**
+     * Get description of the node based on the language
+     * @return
+     */
+    public String getDescription() {
+        return  getDescription(false);
     }
 
     public int getxCoord() {
@@ -133,11 +158,11 @@ public class Node extends SugarRecord {
         this.subType = subType;
     }
 
-    public long getFloorId() {
+    public String getFloorId() {
         return floorId;
     }
 
-    public void setFloorId(long floorId) {
+    public void setFloorId(String floorId) {
         this.floorId = floorId;
     }
 

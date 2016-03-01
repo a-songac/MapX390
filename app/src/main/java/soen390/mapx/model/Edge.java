@@ -7,20 +7,28 @@ import com.orm.SugarRecord;
  */
 public class Edge extends SugarRecord{
 
-    private long p1Id;
-    private long p2Id;
+    private Long p1Id;
+    private Long p2Id;
     private int weight;
+    private Long floorId;
+
+    /**
+     * Default constructor
+     */
+    public Edge(){}
 
     /**
      * Constructor
-     * @param p1Id : node
-     * @param p2Id : node
-     * @param weight : weight
+     * @param p1Id
+     * @param p2Id
+     * @param weight
+     * @param floorId
      */
-    public Edge(long p1Id, long p2Id, int weight) {
+    public Edge(Long p1Id, Long p2Id, int weight, Long floorId) {
         this.p1Id = p1Id;
         this.p2Id = p2Id;
         this.weight = weight;
+        this.floorId = floorId;
     }
 
     public long getP1Id() {
@@ -36,4 +44,7 @@ public class Edge extends SugarRecord{
         return weight;
     }
 
+    public Long getFloorId() {
+        return floorId;
+    }
 }

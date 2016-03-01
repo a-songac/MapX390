@@ -1,0 +1,724 @@
+{
+  "floorPlan": [
+	{
+	  "floorID": "1",
+	  "imagePath": "tiles/floor_1.jpg",
+	  "imageWidth": "1796",
+	  "imageHeight": "857"
+	},
+	{
+	  "floorID": "2",
+	  "imagePath": "tiles/floor_2.png",
+	  "imageWidth": "2066",
+	  "imageHeight": "1032"
+	},
+	{
+	  "floorID": "3",
+	  "imagePath": "tiles/floor_3.png",
+	  "imageWidth": "2060",
+	  "imageHeight": "1038"
+	},
+	{
+	  "floorID": "4",
+	  "imagePath": "tiles/floor_4.png",
+	  "imageWidth": "2076",
+	  "imageHeight": "1046"
+	},
+	{
+	  "floorID": "5",
+	  "imagePath": "tiles/floor_5.png",
+	  "imageWidth": "2050",
+	  "imageHeight": "1030"
+	}
+  ],
+
+  "node": [{
+	"poi":
+	[
+	  {
+		"id": "1",
+		"title":
+		[
+		  {
+			"language": "en",
+			"title": "POI Title 1"
+		  },
+		  {
+			"language": "fr",
+			"title": "Titre POI 1"
+		  }
+		],
+		"description":
+		[
+		  {
+			"language": "en",
+			"description": "POI Description 1"
+		  },
+		  {
+			"language": "fr",
+			"description": "Description POI 1"
+		  }
+		],
+		"x": "182",
+		"y": "1491",
+		"floorID": "2",
+		"iBeacon":
+		{
+		  "uuid": "tldr",
+		  "major": "32424",
+		  "minor": "62674"
+		},
+		"media":
+		{
+		  "image":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "video":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "audio":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ]
+		},
+		"storyPoint":
+		[
+		  {
+			"storylineID": "1",
+			"title":
+			[
+			  {
+				"language": "en",
+				"title": "POI 1 Title in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"title": "Titre POI 1 dans Histoire"
+			  }
+			],
+			"description":
+			[
+			  {
+				"language": "en",
+				"description": "POI 1 Description in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"description": "Description POI 1 dans Histoire"
+			  }
+			],
+			"media":
+			{
+			  "image":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "video":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "audio":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ]
+			}
+		  }
+		]
+	  },
+	  {
+		"id": "2",
+		"title":
+		[
+		  {
+			"language": "en",
+			"title": "POI Title 2"
+		  },
+		  {
+			"language": "fr",
+			"title": "Titre POI 2"
+		  }
+		],
+		"description":
+		[
+		  {
+			"language": "en",
+			"description": "POI Description 2"
+		  },
+		  {
+			"language": "fr",
+			"description": "Description POI 2"
+		  }
+		],
+		"x": "182",
+		"y": "892",
+		"floorID": "2",
+		"iBeacon":
+		{
+		  "uuid": "<TODO>",
+		  "major": "0",
+		  "minor": "0"
+		},
+		"media":
+		{
+		  "image":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "video":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "audio":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ]
+		},
+		"storyPoint":
+		[
+		  {
+			"storylineID": "1",
+			"title":
+			[
+			  {
+				"language": "en",
+				"title": "POI 1 Title in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"title": "Titre POI 1 dans Histoire"
+			  }
+			],
+			"description":
+			[
+			  {
+				"language": "en",
+				"description": "POI 1 Description in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"description": "Description POI 1 dans Histoire"
+			  }
+			],
+			"media":
+			{
+			  "image":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "video":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "audio":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ]
+			}
+		  }
+		]
+	  },
+	  {
+		"id": "3",
+		"title":
+		[
+		  {
+			"language": "en",
+			"title": "POI Title 3"
+		  },
+		  {
+			"language": "fr",
+			"title": "Titre POI 3"
+		  }
+		],
+		"description":
+		[
+		  {
+			"language": "en",
+			"description": "POI Description 3"
+		  },
+		  {
+			"language": "fr",
+			"description": "Description POI 3"
+		  }
+		],
+		"x": "1425",
+		"y": "311",
+		"floorID": "2",
+		"iBeacon":
+		{
+		  "uuid": "<TODO>",
+		  "major": "0",
+		  "minor": "0"
+		},
+		"media":
+		{
+		  "image":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "video":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "audio":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ]
+		},
+		"storyPoint":
+		[
+		  {
+			"storylineID": "1",
+			"title":
+			[
+			  {
+				"language": "en",
+				"title": "POI 1 Title in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"title": "Titre POI 1 dans Histoire"
+			  }
+			],
+			"description":
+			[
+			  {
+				"language": "en",
+				"description": "POI 1 Description in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"description": "Description POI 1 dans Histoire"
+			  }
+			],
+			"media":
+			{
+			  "image":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "video":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "audio":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ]
+			}
+		  }
+		]
+	  },
+	  {
+		"id": "4",
+		"title":
+		[
+		  {
+			"language": "en",
+			"title": "POI Title 2"
+		  },
+		  {
+			"language": "fr",
+			"title": "Titre POI 2"
+		  }
+		],
+		"description":
+		[
+		  {
+			"language": "en",
+			"description": "POI Description 2"
+		  },
+		  {
+			"language": "fr",
+			"description": "Description POI 2"
+		  }
+		],
+		"x": "1250",
+		"y": "248",
+		"floorID": "2",
+		"iBeacon":
+		{
+		  "uuid": "<TODO>",
+		  "major": "0",
+		  "minor": "0"
+		},
+		"media":
+		{
+		  "image":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "video":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "audio":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ]
+		},
+		"storyPoint":
+		[
+		  {
+			"storylineID": "1",
+			"title":
+			[
+			  {
+				"language": "en",
+				"title": "POI 1 Title in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"title": "Titre POI 1 dans Histoire"
+			  }
+			],
+			"description":
+			[
+			  {
+				"language": "en",
+				"description": "POI 1 Description in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"description": "Description POI 1 dans Histoire"
+			  }
+			],
+			"media":
+			{
+			  "image":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "video":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "audio":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ]
+			}
+		  }
+		]
+	  },
+	  {
+		"id": "5",
+		"title":
+		[
+		  {
+			"language": "en",
+			"title": "POI Title 2"
+		  },
+		  {
+			"language": "fr",
+			"title": "Titre POI 2"
+		  }
+		],
+		"description":
+		[
+		  {
+			"language": "en",
+			"description": "POI Description 2"
+		  },
+		  {
+			"language": "fr",
+			"description": "Description POI 2"
+		  }
+		],
+		"x": "1177",
+		"y": "201",
+		"floorID": "2",
+		"iBeacon":
+		{
+		  "uuid": "<TODO>",
+		  "major": "0",
+		  "minor": "0"
+		},
+		"media":
+		{
+		  "image":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "video":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ],
+		  "audio":
+		  [
+			{
+			  "path": "<TODO>",
+			  "language": "<TODO>",
+			  "caption": "<TODO>"
+			}
+		  ]
+		},
+		"storyPoint":
+		[
+		  {
+			"storylineID": "1",
+			"title":
+			[
+			  {
+				"language": "en",
+				"title": "POI 1 Title in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"title": "Titre POI 1 dans Histoire"
+			  }
+			],
+			"description":
+			[
+			  {
+				"language": "en",
+				"description": "POI 1 Description in Storyline"
+			  },
+			  {
+				"language": "fr",
+				"description": "Description POI 1 dans Histoire"
+			  }
+			],
+			"media":
+			{
+			  "image":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "video":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ],
+			  "audio":
+			  [
+				{
+				  "path": "<TODO>",
+				  "language": "<TODO>",
+				  "caption": "<TODO>"
+				}
+			  ]
+			}
+		  }
+		]
+	  }
+	],
+
+	"pot":
+	[
+	  {
+		"id":
+		"99",
+		"label": {
+		  "language": "en",
+		  "label": "intersection"
+		},
+		"x": "1850",
+		"y": "348",
+		"floorID": "2"
+	  },
+	  {
+		"id":
+		"98",
+		"label": {
+		  "language": "en",
+		  "label": "intersection"
+		},
+		"x": "1250",
+		"y": "293",
+		"floorID": "2"
+	  },
+	  {
+		"id":
+		"97",
+		"label": {
+		  "language": "en",
+		  "label": "intersection"
+		},
+		"x": "1250",
+		"y": "208",
+		"floorID": "2"
+	  }
+	]
+  }
+  ],
+
+  "edge":
+  [
+	{
+	  "startNode": "1",
+	  "endNode": "99",
+	  "floorNumber": "<DOES NOT MAKE SENSE>",
+	  "distance": "1"
+	},
+	{
+	  "startNode": "99",
+	  "endNode": "2",
+	  "floorNumber": "<DOES NOT MAKE SENSE>",
+	  "distance": "1"
+	},
+	{
+	  "startNode": "2",
+	  "endNode": "3",
+	  "floorNumber": "<DOES NOT MAKE SENSE>",
+	  "distance": "1"
+	},
+	{
+	  "startNode": "3",
+	  "endNode": "98",
+	  "floorNumber": "<DOES NOT MAKE SENSE>",
+	  "distance": "1"
+	},
+	{
+	  "startNode": "98",
+	  "endNode": "4",
+	  "floorNumber": "<DOES NOT MAKE SENSE>",
+	  "distance": "1"
+	},
+	{
+	  "startNode": "4",
+	  "endNode": "97",
+	  "floorNumber": "<DOES NOT MAKE SENSE>",
+	  "distance": "1"
+	},
+	{
+	  "startNode": "97",
+	  "endNode": "5",
+	  "floorNumber": "<DOES NOT MAKE SENSE>",
+	  "distance": "1"
+	}
+  ],
+
+  "storyline": [
+	{
+	  "id": "1",
+	  "title": [{
+		"language": "en",
+		"title": "Title Storyline 1"
+	  }
+	  ],
+	  "description": [{
+		"language": "en",
+		"description": "Description Storyline 1"
+	  }
+	  ],
+	  "path": ["1", "99", "2", "3", "98", "4", "97", "5"],
+	  "thumbnail": "",
+	  "walkingTimeInMinutes": "0",
+	  "floorsCovered": "1"
+	}
+  ]
+}
