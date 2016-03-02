@@ -7,6 +7,8 @@ import soen390.mapx.UiUtils;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
+import soen390.mapx.datastructure.PathFinder;
+import soen390.mapx.datastructure.WeightedGraph;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.NavigationHelper;
@@ -151,8 +153,9 @@ public class MapManager {
 
         syncActionBarStateWithCurrentMode();
 
-        int[] path = new int[0];
-//        path = PathFinder.computeShortestPath(new WeightedGraph(1), poiId); //TODO how do we deal with the Weighted graph?
+        int[] path = PathFinder.computeShortestPath(WeightedGraph.getInstance(), newNode.getId());
+        System.out.println(PathFinder.getShortestPath(path, newNode.getId().intValue(), 4));
+
         MapJSBridge.getInstance().drawPath(path);
 
         String str = context.getResources().getString(
