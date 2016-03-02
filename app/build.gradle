@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+apply plugin: "sonar-runner"
 
 android {
     compileSdkVersion 23
