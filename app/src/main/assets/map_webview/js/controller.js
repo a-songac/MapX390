@@ -195,7 +195,7 @@ function Controller(){
 			}
 
 			var poi = this.poisJSON[i];
-			if(parseInt(this.currentFloor) === parseInt(poi["floor"])){
+			if(parseInt(this.currentFloor) === parseInt(poi["floor"]) && poi["type"] != "t"){
 				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
 
 				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
