@@ -28,66 +28,6 @@ function Controller(){
 		this.floorsJSON = JSON.parse(Android.getFloorsJSON());
 		this.languageJSON = JSON.parse(Android.getLanguageJSON());
 
-		/* TEST DATA */
-		// this.floorsJSON = [
-		// 	{
-		//       "floor_num" : "1",
-		//       "floor_path" : "tiles/floor_1.jpg",
-		//       "floor_width" : 1796,
-		//       "floor_height" : 857
-		//     },
-		//     {
-		//       "floor_num" : "2",
-		//       "floor_path" : "tiles/floor_2.png",
-		//       "floor_width" : 2066,
-		//       "floor_height" : 1032
-		//     },
-		//     {
-		//       "floor_num" : "3",
-		//       "floor_path" : "tiles/floor_3.png",
-		//       "floor_width" : 2060,
-		//       "floor_height" : 1038
-		//     },
-		//     {
-		//       "floor_num" : "4",
-		//       "floor_path" : "tiles/floor_4.png",
-		//       "floor_width" : 2076,
-		//       "floor_height" : 1046
-		//     },
-		//     {
-		//       "floor_num" : "5",
-		//       "floor_path" : "tiles/floor_5.png",
-		//       "floor_width" : 2050,
-		//       "floor_height" : 1030
-		//     }
-		// ];
-
-		// this.poisJSON = [
-		// 	{
-		//       "_id": "1",
-		//       "title": "POI_1",
-		//       "type": "exposition",
-		//       "sub_type": "null",
-		//       "floor": "1",
-		//       "x_coord": "71",
-		//       "y_coord": "91"
-		//     },
-		//     {
-		//       "_id": "2",
-		//       "title": "POI_2",
-		//       "type": "exposition",
-		//       "sub_type": "null",
-		//       "floor": "2",
-		//       "x_coord": "500",
-		//       "y_coord": "100"
-		//     }
-		// ];
-
-		// this.languageJSON = {
-		// 	"mapx-poi-button":"Go To Destination"
-		// };
-		/* END TEST DATA */
-
 		/* Set the map frame: Map Size, Map Controls*/
 		function setMap(){
 			var MIN_ZOOM = -2, MAX_ZOOM = 0, INIT_ZOOM = -1;
@@ -113,15 +53,14 @@ function Controller(){
 	   		map.setMaxBounds(new L.LatLngBounds([south, west], [north, east])); 
 		}
 
-		/* Upon initialization, "manually" overlay the first image */
 		function setFloorImagesOverlay(){
 		    try{
 		    	for(var i = 0; i < self.floorsJSON.length; i++){
 		    		var imageUrl;
-			    	var west = -parseInt(self.floorsJSON[i]["floor_height"])/2;
-			    	var north = parseInt(self.floorsJSON[i]["floor_width"])/2;
-					var east = parseInt(self.floorsJSON[i]["floor_height"])/2;
-					var south = -parseInt(self.floorsJSON[i]["floor_width"])/2;
+			    	var west = -parseInt(self.floorsJSON[i]["floor_width"])/2;
+			    	var north = parseInt(self.floorsJSON[i]["floor_height"])/2;
+					var east = parseInt(self.floorsJSON[i]["floor_width"])/2;
+					var south = -parseInt(self.floorsJSON[i]["floor_height"])/2;
 
 					imageUrl = self.floorsJSON[i]["floor_path"];
 
@@ -214,10 +153,6 @@ function Controller(){
 		setFloorImagesOverlay();
 		createFloorControlUI();
 		self.setPOIs();
-
-//		if(Android.hasUserPosition()){
-//			self.updateUserMarker();
-//		}
 	};
 
 	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
@@ -265,7 +200,7 @@ function Controller(){
 
 				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
 				var y = -this.mapHeight + (this.offsetY + parseInt(poi["y_coord"]));
-				var marker = L.marker([y,x]).addTo(map);
+				var marker = L.marker([y, x]).addTo(map);
 				marker.setIcon(normalIcon);
 				marker.bindPopup(popupContent);
 				marker.poiID = poi["_id"];

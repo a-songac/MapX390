@@ -3,32 +3,32 @@
 	{
 	  "floorID": "1",
 	  "imagePath": "tiles/floor_1.jpg",
-	  "imageWidth": "1796",
-	  "imageHeight": "857"
+	  "imageWidth": "857",
+	  "imageHeight": "1796"
 	},
 	{
 	  "floorID": "2",
 	  "imagePath": "tiles/floor_2.png",
-	  "imageWidth": "2066",
-	  "imageHeight": "1032"
+	  "imageWidth": "1032",
+	  "imageHeight": "2066"
 	},
 	{
 	  "floorID": "3",
 	  "imagePath": "tiles/floor_3.png",
-	  "imageWidth": "2060",
-	  "imageHeight": "1038"
+	  "imageWidth": "1038",
+	  "imageHeight": "2060"
 	},
 	{
 	  "floorID": "4",
 	  "imagePath": "tiles/floor_4.png",
-	  "imageWidth": "2076",
-	  "imageHeight": "1046"
+	  "imageWidth": "1046",
+	  "imageHeight": "2076"
 	},
 	{
 	  "floorID": "5",
 	  "imagePath": "tiles/floor_5.png",
-	  "imageWidth": "2050",
-	  "imageHeight": "1030"
+	  "imageWidth": "1030",
+	  "imageHeight": "2050"
 	}
   ],
 
@@ -59,8 +59,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "872",
-		"y": "547",
+		"x": "547",
+		"y": "872",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -176,8 +176,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "943",
-		"y": "769",
+		"x": "769",
+		"y": "943",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -293,8 +293,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "997",
-		"y": "794",
+		"x": "794",
+		"y": "997",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -410,8 +410,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "1169",
-		"y": "802",
+		"x": "802",
+		"y": "1169",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -509,11 +509,11 @@
 		[
 		  {
 			"language": "en",
-			"title": "Generic Title 4"
+			"title": "Generic Title 5"
 		  },
 		  {
 			"language": "fr",
-			"title": "Titre Generique 4"
+			"title": "Titre Generique 5"
 		  }
 		],
 		"description":
@@ -527,8 +527,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "348",
-		"y": "696",
+		"x": "696",
+		"y": "348",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -644,8 +644,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "215",
-		"y": "636",
+		"x": "636",
+		"y": "215",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -761,8 +761,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "234",
-		"y": "383",
+		"x": "383",
+		"y": "234",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -878,8 +878,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "329",
-		"y": "227",
+		"x": "227",
+		"y": "329",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -995,8 +995,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "813",
-		"y": "164",
+		"x": "164",
+		"y": "813",
 		"floorID": "2",
 		"iBeacon":
 		{
@@ -1112,8 +1112,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "592",
-		"y": "225",
+		"x": "225",
+		"y": "592",
 		"floorID": "3",
 		"iBeacon":
 		{
@@ -1229,8 +1229,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "204",
-		"y": "177",
+		"x": "177",
+		"y": "204",
 		"floorID": "3",
 		"iBeacon":
 		{
@@ -1346,8 +1346,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "212",
-		"y": "209",
+		"x": "209",
+		"y": "212",
 		"floorID": "4",
 		"iBeacon":
 		{
@@ -1463,8 +1463,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "201",
-		"y": "217",
+		"x": "217",
+		"y": "201",
 		"floorID": "5",
 		"iBeacon":
 		{
@@ -1580,8 +1580,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "590",
-		"y": "217",
+		"x": "217",
+		"y": "590",
 		"floorID": "5",
 		"iBeacon":
 		{
@@ -1697,8 +1697,8 @@
 			"description": "Description Generique"
 		  }
 		],
-		"x": "805",
-		"y": "155",
+		"x": "155",
+		"y": "805",
 		"floorID": "5",
 		"iBeacon":
 		{
@@ -1800,8 +1800,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "878",
-		"y": "759",
+		"x": "759",
+		"y": "878",
 		"floorID": "2"
 	  },
 	  {
@@ -1811,8 +1811,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "947",
-		"y": "789",
+		"x": "789",
+		"y": "947",
 		"floorID": "2"
 	  },
 	  {
@@ -1822,8 +1822,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "939",
-		"y": "833",
+		"x": "833",
+		"y": "939",
 		"floorID": "2"
 	  },
 	  {
@@ -1833,8 +1833,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "814",
-		"y": "821",
+		"x": "821",
+		"y": "814",
 		"floorID": "2"
 	  },
 	  {
@@ -1844,8 +1844,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "815",
-		"y": "734",
+		"x": "734",
+		"y": "815",
 		"floorID": "2"
 	  },
 	  {
@@ -1855,8 +1855,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "214",
-		"y": "680",
+		"x": "680",
+		"y": "214",
 		"floorID": "2"
 	  },
 	  {
@@ -1866,8 +1866,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "245",
-		"y": "223",
+		"x": "223",
+		"y": "245",
 		"floorID": "2"
 	  },
 	  {
@@ -1888,8 +1888,8 @@
 		  "language": "en",
 		  "label": "stairs"
 		},
-		"x": "818",
-		"y": "128",
+		"x": "128",
+		"y": "818",
 		"floorID": "2"
 	  },
 	  {
@@ -1899,8 +1899,8 @@
 		  "language": "en",
 		  "label": "stairs"
 		},
-		"x": "817",
-		"y": "125",
+		"x": "125",
+		"y": "817",
 		"floorID": "3"
 	  },
 	  {
@@ -1910,8 +1910,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "805",
-		"y": "222",
+		"x": "222",
+		"y": "805",
 		"floorID": "3"
 	  },
 	  {
@@ -1921,8 +1921,8 @@
 		  "language": "en",
 		  "label": "stairs"
 		},
-		"x": "203",
-		"y": "126",
+		"x": "126",
+		"y": "203",
 		"floorID": "3"
 	  },
 	  {
@@ -1932,8 +1932,8 @@
 		  "language": "en",
 		  "label": "stairs"
 		},
-		"x": "216",
-		"y": "114",
+		"x": "114",
+		"y": "216",
 		"floorID": "4"
 	  },
 	  {
@@ -1943,8 +1943,8 @@
 		  "language": "en",
 		  "label": "stairs"
 		},
-		"x": "201",
-		"y": "125",
+		"x": "125",
+		"y": "201",
 		"floorID": "5"
 	  },
 	  {
@@ -1954,8 +1954,8 @@
 		  "language": "en",
 		  "label": "intersection"
 		},
-		"x": "806",
-		"y": "155",
+		"x": "155",
+		"y": "806",
 		"floorID": "5"
 	  }
 	]
@@ -2146,7 +2146,7 @@
 	  "id": "0",
 	  "title": [{
 		"language": "en",
-		"title": "Title Storyline 1"
+		"title": "Nipper Storyline"
 	  }
 	  ],
 	  "description": [{
@@ -2154,7 +2154,7 @@
 		"description": "Description Storyline 1"
 	  }
 	  ],
-	  "path": ["0", "5", "1", "2", "6", "3", "4"],
+	  "path": ["0", "1", "2", "3", "4", "5", "4", "3", "6", "7", "8", "9", "10", "11", "12", "13"],
 	  "thumbnail": "",
 	  "walkingTimeInMinutes": "0",
 	  "floorsCovered": "1"
