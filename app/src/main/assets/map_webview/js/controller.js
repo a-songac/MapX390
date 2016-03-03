@@ -17,6 +17,7 @@ function Controller(){
 	this.mapWidth = 0;
 	this.floorsOverlay = [];
 	this.userMarker;
+	this.polylines = [];
 
 	this.demoPOI = null; //TO REMOVE AFTER DEMO 2
 
@@ -137,9 +138,12 @@ function Controller(){
 					self.currentFloor = level;
 					self.removePOIs();
 					self.setPOIs();
-					if(self.inNavigation){
+
+					if(Android.isInMode()){
 						self.changeStartAndEndPOIIcons('js/images/pin1.png'); 
 						self.changePopupContent();
+						self.deletePath();
+						self.drawPath();
 					}
 				});
 
@@ -188,7 +192,7 @@ function Controller(){
 		for(var i = 0; i < this.poisJSON.length; i++){
 			var buttonLabel;
 
-			if(this.inNavigation){
+			if(Android.isInMode()){
 				buttonLabel = this.languageJSON["web_change_destination"];
 			}else{
 				buttonLabel = this.languageJSON["web_go_to_destination"];
@@ -211,10 +215,10 @@ function Controller(){
 	};
 
 	this.changePopupContent = function(){
-		for(var i = 0; i < this.poisJSON.length; i++){
+		for(var i = 0; i < this.currentPOIs.length; i++){
 			var buttonLabel, javascriptMethod;
 
-			if(this.inNavigation){
+			if(Android.isInMode()){
 				buttonLabel = this.languageJSON["web_change_destination"];
 				javascriptMethod = "onclick='controller.navigateToPOI(this)'";
 			}else{
@@ -254,17 +258,7 @@ function Controller(){
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
 	this.startNavigation = function(){
 		try{
-			var path = [this.demoPOI,this.demoPOI]; //we'll need a call Android.getPath(); OR find a way to receive data
-			
-			if(!path){
-				throw "Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0";
-			}
-
-			this.inNavigation = true;
-			this.startingPOIID = path[0];
-			this.endingPOIID = path[path.length-1];
-			this.changeStartAndEndPOIIcons('js/images/pin1.png');
-			//Add path creation here in Sprint 3
+			this.drawPath();
 
 			for(var i = 0; i < this.currentPOIs.length; i++){
 				var marker = this.currentPOIs[i];
@@ -288,6 +282,8 @@ function Controller(){
 			marker.closePopup();
 		}
 		
+		this.deletePath();
+
 		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
 		this.inNavigation = false;
 		this.startingPOIID = -1;
@@ -370,6 +366,57 @@ function Controller(){
 			this.userMarker.setLatLng([y, x]);
 		}
 	};
+
+	this.drawPath = function(){
+		var path = JSON.parse(Android.getPath());
+
+		if(!path){
+			console.log("Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0");
+		}
+
+		var self = this;
+		var pastNode = null;
+		for(var i in path){
+			if(pastNode != null){
+				var latlngs  = getLatLng(pastNode, path[i]);
+				var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+				this.polylines.push(polyline);
+			}
+
+			pastNode = path[i];
+		}
+
+		this.startingPOIID = path[0];
+		this.endingPOIID = path[path.length-1];
+		this.changeStartAndEndPOIIcons('js/images/pin1.png');
+
+		function getLatLng(pastNode, currentNode){
+			var latLng = [];
+			for(var i = 0; i < self.poisJSON.length; i++){
+
+				var poi = self.poisJSON[i];
+				if(parseInt(self.currentFloor) == parseInt(poi["floor"]) && ( parseInt(poi["_id"]) == parseInt(currentNode) || parseInt(poi["_id"]) == parseInt(pastNode) ) ){
+										var x = -self.mapWidth + (self.offsetX + parseInt(poi["x_coord"]));
+					var y = -self.mapHeight + (self.offsetY + parseInt(poi["y_coord"]));
+					latLng.push([y,x]);
+					continue;
+				}
+
+				if(latLng.length == 2){
+					break;
+				}
+			}
+			return latLng;
+		}
+	};
+
+	this.deletePath = function(){
+		for(var i = 0; i < this.polylines.length; i++){
+			map.removeLayer(this.polylines[i]);
+		}
+
+		this.polylines = [];
+	}
 }
 
 var controller = new Controller();
