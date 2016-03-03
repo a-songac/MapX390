@@ -70,8 +70,17 @@ public class NodeJSInterface {
         //TEST
         int[] path = {2,3,4};
         MapJSBridge mapJSBridge = MapJSBridge.getInstance();
-        mapJSBridge.drawPath(path);
+        mapJSBridge.drawPath();
         //TEST END
+    }
+
+    /**
+     * Returns boolean whether user is in any type of navigation mode
+     * @return boolean
+     */
+    @JavascriptInterface
+    public boolean isInMode() {
+        return (MapManager.isNavigationMode() || MapManager.isStorylineMode());
     }
 
     /**
@@ -110,6 +119,21 @@ public class NodeJSInterface {
         }
 
         return null;
+    }
+
+    /**
+     * Send id of current node where the user is at
+     * @return
+     */
+    @JavascriptInterface
+    public String getPath() {
+        JSONArray pathArr = new JSONArray();
+
+        for(int nodeID : MapManager.getCurrentPath()){
+            pathArr.put(nodeID);
+        }
+
+        return pathArr.toString();
     }
 
     /**

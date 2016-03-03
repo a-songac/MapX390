@@ -1,13 +1,33 @@
 package soen390.mapx.datastructure;
 
+import java.util.List;
+
+import soen390.mapx.model.Edge;
+import soen390.mapx.model.Node;
+
 public class WeightedGraph {
 
     private int[][] edges;
     private int size;
+    private static WeightedGraph instance;
 
-    public WeightedGraph(int size) {
-        edges = new int[size][size];
-        this.size = size;
+    private WeightedGraph() {
+        List<Edge> list = Edge.listAll(Edge.class);
+        long numOfNodes = Node.count(Node.class);
+        edges = new int[(int)numOfNodes][(int)numOfNodes];
+        this.size = (int)numOfNodes;
+
+        for (Edge e : list) {
+            addEdge((int)(e.getP1Id()), (int)(e.getP2Id()), e.getWeight());
+            addEdge((int)(e.getP2Id()), (int)(e.getP1Id()), e.getWeight());
+        }
+    }
+
+    public static WeightedGraph getInstance() {
+        if (instance == null) {
+            instance =  new WeightedGraph();
+        }
+        return instance;
     }
 
     public int getSize() {

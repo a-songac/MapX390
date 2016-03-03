@@ -2,11 +2,16 @@ package soen390.mapx.manager;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import soen390.mapx.R;
 import soen390.mapx.UiUtils;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
+import soen390.mapx.datastructure.PathFinder;
+import soen390.mapx.datastructure.WeightedGraph;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.NavigationHelper;
@@ -24,7 +29,7 @@ public class MapManager {
     private static Node lastNode = null; //TODO set initial POI as museum info center maybe
     private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
-
+    private static ArrayList<Integer> currentPath = null;
 
     public static boolean isStorylineMode() {
         return storylineMode;
@@ -37,6 +42,8 @@ public class MapManager {
     public static Node getLastNode(){
         return lastNode;
     }
+
+    public static ArrayList<Integer> getCurrentPath(){ return currentPath; }
 
     /**
      * Launch the storyline mode
@@ -151,9 +158,15 @@ public class MapManager {
 
         syncActionBarStateWithCurrentMode();
 
-        int[] path = new int[0];
-//        path = PathFinder.computeShortestPath(new WeightedGraph(1), poiId); //TODO how do we deal with the Weighted graph?
-        MapJSBridge.getInstance().drawPath(path);
+        if(MapManager.getLastNode() == null){
+            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(), 0);
+            currentPath = PathFinder.getShortestPath(pathTree,0, newNode.getId().intValue());
+        }else{
+            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(), MapManager.getLastNode().getId());
+            currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNode().getId().intValue(), newNode.getId().intValue());
+        }
+
+        MapJSBridge.getInstance().drawPath();
 
         String str = context.getResources().getString(
                 R.string.poi_selected_as_destination, newNode.getTitle());

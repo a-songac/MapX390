@@ -17,6 +17,7 @@ function Controller(){
 	this.mapWidth = 0;
 	this.floorsOverlay = [];
 	this.userMarker;
+	this.polylines = [];
 
 	this.demoPOI = null; //TO REMOVE AFTER DEMO 2
 
@@ -27,66 +28,6 @@ function Controller(){
 		this.poisJSON = JSON.parse(Android.getPOIsJSON());
 		this.floorsJSON = JSON.parse(Android.getFloorsJSON());
 		this.languageJSON = JSON.parse(Android.getLanguageJSON());
-
-		/* TEST DATA */
-		// this.floorsJSON = [
-		// 	{
-		//       "floor_num" : "1",
-		//       "floor_path" : "tiles/floor_1.jpg",
-		//       "floor_width" : 1796,
-		//       "floor_height" : 857
-		//     },
-		//     {
-		//       "floor_num" : "2",
-		//       "floor_path" : "tiles/floor_2.png",
-		//       "floor_width" : 2066,
-		//       "floor_height" : 1032
-		//     },
-		//     {
-		//       "floor_num" : "3",
-		//       "floor_path" : "tiles/floor_3.png",
-		//       "floor_width" : 2060,
-		//       "floor_height" : 1038
-		//     },
-		//     {
-		//       "floor_num" : "4",
-		//       "floor_path" : "tiles/floor_4.png",
-		//       "floor_width" : 2076,
-		//       "floor_height" : 1046
-		//     },
-		//     {
-		//       "floor_num" : "5",
-		//       "floor_path" : "tiles/floor_5.png",
-		//       "floor_width" : 2050,
-		//       "floor_height" : 1030
-		//     }
-		// ];
-
-		// this.poisJSON = [
-		// 	{
-		//       "_id": "1",
-		//       "title": "POI_1",
-		//       "type": "exposition",
-		//       "sub_type": "null",
-		//       "floor": "1",
-		//       "x_coord": "71",
-		//       "y_coord": "91"
-		//     },
-		//     {
-		//       "_id": "2",
-		//       "title": "POI_2",
-		//       "type": "exposition",
-		//       "sub_type": "null",
-		//       "floor": "2",
-		//       "x_coord": "500",
-		//       "y_coord": "100"
-		//     }
-		// ];
-
-		// this.languageJSON = {
-		// 	"mapx-poi-button":"Go To Destination"
-		// };
-		/* END TEST DATA */
 
 		/* Set the map frame: Map Size, Map Controls*/
 		function setMap(){
@@ -113,15 +54,14 @@ function Controller(){
 	   		map.setMaxBounds(new L.LatLngBounds([south, west], [north, east])); 
 		}
 
-		/* Upon initialization, "manually" overlay the first image */
 		function setFloorImagesOverlay(){
 		    try{
 		    	for(var i = 0; i < self.floorsJSON.length; i++){
 		    		var imageUrl;
-			    	var west = -parseInt(self.floorsJSON[i]["floor_height"])/2;
-			    	var north = parseInt(self.floorsJSON[i]["floor_width"])/2;
-					var east = parseInt(self.floorsJSON[i]["floor_height"])/2;
-					var south = -parseInt(self.floorsJSON[i]["floor_width"])/2;
+			    	var west = -parseInt(self.floorsJSON[i]["floor_width"])/2;
+			    	var north = parseInt(self.floorsJSON[i]["floor_height"])/2;
+					var east = parseInt(self.floorsJSON[i]["floor_width"])/2;
+					var south = -parseInt(self.floorsJSON[i]["floor_height"])/2;
 
 					imageUrl = self.floorsJSON[i]["floor_path"];
 
@@ -198,9 +138,12 @@ function Controller(){
 					self.currentFloor = level;
 					self.removePOIs();
 					self.setPOIs();
-					if(self.inNavigation){
+
+					if(Android.isInMode()){
 						self.changeStartAndEndPOIIcons('js/images/pin1.png'); 
 						self.changePopupContent();
+						self.deletePath();
+						self.drawPath();
 					}
 				});
 
@@ -214,10 +157,6 @@ function Controller(){
 		setFloorImagesOverlay();
 		createFloorControlUI();
 		self.setPOIs();
-
-//		if(Android.hasUserPosition()){
-//			self.updateUserMarker();
-//		}
 	};
 
 	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
@@ -253,19 +192,19 @@ function Controller(){
 		for(var i = 0; i < this.poisJSON.length; i++){
 			var buttonLabel;
 
-			if(this.inNavigation){
+			if(Android.isInMode()){
 				buttonLabel = this.languageJSON["web_change_destination"];
 			}else{
 				buttonLabel = this.languageJSON["web_go_to_destination"];
 			}
 
 			var poi = this.poisJSON[i];
-			if(parseInt(this.currentFloor) === parseInt(poi["floor"])){
+			if(parseInt(this.currentFloor) === parseInt(poi["floor"]) && poi["type"] != "t"){
 				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
 
 				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
 				var y = -this.mapHeight + (this.offsetY + parseInt(poi["y_coord"]));
-				var marker = L.marker([y,x]).addTo(map);
+				var marker = L.marker([y, x]).addTo(map);
 				marker.setIcon(normalIcon);
 				marker.bindPopup(popupContent);
 				marker.poiID = poi["_id"];
@@ -276,10 +215,10 @@ function Controller(){
 	};
 
 	this.changePopupContent = function(){
-		for(var i = 0; i < this.poisJSON.length; i++){
+		for(var i = 0; i < this.currentPOIs.length; i++){
 			var buttonLabel, javascriptMethod;
 
-			if(this.inNavigation){
+			if(Android.isInMode()){
 				buttonLabel = this.languageJSON["web_change_destination"];
 				javascriptMethod = "onclick='controller.navigateToPOI(this)'";
 			}else{
@@ -319,17 +258,7 @@ function Controller(){
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
 	this.startNavigation = function(){
 		try{
-			var path = [this.demoPOI,this.demoPOI]; //we'll need a call Android.getPath(); OR find a way to receive data
-			
-			if(!path){
-				throw "Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0";
-			}
-
-			this.inNavigation = true;
-			this.startingPOIID = path[0];
-			this.endingPOIID = path[path.length-1];
-			this.changeStartAndEndPOIIcons('js/images/pin1.png');
-			//Add path creation here in Sprint 3
+			this.drawPath();
 
 			for(var i = 0; i < this.currentPOIs.length; i++){
 				var marker = this.currentPOIs[i];
@@ -353,6 +282,8 @@ function Controller(){
 			marker.closePopup();
 		}
 		
+		this.deletePath();
+
 		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
 		this.inNavigation = false;
 		this.startingPOIID = -1;
@@ -435,6 +366,57 @@ function Controller(){
 			this.userMarker.setLatLng([y, x]);
 		}
 	};
+
+	this.drawPath = function(){
+		var path = JSON.parse(Android.getPath());
+
+		if(!path){
+			console.log("Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0");
+		}
+
+		var self = this;
+		var pastNode = null;
+		for(var i in path){
+			if(pastNode != null){
+				var latlngs  = getLatLng(pastNode, path[i]);
+				var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+				this.polylines.push(polyline);
+			}
+
+			pastNode = path[i];
+		}
+
+		this.startingPOIID = path[0];
+		this.endingPOIID = path[path.length-1];
+		this.changeStartAndEndPOIIcons('js/images/pin1.png');
+
+		function getLatLng(pastNode, currentNode){
+			var latLng = [];
+			for(var i = 0; i < self.poisJSON.length; i++){
+
+				var poi = self.poisJSON[i];
+				if(parseInt(self.currentFloor) == parseInt(poi["floor"]) && ( parseInt(poi["_id"]) == parseInt(currentNode) || parseInt(poi["_id"]) == parseInt(pastNode) ) ){
+										var x = -self.mapWidth + (self.offsetX + parseInt(poi["x_coord"]));
+					var y = -self.mapHeight + (self.offsetY + parseInt(poi["y_coord"]));
+					latLng.push([y,x]);
+					continue;
+				}
+
+				if(latLng.length == 2){
+					break;
+				}
+			}
+			return latLng;
+		}
+	};
+
+	this.deletePath = function(){
+		for(var i = 0; i < this.polylines.length; i++){
+			map.removeLayer(this.polylines[i]);
+		}
+
+		this.polylines = [];
+	}
 }
 
 var controller = new Controller();
