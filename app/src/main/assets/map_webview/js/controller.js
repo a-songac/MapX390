@@ -316,12 +316,12 @@ function Controller(){
 		var userPOI = Android.getUserPosition();
 		var latLng;
 
-		for(var i = 0; i < self.poisJSON.length; i++){
+		for(var i = 0; i < this.poisJSON.length; i++){
 
-			var poi = self.poisJSON[i];
-			if(parseInt(self.currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
-				var x = -self.mapWidth + (self.offsetX + parseInt(poi["x_coord"]));
-				var y = -self.mapHeight + (self.offsetY + parseInt(poi["y_coord"]));
+			var poi = this.poisJSON[i];
+			if(parseInt(this.currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
+				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
+				var y = -this.mapHeight + (this.offsetY + parseInt(poi["y_coord"]));
 				latLng [y,x];
 				break;;
 			}
