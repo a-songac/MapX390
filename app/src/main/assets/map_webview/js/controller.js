@@ -313,24 +313,27 @@ function Controller(){
 	};
 
 	this.updateUserMarker = function(){
-		var latLng = Android.getUserPosition();
-		
-		/*TEST DATA*/
-		// var latLng = {
-		// 	lat:25,
-		// 	lng:25
-		// };
+		var userPOI = Android.getUserPosition();
+		var latLng;
 
-		var x = -this.mapWidth + (this.offsetX + parseInt(latLng["lng"]));
-		var y = -this.mapHeight + (this.offsetY + parseInt(latLng["lat"]));
+		for(var i = 0; i < self.poisJSON.length; i++){
 
-		this.setUserMarker(x, y);
+			var poi = self.poisJSON[i];
+			if(parseInt(self.currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
+				var x = -self.mapWidth + (self.offsetX + parseInt(poi["x_coord"]));
+				var y = -self.mapHeight + (self.offsetY + parseInt(poi["y_coord"]));
+				latLng [y,x];
+				break;;
+			}
+		}
+
+		this.setUserMarker(latLng);
 	};
 
-	this.setUserMarker = function(x, y){
+	this.setUserMarker = function(latLng){
 		if(!this.userMarker){
 			this.userMarker = L.circleMarker(
-				[y, x], 
+				latLng, 
 				{
 					clickable: false,
 				}
