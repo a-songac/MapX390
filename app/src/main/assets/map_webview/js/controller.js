@@ -138,6 +138,7 @@ function Controller(){
 					self.currentFloor = level;
 					self.removePOIs();
 					self.setPOIs();
+					self.updateUserMarker();
 
 					if(Android.isInMode()){
 						self.changeStartAndEndPOIIcons('js/images/pin1.png');
@@ -298,7 +299,7 @@ function Controller(){
 		for(var i = 0; i < this.currentPOIs.length; i++){
 			var marker = this.currentPOIs[i];
 
-			//parseInt(marker.poiID) == parseInt(this.startingPOIID) || 
+			//parseInt(marker.poiID) == parseInt(this.startingPOIID) ||
 			if(parseInt(marker.poiID) == parseInt(this.endingPOIID)){
 				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
 				var normalIcon = L.icon({
@@ -317,6 +318,10 @@ function Controller(){
 		var userPOI = Android.getUserPosition();
 		var latLng;
 
+		if(!userPOI){
+			return;
+		}
+
 		for(var i = 0; i < this.poisJSON.length; i++){
 
 			var poi = this.poisJSON[i];
@@ -332,12 +337,17 @@ function Controller(){
 	};
 
 	this.setUserMarker = function(latLng){
+		if(!latLng){
+			latLng = [-10000, -10000]
+		}
+
 		if(!this.userMarker){
 			this.userMarker = L.circleMarker(
 				latLng,
 				{
 					clickable: false,
-					radius: 7
+					radius: 10,
+					color: 'red'
 				}
 			);
 
@@ -368,7 +378,7 @@ function Controller(){
 			    }
 			});
 		}else{
-			this.userMarker.setLatLng(latLng);
+				this.userMarker.setLatLng(latLng);
 		}
 	};
 
