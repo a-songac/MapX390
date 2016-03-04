@@ -3,7 +3,6 @@ package soen390.mapx.manager;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import soen390.mapx.R;
 import soen390.mapx.UiUtils;
@@ -15,6 +14,7 @@ import soen390.mapx.datastructure.WeightedGraph;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.NavigationHelper;
+import soen390.mapx.model.Edge;
 import soen390.mapx.model.Node;
 import soen390.mapx.model.Storyline;
 import soen390.mapx.webapp.MapJSBridge;
@@ -159,10 +159,10 @@ public class MapManager {
         syncActionBarStateWithCurrentMode();
 
         if(MapManager.getLastNode() == null){
-            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(), 0);
+            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), 0);
             currentPath = PathFinder.getShortestPath(pathTree,0, newNode.getId().intValue());
         }else{
-            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(), MapManager.getLastNode().getId());
+            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNode().getId());
             currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNode().getId().intValue(), newNode.getId().intValue());
         }
 
