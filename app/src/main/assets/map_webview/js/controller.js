@@ -298,7 +298,8 @@ function Controller(){
 		for(var i = 0; i < this.currentPOIs.length; i++){
 			var marker = this.currentPOIs[i];
 
-			if(parseInt(marker.poiID) == parseInt(this.startingPOIID) || parseInt(marker.poiID) == parseInt(this.endingPOIID)){
+			//parseInt(marker.poiID) == parseInt(this.startingPOIID) || 
+			if(parseInt(marker.poiID) == parseInt(this.endingPOIID)){
 				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
 				var normalIcon = L.icon({
 				    iconUrl: imagePath,
