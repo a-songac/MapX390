@@ -3,8 +3,6 @@ package soen390.mapx.webapp;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
-import java.util.List;
-
 import soen390.mapx.LogUtils;
 
 /**
@@ -33,7 +31,6 @@ public class MapJSBridge {
      */
     public void drawPath() {
 
-        //TODO
         webView.evaluateJavascript("controller.startNavigation()", null);
     }
 
@@ -77,8 +74,14 @@ public class MapJSBridge {
      */
     public void leaveNavigation(){
 
-        //TODO
-
         webView.evaluateJavascript("controller.cancelNavigation()", null);
+    }
+
+    /**
+     * Switch to the floor on which the user is if necessary
+     */
+    public void displayCurrentFloor(){
+
+        webView.evaluateJavascript("TODO", null);//TODO
     }
 }

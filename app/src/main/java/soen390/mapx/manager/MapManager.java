@@ -184,6 +184,16 @@ public class MapManager {
         MapJSBridge.getInstance().reachedNode(poi.getId());
     }
 
+    /**
+     * When reached a POI and that user clicked the notification,
+     * signal the web client to display the floor on which the poi was reached
+     */
+    public static void displayOnMapPOIReached() {
+
+        MapJSBridge.getInstance();
+
+    }
+
 
     /**
      * Leave current mode (storyline or navigation)
