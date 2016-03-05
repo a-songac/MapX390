@@ -106,6 +106,7 @@ function Controller(){
 				var levelControl = document.createElement("a");
 				$(levelControl).prop("href", "#");
 				$(levelControl).text(i+1);
+				$(levelControl).attr('data-floorId', i);  //TOCHANGE for id attribute in JSON in future sprint
 
 				//First floor has to have the selected css
 				if(i === 0){
@@ -431,6 +432,11 @@ function Controller(){
 		}
 
 		this.polylines = [];
+	}
+
+	this.changeToUserLocationFloor = function(){
+		var floor = Android.getCurrentPOIFloor();
+		$("a [data-floorId = '"+floor+"']").click();
 	}
 }
 

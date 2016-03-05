@@ -190,7 +190,7 @@ public class MapManager {
      */
     public static void displayOnMapPOIReached() {
 
-        MapJSBridge.getInstance();
+        MapJSBridge.getInstance().displayCurrentFloor();
 
     }
 

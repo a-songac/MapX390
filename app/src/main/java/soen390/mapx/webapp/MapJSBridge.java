@@ -81,7 +81,6 @@ public class MapJSBridge {
      * Switch to the floor on which the user is if necessary
      */
     public void displayCurrentFloor(){
-
-        webView.evaluateJavascript("TODO", null);//TODO
+        webView.evaluateJavascript("controller.changeToUserLocationFloor()", null);//TODO
     }
 }
