@@ -37,8 +37,8 @@ function Controller(){
 			var south = -1100, east = 500, north = 1100, west = -500;
 			self.mapWidth = 500;
 			self.mapHeight = 1050;
-			//var north = self.floorsJSON[0]["floor_width"];  
-			//var west = self.floorsJSON[0]["floor_height"]; 
+			//var north = self.floorsJSON[0]["floor_width"];
+			//var west = self.floorsJSON[0]["floor_height"];
 
 			//Map settings
 			map = L.map('map', {
@@ -51,7 +51,7 @@ function Controller(){
 		    map.setView([INIT_POSITION_X, INIT_POSITION_Y], INIT_ZOOM);
 
 			new L.Control.Zoom({ position: 'bottomright' }).addTo(map);
-	   		map.setMaxBounds(new L.LatLngBounds([south, west], [north, east])); 
+	   		map.setMaxBounds(new L.LatLngBounds([south, west], [north, east]));
 		}
 
 		function setFloorImagesOverlay(){
@@ -66,7 +66,7 @@ function Controller(){
 					imageUrl = self.floorsJSON[i]["floor_path"];
 
 					var imageBounds = [[south, west], [north, east]];
-			    	var imageOverlay = L.imageOverlay(imageUrl, imageBounds); 
+			    	var imageOverlay = L.imageOverlay(imageUrl, imageBounds);
 			    	imageOverlay.addTo(map);
 			    	imageOverlay.setOpacity(0);
 			    	self.floorsOverlay.push({
@@ -74,7 +74,7 @@ function Controller(){
 			    		north: north,
 			    		east: east,
 			    		imageUrl: imageUrl
-			    	}); 
+			    	});
 		    	}
 
 		    	self.currentFloor = 1;
@@ -99,7 +99,7 @@ function Controller(){
 			$(levelControlContainer).addClass("leaflet-control leaflet-bar");
 
 			//Find the current zoom control container and create a level control element in it
-			$(".leaflet-bottom.leaflet-right").prepend(levelControlContainer); 
+			$(".leaflet-bottom.leaflet-right").prepend(levelControlContainer);
 
 			//Loop for creating every floor button
 			for(var i = 0; i < levels; i++){
@@ -138,9 +138,10 @@ function Controller(){
 					self.currentFloor = level;
 					self.removePOIs();
 					self.setPOIs();
+					self.updateUserMarker();
 
 					if(Android.isInMode()){
-						self.changeStartAndEndPOIIcons('js/images/pin1.png'); 
+						self.changeStartAndEndPOIIcons('js/images/pin1.png');
 						self.changePopupContent();
 						self.deletePath();
 						self.drawPath();
@@ -281,7 +282,7 @@ function Controller(){
 			var marker = this.currentPOIs[i];
 			marker.closePopup();
 		}
-		
+
 		this.deletePath();
 
 		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
@@ -298,7 +299,8 @@ function Controller(){
 		for(var i = 0; i < this.currentPOIs.length; i++){
 			var marker = this.currentPOIs[i];
 
-			if(parseInt(marker.poiID) == parseInt(this.startingPOIID) || parseInt(marker.poiID) == parseInt(this.endingPOIID)){
+			//parseInt(marker.poiID) == parseInt(this.startingPOIID) ||
+			if(parseInt(marker.poiID) == parseInt(this.endingPOIID)){
 				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
 				var normalIcon = L.icon({
 				    iconUrl: imagePath,
@@ -313,37 +315,50 @@ function Controller(){
 	};
 
 	this.updateUserMarker = function(){
-		var latLng = Android.getUserPosition();
-		
-		/*TEST DATA*/
-		// var latLng = {
-		// 	lat:25,
-		// 	lng:25
-		// };
+		var userPOI = Android.getUserPosition();
+		var latLng;
 
-		var x = -this.mapWidth + (this.offsetX + parseInt(latLng["lng"]));
-		var y = -this.mapHeight + (this.offsetY + parseInt(latLng["lat"]));
+		if(!userPOI){
+			return;
+		}
 
-		this.setUserMarker(x, y);
+		for(var i = 0; i < this.poisJSON.length; i++){
+
+			var poi = this.poisJSON[i];
+			if(parseInt(this.currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
+				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
+				var y = -this.mapHeight + (this.offsetY + parseInt(poi["y_coord"]));
+				latLng = [y,x];
+				break;
+			}
+		}
+
+		this.setUserMarker(latLng);
 	};
 
-	this.setUserMarker = function(x, y){
+	this.setUserMarker = function(latLng){
+		if(!latLng){
+			latLng = [-10000, -10000]
+		}
+
 		if(!this.userMarker){
 			this.userMarker = L.circleMarker(
-				[y, x], 
+				latLng,
 				{
 					clickable: false,
+					radius: 10,
+					color: 'red'
 				}
 			);
 
 			this.userMarker.addTo(map);
 
-			/* 
-			 * Leaflet has a weird behavior for drawn components, where they 
+			/*
+			 * Leaflet has a weird behavior for drawn components, where they
 			 * will change size depending on your zoom level. This will keep
 			 * the components the same size at all levels
 			*/
-			
+
 			var myZoom = {
 			  start:  map.getZoom(),
 			  end: map.getZoom()
@@ -363,7 +378,7 @@ function Controller(){
 			    }
 			});
 		}else{
-			this.userMarker.setLatLng([y, x]);
+				this.userMarker.setLatLng(latLng);
 		}
 	};
 
