@@ -40,6 +40,9 @@ public class MapManager {
     }
 
     public static Node getLastNode(){
+        if (null == lastNode) {
+            return Node.findById(Node.class, 0);
+        }
         return lastNode;
     }
 

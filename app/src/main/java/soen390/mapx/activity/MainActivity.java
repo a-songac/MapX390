@@ -61,7 +61,6 @@ public class MainActivity extends BaseActivity
             initIbeacon();
         }
 
-        NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(0));
 
         if (savedInstanceState == null) {
             NavigationHelper.getInstance().navigateToMainFragment();
@@ -108,6 +107,7 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToSettingsFragment(false);
 
         } else if (id == R.id.nav_help_feedback) {
+            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(0));
 
         }
 

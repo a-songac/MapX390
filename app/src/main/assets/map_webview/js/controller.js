@@ -106,7 +106,7 @@ function Controller(){
 				var levelControl = document.createElement("a");
 				$(levelControl).prop("href", "#");
 				$(levelControl).text(i+1);
-				$(levelControl).attr('data-floorId', i);  //TOCHANGE for id attribute in JSON in future sprint
+				$(levelControl).attr("data-floorId", i+1);  //TOCHANGE for id attribute in JSON in future sprint
 
 				//First floor has to have the selected css
 				if(i === 0){
@@ -436,7 +436,12 @@ function Controller(){
 
 	this.changeToUserLocationFloor = function(){
 		var floor = Android.getCurrentPOIFloor();
-		$("a [data-floorId = '"+floor+"']").click();
+		console.log("controller::changeToUserLocationFloor::Floor to display: " + floor);
+		var floorBtn = $("a [data-floorId = '"+floor+"']");
+		console.log("controller::changeToUserLocationFloor::Floor button element: " + floorBtn);
+		console.log( JSON.stringify(floorBtn));
+		floorBtn.click();
+		floorBtn.get(0).click();
 	}
 }
 

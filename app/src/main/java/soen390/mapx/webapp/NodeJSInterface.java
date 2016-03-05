@@ -128,7 +128,11 @@ public class NodeJSInterface {
     @JavascriptInterface
     public String getCurrentPOIFloor() {
         Node lastNode = MapManager.getLastNode();
-        return lastNode.getFloorId();
+        if (null != lastNode) {
+            return lastNode.getFloorId();
+        }
+        return null;
+
     }
 
     /**
