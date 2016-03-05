@@ -65,7 +65,6 @@ public class PathFinderTest {
         Assert.assertEquals(4, weight);
     }
 
-
     @Test
     public void computeShortestPathIsNotNull(){
         int[] arrayPath;
