@@ -18,6 +18,7 @@ function Controller(){
 	this.floorsOverlay = [];
 	this.userMarker;
 	this.polylines = [];
+	this.floorButtonElements = [];
 
 	this.demoPOI = null; //TO REMOVE AFTER DEMO 2
 
@@ -151,6 +152,7 @@ function Controller(){
 
 				//Prepend the floor button to the floor control element
 				$(levelControlContainer).prepend(levelControl);
+				self.floorButtonElements.push(levelControl);
 			}
 
 		}
@@ -436,12 +438,14 @@ function Controller(){
 
 	this.changeToUserLocationFloor = function(){
 		var floor = Android.getCurrentPOIFloor();
-		console.log("controller::changeToUserLocationFloor::Floor to display: " + floor);
-		var floorBtn = $("a [data-floorId = '"+floor+"']");
-		console.log("controller::changeToUserLocationFloor::Floor button element: " + floorBtn);
-		console.log( JSON.stringify(floorBtn));
-		floorBtn.click();
-		floorBtn.get(0).click();
+		for(var i = 0; i < this.floorButtonElements.length; i++){
+			var floorBtn = this.floorButtonElements[i];
+
+			//TODO: Maybe change, if floor can be something other than int
+			if(parseInt($(floorBtn).attr("data-floorId")) == parseInt(floor)){
+				$(floorBtn).click();
+			}
+		}
 	}
 }
 
