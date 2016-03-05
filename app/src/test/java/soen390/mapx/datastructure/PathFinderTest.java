@@ -6,9 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import soen390.mapx.datastructure.PathFinder;
-import soen390.mapx.datastructure.WeightedGraph;
+import soen390.mapx.model.Edge;
 
 public class PathFinderTest {
 //1. create a graph
@@ -23,40 +23,19 @@ public class PathFinderTest {
 
     @Before
     public void initialize() {
+        List<Edge> edges = new ArrayList<Edge>();
+        edges.add(new Edge(0l, 7l, 4, 2l));
+        edges.add(new Edge(7l, 6l, 4, 2l));
+        edges.add(new Edge(0l, 3l, 2, 2l));
+        edges.add(new Edge(3l, 4l, 2, 2l));
+        edges.add(new Edge(4l, 5l, 2, 2l));
+        edges.add(new Edge(5l, 6l, 2, 2l));
+        edges.add(new Edge(0l, 2l, 6, 2l));
+        edges.add(new Edge(2l, 6l, 1, 2l));
+        edges.add(new Edge(0l, 1l, 3, 2l));
+        edges.add(new Edge(1l, 6l, 4, 2l));
 
-        weightedGraph = new WeightedGraph(8);
-        weightedGraph.addEdge(0,7,4);
-        weightedGraph.addEdge(7,0,4);
-
-        weightedGraph.addEdge(7,6,4);
-        weightedGraph.addEdge(6,7,4);
-
-        weightedGraph.addEdge(0,3,2);
-        weightedGraph.addEdge(3,0,2);
-
-        weightedGraph.addEdge(3,4,2);
-        weightedGraph.addEdge(4,3,2);
-
-        weightedGraph.addEdge(4,5,2);
-        weightedGraph.addEdge(5,4,2);
-
-        weightedGraph.addEdge(5,6,2);
-        weightedGraph.addEdge(6,5,2);
-
-        weightedGraph.addEdge(0,2,6);
-        weightedGraph.addEdge(2,0,6);
-
-
-        weightedGraph.addEdge(2,6,1);
-        weightedGraph.addEdge(6,2,1);
-
-        weightedGraph.addEdge(0,1,3);
-        weightedGraph.addEdge(1,0,3);
-
-        weightedGraph.addEdge(1,6,4);
-        weightedGraph.addEdge(6,1,4);
-
-
+        weightedGraph = WeightedGraph.getInstance(edges, 8);
     }
 
     @Test
@@ -117,11 +96,11 @@ public class PathFinderTest {
     }
 
     @Test
-    public void computeShortestPathWithTwoSolution(){
+    public void computeShortestPathWithTwoSolution() {
         int[] arrayPath;
 
         ArrayList<Integer> expectedShortestPath = new ArrayList<Integer>();
-        arrayPath = PathFinder.computeShortestPath(weightedGraph,7);
+        arrayPath = PathFinder.computeShortestPath(weightedGraph, 7);
 
         expectedShortestPath.add(0, 7);
         expectedShortestPath.add(1, 0);
@@ -130,6 +109,4 @@ public class PathFinderTest {
 
         Assert.assertEquals(expectedShortestPath, PathFinder.getShortestPath(arrayPath, 7, 4));
     }
-
-
 }
