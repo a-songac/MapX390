@@ -57,4 +57,5 @@
     <!-- Notifications -->
     <string name="notification_poi_reached_title">Vous êtes à un point d\'intérêt</string>
     <string name="notification_poi_reached_text">Vous avez atteint le point d\'intérêt : %1$s</string>
+    <string name="notification_poi_reached_floor">Étage: %1$s</string>
 </resources>
