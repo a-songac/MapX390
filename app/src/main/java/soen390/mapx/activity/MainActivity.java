@@ -107,6 +107,7 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToSettingsFragment(false);
 
         } else if (id == R.id.nav_help_feedback) {
+            //TODO Temporary, for testing purposes
             NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(0));
 
         }
