@@ -153,6 +153,7 @@ public class MainActivity extends BaseActivity
         Bundle extras = intent.getExtras();
         if (null != extras) {
             if (extras.containsKey(ConstantsHelper.INTENT_POI_REACHED_EXTRA_KEY)) {
+                NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
                 LogUtils.info(this.getClass(), "onNewIntent", "onNewIntent from POI Reached notification");
                 MapManager.displayOnMapPOIReached();
             }
