@@ -59,5 +59,6 @@
     <!-- Notifications -->
     <string name="notification_poi_reached_title">Point of Interest Reached</string>
     <string name="notification_poi_reached_text">You reached the point of interest: %1$s</string>
+    <string name="notification_poi_reached_floor">Floor: %1$s</string>
 
 </resources>

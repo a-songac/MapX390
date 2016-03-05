@@ -40,6 +40,9 @@ public class MapManager {
     }
 
     public static Node getLastNode(){
+        if (null == lastNode) {
+            return Node.findById(Node.class, 0);
+        }
         return lastNode;
     }
 
@@ -182,6 +185,16 @@ public class MapManager {
     public static void reachPOI(Node poi) {
         lastNode = poi;
         MapJSBridge.getInstance().reachedNode(poi.getId());
+    }
+
+    /**
+     * When reached a POI and that user clicked the notification,
+     * signal the web client to display the floor on which the poi was reached
+     */
+    public static void displayOnMapPOIReached() {
+
+        MapJSBridge.getInstance().displayCurrentFloor();
+
     }
 
 

@@ -126,6 +126,20 @@ public class NodeJSInterface {
      * @return
      */
     @JavascriptInterface
+    public String getCurrentPOIFloor() {
+        Node lastNode = MapManager.getLastNode();
+        if (null != lastNode) {
+            return lastNode.getFloorId();
+        }
+        return null;
+
+    }
+
+    /**
+     * Send id of current node where the user is at
+     * @return
+     */
+    @JavascriptInterface
     public String getPath() {
         JSONArray pathArr = new JSONArray();
 

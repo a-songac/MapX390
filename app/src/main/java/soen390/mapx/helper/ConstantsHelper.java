@@ -30,4 +30,5 @@ public class ConstantsHelper {
      * Intents, pending intents
      */
     public static final int PENDING_INTENT_NOTIFICATION_POI_REACHED = 1;
+    public static final String INTENT_POI_REACHED_EXTRA_KEY = "poi_reached_intent_extra_key";
 }
