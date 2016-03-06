@@ -20,7 +20,8 @@ public class ConstantsHelper {
      */
     public static final String PREF_MAIN_KEY = "preferences_main";
     public static final String PREF_LANGUAGE_KEY = "pref_language";
-    public static final String PREF_LANGUAGE_DEFAULT = "en";
+    public static final String PREF_LANGUAGE_DEFAULT = "en"; // if changed, change constant below as well
+    public static final int PREF_LANGUAGE_DEFAULT_ARR_INDEX = 1; // see values/arrays.xml
     public static final String PREF_LANGUAGE_ENGLISH = "en";
     public static final String PREF_LANGUAGE_FRENCH = "fr";
     public static final String PREF_LANGUAGE_INIT_KEY = "pref_language_init";

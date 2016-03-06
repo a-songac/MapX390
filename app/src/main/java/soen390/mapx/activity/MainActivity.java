@@ -22,6 +22,7 @@ import java.util.Locale;
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.application.MapXApplication;
+import soen390.mapx.callback.IDialogListItemClickCallback;
 import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
@@ -41,6 +42,7 @@ public class MainActivity extends BaseActivity
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
+    private int languageIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,19 +265,40 @@ public class MainActivity extends BaseActivity
 
             String title = getString(R.string.language_init_dialog_title);
             String message = getString(R.string.language_init_dialog_body);
+            CharSequence[] languages = getResources().getStringArray(R.array.pref_languages_entries);
+            final String[] languagesPrefKeys = getResources().getStringArray(R.array.pref_languages_values);
+            languageIndex =  ConstantsHelper.PREF_LANGUAGE_DEFAULT_ARR_INDEX;
 
-            AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
-                @Override
-                public void onPositiveResponse() {
-                    NavigationHelper.getInstance().navigateToSettingsFragment(true);
-                    navigationView.getMenu().getItem(3).setChecked(true);
-                }
+            AlertDialogHelper.showLanguagePromptAlertDialog(
+                    title,
+                    message,
+                    languages,
+                    ConstantsHelper.PREF_LANGUAGE_DEFAULT_ARR_INDEX,
+                    new IDialogListItemClickCallback() {
+                        @Override
+                        public void onItemClick(int itemPosition) {
+                            languageIndex = itemPosition;
+                        }
 
-                @Override
-                public void onNegativeResponse() {
+                    },
+                    new IDialogResponseCallBack() {
+                        @Override
+                        public void onPositiveResponse() {
 
-                }
-            });
+                            if (languageIndex != ConstantsHelper.PREF_LANGUAGE_DEFAULT_ARR_INDEX) {
+
+                                PreferenceHelper.getInstance().setLanguagePreference(
+                                        languagesPrefKeys[languageIndex]
+                                );
+                                MainActivity.this.recreate();
+                            }
+                        }
+
+                        @Override
+                        public void onNegativeResponse() {
+
+                        }
+                    });
         }
     }
 
