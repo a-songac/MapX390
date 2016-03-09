@@ -11,7 +11,9 @@ import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.R;
 import soen390.mapx.helper.ConstantsHelper;
-import soen390.mapx.helper.NavigationHelper;
+import soen390.mapx.model.Node;
+import soen390.mapx.ui.view.binder.POIInfoFragmentViewBinder;
+import soen390.mapx.ui.view.holder.POIInfoFragmentViewHolder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,9 +29,9 @@ public class POIInfoFragment extends Fragment implements IBaseFragment {
 
         Bundle arguments = new Bundle();
         arguments.putLong(ConstantsHelper.MEDIA_PAGER_POI_ID, poiId);
-        POIInfoFragment mediaViewPagerFragment = new POIInfoFragment();
-        mediaViewPagerFragment.setArguments(arguments);
-        return mediaViewPagerFragment;
+        POIInfoFragment poiInfoFragment = new POIInfoFragment();
+        poiInfoFragment.setArguments(arguments);
+        return poiInfoFragment;
 
     }
 
@@ -53,9 +55,11 @@ public class POIInfoFragment extends Fragment implements IBaseFragment {
         Bundle args = getArguments();
         if (args != null) {
 
-            args.getLong(ConstantsHelper.MEDIA_PAGER_POI_ID, 0L);
-
-
+            Long poiId = args.getLong(ConstantsHelper.MEDIA_PAGER_POI_ID, 0L);
+            Node poi = Node.findById(Node.class, poiId);
+            POIInfoFragmentViewHolder viewHolder = new POIInfoFragmentViewHolder(getView());
+            POIInfoFragmentViewBinder viewBinder = new POIInfoFragmentViewBinder(viewHolder);
+            viewBinder.bind(poi);
         }
 
     }

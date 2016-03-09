@@ -12,10 +12,12 @@ import soen390.mapx.fragment.POIInfoFragment;
 public class MediaPagerAdapter extends FragmentStatePagerAdapter {
 
     private int numOfTabs;
+    private Long poiId;
 
-    public MediaPagerAdapter(FragmentManager fm, int numOfTabs) {
+    public MediaPagerAdapter(FragmentManager fm, int numOfTabs, Long poiId) {
         super(fm);
         this.numOfTabs = numOfTabs;
+        this.poiId = poiId;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class MediaPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
             case 2:
             default:
-                return POIInfoFragment.newInstance(0L);
+                return POIInfoFragment.newInstance(poiId);
         }
     }
 
