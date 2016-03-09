@@ -15,8 +15,8 @@ import soen390.mapx.R;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.model.Storyline;
-import soen390.mapx.ui.adapter.StorylineListAdapter;
-import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
+import soen390.mapx.ui.adapter.MediaListAdapter;
+import soen390.mapx.ui.view.holder.MediaListItemViewHolder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,10 +56,10 @@ public class MediaListFragment extends ListFragment implements IBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBarHelper.getInstance().setStorylineFragmentActionBar();
+        ActionBarHelper.getInstance();
         getActivity().invalidateOptionsMenu();
 
-        StorylineListAdapter listAdapter = new StorylineListAdapter(getActivity(), Storyline.listAll(Storyline.class));
+        MediaListAdapter listAdapter = new MediaListAdapter(getActivity(), Storyline.listAll(Storyline.class));
         setListAdapter(listAdapter);
 
     }
@@ -69,14 +69,14 @@ public class MediaListFragment extends ListFragment implements IBaseFragment {
         super.onListItemClick(l, v, position, id);
 
         if (null != expandedView && expandedView != v) {
-            StorylineListItemViewHolder.class.cast(expandedView.getTag()).collapse(getContext());
+            MediaListItemViewHolder.class.cast(expandedView.getTag()).collapse(getContext());
         }
 
         Object tag = v.getTag();
 
         if (null != tag) {
 
-            StorylineListItemViewHolder itemViewHolder = (StorylineListItemViewHolder) tag;
+            MediaListItemViewHolder itemViewHolder = (MediaListItemViewHolder) tag;
 
             if (itemViewHolder.isExpanded()) {
                 itemViewHolder.collapse(getContext());

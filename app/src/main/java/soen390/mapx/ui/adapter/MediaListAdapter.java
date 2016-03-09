@@ -14,12 +14,12 @@ import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.StorylineListFragment;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Storyline;
-import soen390.mapx.ui.view.holder.MediaListItemViewHolder;
+import soen390.mapx.ui.view.holder.*;
 
 /**
  * List Adapter for storyline list fragment
  */
-public class StorylineListAdapter extends ArrayAdapter<Storyline> {
+public class MediaListAdapter extends ArrayAdapter<Storyline> {
 
     private Context context;
     private MediaListItemViewHolder viewHolder;
@@ -27,8 +27,8 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
     /**
      * Constructor
      */
-    public StorylineListAdapter(Context context, List<Storyline> items) {
-        super(context, R.layout.story_line_list_item, items);
+    public MediaListAdapter(Context context, List<Storyline> items) {
+        super(context, R.layout.media_list_item, items);
         this.context = context;
     }
 
@@ -40,7 +40,7 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
 
         if(convertView == null){
 
-            convertView = LayoutInflater.from(context).inflate(R.layout.story_line_list_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.media_list_item, parent, false);
             viewHolder = new MediaListItemViewHolder(convertView);
             convertView.setTag(viewHolder);
 
