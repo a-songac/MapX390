@@ -1,6 +1,9 @@
 var map;
 
 function Controller(){
+	/* Floor Related */
+
+
 	this.floorsJSON = [];
 	this.mapHeight = 0;
 	this.mapWidth = 0;
@@ -26,6 +29,8 @@ function Controller(){
 	this.initialize = function(options){
 		var self = this;
 
+		this.pathManager = new PathManager();
+
 		this.poisJSON = JSON.parse(Android.getPOIsJSON());
 		this.floorsJSON = JSON.parse(Android.getFloorsJSON());
 		this.languageJSON = JSON.parse(Android.getLanguageJSON());
@@ -38,8 +43,6 @@ function Controller(){
 			var south = -1100, east = 500, north = 1100, west = -500;
 			self.mapWidth = 500;
 			self.mapHeight = 1050;
-			//var north = self.floorsJSON[0]["floor_width"];
-			//var west = self.floorsJSON[0]["floor_height"];
 
 			//Map settings
 			map = L.map('map', {
@@ -178,9 +181,7 @@ function Controller(){
 		}
 
 		catch(error){
-			alert(error); //Dev only
-			//console.log(error); //Prod only
-			//Send a message to Android perhasp?
+			console.log(error);
 		}
 	};
 
@@ -386,46 +387,13 @@ function Controller(){
 	};
 
 	this.drawPath = function(){
-		var path = JSON.parse(Android.getPath());
-
-		if(!path){
-			console.log("Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0");
-		}
-
-		var self = this;
-		var pastNode = null;
-		for(var i in path){
-			if(pastNode != null){
-				var latlngs  = getLatLng(pastNode, path[i]);
-				var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-				this.polylines.push(polyline);
-			}
-
-			pastNode = path[i];
-		}
-
-		this.startingPOIID = path[0];
-		this.endingPOIID = path[path.length-1];
-		this.changeStartAndEndPOIIcons('js/images/pin1.png');
-
-		function getLatLng(pastNode, currentNode){
-			var latLng = [];
-			for(var i = 0; i < self.poisJSON.length; i++){
-
-				var poi = self.poisJSON[i];
-				if(parseInt(self.currentFloor) == parseInt(poi["floor"]) && ( parseInt(poi["_id"]) == parseInt(currentNode) || parseInt(poi["_id"]) == parseInt(pastNode) ) ){
-										var x = -self.mapWidth + (self.offsetX + parseInt(poi["x_coord"]));
-					var y = -self.mapHeight + (self.offsetY + parseInt(poi["y_coord"]));
-					latLng.push([y,x]);
-					continue;
-				}
-
-				if(latLng.length == 2){
-					break;
-				}
-			}
-			return latLng;
-		}
+		this.pathManager.drawPath({
+			poisJSON:this.poisJSON,
+			currentFloor:this.currentFloor,
+			offsetX: this.offsetX,
+			offsetY: this.offsetY,
+			poiManager: this.poiManager
+		});
 	};
 
 	this.deletePath = function(){
@@ -434,7 +402,7 @@ function Controller(){
 		}
 
 		this.polylines = [];
-	}
+	};
 
 	this.changeToUserLocationFloor = function(){
 		var floor = Android.getCurrentPOIFloor();
@@ -446,7 +414,7 @@ function Controller(){
 				$(floorBtn).click();
 			}
 		}
-	}
+	};
 }
 
 var controller = new Controller();
