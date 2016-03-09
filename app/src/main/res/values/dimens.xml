@@ -12,4 +12,7 @@
     <dimen name="stoyline_list_item_height">100dp</dimen>
     <dimen name="stoyline_list_item_width">100dp</dimen>
 
+    <dimen name="media_list_item_width">48dp</dimen>
+    <dimen name="media_list_item_height">48dp</dimen>
+
 </resources>
