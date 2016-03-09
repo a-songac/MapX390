@@ -59,40 +59,15 @@ function Controller(){
 		}
 
 		function setFloorImagesOverlay(){
-		    try{
-		    	for(var i = 0; i < self.floorsJSON.length; i++){
-		    		var imageUrl;
-			    	var west = -parseInt(self.floorsJSON[i]["floor_width"])/2;
-			    	var north = parseInt(self.floorsJSON[i]["floor_height"])/2;
-					var east = parseInt(self.floorsJSON[i]["floor_width"])/2;
-					var south = -parseInt(self.floorsJSON[i]["floor_height"])/2;
+			var floors = self.floorManager.getFloorsArr();
+			
+			self.floorManager.setCurrentFloor(1);
+	    	var currentImageOverlay = floors[self.floorManager.getCurrentFloor()-1];
 
-					imageUrl = self.floorsJSON[i]["floor_path"];
+			self.offsetX = self.mapWidth - currentImageOverlay["east"];
+			self.offsetY = self.mapHeight - currentImageOverlay["north"];
 
-					var imageBounds = [[south, west], [north, east]];
-			    	var imageOverlay = L.imageOverlay(imageUrl, imageBounds);
-			    	imageOverlay.addTo(map);
-			    	imageOverlay.setOpacity(0);
-			    	self.floorsOverlay.push({
-			    		leafletObj:imageOverlay,
-			    		north: north,
-			    		east: east,
-			    		imageUrl: imageUrl
-			    	});
-		    	}
-
-		    	self.currentFloor = 1;
-		    	var currentImageOverlay = self.floorsOverlay[self.currentFloor-1];
-
-				self.offsetX = self.mapWidth - currentImageOverlay["east"];
-				self.offsetY = self.mapHeight - currentImageOverlay["north"];
-
-				currentImageOverlay.leafletObj.setOpacity(1);
-			}
-
-			catch(err){
-				alert(err);
-			}
+			currentImageOverlay.leafletObj.setOpacity(1);
 		}
 
 		/* Function will create the floor controller UI element*/
@@ -161,9 +136,13 @@ function Controller(){
 		}
 
 		setMap();
+
+		this.floorManager = new FloorManager();
+		this.floorManager.initialize();
+		
 		setFloorImagesOverlay();
-		createFloorControlUI();
-		self.setPOIs();
+		//createFloorControlUI();
+		//self.setPOIs();
 	};
 
 	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
