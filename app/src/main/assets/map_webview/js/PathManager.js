@@ -1,6 +1,6 @@
 function PathManager(){
 	var polylines = [];
-	var sourcePOI, destinationPOI;
+	var sourcePoiId, destinationPoiId;
 
 	this.drawPath = function(opts){
 		var poisJSON = opts.poisJSON;
@@ -21,14 +21,14 @@ function PathManager(){
 			if(pastNode != null){
 				var latlngs  = getLatLng(pastNode, path[i]);
 				var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
-				this.polylines.push(polyline);
+				polylines.push(polyline);
 			}
 
 			pastNode = path[i];
 		}
 
-		sourcePOI = path[0];
-		destinationPOI = path[path.length-1];
+		sourcePoiId = path[0];
+		destinationPoiId = path[path.length-1];
 		poiManager.changeStartAndEndPOIIcons('js/images/pin1.png'); //TO CHANGE
 
 		function getLatLng(pastNode, currentNode){
@@ -49,5 +49,15 @@ function PathManager(){
 			}
 			return latLng;
 		}
+	};
+
+	this.deletePath = function(opts){
+		for(var i = 0; i < polylines.length; i++){
+			map.removeLayer(polylines[i]);
+		}
+
+		polylines = [];
+		sourcePoiId = null;
+		destinationPoiId = null;
 	};
 }

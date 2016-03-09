@@ -291,7 +291,6 @@ function Controller(){
 
 		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
 		this.inNavigation = false;
-		this.startingPOIID = -1;
 		this.endingPOIID = -1;
 		this.changePopupContent();
 
@@ -303,7 +302,6 @@ function Controller(){
 		for(var i = 0; i < this.currentPOIs.length; i++){
 			var marker = this.currentPOIs[i];
 
-			//parseInt(marker.poiID) == parseInt(this.startingPOIID) ||
 			if(parseInt(marker.poiID) == parseInt(this.endingPOIID)){
 				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
 				var normalIcon = L.icon({
@@ -397,11 +395,7 @@ function Controller(){
 	};
 
 	this.deletePath = function(){
-		for(var i = 0; i < this.polylines.length; i++){
-			map.removeLayer(this.polylines[i]);
-		}
-
-		this.polylines = [];
+		this.pathManager.deletePath();
 	};
 
 	this.changeToUserLocationFloor = function(){
