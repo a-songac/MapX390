@@ -102,6 +102,8 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
+            //TODO Temporary, for testing purposes
+            NavigationHelper.getInstance().navigateToMediaPagerFragment(0L);
 
         } else if (id == R.id.nav_settings) {
             NavigationHelper.getInstance().navigateToSettingsFragment(false);

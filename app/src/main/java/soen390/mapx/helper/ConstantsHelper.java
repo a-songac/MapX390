@@ -14,6 +14,8 @@ public class ConstantsHelper {
     public static final String SETTINGS_FRAGMENT_ARG_KEY_TRIGGER_LANGUAGE = "settings_fragment_trigger_language";
     public static final String LAST_FRAGMENT_TAG_KEY = "last_fragment_key";
     public static final String STORYLINE_FRAGMENT_TAG = "storyline_fragment_tag";
+    public static final String MEDIA_PAGER_FRAGMENT_TAG = "media_pager_fragment_tag";
+    public static final String MEDIA_PAGER_POI_ID = "media_pager_poi_id";
 
     /**
      * Preferences

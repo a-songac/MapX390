@@ -61,4 +61,9 @@
     <string name="notification_poi_reached_text">You reached the point of interest: %1$s</string>
     <string name="notification_poi_reached_floor">Floor: %1$s</string>
 
+    <!-- Tabs -->
+    <string name="tab_info">Info</string>
+    <string name="tab_images">Images</string>
+    <string name="tab_media">Media</string>
+
 </resources>
