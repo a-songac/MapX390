@@ -8,6 +8,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import soen390.mapx.application.MapXApplication;
+import soen390.mapx.manager.ContentManager;
 
 /**
  * Adapter for poi image content grid view
@@ -56,20 +57,11 @@ public class PoiImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-
-        int imageResourceId = imageResourceId(imagesPaths[position]);
+        int imageResourceId = ContentManager.getImageResourceId(context, imagesPaths[position]);
         if (0 != imageResourceId) {
             imageView.setImageResource(imageResourceId);
         }
         return imageView;
     }
 
-    /**
-     * Verify if image is in the resources
-     * @param resource
-     * @return
-     */
-    private int imageResourceId(String resource) {
-        return context.getResources().getIdentifier(resource,"drawable", context.getPackageName());
-    }
 }

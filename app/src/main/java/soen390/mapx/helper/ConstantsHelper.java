@@ -33,4 +33,7 @@ public class ConstantsHelper {
      */
     public static final int PENDING_INTENT_NOTIFICATION_POI_REACHED = 1;
     public static final String INTENT_POI_REACHED_EXTRA_KEY = "poi_reached_intent_extra_key";
+
+    public static final String POI_IMAGE_PATH_INTENT_EXTRA_KEY = "poi_image_path";
+    public static final String POI_IMAGE_CAPTION_INTENT_EXTRA_KEY = "poi_image_caption";
 }

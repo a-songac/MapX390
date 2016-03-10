@@ -1,6 +1,7 @@
 package soen390.mapx.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.GridView;
 import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.R;
+import soen390.mapx.activity.FullscreenActivity;
 import soen390.mapx.database.DummyData;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.model.Node;
@@ -61,25 +63,42 @@ public class POIImagesFragment extends Fragment implements IBaseFragment {
             Node poi = Node.findById(Node.class, poiId);
 
             View root = getView();
+
             if (null != root) {
                 GridView gridview = (GridView) root.findViewById(R.id.gridview);
-                gridview.setAdapter(new PoiImageAdapter(DummyData.dummyImages()));//TODO TEMP Get image of the POI
+                setGridView(gridview, poi);
 
-                gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View v,
-                                            int position, long id) {
-
-                    }
-                });
             }
-
-
-
         }
-
     }
 
     @Override
     public void onBackPressed() {
+    }
+
+    /**
+     * Set gridView
+     * @param gridView
+     */
+    private void setGridView(GridView gridView, final Node poi){
+
+        final String[] imagesPath = DummyData.dummyImages();//TODO TEMP Get image of the POI
+
+        gridView.setAdapter(new PoiImageAdapter(imagesPath));
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+
+                Intent intent = new Intent(getContext(), FullscreenActivity.class);
+
+                intent.putExtra(ConstantsHelper.POI_IMAGE_PATH_INTENT_EXTRA_KEY, imagesPath[position]);
+                intent.putExtra(ConstantsHelper.POI_IMAGE_CAPTION_INTENT_EXTRA_KEY, poi.getTitle());
+
+                startActivity(intent);
+
+            }
+        });
+
     }
 }
