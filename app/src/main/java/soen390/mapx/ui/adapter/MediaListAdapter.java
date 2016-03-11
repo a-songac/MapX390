@@ -22,7 +22,7 @@ import soen390.mapx.ui.view.holder.*;
 public class MediaListAdapter extends ArrayAdapter<Storyline> {
 
     private Context context;
-    private MediaListItemViewHolder viewHolder;
+    private StorylineListItemViewHolder viewHolder;
 
     /**
      * Constructor
@@ -41,11 +41,11 @@ public class MediaListAdapter extends ArrayAdapter<Storyline> {
         if(convertView == null){
 
             convertView = LayoutInflater.from(context).inflate(R.layout.media_list_item, parent, false);
-            viewHolder = new MediaListItemViewHolder(convertView);
+            viewHolder = new StorylineListItemViewHolder(convertView);
             convertView.setTag(viewHolder);
 
         }else{
-            viewHolder = (MediaListItemViewHolder) convertView.getTag();
+            viewHolder = (StorylineListItemViewHolder) convertView.getTag();
         }
 
         Storyline storyline = getItem(position);

@@ -16,7 +16,7 @@ import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.model.Storyline;
 import soen390.mapx.ui.adapter.StorylineListAdapter;
-import soen390.mapx.ui.view.holder.MediaListItemViewHolder;
+import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,14 +69,14 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
         super.onListItemClick(l, v, position, id);
 
         if (null != expandedView && expandedView != v) {
-            MediaListItemViewHolder.class.cast(expandedView.getTag()).collapse(getContext());
+            StorylineListItemViewHolder.class.cast(expandedView.getTag()).collapse(getContext());
         }
 
         Object tag = v.getTag();
 
         if (null != tag) {
 
-            MediaListItemViewHolder itemViewHolder = (MediaListItemViewHolder) tag;
+            StorylineListItemViewHolder itemViewHolder = (StorylineListItemViewHolder) tag;
 
             if (itemViewHolder.isExpanded()) {
                 itemViewHolder.collapse(getContext());
