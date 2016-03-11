@@ -58,4 +58,9 @@
     <string name="notification_poi_reached_title">Vous êtes à un point d\'intérêt</string>
     <string name="notification_poi_reached_text">Vous avez atteint le point d\'intérêt : %1$s</string>
     <string name="notification_poi_reached_floor">Étage: %1$s</string>
+
+    <!-- Tabs -->
+    <string name="tab_info">Info</string>
+    <string name="tab_images">Images</string>
+    <string name="tab_media">Media</string>
 </resources>
