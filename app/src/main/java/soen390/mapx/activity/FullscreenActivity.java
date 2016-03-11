@@ -1,14 +1,16 @@
 package soen390.mapx.activity;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.ImageView;
 
 import soen390.mapx.R;
+import soen390.mapx.database.DummyData;
 import soen390.mapx.helper.ConstantsHelper;
-import soen390.mapx.manager.ContentManager;
+import soen390.mapx.model.Node;
+import soen390.mapx.ui.adapter.ImagePagerAdapter;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -23,23 +25,17 @@ public class FullscreenActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_fullscreen);
 
-        setActionBar();
-        setImage();
+        Bundle extras = getIntent().getExtras();
+        if (null != extras) {
+            Long poiId = extras.getLong(ConstantsHelper.POI_ID_INTENT_EXTRA_KEY);
+            Node poi = Node.findById(Node.class, poiId);
+            int startPosition = extras.getInt(ConstantsHelper.POI_IMAGE_START_POSITION_INTENT_EXTRA_KEY);
+            setActionBar();
+            initPager(DummyData.dummyImages(), startPosition);//TODO get poi images
 
-    }
-
-    /**
-     * Set image
-     */
-    private void setImage() {
-        ImageView imageView = (ImageView) findViewById(R.id.full_image_view);
-        String imagePath = getIntent().getExtras().getString(ConstantsHelper.POI_IMAGE_PATH_INTENT_EXTRA_KEY);
-
-        int imageResourceId = ContentManager.getImageResourceId(this, imagePath);
-        if (0 != imageResourceId) {
-            imageView.setImageResource(imageResourceId);
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -64,6 +60,39 @@ public class FullscreenActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setTitle(title);
         }
+    }
+
+    /**
+     * Set view pager
+     * @param imagePaths
+     */
+    private void initPager(String[] imagePaths, int startPosition) {
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final ImagePagerAdapter adapter = new ImagePagerAdapter(
+                getSupportFragmentManager(),
+                imagePaths);
+
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(startPosition);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                //TODO set action bar title with image caption
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
     }
 
 }

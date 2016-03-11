@@ -92,8 +92,8 @@ public class POIImagesFragment extends Fragment implements IBaseFragment {
 
                 Intent intent = new Intent(getContext(), FullscreenActivity.class);
 
-                intent.putExtra(ConstantsHelper.POI_IMAGE_PATH_INTENT_EXTRA_KEY, imagesPath[position]);
-                intent.putExtra(ConstantsHelper.POI_IMAGE_CAPTION_INTENT_EXTRA_KEY, poi.getTitle());
+                intent.putExtra(ConstantsHelper.POI_IMAGE_START_POSITION_INTENT_EXTRA_KEY, position);
+                intent.putExtra(ConstantsHelper.POI_ID_INTENT_EXTRA_KEY, poi.getId()                                                    );
 
                 startActivity(intent);
 
