@@ -13,7 +13,7 @@ import soen390.mapx.R;
 /**
  * View holder for storyline list item
  */
-public class MediaListItemViewHolder extends BaseViewHolder {
+public class StorylineListItemViewHolder extends BaseViewHolder {
 
     private ImageView image;
     private TextView title;
@@ -23,7 +23,7 @@ public class MediaListItemViewHolder extends BaseViewHolder {
     public static final int COLLAPSED_DESCRIPTION_MAX_LINES = 4;
     public static final int EXPANDED_DESCRIPTION_MAX_LINES = 10;
 
-    public MediaListItemViewHolder(View viewHolder) {
+    public StorylineListItemViewHolder(View viewHolder) {
         super(viewHolder);
 
         image = (ImageView) viewHolder.findViewById(R.id.storyline_image);
