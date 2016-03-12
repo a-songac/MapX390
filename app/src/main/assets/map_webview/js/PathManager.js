@@ -3,11 +3,11 @@ function PathManager(){
 	var sourcePoiId, destinationPoiId;
 
 	this.drawPath = function(opts){
-		var poisJSON = opts.poisJSON;
 		var currentFloor = opts.currentFloor;
 		var offsetX = opts.offsetX;
 		var offsetY = opts.offsetY;
 		var poiManager = opts.poiManager;
+		var poisJSON = poiManager.getPOISJSON();
 
 		var path = JSON.parse(Android.getPath());
 
@@ -60,4 +60,12 @@ function PathManager(){
 		sourcePoiId = null;
 		destinationPoiId = null;
 	};
+
+	this.getSourcePOI = function(){
+		return sourcePoiId;
+	};
+
+	this.getDestinationPOI = function(){
+		return destinationPoiId;
+	}
 }

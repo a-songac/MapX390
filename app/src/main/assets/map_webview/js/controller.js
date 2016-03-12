@@ -1,9 +1,7 @@
 var map;
 
 function Controller(){
-	/* Floor Related */
 
-	this.floorsJSON = [];
 	this.mapHeight = 0;
 	this.mapWidth = 0;
 	this.currentFloor = 0;
@@ -28,7 +26,6 @@ function Controller(){
 		this.pathManager = new PathManager();
 
 		this.poisJSON = JSON.parse(Android.getPOIsJSON());
-		this.floorsJSON = JSON.parse(Android.getFloorsJSON());
 		this.languageJSON = JSON.parse(Android.getLanguageJSON());
 
 		/* Set the map frame: Map Size, Map Controls*/
@@ -66,11 +63,6 @@ function Controller(){
 			currentImageOverlay.leafletObj.setOpacity(1);
 		}
 
-		/* Function will create the floor controller UI element*/
-		function createFloorControlUI(){
-			
-		}
-
 		setMap();
 
 		this.floorManager = new FloorManager();
@@ -96,8 +88,10 @@ function Controller(){
 				throw "Error in function: changeLanguage \nVariable: newJSONs \nMessage: newJSONs is null";
 			}
 
-			this.languageJSON = newJSONs["language"];
-			this.poisJSON = newJSONs["poi"];
+			this.poiManager.setJSONs({
+				poisJSON : newJSONs["poi"],
+				languageJSON : newJSONs["language"];
+			});
 
 			this.poiManager.removePOIs();
 			this.poiManager.setPOIs({
@@ -111,32 +105,6 @@ function Controller(){
 
 		catch(error){
 			console.log(error);
-		}
-	};
-
-	this.changePopupContent = function(){
-		for(var i = 0; i < this.currentPOIs.length; i++){
-			var buttonLabel, javascriptMethod;
-
-			if(Android.isInMode()){
-				buttonLabel = this.languageJSON["web_change_destination"];
-				javascriptMethod = "onclick='controller.navigateToPOI(this)'";
-			}else{
-				buttonLabel = this.languageJSON["web_go_to_destination"];
-				javascriptMethod =  "onclick='controller.navigateToPOI(this)'";
-			}
-
-			var marker = this.currentPOIs[i];
-			var popupContent;
-
-			if(parseInt(marker.poiID) == parseInt(this.startingPOIID) || parseInt(marker.poiID) == parseInt(this.endingPOIID)){
-				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
-			}else{
-				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
-			}
-
-			marker.unbindPopup();
-			marker.bindPopup(popupContent);
 		}
 	};
 
@@ -156,7 +124,9 @@ function Controller(){
 				marker.closePopup();
 			}
 
-			this.changePopupContent();
+			this.poiManager.changePopupContent({
+				pathManager: this.pathManager
+			});
 		}
 
 		catch(error){
@@ -178,7 +148,9 @@ function Controller(){
 		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
 		this.inNavigation = false;
 		this.endingPOIID = -1;
-		this.changePopupContent();
+		this.poiManager.changePopupContent({
+			pathManager: this.pathManager
+		});
 
 		//Add path deletion here in Sprint 3
 	};
@@ -272,8 +244,7 @@ function Controller(){
 
 	this.drawPath = function(){
 		this.pathManager.drawPath({
-			poisJSON:this.poisJSON,
-			currentFloor:this.currentFloor,
+			currentFloor:this.floorManager.getCurrentFloor(),
 			offsetX: this.offsetX,
 			offsetY: this.offsetY,
 			poiManager: this.poiManager
@@ -306,7 +277,9 @@ function Controller(){
 
 		// if(Android.isInMode()){
 		// 	this.changeStartAndEndPOIIcons('js/images/pin1.png');
-		// 	this.changePopupContent();
+		// 	this.poiManager.changePopupContent({
+			// 	pathManager: this.pathManager
+			// });
 		// 	this.deletePath();
 		// 	this.drawPath();
 		// }
