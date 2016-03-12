@@ -41,4 +41,9 @@ public class DummyData {
 
     }
 
+    public static String[] dummyImages() {
+        String[] imagesPathsDummy = {"old_radio", "moeb_logo", "gramophone_victrola"};
+        return imagesPathsDummy;
+    }
+
 }

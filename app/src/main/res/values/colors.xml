@@ -20,5 +20,6 @@
 
     <color name="storyline_clicked_card">#e0e0e0</color>
 
+    <color name="black_overlay">#66000000</color>
 
 </resources>
