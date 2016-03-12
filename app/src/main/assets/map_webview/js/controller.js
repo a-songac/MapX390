@@ -3,7 +3,6 @@ var map;
 function Controller(){
 	/* Floor Related */
 
-
 	this.floorsJSON = [];
 	this.mapHeight = 0;
 	this.mapWidth = 0;
@@ -18,10 +17,7 @@ function Controller(){
 	this.offsetX = 0;
 	this.mapHeight = 0;
 	this.mapWidth = 0;
-	this.floorsOverlay = [];
 	this.userMarker;
-	this.polylines = [];
-	this.floorButtonElements = [];
 
 	this.demoPOI = null; //TO REMOVE AFTER DEMO 2
 
@@ -72,73 +68,22 @@ function Controller(){
 
 		/* Function will create the floor controller UI element*/
 		function createFloorControlUI(){
-			var levels = self.floorsJSON.length;
-
-			var levelControlContainer = document.createElement("div");
-			$(levelControlContainer).addClass("leaflet-control leaflet-bar");
-
-			//Find the current zoom control container and create a level control element in it
-			$(".leaflet-bottom.leaflet-right").prepend(levelControlContainer);
-
-			//Loop for creating every floor button
-			for(var i = 0; i < levels; i++){
-				var levelControl = document.createElement("a");
-				$(levelControl).prop("href", "#");
-				$(levelControl).text(i+1);
-				$(levelControl).attr("data-floorId", i+1);  //TOCHANGE for id attribute in JSON in future sprint
-
-				//First floor has to have the selected css
-				if(i === 0){
-					$(levelControl).css("background-color", "#ccc");
-				}
-
-				//Add a click function to every element
-				$(levelControl).click(function(){
-					//Unselect current floor
-					$("div.leaflet-control.leaflet-bar").find("a").css("background-color", "");
-
-					//Select current floor
-					$(this).css("background-color", "#ccc");
-
-					//Replace current floor img source with new floor img source
-					var currentImageOverlay = self.floorsOverlay[self.currentFloor-1];
-					currentImageOverlay.leafletObj.setOpacity(0);
-
-					// var imgOverlayElement = $("img.leaflet-image-layer.leaflet-zoom-animated")[0];
-					var level = parseInt($(this).text());
-					var newImageOverlay = self.floorsOverlay[level-1];
-
-					self.offsetX = self.mapWidth - newImageOverlay["east"];
-					self.offsetY = self.mapHeight - newImageOverlay["north"];
-
-					newImageOverlay.leafletObj.setOpacity(1);
-
-					// $(imgOverlayElement).prop("src", self.floorsJSON[level-1]["floor_path"]);
-
-					self.currentFloor = level;
-					self.removePOIs();
-					self.setPOIs();
-					self.updateUserMarker();
-
-					if(Android.isInMode()){
-						self.changeStartAndEndPOIIcons('js/images/pin1.png');
-						self.changePopupContent();
-						self.deletePath();
-						self.drawPath();
-					}
-				});
-
-				//Prepend the floor button to the floor control element
-				$(levelControlContainer).prepend(levelControl);
-				self.floorButtonElements.push(levelControl);
-			}
-
+			
 		}
 
 		setMap();
 
 		this.floorManager = new FloorManager();
 		this.floorManager.initialize();
+
+		// this.poiManager = new POIManager();
+		// this.poiManager.initialize({
+		// 	mapHeight: this.mapHeight,
+		// 	mapWidth: this.mapWidth,
+		// 	currentFloor: this.floorManager.getCurrentFloor(),
+		// 	offsetY: this.offsetY,
+		// 	offsetX: this.offsetX
+		// });
 		
 		setFloorImagesOverlay();
 		//createFloorControlUI();
@@ -378,14 +323,24 @@ function Controller(){
 	};
 
 	this.changeToUserLocationFloor = function(){
-		var floor = Android.getCurrentPOIFloor();
-		for(var i = 0; i < this.floorButtonElements.length; i++){
-			var floorBtn = this.floorButtonElements[i];
+		this.floorManager.showUserLocatedFloor();
+	};
 
-			//TODO: Maybe change, if floor can be something other than int
-			if(parseInt($(floorBtn).attr("data-floorId")) == parseInt(floor)){
-				$(floorBtn).click();
-			}
+	this.floorClicked = function(opts){
+		var updatedFloorOverylay = opts.updatedFloorOverlay;
+
+		this.offsetX = this.mapWidth - updatedFloorOverylay["east"];
+		this.offsetY = this.mapHeight - updatedFloorOverylay["north"];
+
+		this.removePOIs();
+		this.setPOIs();
+		this.updateUserMarker();
+
+		if(Android.isInMode()){
+			this.changeStartAndEndPOIIcons('js/images/pin1.png');
+			this.changePopupContent();
+			this.deletePath();
+			this.drawPath();
 		}
 	};
 }
