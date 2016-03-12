@@ -76,18 +76,17 @@ function Controller(){
 		this.floorManager = new FloorManager();
 		this.floorManager.initialize();
 
-		// this.poiManager = new POIManager();
-		// this.poiManager.initialize({
-		// 	mapHeight: this.mapHeight,
-		// 	mapWidth: this.mapWidth,
-		// 	currentFloor: this.floorManager.getCurrentFloor(),
-		// 	offsetY: this.offsetY,
-		// 	offsetX: this.offsetX
-		// });
-		
 		setFloorImagesOverlay();
-		//createFloorControlUI();
-		//self.setPOIs();
+
+		this.poiManager = new POIManager();
+		this.poiManager.initialize({
+			mapHeight: this.mapHeight,
+			mapWidth: this.mapWidth,
+			currentFloor: this.floorManager.getCurrentFloor(),
+			offsetY: this.offsetY,
+			offsetX: this.offsetX
+		});
+		
 	};
 
 	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
@@ -100,46 +99,18 @@ function Controller(){
 			this.languageJSON = newJSONs["language"];
 			this.poisJSON = newJSONs["poi"];
 
-			this.removePOIs();
-			this.setPOIs();
+			this.poiManager.removePOIs();
+			this.poiManager.setPOIs({
+				mapHeight: this.mapHeight,
+				mapWidth: this.mapWidth,
+				currentFloor: this.floorManager.getCurrentFloor(),
+				offsetY: this.offsetY,
+				offsetX: this.offsetX
+			});
 		}
 
 		catch(error){
 			console.log(error);
-		}
-	};
-
-	/* Display the POIs related to the current floor on the map */
-	this.setPOIs = function(){
-		var normalIcon = L.icon({
-		    iconUrl: 'js/images/marker-icon-2x.png',
-		    iconSize:    [41, 41],
-			iconAnchor:  [20, 41],
-			popupAnchor: [1, -34]
-		});
-
-		for(var i = 0; i < this.poisJSON.length; i++){
-			var buttonLabel;
-
-			if(Android.isInMode()){
-				buttonLabel = this.languageJSON["web_change_destination"];
-			}else{
-				buttonLabel = this.languageJSON["web_go_to_destination"];
-			}
-
-			var poi = this.poisJSON[i];
-			if(parseInt(this.currentFloor) === parseInt(poi["floor"]) && poi["type"] != "t"){
-				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
-
-				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
-				var y = -this.mapHeight + (this.offsetY + parseInt(poi["y_coord"]));
-				var marker = L.marker([y, x]).addTo(map);
-				marker.setIcon(normalIcon);
-				marker.bindPopup(popupContent);
-				marker.poiID = poi["_id"];
-				marker.poiTitle = poi["title"];
-				this.currentPOIs.push(marker);
-			}
 		}
 	};
 
@@ -167,15 +138,6 @@ function Controller(){
 			marker.unbindPopup();
 			marker.bindPopup(popupContent);
 		}
-	};
-
-	/* Remove the current POIs displayed on the map */
-	this.removePOIs = function(){
-		for(var i = 0; i < this.currentPOIs.length; i++){
-			map.removeLayer(this.currentPOIs[i]);
-		}
-
-		this.currentPOIs = [];
 	};
 
 	/* Send call to Android to initiate a navigation to the selected POI */
@@ -332,16 +294,22 @@ function Controller(){
 		this.offsetX = this.mapWidth - updatedFloorOverylay["east"];
 		this.offsetY = this.mapHeight - updatedFloorOverylay["north"];
 
-		this.removePOIs();
-		this.setPOIs();
-		this.updateUserMarker();
+		this.poiManager.removePOIs();
+		this.poiManager.setPOIs({
+			mapHeight: this.mapHeight,
+			mapWidth: this.mapWidth,
+			currentFloor: this.floorManager.getCurrentFloor(),
+			offsetY: this.offsetY,
+			offsetX: this.offsetX
+		});
+		//this.updateUserMarker();
 
-		if(Android.isInMode()){
-			this.changeStartAndEndPOIIcons('js/images/pin1.png');
-			this.changePopupContent();
-			this.deletePath();
-			this.drawPath();
-		}
+		// if(Android.isInMode()){
+		// 	this.changeStartAndEndPOIIcons('js/images/pin1.png');
+		// 	this.changePopupContent();
+		// 	this.deletePath();
+		// 	this.drawPath();
+		// }
 	};
 }
 
