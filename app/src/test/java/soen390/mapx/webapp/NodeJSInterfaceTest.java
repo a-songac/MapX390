@@ -27,7 +27,7 @@ public class NodeJSInterfaceTest {
         list_node = new ArrayList<Node>();
         poi_int = new NodeJSInterface(context);
         Node node = new Node();
-        node.setId((long) 1);
+        node.setId(1L);
 //        node.setTitle("POI_1");
         node.setType("e");
         node.setFloorId("1");
@@ -46,7 +46,7 @@ public class NodeJSInterfaceTest {
     }
 
     /**
-     * TODO No longer testable as junit test, requires to be tested on the device
+     * TODO No longer testable as junit test, requires to be tested on the device with db content. TO BE REVIEWED LATER
      */
     @Ignore
     public void testgetPOIsJSON() {
@@ -60,7 +60,7 @@ public class NodeJSInterfaceTest {
     @Test
     public void testgetFloorJSON(){
         try{
-            JSONAssert.assertEquals("{\"floor\":[{\"floor_num\":\"1\",\"floor_path\":\"tiles/floor_1.jpg\",\"floor_width\":1800,\"floor_height\":700}]}", poi_int.buildFloorJSON(list_floor), true);
+            JSONAssert.assertEquals("[{\"floor_id\":\""+1L+"\",\"floor_num\":\"1\",\"floor_path\":\"tiles/floor_1.jpg\",\"floor_width\":1800,\"floor_height\":700}]", poi_int.buildFloorJSON(list_floor).toString(), false);
         } catch (JSONException e) {
             e.printStackTrace();
         }

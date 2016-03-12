@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.NotificationCompat;
 
 import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
@@ -55,12 +57,11 @@ public class NotificationHelper {
 
         CharSequence tickerText = context.getString(R.string.notification_poi_reached_title);
         CharSequence contentTitle = context.getString(R.string.notification_poi_reached_title);
-        CharSequence contentText = context.getString(R.string.notification_poi_reached_text,
-                poi.getTitle());
         long[] vibratePattern = { 0, 200, 200, 300 };
 
 
         Intent notificationIntent = new Intent(context, MainActivity.class);
+        notificationIntent.putExtra(ConstantsHelper.INTENT_POI_REACHED_EXTRA_KEY, true);
         notificationIntent.addFlags(
                 Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
@@ -70,25 +71,30 @@ public class NotificationHelper {
                 notificationIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
-        Bitmap b = BitmapFactory.decodeResource(context.getResources(), R.drawable.moeb_logo_blue);
+        Bitmap b = null;
+        if (!MapXApplication.isVirtualDevice()) { // To avoid OutOfMemoryError on virtual devices
+            b = BitmapFactory.decodeResource(context.getResources(), R.drawable.moeb_logo_blue);
+        }
 
         showNotification(
                 context,
                 tickerText,
                 contentTitle,
-                contentText,
+                poi.getTitle(),
                 b,
                 R.drawable.ic_place_black_24dp,
                 notificationPendingIntent,
                 1,
                 null,
-                vibratePattern);
+                vibratePattern,
+                context.getString(R.string.notification_poi_reached_floor, poi.getFloorId()));
 
 
 
     }
 
     /**
+     * Show notification
      * Show a notification
      * @param context
      * @param tickerText
@@ -102,20 +108,38 @@ public class NotificationHelper {
      * @param vibrationPattern
      */
     private void showNotification(Context context, CharSequence tickerText, CharSequence title,
-                                  CharSequence message,Bitmap largeIcon, int smallIcon,
+                                  CharSequence message,@Nullable Bitmap largeIcon, int smallIcon,
                                   PendingIntent pendingIntent, int id,
-                                  Uri sound, long[] vibrationPattern) {
+                                  Uri sound, long[] vibrationPattern, String... otherLines) {
 
-        Notification.Builder notificationBuilder = new Notification.Builder(
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(
                 context)
                 .setTicker(tickerText)
                 .setSmallIcon(smallIcon)
-                .setLargeIcon(largeIcon)
                 .setAutoCancel(true)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setContentIntent(pendingIntent)
-                .setVibrate(vibrationPattern);
+                .setVibrate(vibrationPattern)
+                .setPriority(Notification.PRIORITY_MAX);
+
+        if (null != largeIcon){
+            notificationBuilder.setLargeIcon(largeIcon);
+        }
+
+        if (otherLines.length > 0) {
+
+            NotificationCompat.InboxStyle inboxStyle =
+                    new NotificationCompat.InboxStyle();
+            inboxStyle.setBigContentTitle(title);
+
+            inboxStyle.addLine(message);
+            for (String line : otherLines) {
+                inboxStyle.addLine(line);
+            }
+            notificationBuilder.setStyle(inboxStyle);
+
+        }
 
         if (null != sound){
             notificationBuilder.setSound(sound);

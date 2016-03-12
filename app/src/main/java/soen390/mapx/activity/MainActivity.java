@@ -1,5 +1,6 @@
 package soen390.mapx.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -20,14 +21,17 @@ import java.util.Locale;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
+import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
+import soen390.mapx.helper.NotificationHelper;
 import soen390.mapx.helper.PreferenceHelper;
 import soen390.mapx.manager.MapManager;
+import soen390.mapx.model.Node;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,7 +56,11 @@ public class MainActivity extends BaseActivity
         DbContentManager.initDatabaseContent();
 
         PreferenceHelper.getInstance().init(this);
-        initIbeacon();
+
+        if (!MapXApplication.isVirtualDevice()) {
+            initIbeacon();
+        }
+
 
         if (savedInstanceState == null) {
             NavigationHelper.getInstance().navigateToMainFragment();
@@ -94,11 +102,15 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
+            //TODO Temporary, for testing purposes
+            NavigationHelper.getInstance().navigateToMediaPagerFragment(0L);
 
         } else if (id == R.id.nav_settings) {
             NavigationHelper.getInstance().navigateToSettingsFragment(false);
 
         } else if (id == R.id.nav_help_feedback) {
+            //TODO Temporary, for testing purposes
+            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(0));
 
         }
 
@@ -131,6 +143,22 @@ public class MainActivity extends BaseActivity
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        LogUtils.info(this.getClass(), "onNewIntent", "Entered onNewIntent");
+
+        Bundle extras = intent.getExtras();
+        if (null != extras) {
+            if (extras.containsKey(ConstantsHelper.INTENT_POI_REACHED_EXTRA_KEY)) {
+                NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+                LogUtils.info(this.getClass(), "onNewIntent", "onNewIntent from POI Reached notification");
+                MapManager.displayOnMapPOIReached();
+            }
         }
     }
 

@@ -1,10 +1,13 @@
 package soen390.mapx.application;
 
+import android.os.Build;
+
 import com.arnaud.android.core.application.BaseApplication;
-import com.orm.SugarContext;
 import com.estimote.sdk.BeaconManager;
 import com.estimote.sdk.Region;
+import com.orm.SugarContext;
 
+import soen390.mapx.LogUtils;
 import soen390.mapx.callback.BeaconMonitoringListener;
 
 /**
@@ -13,12 +16,22 @@ import soen390.mapx.callback.BeaconMonitoringListener;
 public class MapXApplication extends BaseApplication {
 
     private BeaconManager beaconManager;
+    private static boolean virtualDevice;
 
     @Override
     public void onCreate() {
         super.onCreate();
         SugarContext.init(this);
-        initIBeaconMonitoring();
+
+
+        virtualDevice = Build.FINGERPRINT.startsWith("generic") || "generic".equals(Build.BRAND.toLowerCase());
+        LogUtils.info(this.getClass(), "onCreate" , "Build FINGERPRINT: " + Build.FINGERPRINT);
+        LogUtils.info(this.getClass(), "onCreate" , "Build BRAND: " + Build.BRAND);
+
+        if (! virtualDevice) {
+            initIBeaconMonitoring();
+        }
+
     }
 
     @Override
@@ -48,4 +61,7 @@ public class MapXApplication extends BaseApplication {
         beaconManager.setMonitoringListener(new BeaconMonitoringListener());
     }
 
+    public static boolean isVirtualDevice() {
+        return virtualDevice;
+    }
 }
