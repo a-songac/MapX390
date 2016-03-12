@@ -26,6 +26,10 @@ function POIManager(){
 		return poisJSON;
 	};
 
+	this.getPOIElements = function(){
+		return poiElements;
+	};
+
 	this.setPOIs = function(opts){
 		//console.log(JSON.stringify(opts));
 

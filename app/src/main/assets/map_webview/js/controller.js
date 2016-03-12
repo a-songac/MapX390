@@ -6,18 +6,12 @@ function Controller(){
 	this.mapWidth = 0;
 	this.currentFloor = 0;
 	this.poisJSON = [];
-	this.currentPOIs = [];
-	this.languageJSON = {};
-	this.startingPOIID = -1;
-	this.endingPOIID = -1;
 	this.inNavigation = false;
 	this.offsetY = 0;
 	this.offsetX = 0;
 	this.mapHeight = 0;
 	this.mapWidth = 0;
 	this.userMarker;
-
-	this.demoPOI = null; //TO REMOVE AFTER DEMO 2
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
@@ -26,7 +20,6 @@ function Controller(){
 		this.pathManager = new PathManager();
 
 		this.poisJSON = JSON.parse(Android.getPOIsJSON());
-		this.languageJSON = JSON.parse(Android.getLanguageJSON());
 
 		/* Set the map frame: Map Size, Map Controls*/
 		function setMap(){
@@ -90,7 +83,7 @@ function Controller(){
 
 			this.poiManager.setJSONs({
 				poisJSON : newJSONs["poi"],
-				languageJSON : newJSONs["language"];
+				languageJSON : newJSONs["language"]
 			});
 
 			this.poiManager.removePOIs();
@@ -110,17 +103,17 @@ function Controller(){
 
 	/* Send call to Android to initiate a navigation to the selected POI */
 	this.navigateToPOI = function(elementClicked){
-		this.demoPOI = $(elementClicked).attr("data-poi-id");
-		Android.navigateToPOI(this.demoPOI);
+		Android.navigateToPOI($(elementClicked).attr("data-poi-id"));
 	};
 
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
 	this.startNavigation = function(){
 		try{
 			this.drawPath();
+			var poiElements = this.poiManager.getPOIElements();
 
-			for(var i = 0; i < this.currentPOIs.length; i++){
-				var marker = this.currentPOIs[i];
+			for(var i = 0; i < poiElements.length; i++){
+				var marker = poiElements[i];
 				marker.closePopup();
 			}
 
@@ -138,8 +131,10 @@ function Controller(){
 
 	/* Called by Android when the navigation to a POI is cancelled */
 	this.cancelNavigation = function(){
-		for(var i = 0; i < this.currentPOIs.length; i++){
-			var marker = this.currentPOIs[i];
+		var poiElements = this.poiManager.getPOIElements();
+
+		for(var i = 0; i < poiElements.length; i++){
+			var marker = poiElements[i];
 			marker.closePopup();
 		}
 
