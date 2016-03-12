@@ -106,4 +106,24 @@ function POIManager(){
 			marker.bindPopup(popupContent);
 		}
 	};
+
+	this.changeDestinationPOIIcon(opts){
+		var destinationPOI = opts.pathManager.getDestinationPOI();
+
+		for(var i = 0; i < poiElements.length; i++){
+			var marker = poiElements[i];
+
+			if(parseInt(marker.poiID) == parseInt(destinationPOI)){
+				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
+				var normalIcon = L.icon({
+				    iconUrl: opts.imagePath,
+				    iconSize:    [41, 41],
+					iconAnchor:  [20, 41],
+					popupAnchor: [1, -34]
+				});
+
+				marker.setIcon(normalIcon);
+			}
+		}
+	};
 }

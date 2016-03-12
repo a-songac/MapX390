@@ -145,7 +145,10 @@ function Controller(){
 
 		this.deletePath();
 
-		this.changeStartAndEndPOIIcons('js/images/marker-icon-2x.png');
+		this.changeDestinationPOIIcon({
+			imagePath: 'js/images/marker-icon-2x.png',
+			pathManager: this.pathManager
+		});
 		this.inNavigation = false;
 		this.endingPOIID = -1;
 		this.poiManager.changePopupContent({
@@ -153,25 +156,6 @@ function Controller(){
 		});
 
 		//Add path deletion here in Sprint 3
-	};
-
-	/* Change POI icon of Starting and Ending POIs */
-	this.changeStartAndEndPOIIcons = function(imagePath){
-		for(var i = 0; i < this.currentPOIs.length; i++){
-			var marker = this.currentPOIs[i];
-
-			if(parseInt(marker.poiID) == parseInt(this.endingPOIID)){
-				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
-				var normalIcon = L.icon({
-				    iconUrl: imagePath,
-				    iconSize:    [41, 41],
-					iconAnchor:  [20, 41],
-					popupAnchor: [1, -34]
-				});
-
-				marker.setIcon(normalIcon);
-			}
-		}
 	};
 
 	this.updateUserMarker = function(){
@@ -276,7 +260,10 @@ function Controller(){
 		//this.updateUserMarker();
 
 		// if(Android.isInMode()){
-		// 	this.changeStartAndEndPOIIcons('js/images/pin1.png');
+		// this.changeDestinationPOIIcon({
+		// 	imagePath: 'js/images/pin1.png',
+		// 	pathManager: this.pathManager
+		// });
 		// 	this.poiManager.changePopupContent({
 			// 	pathManager: this.pathManager
 			// });
