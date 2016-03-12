@@ -94,5 +94,23 @@ public class ActionBarHelper {
         getActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
     }
 
+    /**
+     *  Set media content action bar
+     * @param title
+     */
+    public void setMediaContentActionBar(String title) {
+
+        int backgroundColor = MapXApplication.getGlobalContext().getResources().getColor(R.color.colorPrimary);
+        getActionBar().setBackgroundDrawable(new ColorDrawable(backgroundColor));
+        getActionBar().setTitle(title);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+    }
+
+    public void disableHomeAsUp() {
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowHomeEnabled(false);
+    }
+
 
 }
