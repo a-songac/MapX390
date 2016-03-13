@@ -46,32 +46,23 @@ function Controller(){
 			var floors = self.floorManager.getFloorsArr();
 			
 			if(Android.getCurrentFloor() != null){
-				self.floorManager.setCurrentFloor(Android.getCurrentFloor());
+				self.floorManager.clickFloor(Android.getCurrentFloor());
 			}else{
-				self.floorManager.setCurrentFloor(1);
+				self.floorManager.clickFloor(1);
 			}
-
-	    	var currentImageOverlay = floors[self.floorManager.getCurrentFloor()-1];
-
-			self.offsetX = self.mapWidth - currentImageOverlay["east"];
-			self.offsetY = self.mapHeight - currentImageOverlay["north"];
-
-			currentImageOverlay.leafletObj.setOpacity(1);
 		}
 
 		setMap();
 
 		this.pathManager = new PathManager();
-
-		this.floorManager = new FloorManager();
-		this.floorManager.initialize();
-
-		setViewToFirstFloor();
-
 		this.poiManager = new POIManager();
+		this.floorManager = new FloorManager();
+		this.userManager = new UserManager();
+
+		this.floorManager.initialize();
+		setViewToFirstFloor();
 		this.poiManager.initialize();
 
-		this.userManager = new UserManager();
 
 		if(Android.isInMode()){
 			this.startNavigation();

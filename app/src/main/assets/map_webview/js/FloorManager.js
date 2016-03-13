@@ -84,12 +84,15 @@ function FloorManager(){
 
 				//Replace current floor img source with new floor img source
 				var currentImageOverlay = floors[currentFloor-1];
-				currentImageOverlay.leafletObj.setOpacity(0);
+
+				if(currentImageOverlay){
+					currentImageOverlay.leafletObj.setOpacity(0);
+				}
 
 				var level = parseInt($(this).text());
 				var updatedFloorOverlay = floors[level-1];
 
-				setCurrentFloor(level);
+				self.setCurrentFloor(level);
 				updatedFloorOverlay.leafletObj.setOpacity(1);
 
 				self.floorClicked({
@@ -105,6 +108,11 @@ function FloorManager(){
 
 	this.showUserLocatedFloor = function(){
 		var floor = Android.getCurrentPOIFloor();
+		
+		this.clickFloor(floor);
+	};
+
+	this.clickFloor = function(floor){
 		for(var i = 0; i < floorButtons.length; i++){
 			var floorBtn = floorButtons[i];
 
