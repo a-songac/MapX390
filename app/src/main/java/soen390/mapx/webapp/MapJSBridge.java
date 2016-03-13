@@ -30,8 +30,11 @@ public class MapJSBridge {
      * Path to draw on the map
      */
     public void drawPath() {
-
-        webView.evaluateJavascript("controller.startNavigation()", null);
+        webView.post(new Runnable() {
+            public void run() {
+                webView.evaluateJavascript("controller.startNavigation()", null);
+            }
+        });
     }
 
 
@@ -40,18 +43,19 @@ public class MapJSBridge {
      * @param nodeId
      */
     public void reachedNode(Long nodeId) {
-
-
-        webView.evaluateJavascript("controller.updateUserMarker()", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-                LogUtils.info(
-                        this.getClass(),
-                        "evaluateJavascript - controller.updateUserMarker() - onReceiveValue",
-                        "Called js side with return value: " + value);
+        webView.post(new Runnable() {
+            public void run() {
+                webView.evaluateJavascript("controller.updateUserMarker()", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        LogUtils.info(
+                                this.getClass(),
+                                "evaluateJavascript - controller.updateUserMarker() - onReceiveValue",
+                                "Called js side with return value: " + value);
+                    }
+                });
             }
         });
-
     }
 
     /**
@@ -61,10 +65,9 @@ public class MapJSBridge {
 
         //TODO
 
-        webView.evaluateJavascript("TODO Javascript function", new ValueCallback<String>() {
-            @Override
-            public void onReceiveValue(String value) {
-
+        webView.post(new Runnable() {
+            public void run() {
+                webView.evaluateJavascript("TODO Javascript function", null);
             }
         });
     }
@@ -73,14 +76,21 @@ public class MapJSBridge {
      * Erase the path currently displayed
      */
     public void leaveNavigation(){
-
-        webView.evaluateJavascript("controller.cancelNavigation()", null);
+        webView.post(new Runnable() {
+            public void run() {
+                webView.evaluateJavascript("controller.cancelNavigation()", null);
+            }
+        });
     }
 
     /**
      * Switch to the floor on which the user is if necessary
      */
     public void displayCurrentFloor(){
-        webView.evaluateJavascript("controller.changeToUserLocationFloor()", null);
+        webView.post(new Runnable() {
+            public void run() {
+                webView.evaluateJavascript("controller.changeToUserLocationFloor()", null);
+            }
+        });
     }
 }
