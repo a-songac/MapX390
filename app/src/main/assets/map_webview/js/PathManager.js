@@ -8,6 +8,8 @@ function PathManager(){
 		var offsetY = opts.offsetY;
 		var poiManager = opts.poiManager;
 		var poisJSON = poiManager.getPOISJSON();
+		var mapWidth = controller.mapWidth;
+		var mapHeight = controller.mapHeight;
 
 		var path = JSON.parse(Android.getPath());
 
@@ -29,7 +31,10 @@ function PathManager(){
 
 		sourcePoiId = path[0];
 		destinationPoiId = path[path.length-1];
-		poiManager.changeStartAndEndPOIIcons('js/images/pin1.png'); //TO CHANGE
+		poiManager.changeDestinationPOIIcon({
+			pathManager : this,
+			imagePath : 'js/images/pin1.png'
+		}); //TO CHANGE
 
 		function getLatLng(pastNode, currentNode){
 			var latLng = [];
@@ -51,7 +56,7 @@ function PathManager(){
 		}
 	};
 
-	this.deletePath = function(opts){
+	this.deletePath = function(){
 		for(var i = 0; i < polylines.length; i++){
 			map.removeLayer(polylines[i]);
 		}
@@ -67,5 +72,5 @@ function PathManager(){
 
 	this.getDestinationPOI = function(){
 		return destinationPoiId;
-	}
+	};
 }

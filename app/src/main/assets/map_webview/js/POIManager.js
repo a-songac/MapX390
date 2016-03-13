@@ -111,8 +111,9 @@ function POIManager(){
 		}
 	};
 
-	this.changeDestinationPOIIcon(opts){
+	this.changeDestinationPOIIcon = function(opts){
 		var destinationPOI = opts.pathManager.getDestinationPOI();
+		console.log(destinationPOI);
 
 		for(var i = 0; i < poiElements.length; i++){
 			var marker = poiElements[i];

@@ -71,6 +71,10 @@ function Controller(){
 			offsetY: this.offsetY,
 			offsetX: this.offsetX
 		});
+
+		if(Android.isInMode()){
+			this.startNavigation();
+		}
 		
 	};
 
@@ -103,13 +107,20 @@ function Controller(){
 
 	/* Send call to Android to initiate a navigation to the selected POI */
 	this.navigateToPOI = function(elementClicked){
-		Android.navigateToPOI($(elementClicked).attr("data-poi-id"));
+		this.demoPOI = $(elementClicked).attr("data-poi-id");
+		Android.navigateToPOI(this.demoPOI);
 	};
 
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
 	this.startNavigation = function(){
-		try{
-			this.drawPath();
+
+			this.pathManager.drawPath({
+				currentFloor:this.floorManager.getCurrentFloor(),
+				offsetX: this.offsetX,
+				offsetY: this.offsetY,
+				poiManager: this.poiManager
+			});
+
 			var poiElements = this.poiManager.getPOIElements();
 
 			for(var i = 0; i < poiElements.length; i++){
@@ -120,13 +131,7 @@ function Controller(){
 			this.poiManager.changePopupContent({
 				pathManager: this.pathManager
 			});
-		}
-
-		catch(error){
-			alert(error); //Dev only
-			//console.log(error); //Prod only
-			//Send a message to Android perhasp?
-		}
+		
 	};
 
 	/* Called by Android when the navigation to a POI is cancelled */
@@ -138,12 +143,13 @@ function Controller(){
 			marker.closePopup();
 		}
 
-		this.deletePath();
-
-		this.changeDestinationPOIIcon({
+		this.poiManager.changeDestinationPOIIcon({
 			imagePath: 'js/images/marker-icon-2x.png',
 			pathManager: this.pathManager
 		});
+
+		this.pathManager.deletePath();
+
 		this.inNavigation = false;
 		this.endingPOIID = -1;
 		this.poiManager.changePopupContent({
@@ -155,15 +161,16 @@ function Controller(){
 
 	this.updateUserMarker = function(){
 		var userPOI = Android.getUserPosition();
+		var poisJSON = this.poiManager.getPOISJSON();
 		var latLng;
 
 		if(!userPOI){
 			return;
 		}
 
-		for(var i = 0; i < this.poisJSON.length; i++){
+		for(var i = 0; i < poisJSON.length; i++){
 
-			var poi = this.poisJSON[i];
+			var poi = poisJSON[i];
 			if(parseInt(this.currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
 				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
 				var y = -this.mapHeight + (this.offsetY + parseInt(poi["y_coord"]));
@@ -252,19 +259,27 @@ function Controller(){
 			offsetY: this.offsetY,
 			offsetX: this.offsetX
 		});
-		//this.updateUserMarker();
 
-		// if(Android.isInMode()){
-		// this.changeDestinationPOIIcon({
-		// 	imagePath: 'js/images/pin1.png',
-		// 	pathManager: this.pathManager
-		// });
-		// 	this.poiManager.changePopupContent({
-			// 	pathManager: this.pathManager
-			// });
-		// 	this.deletePath();
-		// 	this.drawPath();
-		// }
+		this.updateUserMarker();
+
+		if(Android.isInMode()){
+			this.poiManager.changeDestinationPOIIcon({
+				imagePath: 'js/images/pin1.png',
+				pathManager: this.pathManager
+			});
+
+			this.poiManager.changePopupContent({
+				pathManager: this.pathManager
+			});
+
+			this.pathManager.deletePath();
+			this.pathManager.drawPath({
+				currentFloor:this.floorManager.getCurrentFloor(),
+				offsetX: this.offsetX,
+				offsetY: this.offsetY,
+				poiManager: this.poiManager
+			});
+		}
 	};
 }
 
