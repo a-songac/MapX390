@@ -60,8 +60,9 @@ function Controller(){
 		this.userManager = new UserManager();
 
 		this.floorManager.initialize();
-		setViewToFirstFloor();
 		this.poiManager.initialize();
+		setViewToFirstFloor();
+		this.poiManager.setPOIs();
 
 
 		if(Android.isInMode()){
