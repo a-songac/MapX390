@@ -4,7 +4,6 @@ function Controller(){
 
 	this.mapHeight = 0;
 	this.mapWidth = 0;
-	this.currentFloor = 0;
 	this.offsetY = 0;
 	this.offsetX = 0;
 	this.mapHeight = 0;
@@ -74,33 +73,6 @@ function Controller(){
 		
 	};
 
-	/* newJSONs takes in a JSON that has "poi" and "language" attributes; Android must set two JSONs within this JSON.*/
-	this.changeLanguage = function(newJSONs){
-		try{
-			if(!newJSONs){
-				throw "Error in function: changeLanguage \nVariable: newJSONs \nMessage: newJSONs is null";
-			}
-
-			this.poiManager.setJSONs({
-				poisJSON : newJSONs["poi"],
-				languageJSON : newJSONs["language"]
-			});
-
-			this.poiManager.removePOIs();
-			this.poiManager.setPOIs({
-				mapHeight: this.mapHeight,
-				mapWidth: this.mapWidth,
-				currentFloor: this.floorManager.getCurrentFloor(),
-				offsetY: this.offsetY,
-				offsetX: this.offsetX
-			});
-		}
-
-		catch(error){
-			console.log(error);
-		}
-	};
-
 	/* Send call to Android to initiate a navigation to the selected POI */
 	this.navigateToPOI = function(elementClicked){
 		this.demoPOI = $(elementClicked).attr("data-poi-id");
@@ -156,22 +128,25 @@ function Controller(){
 	this.updateUserMarker = function(){
 		var userPOI = Android.getUserPosition();
 		var poisJSON = this.poiManager.getPOISJSON();
+		var currentFloor = this.floorManager.getCurrentFloor();
 		var latLng;
 
-		if(!userPOI){
+		if(userPOI == null){
 			return;
 		}
 
 		for(var i = 0; i < poisJSON.length; i++){
 
 			var poi = poisJSON[i];
-			if(parseInt(this.currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
+			if(parseInt(currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
 				var x = -this.mapWidth + (this.offsetX + parseInt(poi["x_coord"]));
 				var y = -this.mapHeight + (this.offsetY + parseInt(poi["y_coord"]));
 				latLng = [y,x];
 				break;
 			}
 		}
+
+		console.log(latLng);
 
 		this.setUserMarker(latLng);
 	};
@@ -220,19 +195,6 @@ function Controller(){
 		}else{
 				this.userMarker.setLatLng(latLng);
 		}
-	};
-
-	this.drawPath = function(){
-		this.pathManager.drawPath({
-			currentFloor:this.floorManager.getCurrentFloor(),
-			offsetX: this.offsetX,
-			offsetY: this.offsetY,
-			poiManager: this.poiManager
-		});
-	};
-
-	this.deletePath = function(){
-		this.pathManager.deletePath();
 	};
 
 	this.changeToUserLocationFloor = function(){
