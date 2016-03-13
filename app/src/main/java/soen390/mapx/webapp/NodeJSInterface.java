@@ -84,6 +84,23 @@ public class NodeJSInterface {
     }
 
     /**
+     * Saves the current zoom level instance on the displayed floor
+     */
+    @JavascriptInterface
+    public void setZoomLevel(String zoomLevel) {
+        MapManager.setZoomLevel(zoomLevel);
+    }
+
+    /**
+     * Saves the current zoom level instance on the displayed floor
+     */
+    @JavascriptInterface
+    public String getZoomLevel() {
+        return MapManager.getZoomLevel();
+    }
+
+
+    /**
      * Provide content for languages on the web client side
      * @return
      */
