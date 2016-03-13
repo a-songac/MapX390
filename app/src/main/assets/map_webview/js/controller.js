@@ -45,7 +45,12 @@ function Controller(){
 		function setViewToFirstFloor(){
 			var floors = self.floorManager.getFloorsArr();
 			
-			self.floorManager.setCurrentFloor(1);
+			if(Android.getCurrentFloor() != null){
+				self.floorManager.setCurrentFloor(Android.getCurrentFloor());
+			}else{
+				self.floorManager.setCurrentFloor(1);
+			}
+
 	    	var currentImageOverlay = floors[self.floorManager.getCurrentFloor()-1];
 
 			self.offsetX = self.mapWidth - currentImageOverlay["east"];
