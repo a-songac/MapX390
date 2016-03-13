@@ -57,7 +57,7 @@ public class POIMediaFragment extends ListFragment implements IBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PoiMediaListAdapter listAdapter = new PoiMediaListAdapter(getActivity(),  DummyData.dummyImages());
+        PoiMediaListAdapter listAdapter = new PoiMediaListAdapter(getActivity(),  DummyData.dummyMedia());
         setListAdapter(listAdapter);
 
     }

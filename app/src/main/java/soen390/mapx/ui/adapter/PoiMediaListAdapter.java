@@ -8,6 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
+import com.google.gson.JsonParser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import soen390.mapx.R;
@@ -21,19 +27,31 @@ import soen390.mapx.ui.view.holder.*;
 /**
  * List Adapter for poi media list fragment
  */
-public class PoiMediaListAdapter extends ArrayAdapter<String> {
+public class PoiMediaListAdapter extends ArrayAdapter<JSONArray> {
 
     private Context context;
     private MediaListItemViewHolder viewHolder;
-    private String[] mediaPath;
+    private JSONArray items;
 
     /**
      * Constructor
      */
-    public PoiMediaListAdapter(Context context, String [] items) {
-        super(context, R.layout.media_list_item, items);
+    public PoiMediaListAdapter(Context context, JSONArray items) {
+        super(context, R.layout.media_list_item);
         this.context = context;
-        this.mediaPath = items;
+        this.items = items;
+    }
+
+    @Override
+    public int getCount()
+    {
+        return items.length();
+    }
+
+    @Override
+    public long getItemId(int position)
+    {
+        return position;
     }
 
     @Override
@@ -51,8 +69,11 @@ public class PoiMediaListAdapter extends ArrayAdapter<String> {
             viewHolder = (MediaListItemViewHolder) convertView.getTag();
         }
 
-
-        bindDataToView(getItem(position));
+        try {
+            bindDataToView(items.getJSONObject(position));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return convertView;
     }
@@ -62,12 +83,20 @@ public class PoiMediaListAdapter extends ArrayAdapter<String> {
      * Populate list item
      * @param media
      */
-    public void bindDataToView(final String media) {
-        viewHolder.getTitle().setText("Nipper");
-        viewHolder.getDescription().setText("Lorem ipsum");
-        //TODO check media type
+    public void bindDataToView(final JSONObject media) {
+        try {
+            viewHolder.getTitle().setText(media.getString("title"));
+            viewHolder.getDescription().setText(media.getString("description"));
+
+            if(media.getString("type") == "V"){
+                viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_movie_black_48dp));
+            } else if (media.getString("type") == "A"){
+                viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_audiotrack_black_24dp));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         viewHolder.getImageThumbnail().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.moeb_logo));
-        viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_movie_black_48dp));
     }
 
 }
