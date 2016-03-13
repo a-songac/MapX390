@@ -130,13 +130,7 @@ function FloorManager(){
 		controller.offsetY = controller.mapHeight - updatedFloorOverylay["north"];
 
 		controller.poiManager.removePOIs();
-		controller.poiManager.setPOIs({
-			mapHeight: controller.mapHeight,
-			mapWidth: controller.mapWidth,
-			currentFloor: controller.floorManager.getCurrentFloor(),
-			offsetY: controller.offsetY,
-			offsetX: controller.offsetX
-		});
+		controller.poiManager.setPOIs();
 
 		controller.updateUserMarker();
 
@@ -145,17 +139,9 @@ function FloorManager(){
 				imagePath: 'js/images/pin1.png'
 			});
 
-			controller.poiManager.changePopupContent({
-				pathManager: controller.pathManager
-			});
-
+			controller.poiManager.changePopupContent();
 			controller.pathManager.deletePath();
-			controller.pathManager.drawPath({
-				currentFloor:controller.floorManager.getCurrentFloor(),
-				offsetX: controller.offsetX,
-				offsetY: controller.offsetY,
-				poiManager: controller.poiManager
-			});
+			controller.pathManager.drawPath();
 		}
 	};
 
