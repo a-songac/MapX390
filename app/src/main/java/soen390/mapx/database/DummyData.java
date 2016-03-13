@@ -46,4 +46,8 @@ public class DummyData {
         return imagesPathsDummy;
     }
 
+    public static String[] dummyMedia() {
+        String[] mediaPathDummy = {"moeb_point1", "moeb_point2", "moeb_point3", "moeb_point4"};
+        return mediaPathDummy;
+    }
 }

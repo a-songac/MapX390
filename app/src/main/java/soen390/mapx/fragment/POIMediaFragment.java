@@ -12,35 +12,36 @@ import android.widget.ListView;
 import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.R;
-import soen390.mapx.helper.ActionBarHelper;
-import soen390.mapx.helper.NavigationHelper;
+import soen390.mapx.database.DummyData;
+import soen390.mapx.helper.ConstantsHelper;
+import soen390.mapx.model.Node;
 import soen390.mapx.model.Storyline;
-import soen390.mapx.ui.adapter.MediaListAdapter;
-import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
+import soen390.mapx.ui.adapter.PoiMediaListAdapter;
+import soen390.mapx.ui.view.binder.POIInfoFragmentViewBinder;
+import soen390.mapx.ui.view.holder.MediaListItemViewHolder;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MediaListFragment extends ListFragment implements IBaseFragment {
+public class POIMediaFragment extends ListFragment implements IBaseFragment {
 
-    private View expandedView = null;
-    public static int expandedPosition = -1;
 
     /**
      * Create new instance of Profile fragment
      * @return ProfileFragment : ProfileFragment new instance
      */
-    public static MediaListFragment newInstance() {
+    public static POIMediaFragment newInstance(Long poiId) {
 
         Bundle arguments = new Bundle();
-        MediaListFragment fragment = new MediaListFragment();
-        fragment.setArguments(arguments);
-        return fragment;
+        arguments.putLong(ConstantsHelper.MEDIA_PAGER_POI_ID, poiId);
+        POIMediaFragment poiMediaFragment = new POIMediaFragment();
+        poiMediaFragment.setArguments(arguments);
+        return poiMediaFragment;
 
     }
 
 
-    public MediaListFragment() {
+    public POIMediaFragment() {
         // Required empty public constructor
     }
 
@@ -49,17 +50,14 @@ public class MediaListFragment extends ListFragment implements IBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.story_line_fragment, container, false);
+        return inflater.inflate(R.layout.poi_media_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ActionBarHelper.getInstance();
-        getActivity().invalidateOptionsMenu();
-
-        MediaListAdapter listAdapter = new MediaListAdapter(getActivity(), Storyline.listAll(Storyline.class));
+        PoiMediaListAdapter listAdapter = new PoiMediaListAdapter(getActivity(),  DummyData.dummyImages());
         setListAdapter(listAdapter);
 
     }
@@ -68,24 +66,7 @@ public class MediaListFragment extends ListFragment implements IBaseFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        if (null != expandedView && expandedView != v) {
-            StorylineListItemViewHolder.class.cast(expandedView.getTag()).collapse(getContext());
-        }
-
-        Object tag = v.getTag();
-
-        if (null != tag) {
-
-            StorylineListItemViewHolder itemViewHolder = (StorylineListItemViewHolder) tag;
-
-            if (itemViewHolder.isExpanded()) {
-                itemViewHolder.collapse(getContext());
-            } else {
-                itemViewHolder.expand(getContext());
-            }
-            expandedView = v;
-            expandedPosition = position;
-        }
+        //start media player
 
         fullyShowHalfHiddenItem(position);
 
@@ -102,12 +83,9 @@ public class MediaListFragment extends ListFragment implements IBaseFragment {
         }
     }
 
-
-
     @Override
     public void onBackPressed() {
-        NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
-
     }
+
 
 }

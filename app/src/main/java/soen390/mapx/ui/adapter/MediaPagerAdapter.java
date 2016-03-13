@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import soen390.mapx.fragment.POIImagesFragment;
 import soen390.mapx.fragment.POIInfoFragment;
+import soen390.mapx.fragment.POIMediaFragment;
 
 /**
  * Class to implement media view pager adapter
@@ -29,6 +30,7 @@ public class MediaPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return POIImagesFragment.newInstance(poiId);
             case 2:
+                return POIMediaFragment.newInstance(poiId);
             default:
                 return POIInfoFragment.newInstance(poiId);
         }
