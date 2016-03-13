@@ -16,6 +16,7 @@ function FloorManager(){
 
 	this.setCurrentFloor = function(floor){
 		currentFloor = floor;
+		Android.setCurrentFloor(currentFloor);
 	};
 
 	this.getCurrentFloor = function(){
@@ -88,7 +89,7 @@ function FloorManager(){
 				var level = parseInt($(this).text());
 				var updatedFloorOverlay = floors[level-1];
 
-				currentFloor = level;
+				setCurrentFloor(level);
 				updatedFloorOverlay.leafletObj.setOpacity(1);
 
 				self.floorClicked({
