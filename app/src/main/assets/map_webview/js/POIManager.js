@@ -42,7 +42,7 @@ function POIManager(){
 
 			var poi = poisJSON[i];
 			if(parseInt(currentFloor) === parseInt(poi["floor"]) && poi["type"] != "t"){
-				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.navigateToPOI(this)'>" + buttonLabel + "</button>";
+				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.poiManager.navigateToPOI(this)'>" + buttonLabel + "</button>";
 
 				var x = -mapWidth + (offsetX + parseInt(poi["x_coord"]));
 				var y = -mapHeight + (offsetY + parseInt(poi["y_coord"]));
@@ -76,10 +76,10 @@ function POIManager(){
 
 			if(Android.isInMode()){
 				buttonLabel = languageJSON["web_change_destination"];
-				javascriptMethod = "onclick='controller.navigateToPOI(this)'";
+				javascriptMethod = "onclick='controller.poiManager.navigateToPOI(this)'";
 			}else{
 				buttonLabel = languageJSON["web_go_to_destination"];
-				javascriptMethod =  "onclick='controller.navigateToPOI(this)'";
+				javascriptMethod =  "onclick='controller.poiManager.navigateToPOI(this)'";
 			}
 
 			var marker = poiElements[i];
@@ -114,5 +114,11 @@ function POIManager(){
 				marker.setIcon(normalIcon);
 			}
 		}
+	};
+
+	/* Send call to Android to initiate a navigation to the selected POI */
+	this.navigateToPOI = function(elementClicked){
+		var poiID = $(elementClicked).attr("data-poi-id");
+		Android.navigateToPOI(poiID);
 	};
 }

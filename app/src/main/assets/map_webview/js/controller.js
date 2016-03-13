@@ -73,21 +73,9 @@ function Controller(){
 		
 	};
 
-	/* Send call to Android to initiate a navigation to the selected POI */
-	this.navigateToPOI = function(elementClicked){
-		var poiID = $(elementClicked).attr("data-poi-id");
-		Android.navigateToPOI(poiID);
-	};
-
 	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
 	this.startNavigation = function(){
-
-			this.pathManager.drawPath({
-				currentFloor:this.floorManager.getCurrentFloor(),
-				offsetX: this.offsetX,
-				offsetY: this.offsetY,
-				poiManager: this.poiManager
-			});
+			this.pathManager.drawPath();
 
 			var poiElements = this.poiManager.getPOIElements();
 
@@ -96,10 +84,7 @@ function Controller(){
 				marker.closePopup();
 			}
 
-			this.poiManager.changePopupContent({
-				pathManager: this.pathManager
-			});
-		
+			this.poiManager.changePopupContent();
 	};
 
 	/* Called by Android when the navigation to a POI is cancelled */
@@ -116,12 +101,7 @@ function Controller(){
 		});
 
 		this.pathManager.deletePath();
-
-		this.poiManager.changePopupContent({
-			pathManager: this.pathManager
-		});
-
-		//Add path deletion here in Sprint 3
+		this.poiManager.changePopupContent();
 	};
 
 	this.updateUserMarker = function(){
