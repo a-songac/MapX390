@@ -5,8 +5,6 @@ function Controller(){
 	this.mapHeight = 0;
 	this.mapWidth = 0;
 	this.currentFloor = 0;
-	this.poisJSON = [];
-	this.inNavigation = false;
 	this.offsetY = 0;
 	this.offsetX = 0;
 	this.mapHeight = 0;
@@ -16,10 +14,6 @@ function Controller(){
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(options){
 		var self = this;
-
-		this.pathManager = new PathManager();
-
-		this.poisJSON = JSON.parse(Android.getPOIsJSON());
 
 		/* Set the map frame: Map Size, Map Controls*/
 		function setMap(){
@@ -57,6 +51,8 @@ function Controller(){
 		}
 
 		setMap();
+
+		this.pathManager = new PathManager();
 
 		this.floorManager = new FloorManager();
 		this.floorManager.initialize();
@@ -150,8 +146,6 @@ function Controller(){
 
 		this.pathManager.deletePath();
 
-		this.inNavigation = false;
-		this.endingPOIID = -1;
 		this.poiManager.changePopupContent({
 			pathManager: this.pathManager
 		});
