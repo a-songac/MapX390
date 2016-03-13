@@ -6,22 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-
-import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 import soen390.mapx.R;
-import soen390.mapx.UiUtils;
 import soen390.mapx.application.MapXApplication;
-import soen390.mapx.fragment.StorylineListFragment;
-import soen390.mapx.manager.MapManager;
-import soen390.mapx.model.Storyline;
 import soen390.mapx.ui.view.holder.*;
 
 /**
@@ -89,9 +80,9 @@ public class PoiMediaListAdapter extends ArrayAdapter<JSONArray> {
             viewHolder.getDescription().setText(media.getString("description"));
 
             if(media.getString("type") == "V"){
-                viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_movie_black_48dp));
+                viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_theaters_black_48dp));
             } else if (media.getString("type") == "A"){
-                viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_audiotrack_black_24dp));
+                viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_music_note_black_48dp));
             }
         } catch (JSONException e) {
             e.printStackTrace();
