@@ -8,11 +8,11 @@ function Controller(){
 	this.floorManager = null;
 	this.pathManager = null;
 
+	/* Global settings */
 	this.mapHeight = 0;
 	this.mapWidth = 0;
 	this.offsetY = 0;
 	this.offsetX = 0;
-	this.userMarker;
 
 	/* Initiliazes the map upon opening the webview */
 	this.initialize = function(){
@@ -41,6 +41,7 @@ function Controller(){
 	   		map.setMaxBounds(new L.LatLngBounds([south, west], [north, east]));
 		}
 
+		/* After initializing Floor Manager, set Floor View to first floor */
 		function setViewToFirstFloor(){
 			var floors = self.floorManager.getFloorsArr();
 			
@@ -73,7 +74,7 @@ function Controller(){
 		
 	};
 
-	/* Called by Android when it has create the path to be done. Options variable is current dummy variable to remind that Android also has to send the path*/
+	/* Called by Android to start navigation mode */
 	this.startNavigation = function(){
 			this.pathManager.drawPath();
 
@@ -87,7 +88,7 @@ function Controller(){
 			this.poiManager.changePopupContent();
 	};
 
-	/* Called by Android when the navigation to a POI is cancelled */
+	/* Called by Android to cancel navigation mode */
 	this.cancelNavigation = function(){
 		var poiElements = this.poiManager.getPOIElements();
 
@@ -104,11 +105,12 @@ function Controller(){
 		this.poiManager.changePopupContent();
 	};
 
+	/* Called by Android to update user position */
 	this.updateUserMarker = function(){
 		this.userManager.updateUserMarker();
 	};
 
-	
+	/* Called by Android to set floor to user position */
 	this.changeToUserLocationFloor = function(){
 		this.floorManager.showUserLocatedFloor();
 	};
