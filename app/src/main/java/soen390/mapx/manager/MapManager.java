@@ -31,12 +31,24 @@ public class MapManager {
     private static Storyline currentStoryline = null;
     private static ArrayList<Integer> currentPath = null;
     private static String currentFloor = null;
+    private static String zoomLevel = null;
 
     public static boolean isStorylineMode() { return storylineMode; }
 
     public static boolean isNavigationMode() { return navigationMode; }
 
     public static String getCurrentFloor() { return currentFloor; }
+
+    public static String getZoomLevel() { return zoomLevel; }
+
+
+    /**
+     * Keep zoom level from webview
+     * @param zoomLvl
+     */
+    public static void setZoomLevel(String zoomLvl){
+        zoomLevel = zoomLvl;
+    }
 
     /**
      * Keep current floor viewed instance from web view
