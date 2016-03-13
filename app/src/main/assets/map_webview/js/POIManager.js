@@ -3,23 +3,10 @@ function POIManager(){
 	var poisJSON = [];
 	var languageJSON = [];
 
-	this.initialize = function(opts){
+	this.initialize = function(){
 		poisJSON = JSON.parse(Android.getPOIsJSON());
 		languageJSON = JSON.parse(Android.getLanguageJSON());
-		this.setPOIs(opts);
-	};
-
-	this.setJSONs = function(opts){
-		if(!opts.poisJSON){
-			poisJSON = opts.poisJSON;
-		}
-
-		if(!opts.languageJSON){
-			languageJSON = opts.languageJSON;
-		}
-
-		poisJSON = JSON.parse(Android.getPOIsJSON());
-		languageJSON = JSON.parse(Android.getLanguageJSON());
+		this.setPOIs();
 	};
 
 	this.getPOISJSON = function(){
@@ -30,9 +17,7 @@ function POIManager(){
 		return poiElements;
 	};
 
-	this.setPOIs = function(opts){
-		//console.log(JSON.stringify(opts));
-
+	this.setPOIs = function(){
 		var normalIcon = L.icon({
 		    iconUrl: 'js/images/marker-icon-2x.png',
 		    iconSize:    [41, 41],
@@ -40,11 +25,11 @@ function POIManager(){
 			popupAnchor: [1, -34]
 		});
 
-		var mapHeight = opts.mapHeight;
-		var mapWidth = opts.mapWidth;
-		var offsetX = opts.offsetX;
-		var offsetY = opts.offsetY;
-		var currentFloor = opts.currentFloor;
+		var mapHeight = controller.mapHeight;
+		var mapWidth = controller.mapWidth;
+		var offsetX = controller.offsetX;
+		var offsetY = controller.offsetY;
+		var currentFloor = controller.floorManager.getCurrentFloor();
 
 		for(var i = 0; i < poisJSON.length; i++){
 			var buttonLabel;
@@ -82,9 +67,9 @@ function POIManager(){
 		poiElements = [];
 	};
 
-	this.changePopupContent = function(opts){
-		var sourcePOI = opts.pathManager.getSourcePOI();
-		var destinationPOI = opts.pathManager.getDestinationPOI();
+	this.changePopupContent = function(){
+		var sourcePOI = controller.pathManager.getSourcePOI();
+		var destinationPOI = controller.pathManager.getDestinationPOI();
 
 		for(var i = 0; i < poiElements.length; i++){
 			var buttonLabel, javascriptMethod;
@@ -112,8 +97,7 @@ function POIManager(){
 	};
 
 	this.changeDestinationPOIIcon = function(opts){
-		var destinationPOI = opts.pathManager.getDestinationPOI();
-		console.log(destinationPOI);
+		var destinationPOI = controller.pathManager.getDestinationPOI();
 
 		for(var i = 0; i < poiElements.length; i++){
 			var marker = poiElements[i];

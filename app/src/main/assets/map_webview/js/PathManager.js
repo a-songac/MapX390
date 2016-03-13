@@ -2,12 +2,11 @@ function PathManager(){
 	var polylines = [];
 	var sourcePoiId, destinationPoiId;
 
-	this.drawPath = function(opts){
-		var currentFloor = opts.currentFloor;
-		var offsetX = opts.offsetX;
-		var offsetY = opts.offsetY;
-		var poiManager = opts.poiManager;
-		var poisJSON = poiManager.getPOISJSON();
+	this.drawPath = function(){
+		var currentFloor = controller.floorManager.getCurrentFloor();
+		var offsetX = controller.offsetX;
+		var offsetY = controller.offsetY;
+		var poisJSON = controller.poiManager.getPOISJSON();
 		var mapWidth = controller.mapWidth;
 		var mapHeight = controller.mapHeight;
 
@@ -31,8 +30,7 @@ function PathManager(){
 
 		sourcePoiId = path[0];
 		destinationPoiId = path[path.length-1];
-		poiManager.changeDestinationPOIIcon({
-			pathManager : this,
+		controller.poiManager.changeDestinationPOIIcon({
 			imagePath : 'js/images/pin1.png'
 		}); //TO CHANGE
 

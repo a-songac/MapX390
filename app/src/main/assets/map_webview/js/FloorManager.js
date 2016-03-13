@@ -51,6 +51,7 @@ function FloorManager(){
 	};
 
 	this.setFloorLevelUIControl = function(){
+		var self = this;
 		var levels = floors.length;
 
 		var levelControlContainer = document.createElement("div");
@@ -90,7 +91,7 @@ function FloorManager(){
 				currentFloor = level;
 				updatedFloorOverlay.leafletObj.setOpacity(1);
 
-				controller.floorClicked({
+				self.floorClicked({
 					updatedFloorOverlay: updatedFloorOverlay
 				});
 			});
@@ -110,6 +111,42 @@ function FloorManager(){
 			if(parseInt($(floorBtn).attr("data-floorId")) == parseInt(floor)){
 				$(floorBtn).click();
 			}
+		}
+	};
+
+	this.floorClicked = function(opts){
+		var updatedFloorOverylay = opts.updatedFloorOverlay;
+
+		controller.offsetX = controller.mapWidth - updatedFloorOverylay["east"];
+		controller.offsetY = controller.mapHeight - updatedFloorOverylay["north"];
+
+		controller.poiManager.removePOIs();
+		controller.poiManager.setPOIs({
+			mapHeight: controller.mapHeight,
+			mapWidth: controller.mapWidth,
+			currentFloor: controller.floorManager.getCurrentFloor(),
+			offsetY: controller.offsetY,
+			offsetX: controller.offsetX
+		});
+
+		controller.updateUserMarker();
+
+		if(Android.isInMode()){
+			controller.poiManager.changeDestinationPOIIcon({
+				imagePath: 'js/images/pin1.png'
+			});
+
+			controller.poiManager.changePopupContent({
+				pathManager: controller.pathManager
+			});
+
+			controller.pathManager.deletePath();
+			controller.pathManager.drawPath({
+				currentFloor:controller.floorManager.getCurrentFloor(),
+				offsetX: controller.offsetX,
+				offsetY: controller.offsetY,
+				poiManager: controller.poiManager
+			});
 		}
 	};
 
