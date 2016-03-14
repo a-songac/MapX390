@@ -32,6 +32,7 @@ public class MapManager {
     private static ArrayList<Integer> currentPath = null;
     private static String currentFloor = null;
     private static String zoomLevel = null;
+    private static String[] currentView = new String[2];
 
     public static boolean isStorylineMode() { return storylineMode; }
 
@@ -41,6 +42,15 @@ public class MapManager {
 
     public static String getZoomLevel() { return zoomLevel; }
 
+    public static String[] getCurrentView() { return currentView; }
+
+    /**
+     * Keep current view from webview
+     * @param currView
+     */
+    public static void setCurrentView(String[] currView){
+        currentView = currView;
+    }
 
     /**
      * Keep zoom level from webview

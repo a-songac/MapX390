@@ -92,13 +92,35 @@ public class NodeJSInterface {
     }
 
     /**
-     * Saves the current zoom level instance on the displayed floor
+     * Provides zoom level data to webview
      */
     @JavascriptInterface
     public String getZoomLevel() {
         return MapManager.getZoomLevel();
     }
 
+    /**
+     * Provides the position of where the user is currently looking at
+     */
+    @JavascriptInterface
+    public String getCurrentView() {
+        JSONArray currentViewArr = new JSONArray();
+        String[] currentView = MapManager.getCurrentView();
+
+        for(int i = 0; i < currentView.length; i++) {
+            currentViewArr.put(currentView[i]);
+        }
+
+        return currentViewArr.toString();
+    }
+
+    /**
+     * Provides the position of where the user is currently looking at
+     */
+    @JavascriptInterface
+    public void setCurrentView(String[] currentView) {
+        MapManager.setCurrentView(currentView);
+    }
 
     /**
      * Provide content for languages on the web client side
