@@ -132,7 +132,8 @@ public class MapManager {
 
         syncActionBarStateWithCurrentMode();
 
-
+        //TEMPORARY
+        MapJSBridge.getInstance().drawPath();
     }
 
     /**
