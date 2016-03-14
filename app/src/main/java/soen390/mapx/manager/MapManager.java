@@ -30,13 +30,20 @@ public class MapManager {
     private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
     private static ArrayList<Integer> currentPath = null;
+    private static String currentFloor = null;
 
-    public static boolean isStorylineMode() {
-        return storylineMode;
-    }
+    public static boolean isStorylineMode() { return storylineMode; }
 
-    public static boolean isNavigationMode() {
-        return navigationMode;
+    public static boolean isNavigationMode() { return navigationMode; }
+
+    public static String getCurrentFloor() { return currentFloor; }
+
+    /**
+     * Keep current floor viewed instance from web view
+     * @param cFloor
+     */
+    public static void setCurrentFloor(String cFloor) {
+        currentFloor = cFloor;
     }
 
     public static Node getLastNode(){
@@ -286,6 +293,13 @@ public class MapManager {
         } else {
             ActionBarHelper.getInstance().setMapFragmentActionBar();
         }
+
+        // if drawer is not enabled, then it means the home button was enabled (when in poi info fragment)
+        if (!MainActivity.isDrawerEnabled()) {
+            ActionBarHelper.getInstance().disableHomeAsUp();
+            MainActivity.class.cast(MapXApplication.getGlobalContext()).enableDrawer(true);
+        }
+
         MainActivity.class.cast(MapXApplication.getGlobalContext()).invalidateOptionsMenu();
 
     }
