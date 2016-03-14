@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.MediaController;
 import android.widget.VideoView;
@@ -23,6 +24,8 @@ import soen390.mapx.helper.ConstantsHelper;
  */
 public class MediaPlayerActivity extends AppCompatActivity {
 
+    private VideoView videoView = null;
+    private int stopPosition = 0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +36,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
         if (null != extras) {
             int position = extras.getInt(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY);
             Uri uri = null;
-            VideoView videoView = null;
 
             try {
                 JSONObject media = DummyData.dummyMedia().getJSONObject(position);
@@ -52,23 +54,34 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
             videoView.setMediaController(mediaController);
             videoView.setVideoURI(uri);
-            videoView.requestFocus();
-
             videoView.start();
         }
-
     }
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                videoView.stopPlayback();
                 onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopPosition = videoView.getCurrentPosition();
+        videoView.pause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        videoView.seekTo(stopPosition);
+        videoView.start(); //Or use resume() if it doesn't work. I'm not sure
+    }
     /**
      * Set action bar title
      */
