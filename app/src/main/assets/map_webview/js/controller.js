@@ -47,12 +47,14 @@ function Controller(){
 			
 			if(Android.getCurrentFloor() != null){
 				var lngLat = JSON.parse(Android.getCurrentView());
-				var zoomLevel = Android.getZoomLevel()
+				var zoomLevel = parseInt(Android.getZoomLevel());
 
 				self.floorManager.clickFloor(Android.getCurrentFloor());
 				map.setView(lngLat, zoomLevel);
 			}else{
 				self.floorManager.clickFloor(1);
+				self.mapManager.setCurrentView();
+				self.mapManager.setZoomLevel();
 			}
 		}
 
