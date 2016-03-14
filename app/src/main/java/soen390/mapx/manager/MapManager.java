@@ -99,7 +99,8 @@ public class MapManager {
                     new IDialogResponseCallBack() {
                         @Override
                         public void onPositiveResponse() {
-                            MapJSBridge.getInstance().leaveNavigation();
+                            //MapJSBridge.getInstance().leaveNavigation();
+                            leaveCurrentMode();
                             launchStoryline(storyline);
                         }
 
@@ -164,7 +165,8 @@ public class MapManager {
                     new IDialogResponseCallBack() {
                         @Override
                         public void onPositiveResponse() {
-                            MapJSBridge.getInstance().leaveNavigation();
+                            //MapJSBridge.getInstance().leaveNavigation();
+                            leaveCurrentMode();
                             launchNavigation(newNode, context);
                         }
 
@@ -256,6 +258,7 @@ public class MapManager {
                 navigationMode = false;
                 storylineMode = false;
                 currentStoryline = null;
+                currentPath = null;
 
                 syncActionBarStateWithCurrentMode();
 
@@ -286,6 +289,7 @@ public class MapManager {
                 navigationMode = false;
                 storylineMode = false;
                 currentNodeDestination = null;
+                currentPath = null;
 
                 syncActionBarStateWithCurrentMode();
 
