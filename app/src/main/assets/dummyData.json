@@ -73,9 +73,19 @@
 		  "image":
 		  [
 			{
-			  "path": "<TODO>",
-			  "language": "<TODO>",
-			  "caption": "<TODO>"
+			  "path": "old_radio",
+			  "language": "",
+			  "caption": "Radio"
+			},
+			{
+			  "path": "moeb_logo",
+			  "language": "",
+			  "caption": "MOEB"
+			},
+			{
+			  "path": "gramophone_victrola",
+			  "language": "",
+			  "caption": "Gramophone Victrola"
 			}
 		  ],
 		  "video":
