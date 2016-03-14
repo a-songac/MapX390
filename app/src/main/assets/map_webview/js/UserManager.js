@@ -65,6 +65,8 @@ function UserManager(){
 			    } else if (diff < 0) {
 			        userMarker.setRadius(userMarker.getRadius() * 2);
 			    }
+
+			    controller.mapManager.setZoomLevel();
 			});
 		}else{
 				userMarker.setLatLng(latLng);
