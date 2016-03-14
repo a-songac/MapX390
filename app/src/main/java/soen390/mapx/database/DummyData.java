@@ -63,7 +63,7 @@ public class DummyData {
             poisObj.put("_id", 1);
             poisObj.put("title", "Nipper");
             poisObj.put("description", "Lorem ipsum");
-            poisObj.put("path", "moeb_point1.mov");
+            poisObj.put("path", "moeb_point1");
             poisObj.put("type", "V");
             poiArr.put(poisObj);
 
@@ -71,7 +71,7 @@ public class DummyData {
             poisObj.put("_id", 2);
             poisObj.put("title", "Video 2");
             poisObj.put("description", "Lorem ipsum");
-            poisObj.put("path", "moeb_point2.mov");
+            poisObj.put("path", "moeb_point2");
             poisObj.put("type", "V");
             poiArr.put(poisObj);
 
@@ -79,7 +79,7 @@ public class DummyData {
             poisObj.put("_id", 3);
             poisObj.put("title", "Video 3");
             poisObj.put("description", "Lorem ipsum");
-            poisObj.put("path", "moeb_point3.mov");
+            poisObj.put("path", "moeb_point3");
             poisObj.put("type", "V");
             poiArr.put(poisObj);
 
@@ -87,7 +87,7 @@ public class DummyData {
             poisObj.put("_id", 4);
             poisObj.put("title", "Audio 1");
             poisObj.put("description", "Lorem ipsum");
-            poisObj.put("path", "moeb_point4.mov");
+            poisObj.put("path", "moeb_point4");
             poisObj.put("type", "A");
             poiArr.put(poisObj);
 
