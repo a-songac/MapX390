@@ -93,6 +93,15 @@ public class NodeJSInterface {
     }
 
     /**
+     * Returns boolean whether user is in navigation mode
+     * @return
+     */
+    @JavascriptInterface
+    public boolean isInNavigationMode() {
+        return MapManager.isNavigationMode();
+    }
+
+    /**
      * Saves the current zoom level instance on the displayed floor
      */
     @JavascriptInterface
