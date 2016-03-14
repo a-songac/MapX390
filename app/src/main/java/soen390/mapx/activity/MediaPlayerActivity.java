@@ -39,12 +39,8 @@ public class MediaPlayerActivity extends AppCompatActivity {
                 JSONObject media = DummyData.dummyMedia().getJSONObject(position);
                 videoView = (VideoView) findViewById(R.id.videoView);
 
-                uri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.moeb_point5);
-
-                /* USE THIS WHEN ALL VIDEO ARE CONVERTED TO MP4
                 uri = Uri.parse("android.resource://" + getPackageName() +
-                        "/R.raw." + DummyData.dummyMedia().getJSONObject(position).getString("path"));
-                */
+                        "/" + getResources().getIdentifier(DummyData.dummyMedia().getJSONObject(position).getString("path"), "raw", getPackageName()));
 
                 setActionBar(media.getString("title"));
             }catch (JSONException e) {
