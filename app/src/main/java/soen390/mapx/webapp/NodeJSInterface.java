@@ -198,13 +198,20 @@ public class NodeJSInterface {
      */
     @JavascriptInterface
     public String getPath() {
-        JSONArray pathArr = new JSONArray();
+        try{
+            JSONArray pathArr = new JSONArray();
 
-        for(int nodeID : MapManager.getCurrentPath()){
-            pathArr.put(nodeID);
+            for(int nodeID : MapManager.getCurrentPath()){
+                pathArr.put(nodeID);
+            }
+
+            return pathArr.toString();
         }
 
-        return pathArr.toString();
+        catch(Exception e){
+            //Maybe add error call?
+            return null;
+        }
     }
 
     /**
