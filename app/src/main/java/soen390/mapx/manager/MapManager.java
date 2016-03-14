@@ -130,6 +130,8 @@ public class MapManager {
         storylineMode = true;
         currentStoryline = storyline;
 
+        currentPath = storyline.getPath();
+
         syncActionBarStateWithCurrentMode();
 
 
