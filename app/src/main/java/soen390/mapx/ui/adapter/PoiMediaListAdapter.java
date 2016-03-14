@@ -79,9 +79,9 @@ public class PoiMediaListAdapter extends ArrayAdapter<JSONArray> {
             viewHolder.getTitle().setText(media.getString("title"));
             viewHolder.getDescription().setText(media.getString("description"));
 
-            if(media.getString("type") == "V"){
+            if(media.getString("type").equals("V")){
                 viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_theaters_black_48dp));
-            } else if (media.getString("type") == "A"){
+            } else if (media.getString("type").equals("A")){
                 viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_music_note_black_48dp));
             }
         } catch (JSONException e) {
