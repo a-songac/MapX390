@@ -6,7 +6,6 @@ function POIManager(){
 	this.initialize = function(){
 		poisJSON = JSON.parse(Android.getPOIsJSON());
 		languageJSON = JSON.parse(Android.getLanguageJSON());
-		this.setPOIs();
 	};
 
 	this.getPOISJSON = function(){

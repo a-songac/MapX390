@@ -151,6 +151,23 @@ public class NodeJSInterface {
     }
 
     /**
+     * Send current floor shown to map view
+     * @return floor
+     */
+    @JavascriptInterface
+    public String getCurrentFloor(){
+        return MapManager.getCurrentFloor();
+    }
+
+    /**
+     * Set current floor show on map view
+     */
+    @JavascriptInterface
+    public void setCurrentFloor(String floor){
+        MapManager.setCurrentFloor(floor);
+    }
+
+    /**
      * Given a list of POIs build a JSON corresponding to it
      * @param nodes List of POIs
      * @return JSON corresponding to the lsit of POIs

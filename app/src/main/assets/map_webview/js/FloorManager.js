@@ -16,6 +16,7 @@ function FloorManager(){
 
 	this.setCurrentFloor = function(floor){
 		currentFloor = floor;
+		Android.setCurrentFloor(currentFloor);
 	};
 
 	this.getCurrentFloor = function(){
@@ -83,12 +84,15 @@ function FloorManager(){
 
 				//Replace current floor img source with new floor img source
 				var currentImageOverlay = floors[currentFloor-1];
-				currentImageOverlay.leafletObj.setOpacity(0);
+
+				if(currentImageOverlay){
+					currentImageOverlay.leafletObj.setOpacity(0);
+				}
 
 				var level = parseInt($(this).text());
 				var updatedFloorOverlay = floors[level-1];
 
-				currentFloor = level;
+				self.setCurrentFloor(level);
 				updatedFloorOverlay.leafletObj.setOpacity(1);
 
 				self.floorClicked({
@@ -104,6 +108,11 @@ function FloorManager(){
 
 	this.showUserLocatedFloor = function(){
 		var floor = Android.getCurrentPOIFloor();
+		
+		this.clickFloor(floor);
+	};
+
+	this.clickFloor = function(floor){
 		for(var i = 0; i < floorButtons.length; i++){
 			var floorBtn = floorButtons[i];
 
@@ -121,13 +130,7 @@ function FloorManager(){
 		controller.offsetY = controller.mapHeight - updatedFloorOverylay["north"];
 
 		controller.poiManager.removePOIs();
-		controller.poiManager.setPOIs({
-			mapHeight: controller.mapHeight,
-			mapWidth: controller.mapWidth,
-			currentFloor: controller.floorManager.getCurrentFloor(),
-			offsetY: controller.offsetY,
-			offsetX: controller.offsetX
-		});
+		controller.poiManager.setPOIs();
 
 		controller.updateUserMarker();
 
@@ -136,17 +139,9 @@ function FloorManager(){
 				imagePath: 'js/images/pin1.png'
 			});
 
-			controller.poiManager.changePopupContent({
-				pathManager: controller.pathManager
-			});
-
+			controller.poiManager.changePopupContent();
 			controller.pathManager.deletePath();
-			controller.pathManager.drawPath({
-				currentFloor:controller.floorManager.getCurrentFloor(),
-				offsetX: controller.offsetX,
-				offsetY: controller.offsetY,
-				poiManager: controller.poiManager
-			});
+			controller.pathManager.drawPath();
 		}
 	};
 
