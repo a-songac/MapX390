@@ -36,6 +36,8 @@ public class MapManager {
 
     public static boolean isStorylineMode() { return storylineMode; }
 
+    public static Storyline getCurrentStoryline() {return currentStoryline;}
+
     public static boolean isNavigationMode() { return navigationMode; }
 
     public static String getCurrentFloor() { return currentFloor; }

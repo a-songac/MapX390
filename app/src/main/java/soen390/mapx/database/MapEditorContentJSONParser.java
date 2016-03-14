@@ -390,19 +390,19 @@ public class MapEditorContentJSONParser {
                     mediaJsonObj.get("image").getAsJsonArray(),
                     nodeId,
                     ExpositionContent.IMAGE_TYPE,
-                    null));
+                    -1L));
 
             contents.addAll(parseMediaContents(
                     mediaJsonObj.get("video").getAsJsonArray(),
                     nodeId,
                     ExpositionContent.VIDEO_TYPE,
-                    null));
+                    -1L));
 
             contents.addAll(parseMediaContents(
                     mediaJsonObj.get("audio").getAsJsonArray(),
                     nodeId,
                     ExpositionContent.AUDIO_TYPE,
-                    null));
+                    -1L));
 
             // Parse story points content
             for (int j = 0; j < storyPointJsonArr.size(); j++) {

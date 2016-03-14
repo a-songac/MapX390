@@ -74,17 +74,17 @@
 		  [
 			{
 			  "path": "old_radio",
-			  "language": "",
+			  "language": "en",
 			  "caption": "Radio"
 			},
 			{
 			  "path": "moeb_logo",
-			  "language": "",
+			  "language": "en",
 			  "caption": "MOEB"
 			},
 			{
 			  "path": "gramophone_victrola",
-			  "language": "",
+			  "language": "en",
 			  "caption": "Gramophone Victrola"
 			}
 		  ],
