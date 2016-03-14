@@ -84,6 +84,15 @@ public class NodeJSInterface {
     }
 
     /**
+     * Returns boolean whether user is in storyline mode
+     * @return boolean
+     */
+    @JavascriptInterface
+    public boolean isInStorylineMode() {
+        return MapManager.isStorylineMode();
+    }
+
+    /**
      * Saves the current zoom level instance on the displayed floor
      */
     @JavascriptInterface
