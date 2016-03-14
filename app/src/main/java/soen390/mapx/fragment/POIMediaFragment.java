@@ -1,6 +1,7 @@
 package soen390.mapx.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -12,6 +13,8 @@ import android.widget.ListView;
 import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.R;
+import soen390.mapx.activity.FullscreenActivity;
+import soen390.mapx.activity.MediaPlayerActivity;
 import soen390.mapx.database.DummyData;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.model.Node;
@@ -66,7 +69,11 @@ public class POIMediaFragment extends ListFragment implements IBaseFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        //start media player
+
+        Intent intent = new Intent(getContext(), MediaPlayerActivity.class);
+
+        intent.putExtra(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY, position);
+        startActivity(intent);
 
         fullyShowHalfHiddenItem(position);
 
