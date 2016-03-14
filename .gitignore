@@ -91,3 +91,6 @@ Thumbs.db
 #Sonar
 .sonar/
 
+#Test reports
+unit_test_reports/
+

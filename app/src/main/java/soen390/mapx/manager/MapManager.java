@@ -30,13 +30,42 @@ public class MapManager {
     private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
     private static ArrayList<Integer> currentPath = null;
+    private static String currentFloor = null;
+    private static String zoomLevel = null;
+    private static String[] currentView = new String[2];
 
-    public static boolean isStorylineMode() {
-        return storylineMode;
+    public static boolean isStorylineMode() { return storylineMode; }
+
+    public static boolean isNavigationMode() { return navigationMode; }
+
+    public static String getCurrentFloor() { return currentFloor; }
+
+    public static String getZoomLevel() { return zoomLevel; }
+
+    public static String[] getCurrentView() { return currentView; }
+
+    /**
+     * Keep current view from webview
+     * @param currView
+     */
+    public static void setCurrentView(String[] currView){
+        currentView = currView;
     }
 
-    public static boolean isNavigationMode() {
-        return navigationMode;
+    /**
+     * Keep zoom level from webview
+     * @param zoomLvl
+     */
+    public static void setZoomLevel(String zoomLvl){
+        zoomLevel = zoomLvl;
+    }
+
+    /**
+     * Keep current floor viewed instance from web view
+     * @param cFloor
+     */
+    public static void setCurrentFloor(String cFloor) {
+        currentFloor = cFloor;
     }
 
     public static Node getLastNode(){
@@ -286,6 +315,13 @@ public class MapManager {
         } else {
             ActionBarHelper.getInstance().setMapFragmentActionBar();
         }
+
+        // if drawer is not enabled, then it means the home button was enabled (when in poi info fragment)
+        if (!MainActivity.isDrawerEnabled()) {
+            ActionBarHelper.getInstance().disableHomeAsUp();
+            MainActivity.class.cast(MapXApplication.getGlobalContext()).enableDrawer(true);
+        }
+
         MainActivity.class.cast(MapXApplication.getGlobalContext()).invalidateOptionsMenu();
 
     }

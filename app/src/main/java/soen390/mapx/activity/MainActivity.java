@@ -41,6 +41,7 @@ public class MainActivity extends BaseActivity
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
+    private static boolean drawerEnabled = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,8 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
+            //TODO Temporary, for testing purposes
+            NavigationHelper.getInstance().navigateToMediaPagerFragment(0L);
 
         } else if (id == R.id.nav_settings) {
             NavigationHelper.getInstance().navigateToSettingsFragment(false);
@@ -205,8 +208,16 @@ public class MainActivity extends BaseActivity
                 navigationView.getMenu().getItem(position).setChecked(true);
             }
         };
-        drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
+
+        //For when toggle is disabled, use is as a back button
+        drawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -279,7 +290,32 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    /**
+     * Perform configuration checks to enable iBeacons scanning
+     */
     private void initIbeacon() {
         SystemRequirementsChecker.checkWithDefaultDialogs(this);
     }
+
+    /**
+     * Enable/disable drawer
+     * @param enable : whether enable drawer
+     */
+    public void enableDrawer(boolean enable) {
+        drawerEnabled = enable;
+        int lockMode = enable ?
+                DrawerLayout.LOCK_MODE_UNLOCKED :
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        drawerLayout.setDrawerLockMode(lockMode);
+        drawerToggle.setDrawerIndicatorEnabled(enable);
+    }
+
+    /**
+     * Whether the drawer toggle is enabled
+     * @return
+     */
+    public static boolean isDrawerEnabled(){
+        return drawerEnabled;
+    }
+
 }

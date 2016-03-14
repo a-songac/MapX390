@@ -84,6 +84,45 @@ public class NodeJSInterface {
     }
 
     /**
+     * Saves the current zoom level instance on the displayed floor
+     */
+    @JavascriptInterface
+    public void setZoomLevel(String zoomLevel) {
+        MapManager.setZoomLevel(zoomLevel);
+    }
+
+    /**
+     * Provides zoom level data to webview
+     */
+    @JavascriptInterface
+    public String getZoomLevel() {
+        return MapManager.getZoomLevel();
+    }
+
+    /**
+     * Provides the position of where the user is currently looking at
+     */
+    @JavascriptInterface
+    public String getCurrentView() {
+        JSONArray currentViewArr = new JSONArray();
+        String[] currentView = MapManager.getCurrentView();
+
+        for(int i = 0; i < currentView.length; i++) {
+            currentViewArr.put(currentView[i]);
+        }
+
+        return currentViewArr.toString();
+    }
+
+    /**
+     * Provides the position of where the user is currently looking at
+     */
+    @JavascriptInterface
+    public void setCurrentView(String[] currentView) {
+        MapManager.setCurrentView(currentView);
+    }
+
+    /**
      * Provide content for languages on the web client side
      * @return
      */
@@ -151,6 +190,23 @@ public class NodeJSInterface {
     }
 
     /**
+     * Send current floor shown to map view
+     * @return floor
+     */
+    @JavascriptInterface
+    public String getCurrentFloor(){
+        return MapManager.getCurrentFloor();
+    }
+
+    /**
+     * Set current floor show on map view
+     */
+    @JavascriptInterface
+    public void setCurrentFloor(String floor){
+        MapManager.setCurrentFloor(floor);
+    }
+
+    /**
      * Given a list of POIs build a JSON corresponding to it
      * @param nodes List of POIs
      * @return JSON corresponding to the lsit of POIs
@@ -196,7 +252,7 @@ public class NodeJSInterface {
             for(Floor floor: floors) {
                 floorObj = new JSONObject();
                 floorObj.put("floor_num", floor.getFloorId());
-                floorObj.put("floor_id", floor.getId());
+                floorObj.put("floor_id", String.valueOf(floor.getId()));
                 floorObj.put("floor_path", floor.getImageFilePath());
                 floorObj.put("floor_width", floor.getImageWidth());
                 floorObj.put("floor_height", floor.getImageHeight());
