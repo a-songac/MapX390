@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/video_fragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    tools:context="soen390.mapx.activity.MediaPlayerActivity"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"/>
+
+</LinearLayout>

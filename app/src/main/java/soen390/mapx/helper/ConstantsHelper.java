@@ -42,4 +42,10 @@ public class ConstantsHelper {
     public static final String POI_IMAGE_CAPTION_INTENT_EXTRA_KEY = "poi_image_caption";
     public static final String POI_ID_INTENT_EXTRA_KEY = "poi_id_intent_extra";
     public static final String POI_IMAGE_START_POSITION_INTENT_EXTRA_KEY = "poi_image_start_position_extra";
+
+    /**
+     * Media player activity
+     */
+    public static final String POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY = "poi_image_start_position_extra";
+
 }
