@@ -4,9 +4,9 @@
 
 
     <ImageView
+        android:id="@+id/logo_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
         android:src="@drawable/moeb_logo"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
