@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.R;
+import soen390.mapx.activity.MainActivity;
+import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
+import soen390.mapx.model.Node;
 import soen390.mapx.ui.adapter.MediaPagerAdapter;
 
 /**
@@ -53,11 +56,16 @@ public class MediaViewPagerFragment extends Fragment implements IBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        MainActivity.class.cast(getActivity()).enableDrawer(false);
+
         Bundle args = getArguments();
 
         if (args != null) {
 
             Long  poiId = args.getLong(ConstantsHelper.MEDIA_PAGER_POI_ID, 0L);
+            Node poi = Node.findById(Node.class, poiId);
+            ActionBarHelper.getInstance().setMediaContentActionBar(poi.getTitle());
+
             View root = getView();
 
             if (null != root) {
@@ -91,7 +99,7 @@ public class MediaViewPagerFragment extends Fragment implements IBaseFragment {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                    viewPager.setCurrentItem(tab.getPosition());
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
