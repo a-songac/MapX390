@@ -42,6 +42,7 @@ public class MainActivity extends BaseActivity
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private static boolean drawerEnabled = true;
+    private boolean poiReachedFromNotification = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,9 +159,18 @@ public class MainActivity extends BaseActivity
             if (extras.containsKey(ConstantsHelper.INTENT_POI_REACHED_EXTRA_KEY)) {
                 NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
                 LogUtils.info(this.getClass(), "onNewIntent", "onNewIntent from POI Reached notification");
-                MapManager.displayOnMapPOIReached();
+//                MapManager.displayOnMapPOIReached();
+                poiReachedFromNotification = true;
             }
         }
+    }
+
+    public boolean isPOIReachedFromNotification() {
+        return poiReachedFromNotification;
+    }
+
+    public void muserPositionDisplayedAfterNotification() {
+        poiReachedFromNotification = false;
     }
 
     /**
