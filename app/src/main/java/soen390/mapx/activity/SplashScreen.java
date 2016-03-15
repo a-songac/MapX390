@@ -24,19 +24,8 @@ public class SplashScreen extends Activity{
             @Override
             public void run() {
 
-               if (!PreferenceHelper.getInstance().isLanguagePreferenceInit()) {
-
-                    PreferenceHelper.getInstance().completeLanguagePreferenceInit();
-
                     Intent i = new Intent(SplashScreen.this, InitLangActivity.class);
                     startActivity(i);
-                }
-                else
-                {
-                    Intent i2 = new Intent(SplashScreen.this, MainActivity.class);
-                    startActivity(i2);
-                }
-
 
                 finish();
             }
