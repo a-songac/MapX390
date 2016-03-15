@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import soen390.mapx.R;
+import soen390.mapx.helper.PreferenceHelper;
 
 public class SplashScreen extends Activity{
-    // Splash screen timer
+
     private static int SPLASH_TIME_OUT = 3000;
 
     @Override
@@ -15,16 +17,26 @@ public class SplashScreen extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen_activity);
 
-        new Handler().postDelayed(new Runnable() {
+        PreferenceHelper.getInstance().init(this);
 
+        new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
-                //Executing main activity once timer ends
-                Intent i = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(i);
 
-                // closing the splash screen activity
+               if (!PreferenceHelper.getInstance().isLanguagePreferenceInit()) {
+
+                    PreferenceHelper.getInstance().completeLanguagePreferenceInit();
+
+                    Intent i = new Intent(SplashScreen.this, InitLangActivity.class);
+                    startActivity(i);
+                }
+                else
+                {
+                    Intent i2 = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(i2);
+                }
+
                 finish();
             }
         }, SPLASH_TIME_OUT);

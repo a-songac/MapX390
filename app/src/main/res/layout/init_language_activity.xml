@@ -20,7 +20,8 @@
         android:text="@string/language_french"
         android:layout_marginBottom="64dp"
         android:layout_above="@+id/en_button"
-        android:layout_alignStart="@+id/en_button" />
+        android:layout_alignStart="@+id/en_button"
+        android:onClick="change_to_fr"/>
 
     <Button
         android:id="@+id/en_button"
@@ -29,7 +30,8 @@
         android:text="@string/language_english"
         android:layout_marginBottom="104dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:onClick="change_to_en"/>
 
 
 
