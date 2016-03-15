@@ -6,7 +6,6 @@ function POIManager(){
 	this.initialize = function(){
 		poisJSON = JSON.parse(Android.getPOIsJSON());
 		languageJSON = JSON.parse(Android.getLanguageJSON());
-		this.setPOIs();
 	};
 
 	this.getPOISJSON = function(){
@@ -74,21 +73,24 @@ function POIManager(){
 		for(var i = 0; i < poiElements.length; i++){
 			var buttonLabel, javascriptMethod;
 
-			if(Android.isInMode()){
+			if(Android.isInNavigationMode()){
 				buttonLabel = languageJSON["web_change_destination"];
 				javascriptMethod = "onclick='controller.poiManager.navigateToPOI(this)'";
-			}else{
+			}else if(!Android.isInMode()){
 				buttonLabel = languageJSON["web_go_to_destination"];
 				javascriptMethod =  "onclick='controller.poiManager.navigateToPOI(this)'";
 			}
 
 			var marker = poiElements[i];
 			var popupContent;
-
-			if(parseInt(marker.poiID) == parseInt(sourcePOI) || parseInt(marker.poiID) == parseInt(destinationPOI)){
-				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
+			if(Android.isInNavigationMode() || !Android.isInMode()){
+				if(parseInt(marker.poiID) == parseInt(sourcePOI) || parseInt(marker.poiID) == parseInt(destinationPOI)){
+					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
+				}else{
+					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
+				}
 			}else{
-				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
+				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
 			}
 
 			marker.unbindPopup();

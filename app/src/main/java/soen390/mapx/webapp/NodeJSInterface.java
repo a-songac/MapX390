@@ -84,6 +84,63 @@ public class NodeJSInterface {
     }
 
     /**
+     * Returns boolean whether user is in storyline mode
+     * @return boolean
+     */
+    @JavascriptInterface
+    public boolean isInStorylineMode() {
+        return MapManager.isStorylineMode();
+    }
+
+    /**
+     * Returns boolean whether user is in navigation mode
+     * @return
+     */
+    @JavascriptInterface
+    public boolean isInNavigationMode() {
+        return MapManager.isNavigationMode();
+    }
+
+    /**
+     * Saves the current zoom level instance on the displayed floor
+     */
+    @JavascriptInterface
+    public void setZoomLevel(String zoomLevel) {
+        MapManager.setZoomLevel(zoomLevel);
+    }
+
+    /**
+     * Provides zoom level data to webview
+     */
+    @JavascriptInterface
+    public String getZoomLevel() {
+        return MapManager.getZoomLevel();
+    }
+
+    /**
+     * Provides the position of where the user is currently looking at
+     */
+    @JavascriptInterface
+    public String getCurrentView() {
+        JSONArray currentViewArr = new JSONArray();
+        String[] currentView = MapManager.getCurrentView();
+
+        for(int i = 0; i < currentView.length; i++) {
+            currentViewArr.put(currentView[i]);
+        }
+
+        return currentViewArr.toString();
+    }
+
+    /**
+     * Provides the position of where the user is currently looking at
+     */
+    @JavascriptInterface
+    public void setCurrentView(String[] currentView) {
+        MapManager.setCurrentView(currentView);
+    }
+
+    /**
      * Provide content for languages on the web client side
      * @return
      */
@@ -141,13 +198,37 @@ public class NodeJSInterface {
      */
     @JavascriptInterface
     public String getPath() {
-        JSONArray pathArr = new JSONArray();
+        try{
+            JSONArray pathArr = new JSONArray();
 
-        for(int nodeID : MapManager.getCurrentPath()){
-            pathArr.put(nodeID);
+            for(int nodeID : MapManager.getCurrentPath()){
+                pathArr.put(nodeID);
+            }
+
+            return pathArr.toString();
         }
 
-        return pathArr.toString();
+        catch(Exception e){
+            //Maybe add error call?
+            return null;
+        }
+    }
+
+    /**
+     * Send current floor shown to map view
+     * @return floor
+     */
+    @JavascriptInterface
+    public String getCurrentFloor(){
+        return MapManager.getCurrentFloor();
+    }
+
+    /**
+     * Set current floor show on map view
+     */
+    @JavascriptInterface
+    public void setCurrentFloor(String floor){
+        MapManager.setCurrentFloor(floor);
     }
 
     /**
