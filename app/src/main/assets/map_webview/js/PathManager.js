@@ -10,12 +10,14 @@ function PathManager(){
 		var mapWidth = controller.mapWidth;
 		var mapHeight = controller.mapHeight;
 
-		var path = JSON.parse(Android.getPath());
+		var pathJSON = Android.getPath();
 
-		if(!path){
+		if(!pathJSON){
 			console.log("Error in function: startNavigation \nVariable: path \nMessage: Path is either null or has a length of 0");
 			return;
 		}
+
+		var path = JSON.parse(pathJSON);
 
 		var pastNode = null;
 		for(var i in path){
