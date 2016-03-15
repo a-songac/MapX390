@@ -57,6 +57,8 @@ public class MapFragment extends Fragment implements IBaseFragment {
         MapFragmentViewHolder viewHolder = new MapFragmentViewHolder(getView());
         MapFragmentViewBinder viewBinder = new MapFragmentViewBinder(viewHolder);
         viewBinder.bind();
+
+
     }
 
     @Override
@@ -67,9 +69,7 @@ public class MapFragment extends Fragment implements IBaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (MainActivity.class.cast(getActivity()).isPOIReachedFromNotification()) {
-            MapManager.displayOnMapPOIReached();
-        }
+
 
 
     }

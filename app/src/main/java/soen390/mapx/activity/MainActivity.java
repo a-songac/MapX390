@@ -70,6 +70,22 @@ public class MainActivity extends BaseActivity
             loadLastFragment(savedInstanceState.getString(ConstantsHelper.LAST_FRAGMENT_TAG_KEY, ""));
         }
 
+        checkIfLaunchedFromNotification();
+
+    }
+
+    /**
+     * If activity launched from notification, set flag so that
+     * position of user is displayed when map is initialized
+     */
+    private void checkIfLaunchedFromNotification() {
+        Bundle extras = getIntent().getExtras();
+        if (null != extras) {
+            if (extras.containsKey(ConstantsHelper.INTENT_POI_REACHED_EXTRA_KEY)) {
+                NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+                poiReachedFromNotification = true;
+            }
+        }
 
     }
 
@@ -159,7 +175,7 @@ public class MainActivity extends BaseActivity
             if (extras.containsKey(ConstantsHelper.INTENT_POI_REACHED_EXTRA_KEY)) {
                 NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
                 LogUtils.info(this.getClass(), "onNewIntent", "onNewIntent from POI Reached notification");
-//                MapManager.displayOnMapPOIReached();
+                MapManager.displayOnMapPOIReached();
                 poiReachedFromNotification = true;
             }
         }
@@ -169,7 +185,7 @@ public class MainActivity extends BaseActivity
         return poiReachedFromNotification;
     }
 
-    public void muserPositionDisplayedAfterNotification() {
+    public void userPositionDisplayedAfterNotification() {
         poiReachedFromNotification = false;
     }
 
