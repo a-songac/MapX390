@@ -67,7 +67,7 @@ public class MapJSBridge {
 
         webView.post(new Runnable() {
             public void run() {
-                webView.evaluateJavascript("TODO Javascript function", null);
+                webView.evaluateJavascript("controller.cancelNavigation()", null);
             }
         });
     }
