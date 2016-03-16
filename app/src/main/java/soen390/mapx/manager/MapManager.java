@@ -137,6 +137,11 @@ public class MapManager {
 
         //TEMPORARY
         MapJSBridge.getInstance().drawPath();
+
+        String toast = MapXApplication.getGlobalContext().getResources().getString(
+                R.string.storyline_start_toast,
+                storyline.getTitle());
+        UiUtils.displayToastLong(toast);
     }
 
     /**
