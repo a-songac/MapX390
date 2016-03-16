@@ -73,7 +73,7 @@ public class NotificationHelper {
 
         Bitmap b = null;
         if (!MapXApplication.isVirtualDevice()) { // To avoid OutOfMemoryError on virtual devices
-            b = BitmapFactory.decodeResource(context.getResources(), R.drawable.moeb_logo_blue);
+            b = BitmapFactory.decodeResource(context.getResources(), R.drawable.moeb_logo);
         }
 
         showNotification(
