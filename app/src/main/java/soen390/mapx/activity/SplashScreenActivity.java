@@ -8,7 +8,7 @@ import android.os.Handler;
 import soen390.mapx.R;
 import soen390.mapx.helper.PreferenceHelper;
 
-public class SplashScreen extends Activity{
+public class SplashScreenActivity extends Activity{
 
     private static int SPLASH_TIME_OUT = 3000;
 
@@ -24,8 +24,11 @@ public class SplashScreen extends Activity{
             @Override
             public void run() {
 
-                    Intent i = new Intent(SplashScreen.this, InitLangActivity.class);
-                    startActivity(i);
+                Intent intent = PreferenceHelper.getInstance().isLanguagePreferenceInit()?
+                        new Intent(SplashScreenActivity.this, MainActivity.class):
+                        new Intent(SplashScreenActivity.this, InitLanguageActivity.class);
+
+                startActivity(intent);
 
                 finish();
             }

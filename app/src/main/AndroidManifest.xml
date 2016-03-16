@@ -5,8 +5,6 @@
 
     <uses-sdk tools:overrideLibrary="com.arnaud.android.core" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <!-- Required to scan for and connect to Estimote Beacons via Bluetooth. -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -40,7 +38,7 @@
 
         <!--Splash Screen Activity-->
         <activity
-            android:name=".activity.SplashScreen"
+            android:name=".activity.SplashScreenActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -50,9 +48,8 @@
 
         <!--initLangActivity Activity-->
         <activity
-            android:name=".activity.InitLangActivity"
+            android:name=".activity.InitLanguageActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
 
