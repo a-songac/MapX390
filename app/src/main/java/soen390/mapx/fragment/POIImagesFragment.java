@@ -14,8 +14,9 @@ import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.R;
 import soen390.mapx.activity.FullscreenActivity;
-import soen390.mapx.database.DummyData;
 import soen390.mapx.helper.ConstantsHelper;
+import soen390.mapx.manager.MapManager;
+import soen390.mapx.model.ExpositionContent;
 import soen390.mapx.model.Node;
 import soen390.mapx.ui.adapter.PoiImageAdapter;
 
@@ -82,9 +83,11 @@ public class POIImagesFragment extends Fragment implements IBaseFragment {
      */
     private void setGridView(GridView gridView, final Node poi){
 
-        final String[] imagesPath = DummyData.dummyImages();//TODO TEMP Get image of the POI
+        Long storylineId = MapManager.isStorylineMode()?
+                MapManager.getCurrentStoryline().getId():
+                -1L;
 
-        gridView.setAdapter(new PoiImageAdapter(imagesPath));
+        gridView.setAdapter(new PoiImageAdapter(poi.getContent(storylineId, ExpositionContent.IMAGE_TYPE)));
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
