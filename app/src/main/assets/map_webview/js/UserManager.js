@@ -23,10 +23,6 @@ function UserManager(){
 		}
 
 		this.setUserMarker(latLng);
-
-		if(Android.isInMode()){
-			controller.pathManager.updatePath();
-		}
 	};
 
 	this.setUserMarker = function(latLng){
