@@ -142,7 +142,7 @@ function FloorManager(){
 			controller.pathManager.drawPath();
 		}
 
-		controller.updateUserMarker();
+		controller.userManager.updateUserMarker();
 	};
 
 }
