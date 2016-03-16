@@ -215,7 +215,25 @@ public class NodeJSInterface {
         }
     }
 
+    /**
+     * Update the current path after the user progresses
+     */
+    @JavascriptInterface
+    public void setPath(String[] path) {
+        try{
+            ArrayList<Integer> updatedPath = new ArrayList<Integer>();
 
+            for(int i = 0; i < path.length; i++){
+                updatedPath.add(Integer.parseInt(path[i]));
+            }
+
+            MapManager.setCurrentPath(updatedPath);
+        }
+
+        catch(Exception e){
+            //TODO
+        }
+    }
 
     /**
      * Send current floor shown to map view
