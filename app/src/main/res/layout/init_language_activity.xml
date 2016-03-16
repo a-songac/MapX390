@@ -1,42 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white" />
+<LinearLayout
+    android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/logo_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/moeb_logo"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="35dp" />
 
-    <Button
-        android:id="@+id/fr_button"
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rca_divider"
+        android:paddingTop="20dp"/>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/language_french"
-        android:layout_marginBottom="64dp"
-        android:layout_above="@+id/en_button"
-        android:layout_alignStart="@+id/en_button" />
+        android:text="@string/welcome"
+        android:layout_marginTop="50dp"
+        android:layout_weight="1"
+        style="@style/WelcomeInitLanguage"/>
 
-    <Button
-        android:id="@+id/en_button"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/language_english"
-        android:layout_marginBottom="104dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_weight="20">
 
+        <Button
+            android:id="@+id/fr_button"
+            android:layout_width="125dp"
+            android:layout_height="60dp"
+            android:text="@string/language_french"
+            style="@style/InitLanguageButtons"/>
 
+        <Button
+            android:id="@+id/en_button"
+            android:layout_width="125dp"
+            android:layout_height="60dp"
+            android:text="@string/language_english"
+            style="@style/InitLanguageButtons"/>
 
-</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
