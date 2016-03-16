@@ -256,6 +256,13 @@ public class MainActivity extends BaseActivity
             case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
                 NavigationHelper.getInstance().navigateToStorylineFragment();
                 break;
+            case ConstantsHelper.MEDIA_PAGER_FRAGMENT_TAG:
+                Node lastPOI = MapManager.getLastNode();
+                Long poiID = null != lastPOI?
+                        lastPOI.getId():
+                        0L;
+                NavigationHelper.getInstance().navigateToMediaPagerFragment(poiID);
+                break;
 
             default:
                 NavigationHelper.getInstance().navigateToMainFragment();
