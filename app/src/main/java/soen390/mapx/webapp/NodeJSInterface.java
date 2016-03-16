@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import soen390.mapx.R;
@@ -68,9 +69,9 @@ public class NodeJSInterface {
         mainHandler.post(myRunnable);
 
         //TEST
-        int[] path = {2,3,4};
-        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
-        mapJSBridge.drawPath();
+//        int[] path = {2,3,4};
+//        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
+//        mapJSBridge.drawPath();
         //TEST END
     }
 
@@ -213,6 +214,8 @@ public class NodeJSInterface {
             return null;
         }
     }
+
+
 
     /**
      * Send current floor shown to map view
