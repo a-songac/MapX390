@@ -118,6 +118,36 @@ function POIManager(){
 		}
 	};
 
+	this.getNextPOI = function(){
+		var nodeId;
+		var nextPOI;
+		var path = controller.pathManager.getPath();
+
+		for(var i = 1; i < path.length; i++){
+			nodeId = path[i];
+
+			for(var o = 0; o < poisJSON.length; o++){
+				var poi = poisJSON[o];
+
+				if(parseInt(poi["_id"]) == parseInt(nodeId)){
+					if(poi["type"] != "t"){
+						nextPOI = nodeId;
+					}else{
+						break;
+					}
+				}
+			}
+
+			if(!nextPOI){
+				continue;
+			}else{
+				break;
+			}
+		}
+
+		return nextPOI;
+	};
+
 	/* Send call to Android to initiate a navigation to the selected POI */
 	this.navigateToPOI = function(elementClicked){
 		var poiID = $(elementClicked).attr("data-poi-id");
