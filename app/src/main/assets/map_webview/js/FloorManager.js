@@ -132,8 +132,6 @@ function FloorManager(){
 		controller.poiManager.removePOIs();
 		controller.poiManager.setPOIs();
 
-		controller.updateUserMarker();
-
 		if(Android.isInMode()){
 			controller.poiManager.changeDestinationPOIIcon({
 				imagePath: 'js/images/pin1.png'
@@ -143,6 +141,8 @@ function FloorManager(){
 			controller.pathManager.deletePath();
 			controller.pathManager.drawPath();
 		}
+
+		controller.updateUserMarker();
 	};
 
 }
