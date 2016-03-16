@@ -103,16 +103,19 @@ function PathManager(){
 			path.shift();
 		}
 
-		controller.poiManager.changeDestinationPOIIcon({
-			imagePath: 'js/images/marker-icon-2x.png',
-		});
-
 		sourcePoiId = path[0];
-		destinationPoiId = controller.poiManager.getNextPOI();
 		
-		controller.poiManager.changeDestinationPOIIcon({
-			imagePath : 'js/images/pin1.png'
-		}); 
+		if(Android.isInStorylineMode()){
+			controller.poiManager.changeDestinationPOIIcon({
+				imagePath: 'js/images/marker-icon-2x.png',
+			});
+
+			destinationPoiId = controller.poiManager.getNextPOI();
+
+			controller.poiManager.changeDestinationPOIIcon({
+				imagePath : 'js/images/pin1.png'
+			}); 
+		}
 
 		var stringPath = [];
 		for(var i = 0; i < path.length; i++){
