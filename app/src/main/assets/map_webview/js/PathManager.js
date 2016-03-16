@@ -22,10 +22,20 @@ function PathManager(){
 			path = JSON.parse(pathJSON);
 		}
 
+		if(polylines.length != 0){
+			deletePolylines();
+		}
+
 		var pastNode = null;
 		for(var i in path){
 			if(pastNode != null){
 				var latlngs  = getLatLng(pastNode, path[i]);
+				
+				if(latlngs.length != 2){
+					pastNode = path[i];
+					continue;
+				}
+
 				var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
 				polylines.push(polyline);
 			}
@@ -34,7 +44,13 @@ function PathManager(){
 		}
 
 		sourcePoiId = path[0];
-		destinationPoiId = path[path.length-1];
+
+		if(Android.isInNavigationMode()){
+			destinationPoiId = path[path.length-1];
+		}else{
+			destinationPoiId = controller.poiManager.getNextPOI();
+		}
+
 		controller.poiManager.changeDestinationPOIIcon({
 			imagePath : 'js/images/pin1.png'
 		}); //TO CHANGE
@@ -60,9 +76,7 @@ function PathManager(){
 	};
 
 	this.deletePath = function(){
-		for(var i = 0; i < polylines.length; i++){
-			map.removeLayer(polylines[i]);
-		}
+		deletePolylines();
 
 		path = [];
 		polylines = [];
@@ -70,17 +84,42 @@ function PathManager(){
 		destinationPoiId = null;
 	};
 
+	function deletePolylines(){
+		for(var i = 0; i < polylines.length; i++){
+			map.removeLayer(polylines[i]);
+		}
+	}
+
 	this.updatePath = function(){
+		console.log('updating path');
 		var userMarkerLatlng = controller.userManager.getUserMarker().getLatLng();
 
 		var userPOI = Android.getUserPosition();
-		for(var i = 0; i < path.length; i++){
-			if(parseInt(userPOI) === parseInt(path[i])){
+		while(path.length !== 0){
+			if(parseInt(userPOI) === parseInt(path[0])){
 				break;
 			}
 
 			path.shift();
 		}
+
+		controller.poiManager.changeDestinationPOIIcon({
+			imagePath: 'js/images/marker-icon-2x.png',
+		});
+
+		sourcePoiId = path[0];
+		destinationPoiId = controller.poiManager.getNextPOI();
+		
+		controller.poiManager.changeDestinationPOIIcon({
+			imagePath : 'js/images/pin1.png'
+		}); 
+
+		var stringPath = [];
+		for(var i = 0; i < path.length; i++){
+			stringPath.push(path[i].toString());
+		}
+
+		Android.setPath(stringPath);
 
 		while(polylines.length !== 0){
 			var pathElement = polylines[0];
@@ -93,6 +132,10 @@ function PathManager(){
 			map.removeLayer(polylines[0]);
 			polylines.shift();
 		}
+	};
+
+	this.getPath = function(){
+		return path;
 	};
 
 	this.getSourcePOI = function(){

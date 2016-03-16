@@ -47,6 +47,14 @@ public class MapManager {
     public static String[] getCurrentView() { return currentView; }
 
     /**
+     * Update the path when the user progresses
+     * @param updatedPath
+     */
+    public static void setCurrentPath(ArrayList<Integer> updatedPath){
+        currentPath = updatedPath;
+    }
+
+    /**
      * Keep current view from webview
      * @param currView
      */
