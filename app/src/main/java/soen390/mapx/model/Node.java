@@ -3,6 +3,9 @@ package soen390.mapx.model;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.PreferenceHelper;
 
@@ -204,5 +207,42 @@ public class Node extends SugarRecord {
 
     public boolean isIntersectionTransitionPoint() {
         return type.equals(TRANSITION_TYPE) && subType.equals(TRANSITION_INTERSECTION_SUBTYPE);
+    }
+
+    /**
+     * Get exposition contents
+     * @param storylineId -1 if no storyline (generic content)
+     * @param type Between the constants: ExpositionContent.AUDIO_TYPE, ExpositionContent.VIDEO_TYPE,
+     *             ExpositionContent.IMAGE_TYPE and ExpositionContent.TEXT_TYPE
+     * @return
+     */
+    public List<ExpositionContent> getContent(Long storylineId, String type) {
+
+        String language = PreferenceHelper.getInstance().getLanguagePreference();
+        List<ExpositionContent> expositionContents = new ArrayList<>();
+
+        if (this.type.equals(POI_TYPE)) {
+
+            expositionContents = ExpositionContent.find(
+                    ExpositionContent.class,
+                    "node_id=? AND language=? AND type=? AND storyline_id=?",
+                    String.valueOf(this.getId()),
+                    language,
+                    type,
+                    String.valueOf(storylineId)
+                    );
+            if (expositionContents.isEmpty() && !language.equals(ConstantsHelper.PREF_LANGUAGE_ENGLISH)) {
+                expositionContents = ExpositionContent.find(
+                        ExpositionContent.class,
+                        "node_id=? AND language=? AND type=? AND storyline_id=?",
+                        String.valueOf(this.getId()),
+                        ConstantsHelper.PREF_LANGUAGE_ENGLISH,
+                        type,
+                        String.valueOf(storylineId)
+                );
+            }
+        }
+        return expositionContents;
+
     }
 }

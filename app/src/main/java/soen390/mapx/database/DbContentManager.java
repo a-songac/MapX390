@@ -88,7 +88,15 @@ public class DbContentManager {
                 Description.STORYLINE_DESC);
         SugarRecord.saveInTx(storylineDescriptions);
 
-        //TODO parse media content, storyline points
+        List<StorylineNode> storylineNodes = MapEditorContentJSONParser.parseStorylineNodes(
+                storylineArr
+        );
+        SugarRecord.saveInTx(storylineNodes);
+
+        List<ExpositionContent> expositionContents = MapEditorContentJSONParser.parseMediaContent(
+                poiArr
+        );
+        SugarRecord.saveInTx(expositionContents);
 
     }
 
