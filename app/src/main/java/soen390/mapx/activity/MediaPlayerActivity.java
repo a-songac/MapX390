@@ -55,6 +55,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         videoView.stopPlayback();
         stopPosition = videoView.getCurrentPosition();
         videoView.pause();
+        finish();
     }
 
     @Override
@@ -76,11 +77,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
 
     /**
      * Initialize action bar
