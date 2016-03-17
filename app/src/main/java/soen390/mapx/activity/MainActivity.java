@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private static boolean drawerEnabled = true;
+    private boolean poiReachedFromNotification = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,22 @@ public class MainActivity extends BaseActivity
             loadLastFragment(savedInstanceState.getString(ConstantsHelper.LAST_FRAGMENT_TAG_KEY, ""));
         }
 
+        checkIfLaunchedFromNotification();
+
+    }
+
+    /**
+     * If activity launched from notification, set flag so that
+     * position of user is displayed when map is initialized
+     */
+    private void checkIfLaunchedFromNotification() {
+        Bundle extras = getIntent().getExtras();
+        if (null != extras) {
+            if (extras.containsKey(ConstantsHelper.INTENT_POI_REACHED_EXTRA_KEY)) {
+                NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+                poiReachedFromNotification = true;
+            }
+        }
 
     }
 
@@ -156,8 +173,17 @@ public class MainActivity extends BaseActivity
                 NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
                 LogUtils.info(this.getClass(), "onNewIntent", "onNewIntent from POI Reached notification");
                 MapManager.displayOnMapPOIReached();
+                poiReachedFromNotification = true;
             }
         }
+    }
+
+    public boolean isPOIReachedFromNotification() {
+        return poiReachedFromNotification;
+    }
+
+    public void userPositionDisplayedAfterNotification() {
+        poiReachedFromNotification = false;
     }
 
     /**

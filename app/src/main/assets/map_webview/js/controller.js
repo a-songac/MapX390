@@ -77,6 +77,7 @@ function Controller(){
 			this.startNavigation();
 		}
 
+		Android.initialized();
 	};
 
 	/* Called by Android to start navigation mode */

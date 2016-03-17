@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.R;
+import soen390.mapx.activity.MainActivity;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.ui.view.binder.MapFragmentViewBinder;
@@ -56,10 +57,20 @@ public class MapFragment extends Fragment implements IBaseFragment {
         MapFragmentViewHolder viewHolder = new MapFragmentViewHolder(getView());
         MapFragmentViewBinder viewBinder = new MapFragmentViewBinder(viewHolder);
         viewBinder.bind();
+
+
     }
 
     @Override
     public void onBackPressed() {
         NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+
     }
 }
