@@ -22,10 +22,8 @@ import java.util.Locale;
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.application.MapXApplication;
-import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
-import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.NotificationHelper;
@@ -54,7 +52,6 @@ public class MainActivity extends BaseActivity
         BaseApplication.setGlobalContext(this);
         initActionBar();
         initNavigationDrawer();
-        initLanguagePreference();
         DbContentManager.initDatabaseContent();
 
         PreferenceHelper.getInstance().init(this);
@@ -128,8 +125,8 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_help_feedback) {
             //TODO Temporary, for testing purposes
-            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(0));
-
+            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(2));
+            MapManager.reachPOI(Node.listAll(Node.class).get(2));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -294,33 +291,6 @@ public class MainActivity extends BaseActivity
                 NavigationHelper.getInstance().navigateToMainFragment();
         }
 
-    }
-
-    /**
-     * Prompt the user for language preference if it is the first time he uses the application
-     */
-    private void initLanguagePreference() {
-        if (!PreferenceHelper.getInstance().isLanguagePreferenceInit()) {
-
-
-            PreferenceHelper.getInstance().completeLanguagePreferenceInit();
-
-            String title = getString(R.string.language_init_dialog_title);
-            String message = getString(R.string.language_init_dialog_body);
-
-            AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
-                @Override
-                public void onPositiveResponse() {
-                    NavigationHelper.getInstance().navigateToSettingsFragment(true);
-                    navigationView.getMenu().getItem(3).setChecked(true);
-                }
-
-                @Override
-                public void onNegativeResponse() {
-
-                }
-            });
-        }
     }
 
     /**

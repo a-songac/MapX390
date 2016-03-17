@@ -78,7 +78,6 @@ function Controller(){
 		}
 
 		Android.initialized();
-		
 	};
 
 	/* Called by Android to start navigation mode */
@@ -115,6 +114,9 @@ function Controller(){
 	/* Called by Android to update user position */
 	this.updateUserMarker = function(){
 		this.userManager.updateUserMarker();
+		if(Android.isInMode()){
+			controller.pathManager.updatePath();
+		}
 	};
 
 	/* Called by Android to set floor to user position */

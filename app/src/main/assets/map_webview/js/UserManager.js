@@ -71,4 +71,8 @@ function UserManager(){
 				userMarker.setLatLng(latLng);
 		}
 	};
+
+	this.getUserMarker = function(){
+		return userMarker;
+	};
 }
