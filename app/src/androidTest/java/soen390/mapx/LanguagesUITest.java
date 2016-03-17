@@ -1,6 +1,5 @@
 package soen390.mapx;
 
-import android.support.test.espresso.AmbiguousViewMatcherException;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -43,7 +42,7 @@ public class LanguagesUITest {
     }
 
     @Test
-    public void setApplicationLanguageUITestEng() throws AmbiguousViewMatcherException{
+    public void setApplicationLanguageUITestEng() {
         onView(withId(R.id.toolbar)).perform(click());
         onView(withContentDescription(getResourceString(R.string.navigation_drawer_open))).perform(click());
         onView(withText(R.string.action_settings)).perform(click());
