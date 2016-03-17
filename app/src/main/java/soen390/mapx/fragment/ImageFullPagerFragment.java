@@ -1,6 +1,7 @@
 package soen390.mapx.fragment;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.widget.ImageView;
 
 import com.arnaud.android.core.fragment.IBaseFragment;
 
+import soen390.mapx.BitmapUtils;
 import soen390.mapx.R;
+import soen390.mapx.activity.MainActivity;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.manager.ContentManager;
 
@@ -57,16 +60,22 @@ public class ImageFullPagerFragment extends Fragment implements IBaseFragment {
 
             String imagePath = args.getString(ConstantsHelper.IMAGE_FULL_FRAGMENT_PATH);
 
-            View root = getView();
+            final View root = getView();
 
             if (null != root) {
 
-                ImageView imageView = (ImageView) root.findViewById(R.id.full_image_view);
-                int imageResourceId = ContentManager.getImageResourceId(getContext(), imagePath);
+                final ImageView imageView = (ImageView) root.findViewById(R.id.full_image_view);
+                final int imageResourceId = ContentManager.getImageResourceId(getContext(), imagePath);
                 if (0 != imageResourceId) {
-                    imageView.setImageResource(imageResourceId);
-                }
 
+                    Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(
+                            getResources(),
+                            imageResourceId,
+                            MainActivity.getWidth(),
+                            MainActivity.getHeight());
+                    imageView.setImageBitmap(bitmap);
+
+                }
             }
         }
     }

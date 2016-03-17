@@ -5,12 +5,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
+import soen390.mapx.BitmapUtils;
 import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
@@ -20,6 +20,9 @@ import soen390.mapx.model.Node;
  * Class to implement notification helper
  */
 public class NotificationHelper {
+
+    private static final int NOTIFICATION_LARGE_ICON_HEIGHT = 64;
+    private static final int NOTIFICATION_LARGE_ICON_WIDTH = 64;
 
     private static NotificationHelper instance;
 
@@ -73,7 +76,11 @@ public class NotificationHelper {
 
         Bitmap b = null;
         if (!MapXApplication.isVirtualDevice()) { // To avoid OutOfMemoryError on virtual devices
-            b = BitmapFactory.decodeResource(context.getResources(), R.drawable.moeb_logo);
+            b = BitmapUtils.decodeSampledBitmapFromResource(
+                    context.getResources(),
+                    R.drawable.moeb_logo_blue,
+                    BitmapUtils.dpToPx(NOTIFICATION_LARGE_ICON_WIDTH),
+                    BitmapUtils.dpToPx(NOTIFICATION_LARGE_ICON_HEIGHT));
         }
 
         showNotification(

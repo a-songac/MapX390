@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
@@ -42,6 +43,16 @@ public class MainActivity extends BaseActivity
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private static boolean drawerEnabled = true;
+    private static int height = 0;
+    private static int width = 0;
+
+    public static int getHeight() {
+        return height;
+    }
+
+    public static int getWidth() {
+        return width;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +66,7 @@ public class MainActivity extends BaseActivity
         initNavigationDrawer();
         initLanguagePreference();
         DbContentManager.initDatabaseContent();
+        setParentViewDimensions();
 
         PreferenceHelper.getInstance().init(this);
 
@@ -316,6 +328,27 @@ public class MainActivity extends BaseActivity
      */
     public static boolean isDrawerEnabled(){
         return drawerEnabled;
+    }
+
+    /**
+     * Get dimensions of the parent view so that we know the dimensions of the parent view
+     * This will be useful when setting the dimensions for for the full screen images to be
+     * displayed in the ImageFullPager Fragment
+     */
+    private void setParentViewDimensions() {
+
+        if (MainActivity.height == 0 || MainActivity.width ==0) {
+            final View root = findViewById(R.id.container);
+            root.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    MainActivity.height = root.getHeight();
+                    MainActivity.width = root.getWidth();
+                    root.getViewTreeObserver().removeOnPreDrawListener(this);
+                    return true;
+                }
+            });
+        }
     }
 
 }
