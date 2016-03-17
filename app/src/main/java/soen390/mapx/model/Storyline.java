@@ -2,6 +2,7 @@ package soen390.mapx.model;
 
 import com.orm.SugarRecord;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import soen390.mapx.helper.ConstantsHelper;
@@ -123,17 +124,26 @@ public class Storyline extends SugarRecord {
      * Get path that makes the storyline
      * @return
      */
-    public List<Node>  getPath() {
+    public ArrayList<Integer> getPath() {
 
-        //TODO
-        String[] whereArgs = {this.getId().toString()};
-//        List<StorylineNode> path = StorylineNode.find(StorylineNode.class, "storyline_id = ?", whereArgs, null, "position ASC", null);
-        String query = "SELECT N.* " +
-                "FROM Node N, StorylineNode SN " +
-                "WHERE N.id = SN.node_id " +
-                "AND storyline_id = ? " +
-                "ORDER BY SN.position ASC";
+        String[] whereArgs = {String.valueOf(this.getId())};
+        List<StorylineNode> path = StorylineNode.find(StorylineNode.class, "storyline_id = ?", whereArgs, null, "position ASC", null);
 
-        return StorylineNode.findWithQuery(Node.class, query, getId().toString());
+        return getPathArrayListIntegers(path);
+    }
+
+    /**
+     * Get list of integers that represents the path
+     * @param slNodes
+     * @return
+     */
+    private ArrayList<Integer> getPathArrayListIntegers(List<StorylineNode> slNodes) {
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for (StorylineNode slNode : slNodes) {
+            list.add(slNode.getNodeId().intValue());
+        }
+
+        return list;
     }
 }

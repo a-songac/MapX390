@@ -108,8 +108,8 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_help_feedback) {
             //TODO Temporary, for testing purposes
-            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(0));
-
+            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(2));
+            MapManager.reachPOI(Node.listAll(Node.class).get(2));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -252,6 +252,13 @@ public class MainActivity extends BaseActivity
                 break;
             case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
                 NavigationHelper.getInstance().navigateToStorylineFragment();
+                break;
+            case ConstantsHelper.MEDIA_PAGER_FRAGMENT_TAG:
+                Node lastPOI = MapManager.getLastNode();
+                Long poiID = null != lastPOI?
+                        lastPOI.getId():
+                        0L;
+                NavigationHelper.getInstance().navigateToMediaPagerFragment(poiID);
                 break;
 
             default:

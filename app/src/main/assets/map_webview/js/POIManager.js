@@ -106,16 +106,46 @@ function POIManager(){
 
 			if(parseInt(marker.poiID) == parseInt(destinationPOI)){
 				//The values before for positioning were taken from the src code of LeafletJS for the default icon positioning
-				var normalIcon = L.icon({
+				var icon = L.icon({
 				    iconUrl: opts.imagePath,
 				    iconSize:    [41, 41],
 					iconAnchor:  [20, 41],
 					popupAnchor: [1, -34]
 				});
 
-				marker.setIcon(normalIcon);
+				marker.setIcon(icon);
 			}
 		}
+	};
+
+	this.getNextPOI = function(){
+		var nodeId;
+		var nextPOI;
+		var path = controller.pathManager.getPath();
+
+		for(var i = 1; i < path.length; i++){
+			nodeId = path[i];
+
+			for(var o = 0; o < poisJSON.length; o++){
+				var poi = poisJSON[o];
+
+				if(parseInt(poi["_id"]) == parseInt(nodeId)){
+					if(poi["type"] != "t"){
+						nextPOI = nodeId;
+					}else{
+						break;
+					}
+				}
+			}
+
+			if(!nextPOI){
+				continue;
+			}else{
+				break;
+			}
+		}
+
+		return nextPOI;
 	};
 
 	/* Send call to Android to initiate a navigation to the selected POI */
