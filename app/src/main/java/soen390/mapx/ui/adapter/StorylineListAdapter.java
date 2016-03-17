@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import java.util.List;
 
 import soen390.mapx.R;
-import soen390.mapx.UiUtils;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.StorylineListFragment;
 import soen390.mapx.manager.MapManager;
@@ -74,10 +73,6 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
             @Override
             public void onClick(View v) {
 
-                String toast = context.getResources().getString(
-                        R.string.storyline_start_toast,
-                        storyline.getTitle());
-                UiUtils.displayToastLong(toast);
                 MapManager.launchStoryline(storyline.getId());
                 StorylineListFragment.expandedPosition = -1;
 
