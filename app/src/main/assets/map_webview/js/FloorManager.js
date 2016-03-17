@@ -110,8 +110,9 @@ function FloorManager(){
 		var floor = Android.getCurrentPOIFloor();
 		var userPOI = Android.getUserPosition();
 
-		var poiElements = controller.poiManager.getPOIElements();
+		this.clickFloor(floor);
 
+		var poiElements = controller.poiManager.getPOIElements();
 		for(var i = 0; i < poiElements.length; i++){
 			var marker = poiElements[i];
 
@@ -120,8 +121,6 @@ function FloorManager(){
 				controller.mapManager.setCurrentView();
 			}
 		}
-		
-		this.clickFloor(floor);
 	};
 
 	this.clickFloor = function(floor){
