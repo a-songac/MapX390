@@ -111,8 +111,8 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_help_feedback) {
             //TODO Temporary, for testing purposes
-            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(0));
-
+            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(2));
+            MapManager.reachPOI(Node.listAll(Node.class).get(2));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

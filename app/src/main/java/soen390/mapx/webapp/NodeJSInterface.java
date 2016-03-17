@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import soen390.mapx.R;
@@ -68,9 +69,9 @@ public class NodeJSInterface {
         mainHandler.post(myRunnable);
 
         //TEST
-        int[] path = {2,3,4};
-        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
-        mapJSBridge.drawPath();
+//        int[] path = {2,3,4};
+//        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
+//        mapJSBridge.drawPath();
         //TEST END
     }
 
@@ -211,6 +212,26 @@ public class NodeJSInterface {
         catch(Exception e){
             //Maybe add error call?
             return null;
+        }
+    }
+
+    /**
+     * Update the current path after the user progresses
+     */
+    @JavascriptInterface
+    public void setPath(String[] path) {
+        try{
+            ArrayList<Integer> updatedPath = new ArrayList<Integer>();
+
+            for(int i = 0; i < path.length; i++){
+                updatedPath.add(Integer.parseInt(path[i]));
+            }
+
+            MapManager.setCurrentPath(updatedPath);
+        }
+
+        catch(Exception e){
+            //TODO
         }
     }
 
