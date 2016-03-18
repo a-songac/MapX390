@@ -43,7 +43,7 @@ public class BitmapUtils {
      *
      * @param res
      * @param resId
-     * @param reqWidth Height in pixels
+     * @param reqWidth Width in pixels
      * @param reqHeight Height in pixels
      * @return
      */

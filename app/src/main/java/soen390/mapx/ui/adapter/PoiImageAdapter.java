@@ -1,12 +1,15 @@
 package soen390.mapx.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import soen390.mapx.BitmapUtils;
+import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.manager.ContentManager;
 
@@ -17,6 +20,7 @@ public class PoiImageAdapter extends BaseAdapter {
 
     private Context context;
     private String[] imagesPaths;
+    private static final int GRID_ITEM_HEIGHT_IN_DP = 150;
 
     public PoiImageAdapter(String[] imagesPaths) {
 
@@ -49,7 +53,7 @@ public class PoiImageAdapter extends BaseAdapter {
             imageView = new ImageView(context);
             imageView.setLayoutParams(new GridView.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
-                    450));
+                    BitmapUtils.dpToPx(GRID_ITEM_HEIGHT_IN_DP)));
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             imageView.setPadding(4, 4, 4, 4);
 
@@ -59,7 +63,13 @@ public class PoiImageAdapter extends BaseAdapter {
 
         int imageResourceId = ContentManager.getImageResourceId(context, imagesPaths[position]);
         if (0 != imageResourceId) {
-            imageView.setImageResource(imageResourceId);
+
+            Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(
+                    context.getResources(),
+                    imageResourceId,
+                    MainActivity.getWidth() / 2,//gridView has 2 columns
+                    BitmapUtils.dpToPx(GRID_ITEM_HEIGHT_IN_DP));
+            imageView.setImageBitmap(bitmap);
         }
         return imageView;
     }
