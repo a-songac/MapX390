@@ -55,7 +55,6 @@ public class MediaPlayerActivity extends AppCompatActivity {
         videoView.stopPlayback();
         stopPosition = videoView.getCurrentPosition();
         videoView.pause();
-        finish();
     }
 
     @Override

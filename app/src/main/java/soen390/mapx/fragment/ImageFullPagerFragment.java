@@ -60,12 +60,12 @@ public class ImageFullPagerFragment extends Fragment implements IBaseFragment {
 
             String imagePath = args.getString(ConstantsHelper.IMAGE_FULL_FRAGMENT_PATH);
 
-            final View root = getView();
+            View root = getView();
 
             if (null != root) {
 
-                final ImageView imageView = (ImageView) root.findViewById(R.id.full_image_view);
-                final int imageResourceId = ContentManager.getImageResourceId(getContext(), imagePath);
+                ImageView imageView = (ImageView) root.findViewById(R.id.full_image_view);
+                int imageResourceId = ContentManager.getImageResourceId(getContext(), imagePath);
                 if (0 != imageResourceId) {
 
                     Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(

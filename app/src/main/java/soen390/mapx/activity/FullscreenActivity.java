@@ -56,7 +56,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         if (null != actionBar){
-            actionBar.setDisplayHomeAsUpEnabled(true);//TODO investigate duplication of the screen when setting the back navigation
+            actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setTitle(title);
         }
@@ -93,11 +93,5 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        finish();
     }
 }

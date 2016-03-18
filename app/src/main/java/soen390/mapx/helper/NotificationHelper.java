@@ -66,7 +66,7 @@ public class NotificationHelper {
         Intent notificationIntent = new Intent(context, MainActivity.class);
         notificationIntent.putExtra(ConstantsHelper.INTENT_POI_REACHED_EXTRA_KEY, true);
         notificationIntent.addFlags(
-                Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent notificationPendingIntent = PendingIntent.getActivity(
                 context,
