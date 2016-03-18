@@ -90,7 +90,12 @@ function POIManager(){
 					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
 				}
 			}else{
-				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
+				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>" ;
+			}
+
+			if(Android.isInMode()){
+				var getInfoLabel = languageJSON["web_view_info"];
+				popupContent += popupContent + +"</p><button onclick='controller.poiManager.showInfo(this)'>" + getInfoLabel + "</button>";
 			}
 
 			marker.unbindPopup();
@@ -153,6 +158,8 @@ function POIManager(){
 		var poiID = $(elementClicked).attr("data-poi-id");
 		Android.navigateToPOI(poiID);
 	};
+
+	
 
 	this.clickPOI = function(poiID){
 		console.log('poiManager.clickPOI()');
