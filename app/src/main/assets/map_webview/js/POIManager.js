@@ -153,4 +153,16 @@ function POIManager(){
 		var poiID = $(elementClicked).attr("data-poi-id");
 		Android.navigateToPOI(poiID);
 	};
+
+	this.clickPOI = function(poiID){
+		console.log('poiManager.clickPOI()');
+		for(var i = 0; i < poiElements.length; i++){
+			var marker = poiElements[i];
+
+			if(parseInt(marker.poiID) == parseInt(poiID)){
+				marker.openPopup();
+				break;
+			}
+		}
+	};
 }
