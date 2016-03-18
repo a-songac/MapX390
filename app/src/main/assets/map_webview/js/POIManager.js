@@ -46,6 +46,9 @@ function POIManager(){
 				var x = -mapWidth + (offsetX + parseInt(poi["x_coord"]));
 				var y = -mapHeight + (offsetY + parseInt(poi["y_coord"]));
 				
+				var getInfoLabel = languageJSON["web_view_info"];
+				popupContent += "<button onclick='controller.poiManager.showInfo(this)'>" + getInfoLabel + "</button>";
+
 				var marker = L.marker([y, x]).addTo(map);
 				marker.setIcon(normalIcon);
 				marker.bindPopup(popupContent);
@@ -93,10 +96,9 @@ function POIManager(){
 				popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>" ;
 			}
 
-			if(Android.isInMode()){
-				var getInfoLabel = languageJSON["web_view_info"];
-				popupContent += popupContent + +"</p><button onclick='controller.poiManager.showInfo(this)'>" + getInfoLabel + "</button>";
-			}
+			var getInfoLabel = languageJSON["web_view_info"];
+			popupContent += "<button onclick='controller.poiManager.showInfo(this)'>" + getInfoLabel + "</button>";
+
 
 			marker.unbindPopup();
 			marker.bindPopup(popupContent);
@@ -161,7 +163,7 @@ function POIManager(){
 
 	this.showInfo = function(elementClicked){
 		var poiID = $(elementClicked).attr("data-poi-id");
-		Android.showAdditionalInfoOfPOI(poiID);
+		Android.viewInfo(poiID);
 	};
 
 	this.clickPOI = function(poiID){
