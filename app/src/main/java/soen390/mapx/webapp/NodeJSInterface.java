@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
@@ -192,6 +193,16 @@ public class NodeJSInterface {
         }
 
         return null;
+    }
+
+    /**
+     * Send id of current node where the user is at
+     * @return
+     */
+    @JavascriptInterface
+    public void viewInfo(String poiID) {
+        LogUtils.info(NodeJSInterface.class, "viewInfo", "Success");
+        //TODO Arnaud
     }
 
     /**
