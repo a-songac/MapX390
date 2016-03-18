@@ -159,7 +159,10 @@ function POIManager(){
 		Android.navigateToPOI(poiID);
 	};
 
-	
+	this.showInfo = function(elementClicked){
+		var poiID = $(elementClicked).attr("data-poi-id");
+		Android.showAdditionalInfoOfPOI(poiID);
+	};
 
 	this.clickPOI = function(poiID){
 		console.log('poiManager.clickPOI()');
