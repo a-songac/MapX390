@@ -64,18 +64,28 @@
 		"floorID": "2",
 		"iBeacon":
 		{
-		  "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
-		  "major": "32424",
-		  "minor": "62674"
+		  "uuid": "<TODO>",
+		  "major": "0",
+		  "minor": "0"
 		},
 		"media":
 		{
 		  "image":
 		  [
 			{
-			  "path": "<TODO>",
-			  "language": "<TODO>",
-			  "caption": "<TODO>"
+			  "path": "old_radio",
+			  "language": "en",
+			  "caption": "Radio"
+			},
+			{
+			  "path": "moeb_logo",
+			  "language": "en",
+			  "caption": "MOEB"
+			},
+			{
+			  "path": "gramophone_victrola",
+			  "language": "en",
+			  "caption": "Gramophone Victrola"
 			}
 		  ],
 		  "video":
@@ -181,9 +191,9 @@
 		"floorID": "2",
 		"iBeacon":
 		{
-		  "uuid": "<TODO>",
-		  "major": "0",
-		  "minor": "0"
+		  "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
+		  "major": "32424",
+		  "minor": "62674"
 		},
 		"media":
 		{
@@ -2154,7 +2164,7 @@
 		"description": "Description Storyline 1"
 	  }
 	  ],
-	  "path": ["0", "1", "2", "3", "4", "5", "4", "3", "6", "7", "8", "9", "10", "11", "12", "13"],
+	  "path": ["0", "1", "2", "3", "4", "5", "4", "3", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29"],
 	  "thumbnail": "",
 	  "walkingTimeInMinutes": "0",
 	  "floorsCovered": "1"

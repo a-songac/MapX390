@@ -8,9 +8,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import soen390.mapx.R;
+import soen390.mapx.activity.MainActivity;
+import soen390.mapx.application.MapXApplication;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Floor;
 import soen390.mapx.model.Node;
@@ -27,6 +30,19 @@ public class NodeJSInterface {
 
     public NodeJSInterface(Context context) {
         this.context = context;
+    }
+
+    /**
+     * Receive a call from Javascript stating that the Webview is fully initiliazed
+     * @return
+     */
+    @JavascriptInterface
+    public void initialized() {
+        MainActivity mainActivity = MainActivity.class.cast(MapXApplication.getGlobalContext());
+        if (mainActivity.isPOIReachedFromNotification()) {
+            MapManager.displayOnMapPOIReached();
+            mainActivity.userPositionDisplayedAfterNotification();
+        }
     }
 
     /**
@@ -68,9 +84,9 @@ public class NodeJSInterface {
         mainHandler.post(myRunnable);
 
         //TEST
-        int[] path = {2,3,4};
-        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
-        mapJSBridge.drawPath();
+//        int[] path = {2,3,4};
+//        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
+//        mapJSBridge.drawPath();
         //TEST END
     }
 
@@ -211,6 +227,26 @@ public class NodeJSInterface {
         catch(Exception e){
             //Maybe add error call?
             return null;
+        }
+    }
+
+    /**
+     * Update the current path after the user progresses
+     */
+    @JavascriptInterface
+    public void setPath(String[] path) {
+        try{
+            ArrayList<Integer> updatedPath = new ArrayList<Integer>();
+
+            for(int i = 0; i < path.length; i++){
+                updatedPath.add(Integer.parseInt(path[i]));
+            }
+
+            MapManager.setCurrentPath(updatedPath);
+        }
+
+        catch(Exception e){
+            //TODO
         }
     }
 

@@ -4,28 +4,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import java.util.List;
+
 import soen390.mapx.fragment.ImageFullPagerFragment;
+import soen390.mapx.model.ExpositionContent;
 
 /**
  * Class to implement media view pager adapter
  */
 public class ImagePagerAdapter extends FragmentStatePagerAdapter {
 
-    private String[] imagePaths;
+    private List<ExpositionContent> images;
 
-    public ImagePagerAdapter(FragmentManager fm, String[] imagePaths) {
+    public ImagePagerAdapter(FragmentManager fm, List<ExpositionContent> images) {
         super(fm);
-        this.imagePaths = imagePaths;
+        this.images = images;
     }
 
     @Override
     public Fragment getItem(int position) {
 
-        return ImageFullPagerFragment.newInstance(imagePaths[position], "Image Name");
+        return ImageFullPagerFragment.newInstance(images.get(position).getContent(), images.get(position).getTitle());
     }
 
     @Override
     public int getCount() {
-        return imagePaths.length;
+        return images.size();
     }
 }

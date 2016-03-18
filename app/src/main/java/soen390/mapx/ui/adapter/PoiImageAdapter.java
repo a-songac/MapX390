@@ -8,10 +8,13 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import java.util.List;
+
 import soen390.mapx.BitmapUtils;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.manager.ContentManager;
+import soen390.mapx.model.ExpositionContent;
 
 /**
  * Adapter for poi image content grid view
@@ -22,22 +25,25 @@ public class PoiImageAdapter extends BaseAdapter {
     private String[] imagesPaths;
     private static final int GRID_ITEM_HEIGHT_IN_DP = 150;
 
-    public PoiImageAdapter(String[] imagesPaths) {
+    private List<ExpositionContent> images;
 
-        if (null != imagesPaths) {
-            context = MapXApplication.getGlobalContext();
-            this.imagesPaths = imagesPaths;
-        }
+    /**
+     * Constructor
+     * @param images
+     */
+    public PoiImageAdapter(List<ExpositionContent> images) {
+        this.context = MapXApplication.getGlobalContext();
+        this.images = images;
     }
 
     @Override
     public int getCount() {
-        return imagesPaths.length;
+        return images.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return imagesPaths[position];
+        return images.get(position).getContent();
     }
 
     @Override
@@ -61,7 +67,7 @@ public class PoiImageAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        int imageResourceId = ContentManager.getImageResourceId(context, imagesPaths[position]);
+        int imageResourceId = ContentManager.getImageResourceId(context, images.get(position).getContent());
         if (0 != imageResourceId) {
 
             Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(

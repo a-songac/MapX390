@@ -36,6 +36,8 @@ public class MapManager {
 
     public static boolean isStorylineMode() { return storylineMode; }
 
+    public static Storyline getCurrentStoryline() {return currentStoryline;}
+
     public static boolean isNavigationMode() { return navigationMode; }
 
     public static String getCurrentFloor() { return currentFloor; }
@@ -43,6 +45,14 @@ public class MapManager {
     public static String getZoomLevel() { return zoomLevel; }
 
     public static String[] getCurrentView() { return currentView; }
+
+    /**
+     * Update the path when the user progresses
+     * @param updatedPath
+     */
+    public static void setCurrentPath(ArrayList<Integer> updatedPath){
+        currentPath = updatedPath;
+    }
 
     /**
      * Keep current view from webview
@@ -131,10 +141,17 @@ public class MapManager {
         storylineMode = true;
         currentStoryline = storyline;
 
+        currentPath = storyline.getPath();
+
         syncActionBarStateWithCurrentMode();
 
         //TEMPORARY
         MapJSBridge.getInstance().drawPath();
+
+        String toast = MapXApplication.getGlobalContext().getResources().getString(
+                R.string.storyline_start_toast,
+                storyline.getTitle());
+        UiUtils.displayToastLong(toast);
     }
 
     /**
