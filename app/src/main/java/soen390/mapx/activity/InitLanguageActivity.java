@@ -45,5 +45,6 @@ public class InitLanguageActivity extends Activity{
         PreferenceHelper.getInstance().setLanguagePreference(language);
         Intent intent = new Intent(InitLanguageActivity.this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 }
