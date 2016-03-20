@@ -118,17 +118,18 @@ function Controller(){
 		
 		if(Android.isInMode()){
 			this.pathManager.updatePath();
-			this.poiManager.clickPOI(this.pathManager.getSourcePOI());
 		}
+
+		this.poiManager.clickPOI(Android.getUserPosition());
 	};
 
 	/* Called by Android to set floor to user position */
 	this.changeToUserLocationFloor = function(){
 		this.floorManager.showUserLocatedFloor();
 
-		if(Android.isInStorylineMode()){
-			this.poiManager.clickPOI(this.pathManager.getSourcePOI());
-		}
+		//if(Android.isInStorylineMode()){
+			this.poiManager.clickPOI(Android.getUserPosition());
+		//}
 	};
 }
 
