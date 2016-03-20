@@ -47,7 +47,7 @@ function POIManager(){
 				var y = -mapHeight + (offsetY + parseInt(poi["y_coord"]));
 				
 				var getInfoLabel = languageJSON["web_view_info"];
-				popupContent += "<button onclick='controller.poiManager.showInfo(this)'>" + getInfoLabel + "</button>";
+				popupContent += "<button onclick='controller.poiManager.showInfo(this)' data-poi-id='"+  poi["_id"] +"' >" + getInfoLabel + "</button>";
 
 				var marker = L.marker([y, x]).addTo(map);
 				marker.setIcon(normalIcon);
@@ -97,7 +97,7 @@ function POIManager(){
 			}
 
 			var getInfoLabel = languageJSON["web_view_info"];
-			popupContent += "<button onclick='controller.poiManager.showInfo(this)'>" + getInfoLabel + "</button>";
+			popupContent += "<button onclick='controller.poiManager.showInfo(this)' data-poi-id='"+  marker.poiID +"' >" + getInfoLabel + "</button>";
 
 
 			marker.unbindPopup();

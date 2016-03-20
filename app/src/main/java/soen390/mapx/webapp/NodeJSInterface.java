@@ -204,7 +204,8 @@ public class NodeJSInterface {
     @JavascriptInterface
     public void viewInfo(String poiID) {
         LogUtils.info(NodeJSInterface.class, "viewInfo", "View info for poi " + poiID);
-        NavigationHelper.getInstance().navigateToMediaPagerFragment(MapManager.getLastNode().getId());
+        //NavigationHelper.getInstance().navigateToMediaPagerFragment(MapManager.getLastNode().getId());
+        NavigationHelper.getInstance().navigateToMediaPagerFragment(Long.parseLong(poiID));
     }
 
     /**
