@@ -46,9 +46,15 @@ function Controller(){
 			var floors = self.floorManager.getFloorsArr();
 			
 			if(Android.getCurrentFloor() != null){
+				var lngLat = JSON.parse(Android.getCurrentView());
+				var zoomLevel = parseInt(Android.getZoomLevel());
+
 				self.floorManager.clickFloor(Android.getCurrentFloor());
+				map.setView(lngLat, zoomLevel);
 			}else{
 				self.floorManager.clickFloor(1);
+				self.mapManager.setCurrentView();
+				self.mapManager.setZoomLevel();
 			}
 		}
 
@@ -57,8 +63,10 @@ function Controller(){
 		this.pathManager = new PathManager();
 		this.poiManager = new POIManager();
 		this.floorManager = new FloorManager();
+		this.mapManager = new MapManager();
 		this.userManager = new UserManager();
 
+		this.mapManager.initialize();
 		this.floorManager.initialize();
 		this.poiManager.initialize();
 		setViewToFirstFloor();
@@ -68,7 +76,8 @@ function Controller(){
 		if(Android.isInMode()){
 			this.startNavigation();
 		}
-		
+
+		Android.initialized();
 	};
 
 	/* Called by Android to start navigation mode */
@@ -105,6 +114,9 @@ function Controller(){
 	/* Called by Android to update user position */
 	this.updateUserMarker = function(){
 		this.userManager.updateUserMarker();
+		if(Android.isInMode()){
+			controller.pathManager.updatePath();
+		}
 	};
 
 	/* Called by Android to set floor to user position */

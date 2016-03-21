@@ -48,6 +48,8 @@ public class LanguagesUITest {
         onView(withText(R.string.action_settings)).perform(click());
         onView(withText(R.string.settings_language)).perform(click());
         onView(withText(R.string.language_english)).perform(click());
-        onView(withText(R.string.settings_language)).check(matches(withText("Languages")));
+        onView(withText(R.string.navigation_drawer_museum_map)).check(matches(withText("Museum Map")));
     }
+
+
 }

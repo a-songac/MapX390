@@ -65,6 +65,7 @@ public class MediaViewPagerFragment extends Fragment implements IBaseFragment {
             Long  poiId = args.getLong(ConstantsHelper.MEDIA_PAGER_POI_ID, 0L);
             Node poi = Node.findById(Node.class, poiId);
             ActionBarHelper.getInstance().setMediaContentActionBar(poi.getTitle());
+            getActivity().invalidateOptionsMenu();
 
             View root = getView();
 

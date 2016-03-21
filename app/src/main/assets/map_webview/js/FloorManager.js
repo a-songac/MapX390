@@ -108,8 +108,19 @@ function FloorManager(){
 
 	this.showUserLocatedFloor = function(){
 		var floor = Android.getCurrentPOIFloor();
-		
+		var userPOI = Android.getUserPosition();
+
 		this.clickFloor(floor);
+
+		var poiElements = controller.poiManager.getPOIElements();
+		for(var i = 0; i < poiElements.length; i++){
+			var marker = poiElements[i];
+
+			if(parseInt(marker.poiID) ==  parseInt(userPOI)){
+				map.setView(marker.getLatLng());
+				controller.mapManager.setCurrentView();
+			}
+		}
 	};
 
 	this.clickFloor = function(floor){
@@ -132,8 +143,6 @@ function FloorManager(){
 		controller.poiManager.removePOIs();
 		controller.poiManager.setPOIs();
 
-		controller.updateUserMarker();
-
 		if(Android.isInMode()){
 			controller.poiManager.changeDestinationPOIIcon({
 				imagePath: 'js/images/pin1.png'
@@ -143,6 +152,8 @@ function FloorManager(){
 			controller.pathManager.deletePath();
 			controller.pathManager.drawPath();
 		}
+
+		controller.userManager.updateUserMarker();
 	};
 
 }

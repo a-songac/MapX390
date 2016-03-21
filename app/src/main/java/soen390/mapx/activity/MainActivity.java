@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
@@ -22,10 +23,8 @@ import java.util.Locale;
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.application.MapXApplication;
-import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
-import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.NotificationHelper;
@@ -42,6 +41,17 @@ public class MainActivity extends BaseActivity
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
     private static boolean drawerEnabled = true;
+    private static int height = 0;
+    private static int width = 0;
+
+    public static int getHeight() {
+        return height;
+    }
+
+    public static int getWidth() {
+        return width;
+    }
+    private boolean poiReachedFromNotification = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +63,8 @@ public class MainActivity extends BaseActivity
         BaseApplication.setGlobalContext(this);
         initActionBar();
         initNavigationDrawer();
-        initLanguagePreference();
         DbContentManager.initDatabaseContent();
+        setParentViewDimensions();
 
         PreferenceHelper.getInstance().init(this);
 
@@ -68,7 +78,6 @@ public class MainActivity extends BaseActivity
         } else {
             loadLastFragment(savedInstanceState.getString(ConstantsHelper.LAST_FRAGMENT_TAG_KEY, ""));
         }
-
 
     }
 
@@ -111,8 +120,8 @@ public class MainActivity extends BaseActivity
 
         } else if (id == R.id.nav_help_feedback) {
             //TODO Temporary, for testing purposes
-            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(0));
-
+            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(2));
+            MapManager.reachPOI(Node.listAll(Node.class).get(2));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -159,8 +168,17 @@ public class MainActivity extends BaseActivity
                 NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
                 LogUtils.info(this.getClass(), "onNewIntent", "onNewIntent from POI Reached notification");
                 MapManager.displayOnMapPOIReached();
+                poiReachedFromNotification = true;
             }
         }
+    }
+
+    public boolean isPOIReachedFromNotification() {
+        return poiReachedFromNotification;
+    }
+
+    public void userPositionDisplayedAfterNotification() {
+        poiReachedFromNotification = false;
     }
 
     /**
@@ -256,38 +274,18 @@ public class MainActivity extends BaseActivity
             case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
                 NavigationHelper.getInstance().navigateToStorylineFragment();
                 break;
+            case ConstantsHelper.MEDIA_PAGER_FRAGMENT_TAG:
+                Node lastPOI = MapManager.getLastNode();
+                Long poiID = null != lastPOI?
+                        lastPOI.getId():
+                        0L;
+                NavigationHelper.getInstance().navigateToMediaPagerFragment(poiID);
+                break;
 
             default:
                 NavigationHelper.getInstance().navigateToMainFragment();
         }
 
-    }
-
-    /**
-     * Prompt the user for language preference if it is the first time he uses the application
-     */
-    private void initLanguagePreference() {
-        if (!PreferenceHelper.getInstance().isLanguagePreferenceInit()) {
-
-
-            PreferenceHelper.getInstance().completeLanguagePreferenceInit();
-
-            String title = getString(R.string.language_init_dialog_title);
-            String message = getString(R.string.language_init_dialog_body);
-
-            AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
-                @Override
-                public void onPositiveResponse() {
-                    NavigationHelper.getInstance().navigateToSettingsFragment(true);
-                    navigationView.getMenu().getItem(3).setChecked(true);
-                }
-
-                @Override
-                public void onNegativeResponse() {
-
-                }
-            });
-        }
     }
 
     /**
@@ -316,6 +314,27 @@ public class MainActivity extends BaseActivity
      */
     public static boolean isDrawerEnabled(){
         return drawerEnabled;
+    }
+
+    /**
+     * Get dimensions of the parent view so that we know the dimensions of the parent view
+     * This will be useful when setting the dimensions for for the full screen images to be
+     * displayed in the ImageFullPager Fragment
+     */
+    private void setParentViewDimensions() {
+
+        if (MainActivity.height == 0 || MainActivity.width ==0) {
+            final View root = findViewById(R.id.container);
+            root.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    MainActivity.height = root.getHeight();
+                    MainActivity.width = root.getWidth();
+                    root.getViewTreeObserver().removeOnPreDrawListener(this);
+                    return true;
+                }
+            });
+        }
     }
 
 }

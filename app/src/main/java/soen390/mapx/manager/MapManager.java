@@ -31,12 +31,44 @@ public class MapManager {
     private static Storyline currentStoryline = null;
     private static ArrayList<Integer> currentPath = null;
     private static String currentFloor = null;
+    private static String zoomLevel = null;
+    private static String[] currentView = new String[2];
 
     public static boolean isStorylineMode() { return storylineMode; }
+
+    public static Storyline getCurrentStoryline() {return currentStoryline;}
 
     public static boolean isNavigationMode() { return navigationMode; }
 
     public static String getCurrentFloor() { return currentFloor; }
+
+    public static String getZoomLevel() { return zoomLevel; }
+
+    public static String[] getCurrentView() { return currentView; }
+
+    /**
+     * Update the path when the user progresses
+     * @param updatedPath
+     */
+    public static void setCurrentPath(ArrayList<Integer> updatedPath){
+        currentPath = updatedPath;
+    }
+
+    /**
+     * Keep current view from webview
+     * @param currView
+     */
+    public static void setCurrentView(String[] currView){
+        currentView = currView;
+    }
+
+    /**
+     * Keep zoom level from webview
+     * @param zoomLvl
+     */
+    public static void setZoomLevel(String zoomLvl){
+        zoomLevel = zoomLvl;
+    }
 
     /**
      * Keep current floor viewed instance from web view
@@ -77,7 +109,8 @@ public class MapManager {
                     new IDialogResponseCallBack() {
                         @Override
                         public void onPositiveResponse() {
-                            MapJSBridge.getInstance().leaveNavigation();
+                            //MapJSBridge.getInstance().leaveNavigation();
+                            resetState();
                             launchStoryline(storyline);
                         }
 
@@ -108,9 +141,17 @@ public class MapManager {
         storylineMode = true;
         currentStoryline = storyline;
 
+        currentPath = storyline.getPath();
+
         syncActionBarStateWithCurrentMode();
 
+        //TEMPORARY
+        MapJSBridge.getInstance().drawPath();
 
+        String toast = MapXApplication.getGlobalContext().getResources().getString(
+                R.string.storyline_start_toast,
+                storyline.getTitle());
+        UiUtils.displayToastLong(toast);
     }
 
     /**
@@ -141,7 +182,8 @@ public class MapManager {
                     new IDialogResponseCallBack() {
                         @Override
                         public void onPositiveResponse() {
-                            MapJSBridge.getInstance().leaveNavigation();
+                            //MapJSBridge.getInstance().leaveNavigation();
+                            resetState();
                             launchNavigation(newNode, context);
                         }
 
@@ -230,13 +272,7 @@ public class MapManager {
         AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
             @Override
             public void onPositiveResponse() {
-                navigationMode = false;
-                storylineMode = false;
-                currentStoryline = null;
-
-                syncActionBarStateWithCurrentMode();
-
-                MapJSBridge.getInstance().leaveStoryline();
+                resetState();
             }
 
             @Override
@@ -245,6 +281,18 @@ public class MapManager {
             }
         });
 
+    }
+
+    public static void resetState(){
+        navigationMode = false;
+        storylineMode = false;
+        currentStoryline = null;
+        currentNodeDestination = null;
+        currentPath = null;
+
+        syncActionBarStateWithCurrentMode();
+
+        MapJSBridge.getInstance().leaveStoryline();
     }
 
     /**
@@ -260,13 +308,7 @@ public class MapManager {
         AlertDialogHelper.showAlertDialog(title, message, new IDialogResponseCallBack() {
             @Override
             public void onPositiveResponse() {
-                navigationMode = false;
-                storylineMode = false;
-                currentNodeDestination = null;
-
-                syncActionBarStateWithCurrentMode();
-
-                MapJSBridge.getInstance().leaveNavigation();
+                resetState();
             }
 
             @Override

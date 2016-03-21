@@ -11,7 +11,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import soen390.mapx.BitmapUtils;
 import soen390.mapx.R;
+import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.ui.view.holder.*;
 
@@ -87,7 +89,12 @@ public class PoiMediaListAdapter extends ArrayAdapter<JSONArray> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        viewHolder.getImageThumbnail().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.moeb_logo));
+//        viewHolder.getImageThumbnail().setImageBitmap(ContextCompat.getDrawable(context, R.drawable.moeb_logo));
+        viewHolder.getImageThumbnail().setImageBitmap(BitmapUtils.decodeSampledBitmapFromResource(
+                context.getResources(),
+                R.drawable.moeb_logo,
+                MainActivity.getWidth(),
+                BitmapUtils.dpToPx((int)context.getResources().getDimension(R.dimen.stoyline_list_item_height))));
     }
 
 }

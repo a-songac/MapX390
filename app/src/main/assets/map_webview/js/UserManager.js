@@ -65,9 +65,14 @@ function UserManager(){
 			    } else if (diff < 0) {
 			        userMarker.setRadius(userMarker.getRadius() * 2);
 			    }
+
 			});
 		}else{
 				userMarker.setLatLng(latLng);
 		}
+	};
+
+	this.getUserMarker = function(){
+		return userMarker;
 	};
 }

@@ -8,9 +8,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import soen390.mapx.R;
+import soen390.mapx.activity.MainActivity;
+import soen390.mapx.application.MapXApplication;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Floor;
 import soen390.mapx.model.Node;
@@ -27,6 +30,19 @@ public class NodeJSInterface {
 
     public NodeJSInterface(Context context) {
         this.context = context;
+    }
+
+    /**
+     * Receive a call from Javascript stating that the Webview is fully initiliazed
+     * @return
+     */
+    @JavascriptInterface
+    public void initialized() {
+        MainActivity mainActivity = MainActivity.class.cast(MapXApplication.getGlobalContext());
+        if (mainActivity.isPOIReachedFromNotification()) {
+            MapManager.displayOnMapPOIReached();
+            mainActivity.userPositionDisplayedAfterNotification();
+        }
     }
 
     /**
@@ -68,9 +84,9 @@ public class NodeJSInterface {
         mainHandler.post(myRunnable);
 
         //TEST
-        int[] path = {2,3,4};
-        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
-        mapJSBridge.drawPath();
+//        int[] path = {2,3,4};
+//        MapJSBridge mapJSBridge = MapJSBridge.getInstance();
+//        mapJSBridge.drawPath();
         //TEST END
     }
 
@@ -81,6 +97,63 @@ public class NodeJSInterface {
     @JavascriptInterface
     public boolean isInMode() {
         return (MapManager.isNavigationMode() || MapManager.isStorylineMode());
+    }
+
+    /**
+     * Returns boolean whether user is in storyline mode
+     * @return boolean
+     */
+    @JavascriptInterface
+    public boolean isInStorylineMode() {
+        return MapManager.isStorylineMode();
+    }
+
+    /**
+     * Returns boolean whether user is in navigation mode
+     * @return
+     */
+    @JavascriptInterface
+    public boolean isInNavigationMode() {
+        return MapManager.isNavigationMode();
+    }
+
+    /**
+     * Saves the current zoom level instance on the displayed floor
+     */
+    @JavascriptInterface
+    public void setZoomLevel(String zoomLevel) {
+        MapManager.setZoomLevel(zoomLevel);
+    }
+
+    /**
+     * Provides zoom level data to webview
+     */
+    @JavascriptInterface
+    public String getZoomLevel() {
+        return MapManager.getZoomLevel();
+    }
+
+    /**
+     * Provides the position of where the user is currently looking at
+     */
+    @JavascriptInterface
+    public String getCurrentView() {
+        JSONArray currentViewArr = new JSONArray();
+        String[] currentView = MapManager.getCurrentView();
+
+        for(int i = 0; i < currentView.length; i++) {
+            currentViewArr.put(currentView[i]);
+        }
+
+        return currentViewArr.toString();
+    }
+
+    /**
+     * Provides the position of where the user is currently looking at
+     */
+    @JavascriptInterface
+    public void setCurrentView(String[] currentView) {
+        MapManager.setCurrentView(currentView);
     }
 
     /**
@@ -141,13 +214,40 @@ public class NodeJSInterface {
      */
     @JavascriptInterface
     public String getPath() {
-        JSONArray pathArr = new JSONArray();
+        try{
+            JSONArray pathArr = new JSONArray();
 
-        for(int nodeID : MapManager.getCurrentPath()){
-            pathArr.put(nodeID);
+            for(int nodeID : MapManager.getCurrentPath()){
+                pathArr.put(nodeID);
+            }
+
+            return pathArr.toString();
         }
 
-        return pathArr.toString();
+        catch(Exception e){
+            //Maybe add error call?
+            return null;
+        }
+    }
+
+    /**
+     * Update the current path after the user progresses
+     */
+    @JavascriptInterface
+    public void setPath(String[] path) {
+        try{
+            ArrayList<Integer> updatedPath = new ArrayList<Integer>();
+
+            for(int i = 0; i < path.length; i++){
+                updatedPath.add(Integer.parseInt(path[i]));
+            }
+
+            MapManager.setCurrentPath(updatedPath);
+        }
+
+        catch(Exception e){
+            //TODO
+        }
     }
 
     /**

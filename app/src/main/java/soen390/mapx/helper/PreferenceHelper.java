@@ -44,6 +44,14 @@ public class PreferenceHelper {
         return sharedPreferences.getString(ConstantsHelper.PREF_LANGUAGE_KEY, ConstantsHelper.PREF_LANGUAGE_DEFAULT);
     }
 
+    /**
+          * Set language preference
+          * @param value
+          */
+        public void setLanguagePreference(String value) {
+                editor.putString(ConstantsHelper.PREF_LANGUAGE_KEY, value);
+                editor.commit();
+            }
 
     /**
      * Whether the user was prompt to change the language of preference of the application on first use

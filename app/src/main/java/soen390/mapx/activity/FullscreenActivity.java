@@ -6,9 +6,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import java.util.List;
+
 import soen390.mapx.R;
-import soen390.mapx.database.DummyData;
 import soen390.mapx.helper.ConstantsHelper;
+import soen390.mapx.manager.MapManager;
+import soen390.mapx.model.ExpositionContent;
 import soen390.mapx.model.Node;
 import soen390.mapx.ui.adapter.ImagePagerAdapter;
 
@@ -18,6 +21,8 @@ import soen390.mapx.ui.adapter.ImagePagerAdapter;
  */
 public class FullscreenActivity extends AppCompatActivity {
 
+
+    private List<ExpositionContent> images;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +35,15 @@ public class FullscreenActivity extends AppCompatActivity {
             Long poiId = extras.getLong(ConstantsHelper.POI_ID_INTENT_EXTRA_KEY);
             Node poi = Node.findById(Node.class, poiId);
             int startPosition = extras.getInt(ConstantsHelper.POI_IMAGE_START_POSITION_INTENT_EXTRA_KEY);
-            setActionBar();
-            initPager(DummyData.dummyImages(), startPosition);//TODO get poi images
+
+            Long storylineId = MapManager.isStorylineMode()?
+                    MapManager.getCurrentStoryline().getId():
+                    -1L;
+            this.images = poi.getContent(storylineId, ExpositionContent.IMAGE_TYPE);
+
+            setActionBar(images.get(startPosition).getTitle());
+
+            initPager(this.images, startPosition);
 
         }
     }
@@ -50,13 +62,11 @@ public class FullscreenActivity extends AppCompatActivity {
     /**
      * Set action bar title
      */
-    private void setActionBar() {
-
-        String title = getIntent().getExtras().getString(ConstantsHelper.POI_IMAGE_CAPTION_INTENT_EXTRA_KEY);
+    private void setActionBar(String title) {
 
         ActionBar actionBar = getSupportActionBar();
         if (null != actionBar){
-            actionBar.setDisplayHomeAsUpEnabled(true);//TODO investigate duplication of the screen when setting the back navigation
+            actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setTitle(title);
         }
@@ -64,14 +74,14 @@ public class FullscreenActivity extends AppCompatActivity {
 
     /**
      * Set view pager
-     * @param imagePaths
+     * @param images
      */
-    private void initPager(String[] imagePaths, int startPosition) {
+    private void initPager(final List<ExpositionContent> images, int startPosition) {
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final ImagePagerAdapter adapter = new ImagePagerAdapter(
                 getSupportFragmentManager(),
-                imagePaths);
+                images);
 
         viewPager.setAdapter(adapter);
         viewPager.setCurrentItem(startPosition);
@@ -84,7 +94,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                //TODO set action bar title with image caption
+                getSupportActionBar().setTitle(FullscreenActivity.this.images.get(position).getTitle());
             }
 
             @Override
@@ -94,5 +104,4 @@ public class FullscreenActivity extends AppCompatActivity {
         });
 
     }
-
 }
