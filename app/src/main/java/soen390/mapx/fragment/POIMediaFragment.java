@@ -12,11 +12,15 @@ import android.widget.ListView;
 
 import com.arnaud.android.core.fragment.IBaseFragment;
 
+import java.util.List;
+
 import soen390.mapx.R;
 import soen390.mapx.activity.FullscreenActivity;
 import soen390.mapx.activity.MediaPlayerActivity;
 import soen390.mapx.database.DummyData;
 import soen390.mapx.helper.ConstantsHelper;
+import soen390.mapx.manager.MapManager;
+import soen390.mapx.model.ExpositionContent;
 import soen390.mapx.model.Node;
 import soen390.mapx.model.Storyline;
 import soen390.mapx.ui.adapter.PoiMediaListAdapter;
@@ -27,7 +31,6 @@ import soen390.mapx.ui.view.holder.MediaListItemViewHolder;
  * A simple {@link Fragment} subclass.
  */
 public class POIMediaFragment extends ListFragment implements IBaseFragment {
-
 
     /**
      * Create new instance of Profile fragment
@@ -60,7 +63,22 @@ public class POIMediaFragment extends ListFragment implements IBaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        PoiMediaListAdapter listAdapter = new PoiMediaListAdapter(getActivity(),  DummyData.dummyMedia());
+        Bundle args = getArguments();
+        Node poi = null;
+        if (args != null) {
+
+            Long poiId = args.getLong(ConstantsHelper.MEDIA_PAGER_POI_ID, 0L);
+            poi = Node.findById(Node.class, poiId);
+        }
+        Long storylineId = MapManager.isStorylineMode()?
+                MapManager.getCurrentStoryline().getId():
+                -1L;
+
+        //Add all media content audio + video
+        List<ExpositionContent> expositionContentList = poi.getContent(storylineId, ExpositionContent.VIDEO_TYPE);
+        expositionContentList.addAll(poi.getContent(storylineId, ExpositionContent.AUDIO_TYPE));
+
+        PoiMediaListAdapter listAdapter = new PoiMediaListAdapter(getActivity(), expositionContentList);
         setListAdapter(listAdapter);
 
     }
@@ -69,8 +87,12 @@ public class POIMediaFragment extends ListFragment implements IBaseFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-
         Intent intent = new Intent(getContext(), MediaPlayerActivity.class);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            intent.putExtra(ConstantsHelper.POI_ID_INTENT_EXTRA_KEY, args.getLong(ConstantsHelper.MEDIA_PAGER_POI_ID, 0L));
+        }
 
         intent.putExtra(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY, position);
         startActivity(intent);
