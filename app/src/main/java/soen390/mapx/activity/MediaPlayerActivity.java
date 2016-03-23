@@ -110,7 +110,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
         Uri uri = Uri.parse("android.resource://" + getPackageName() +
                 "/" + getResources().getIdentifier(expositionContentList.get(position).getContent(), "raw", getPackageName()));
 
-        setActionBar(expositionContentList.get(position).getContent());
+        setActionBar(expositionContentList.get(position).getTitle());
 
         MediaController mediaController= new MediaController(this);
         mediaController.setAnchorView(videoView);
