@@ -107,17 +107,19 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
         videoView = (VideoView) findViewById(R.id.videoView);
 
-        Uri uri = Uri.parse("android.resource://" + getPackageName() +
-                "/" + getResources().getIdentifier(expositionContentList.get(position).getContent(), "raw", getPackageName()));
+        if (videoView != null) {
+            Uri uri = Uri.parse("android.resource://" + getPackageName() +
+                    "/" + getResources().getIdentifier(expositionContentList.get(position).getContent(), "raw", getPackageName()));
 
-        setActionBar(expositionContentList.get(position).getTitle());
+            setActionBar(expositionContentList.get(position).getTitle());
 
-        MediaController mediaController= new MediaController(this);
-        mediaController.setAnchorView(videoView);
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(videoView);
 
-        videoView.setMediaController(mediaController);
-        videoView.setVideoURI(uri);
-        videoView.start();
+            videoView.setMediaController(mediaController);
+            videoView.setVideoURI(uri);
+            videoView.start();
+        }
 
     }
 }
