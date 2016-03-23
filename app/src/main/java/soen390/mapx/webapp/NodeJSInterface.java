@@ -2,6 +2,7 @@ package soen390.mapx.webapp;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import org.json.JSONArray;
@@ -11,9 +12,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
+import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Floor;
 import soen390.mapx.model.Node;
@@ -199,6 +202,17 @@ public class NodeJSInterface {
      * @return
      */
     @JavascriptInterface
+    public void viewInfo(String poiID) {
+        LogUtils.info(NodeJSInterface.class, "viewInfo", "View info for poi " + poiID);
+        //NavigationHelper.getInstance().navigateToMediaPagerFragment(MapManager.getLastNode().getId());
+        NavigationHelper.getInstance().navigateToMediaPagerFragment(Long.parseLong(poiID));
+    }
+
+    /**
+     * Send id of current node where the user is at
+     * @return
+     */
+    @JavascriptInterface
     public String getCurrentPOIFloor() {
         Node lastNode = MapManager.getLastNode();
         if (null != lastNode) {
@@ -246,7 +260,7 @@ public class NodeJSInterface {
         }
 
         catch(Exception e){
-            //TODO
+            LogUtils.error(this.getClass(), "setPath", Log.getStackTraceString(e));
         }
     }
 
