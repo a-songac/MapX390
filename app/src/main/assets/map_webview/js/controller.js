@@ -113,15 +113,23 @@ function Controller(){
 
 	/* Called by Android to update user position */
 	this.updateUserMarker = function(){
+		console.log('controller.updateUserMarker()');
 		this.userManager.updateUserMarker();
+		
 		if(Android.isInMode()){
-			controller.pathManager.updatePath();
+			this.pathManager.updatePath();
 		}
+
+		this.poiManager.clickPOI(Android.getUserPosition());
 	};
 
 	/* Called by Android to set floor to user position */
 	this.changeToUserLocationFloor = function(){
 		this.floorManager.showUserLocatedFloor();
+
+		//if(Android.isInStorylineMode()){
+			this.poiManager.clickPOI(Android.getUserPosition());
+		//}
 	};
 }
 
