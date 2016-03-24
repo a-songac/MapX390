@@ -24,6 +24,8 @@ import soen390.mapx.webapp.MapJSBridge;
  */
 public class MapManager {
 
+    private static final long INFO_CENTER_ID = 0L;
+
     private static boolean storylineMode = false;
     private static boolean  navigationMode = false;
     private static Node lastNode = null; //TODO set initial POI as museum info center maybe
@@ -111,7 +113,7 @@ public class MapManager {
                         public void onPositiveResponse() {
                             //MapJSBridge.getInstance().leaveNavigation();
                             resetState();
-                            launchStoryline(storyline);
+                            launchStorylineStartingPointCheck(storyline);
                         }
 
                         @Override
@@ -120,7 +122,37 @@ public class MapManager {
                         }
                     });
         } else {
-            launchStoryline(storyline);
+            launchStorylineStartingPointCheck(storyline);
+        }
+
+    }
+
+    /**
+     * Start a storyline, but verify first the user is at starting point
+     * @param storyline
+     */
+    private static void launchStorylineStartingPointCheck(Storyline storyline) {
+
+        Context context = MapXApplication.getGlobalContext();
+
+        if (INFO_CENTER_ID != getLastNodeOrInitial().getId()) {
+
+            AlertDialogHelper.showAlertDialog(
+                    context.getString(R.string.storyline_go_to_starting_point),
+                    context.getString(R.string.storyline_go_to_starting_point_message),
+                    new IDialogResponseCallBack() {
+                @Override
+                public void onPositiveResponse() {
+                    launchNavigation(INFO_CENTER_ID);
+                }
+
+                @Override
+                public void onNegativeResponse() {
+
+                }
+            });
+        } else {
+            launchStorylineHelper(storyline);
         }
 
     }
@@ -129,7 +161,7 @@ public class MapManager {
      * Launch Storyline helper
      * @param storyline
      */
-    private static void launchStoryline(Storyline storyline) {
+    private static void launchStorylineHelper(Storyline storyline) {
 
         if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
 
@@ -290,6 +322,9 @@ public class MapManager {
 
     }
 
+    /**
+     * Set the modes to null
+     */
     public static void resetState(){
         navigationMode = false;
         storylineMode = false;
