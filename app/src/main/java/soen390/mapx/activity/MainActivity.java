@@ -23,6 +23,7 @@ import java.util.Locale;
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.application.MapXApplication;
+import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
@@ -97,8 +98,23 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
-            //TODO backpressed wrong logic to quit app
+            if (NavigationHelper.getInstance().getContainerFragment().getTag().equals(ConstantsHelper.MAP_FRAGMENT_TAG)) {
+                AlertDialogHelper.showAlertDialog(
+                        getString(R.string.quit),
+                        getString(R.string.quit_message),
+                        new IDialogResponseCallBack() {
+                    @Override
+                    public void onPositiveResponse() {
+                        MainActivity.class.cast(MapXApplication.getGlobalContext()).supportFinishAfterTransition();
+                    }
+
+                    @Override
+                    public void onNegativeResponse() {}
+                });
+
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
