@@ -5,6 +5,8 @@
 
     <string name="navigation_drawer_open">Ouvrir la barre de navigation</string>
     <string name="navigation_drawer_close">Fermer la barre de navigation</string>
+    <string name="quit">Quitter</string>
+    <string name="quit_message">Vouez-vous vraiment quitter?</string>
 
     <string name="action_settings">Paramètres</string>
 
