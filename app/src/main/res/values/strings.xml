@@ -53,6 +53,8 @@
     <string name="navigation_change">New Destination</string>
     <string name="navigation_change_message_sl">Do you want to leave the current storyline for the newly selected point of interest: %1$s?</string>
     <string name="navigation_change_message_poi">Do you want to leave the current navigation for the newly selected one: %1$s?</string>
+    <string name="navigation_already_at_poi">Your last position corresponds to the chosen destination.</string>
+
 
 
     <!-- Web Client strings -->

@@ -50,6 +50,7 @@
     <string name="navigation_change">Nouvelle destination</string>
     <string name="navigation_change_message_poi">Voulez-vous changer la destination actuelle pour celle choisie: %1$s?</string>
     <string name="navigation_change_message_sl">Voulez-vous changer la destination actuelle pour l\'histoire choisie: %1$s?</string>
+    <string name="navigation_already_at_poi">Votre dernière position correspond à la destination choisie.</string>
 
     <!-- Web Client strings -->
     <string name="web_go_to_destination">Aller vers ce point</string>

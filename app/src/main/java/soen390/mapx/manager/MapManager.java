@@ -78,9 +78,9 @@ public class MapManager {
         currentFloor = cFloor;
     }
 
-    public static Node getLastNode(){
+    public static Node getLastNodeOrInitial(){
         if (null == lastNode) {
-            return Node.findById(Node.class, 0);
+            return Node.findById(Node.class, 0); // Node with id 0 being info center
         }
         return lastNode;
     }
@@ -160,40 +160,47 @@ public class MapManager {
      */
     public static void launchNavigation(Long poiId) {
 
-        final Node newNode = Node.findById(Node.class, poiId);
+        if (poiId.equals(getLastNodeOrInitial().getId())) {
 
-        final Context context = MapXApplication.getGlobalContext();
+            UiUtils.displayToastLong(MapXApplication.getGlobalContext().getString(R.string.navigation_already_at_poi));
 
-        if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
-
-            NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
-
-        }
-
-        if (navigationMode || storylineMode) {
-
-            int messageId = navigationMode?
-                    R.string.navigation_change_message_poi:
-                    R.string.navigation_change_message_sl;
-
-            AlertDialogHelper.showAlertDialog(
-                    context.getString(R.string.navigation_change),
-                    context.getString(messageId, newNode.getTitle()),
-                    new IDialogResponseCallBack() {
-                        @Override
-                        public void onPositiveResponse() {
-                            //MapJSBridge.getInstance().leaveNavigation();
-                            resetState();
-                            launchNavigation(newNode, context);
-                        }
-
-                        @Override
-                        public void onNegativeResponse() {
-
-                        }
-                    });
         } else {
-            launchNavigation(newNode, context);
+
+            final Node newNode = Node.findById(Node.class, poiId);
+
+            final Context context = MapXApplication.getGlobalContext();
+
+            if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
+
+                NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+
+            }
+
+            if (navigationMode || storylineMode) {
+
+                int messageId = navigationMode ?
+                        R.string.navigation_change_message_poi :
+                        R.string.navigation_change_message_sl;
+
+                AlertDialogHelper.showAlertDialog(
+                        context.getString(R.string.navigation_change),
+                        context.getString(messageId, newNode.getTitle()),
+                        new IDialogResponseCallBack() {
+                            @Override
+                            public void onPositiveResponse() {
+                                //MapJSBridge.getInstance().leaveNavigation();
+                                resetState();
+                                launchNavigation(newNode, context);
+                            }
+
+                            @Override
+                            public void onNegativeResponse() {
+
+                            }
+                        });
+            } else {
+                launchNavigation(newNode, context);
+            }
         }
 
     }
@@ -210,12 +217,12 @@ public class MapManager {
 
         syncActionBarStateWithCurrentMode();
 
-        if(MapManager.getLastNode() == null){
+        if(MapManager.getLastNodeOrInitial() == null){
             int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), 0);
             currentPath = PathFinder.getShortestPath(pathTree,0, newNode.getId().intValue());
         }else{
-            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNode().getId());
-            currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNode().getId().intValue(), newNode.getId().intValue());
+            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNodeOrInitial().getId());
+            currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNodeOrInitial().getId().intValue(), newNode.getId().intValue());
         }
 
         MapJSBridge.getInstance().drawPath();
