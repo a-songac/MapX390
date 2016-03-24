@@ -25,6 +25,7 @@ import soen390.mapx.R;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
+import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.NotificationHelper;
@@ -97,6 +98,7 @@ public class MainActivity extends BaseActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+            //TODO backpressed wrong logic to quit app
         }
     }
 
@@ -122,6 +124,8 @@ public class MainActivity extends BaseActivity
             //TODO Temporary, for testing purposes
             NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(2));
             MapManager.reachPOI(Node.listAll(Node.class).get(2));
+        } else if (id == R.id.nav_poi_beacon_stub)  {
+            AlertDialogHelper.showPOIBeaconStubDialog();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
