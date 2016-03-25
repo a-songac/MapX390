@@ -249,13 +249,8 @@ public class MapManager {
 
         syncActionBarStateWithCurrentMode();
 
-        if(MapManager.getLastNodeOrInitial() == null){
-            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), 0);
-            currentPath = PathFinder.getShortestPath(pathTree,0, newNode.getId().intValue());
-        }else{
-            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNodeOrInitial().getId());
-            currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNodeOrInitial().getId().intValue(), newNode.getId().intValue());
-        }
+        int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNodeOrInitial().getId());
+        currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNodeOrInitial().getId().intValue(), newNode.getId().intValue());
 
         MapJSBridge.getInstance().drawPath();
 
@@ -272,6 +267,11 @@ public class MapManager {
      */
     public static void reachPOI(Node poi) {
         lastNode = poi;
+        if (navigationMode && poi.getId().equals(currentNodeDestination.getId())) {
+
+                resetState();
+        }
+
         MapJSBridge.getInstance().reachedNode(poi.getId());
     }
 
