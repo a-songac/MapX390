@@ -135,10 +135,15 @@ public class MainActivity extends BaseActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.map_in_mode_options, menu);
 
-        if (NavigationHelper.getInstance().isMapFragmentDisplayed() && (MapManager.isNavigationMode() || MapManager.isStorylineMode()))
+        if (NavigationHelper.getInstance().isMapFragmentDisplayed()) {
+            menu.getItem(1).setVisible(MapManager.isNavigationMode() || MapManager.isStorylineMode());
             menu.getItem(0).setVisible(true);
-        else
+        }
+        else {
+            menu.getItem(1).setVisible(false);
             menu.getItem(0).setVisible(false);
+
+        }
 
         return true;
     }
@@ -149,6 +154,9 @@ public class MainActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.map_options_cancel_mode:
                 MapManager.leaveCurrentMode();
+                return true;
+            case R.id.map_options_search:
+                NavigationHelper.getInstance().navigateToPOIsSearchFragment();
                 return true;
 
             default:
