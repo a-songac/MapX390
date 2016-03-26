@@ -24,9 +24,11 @@ import soen390.mapx.webapp.MapJSBridge;
  */
 public class MapManager {
 
+    private static final long INITIAL_POI_ID = 0L;
+
     private static boolean storylineMode = false;
     private static boolean  navigationMode = false;
-    private static Node lastNode = null; //TODO set initial POI as museum info center maybe
+    private static Node lastNode = null;
     private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
     private static ArrayList<Integer> currentPath = null;
@@ -78,9 +80,9 @@ public class MapManager {
         currentFloor = cFloor;
     }
 
-    public static Node getLastNode(){
+    public static Node getLastNodeOrInitial(){
         if (null == lastNode) {
-            return Node.findById(Node.class, 0);
+            lastNode = Node.findById(Node.class, INITIAL_POI_ID);
         }
         return lastNode;
     }
@@ -111,7 +113,7 @@ public class MapManager {
                         public void onPositiveResponse() {
                             //MapJSBridge.getInstance().leaveNavigation();
                             resetState();
-                            launchStoryline(storyline);
+                            launchStorylineStartingPointCheck(storyline);
                         }
 
                         @Override
@@ -120,7 +122,37 @@ public class MapManager {
                         }
                     });
         } else {
-            launchStoryline(storyline);
+            launchStorylineStartingPointCheck(storyline);
+        }
+
+    }
+
+    /**
+     * Start a storyline, but verify first the user is at starting point
+     * @param storyline
+     */
+    private static void launchStorylineStartingPointCheck(Storyline storyline) {
+
+        Context context = MapXApplication.getGlobalContext();
+
+        if (INITIAL_POI_ID != getLastNodeOrInitial().getId()) {
+
+            AlertDialogHelper.showAlertDialog(
+                    context.getString(R.string.storyline_go_to_starting_point),
+                    context.getString(R.string.storyline_go_to_starting_point_message),
+                    new IDialogResponseCallBack() {
+                @Override
+                public void onPositiveResponse() {
+                    launchNavigation(INITIAL_POI_ID);
+                }
+
+                @Override
+                public void onNegativeResponse() {
+
+                }
+            });
+        } else {
+            launchStorylineHelper(storyline);
         }
 
     }
@@ -129,7 +161,7 @@ public class MapManager {
      * Launch Storyline helper
      * @param storyline
      */
-    private static void launchStoryline(Storyline storyline) {
+    private static void launchStorylineHelper(Storyline storyline) {
 
         if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
 
@@ -160,40 +192,47 @@ public class MapManager {
      */
     public static void launchNavigation(Long poiId) {
 
-        final Node newNode = Node.findById(Node.class, poiId);
+        if (poiId.equals(getLastNodeOrInitial().getId())) {
 
-        final Context context = MapXApplication.getGlobalContext();
+            UiUtils.displayToastLong(MapXApplication.getGlobalContext().getString(R.string.navigation_already_at_poi));
 
-        if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
-
-            NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
-
-        }
-
-        if (navigationMode || storylineMode) {
-
-            int messageId = navigationMode?
-                    R.string.navigation_change_message_poi:
-                    R.string.navigation_change_message_sl;
-
-            AlertDialogHelper.showAlertDialog(
-                    context.getString(R.string.navigation_change),
-                    context.getString(messageId, newNode.getTitle()),
-                    new IDialogResponseCallBack() {
-                        @Override
-                        public void onPositiveResponse() {
-                            //MapJSBridge.getInstance().leaveNavigation();
-                            resetState();
-                            launchNavigation(newNode, context);
-                        }
-
-                        @Override
-                        public void onNegativeResponse() {
-
-                        }
-                    });
         } else {
-            launchNavigation(newNode, context);
+
+            final Node newNode = Node.findById(Node.class, poiId);
+
+            final Context context = MapXApplication.getGlobalContext();
+
+            if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
+
+                NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+
+            }
+
+            if (navigationMode || storylineMode) {
+
+                int messageId = navigationMode ?
+                        R.string.navigation_change_message_poi :
+                        R.string.navigation_change_message_sl;
+
+                AlertDialogHelper.showAlertDialog(
+                        context.getString(R.string.navigation_change),
+                        context.getString(messageId, newNode.getTitle()),
+                        new IDialogResponseCallBack() {
+                            @Override
+                            public void onPositiveResponse() {
+                                //MapJSBridge.getInstance().leaveNavigation();
+                                resetState();
+                                launchNavigation(newNode, context);
+                            }
+
+                            @Override
+                            public void onNegativeResponse() {
+
+                            }
+                        });
+            } else {
+                launchNavigation(newNode, context);
+            }
         }
 
     }
@@ -210,12 +249,12 @@ public class MapManager {
 
         syncActionBarStateWithCurrentMode();
 
-        if(MapManager.getLastNode() == null){
+        if(MapManager.getLastNodeOrInitial() == null){
             int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), 0);
             currentPath = PathFinder.getShortestPath(pathTree,0, newNode.getId().intValue());
         }else{
-            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNode().getId());
-            currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNode().getId().intValue(), newNode.getId().intValue());
+            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNodeOrInitial().getId());
+            currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNodeOrInitial().getId().intValue(), newNode.getId().intValue());
         }
 
         MapJSBridge.getInstance().drawPath();
@@ -283,6 +322,9 @@ public class MapManager {
 
     }
 
+    /**
+     * Set the modes to null
+     */
     public static void resetState(){
         navigationMode = false;
         storylineMode = false;

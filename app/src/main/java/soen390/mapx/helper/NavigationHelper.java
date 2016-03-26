@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentTransaction;
 import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
-import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.fragment.MapFragment;
 import soen390.mapx.fragment.MediaViewPagerFragment;
 import soen390.mapx.fragment.POIsListFragment;
@@ -142,23 +141,8 @@ public class NavigationHelper {
      */
     public void popFragmentBackStackToMapFragment() {
 
-        Context context = MapXApplication.getGlobalContext();
-
-        if (getContainerFragment().getTag().equals(ConstantsHelper.MAP_FRAGMENT_TAG)) {
-            AlertDialogHelper.showAlertDialog(context.getString(R.string.quit), context.getString(R.string.quit_message), new IDialogResponseCallBack() {
-                @Override
-                public void onPositiveResponse() {
-                    MainActivity.class.cast(MapXApplication.getGlobalContext()).supportFinishAfterTransition();
-                }
-
-                @Override
-                public void onNegativeResponse() {}
-            });
-
-        } else {
-            getSupportFragmentManager().popBackStackImmediate(ConstantsHelper.MAP_FRAGMENT_BAC_KSTACK_ENTRY_NAME, 0);
-            MapManager.syncActionBarStateWithCurrentMode();
-        }
+        getSupportFragmentManager().popBackStackImmediate(ConstantsHelper.MAP_FRAGMENT_BAC_KSTACK_ENTRY_NAME, 0);
+        MapManager.syncActionBarStateWithCurrentMode();
     }
 
     /**

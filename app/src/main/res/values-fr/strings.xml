@@ -44,6 +44,8 @@
     <string name="storyline_start_toast">Le tour %1$s a débuté</string>
     <string name="storyline_change_message_poi">Voulez-vous changer la destination actuelle pour l\'histoire choisie: %1$s?</string>
     <string name="storyline_change_message_sl">Voulez-vous changer l\'histoire actuelle pour celle choisie: %1$s?</string>
+    <string name="storyline_go_to_starting_point">Point de départ</string>
+    <string name="storyline_go_to_starting_point_message">Pour débuter une histoire, vous devez être au point de départ (centre d\'information).  Voulez-vous lancer la navigation vers le point de départ?</string>
 
     <!-- Navigation -->
     <string name="navigation_leave">Quiter la Destination</string>
@@ -51,6 +53,7 @@
     <string name="navigation_change">Nouvelle destination</string>
     <string name="navigation_change_message_poi">Voulez-vous changer la destination actuelle pour celle choisie: %1$s?</string>
     <string name="navigation_change_message_sl">Voulez-vous changer la destination actuelle pour l\'histoire choisie: %1$s?</string>
+    <string name="navigation_already_at_poi">Votre dernière position correspond à la destination choisie.</string>
 
     <!-- Web Client strings -->
     <string name="web_go_to_destination">Aller vers ce point</string>
