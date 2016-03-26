@@ -24,11 +24,11 @@ import soen390.mapx.webapp.MapJSBridge;
  */
 public class MapManager {
 
-    private static final long INFO_CENTER_ID = 0L;
+    private static final long INITIAL_POI_ID = 0L;
 
     private static boolean storylineMode = false;
     private static boolean  navigationMode = false;
-    private static Node lastNode = null; //TODO set initial POI as museum info center maybe
+    private static Node lastNode = null;
     private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
     private static ArrayList<Integer> currentPath = null;
@@ -82,7 +82,7 @@ public class MapManager {
 
     public static Node getLastNodeOrInitial(){
         if (null == lastNode) {
-            return Node.findById(Node.class, 0); // Node with id 0 being info center
+            lastNode = Node.findById(Node.class, INITIAL_POI_ID);
         }
         return lastNode;
     }
@@ -135,7 +135,7 @@ public class MapManager {
 
         Context context = MapXApplication.getGlobalContext();
 
-        if (INFO_CENTER_ID != getLastNodeOrInitial().getId()) {
+        if (INITIAL_POI_ID != getLastNodeOrInitial().getId()) {
 
             AlertDialogHelper.showAlertDialog(
                     context.getString(R.string.storyline_go_to_starting_point),
@@ -143,7 +143,7 @@ public class MapManager {
                     new IDialogResponseCallBack() {
                 @Override
                 public void onPositiveResponse() {
-                    launchNavigation(INFO_CENTER_ID);
+                    launchNavigation(INITIAL_POI_ID);
                 }
 
                 @Override
