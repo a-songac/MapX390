@@ -24,9 +24,11 @@ import soen390.mapx.webapp.MapJSBridge;
  */
 public class MapManager {
 
+    public final static long INITIAL_POI_ID = 0L;
+
     private static boolean storylineMode = false;
     private static boolean  navigationMode = false;
-    private static Node lastNode = null; //TODO set initial POI as museum info center maybe
+    private static Node lastNode = null;
     private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
     private static ArrayList<Integer> currentPath = null;
@@ -80,7 +82,7 @@ public class MapManager {
 
     public static Node getLastNodeOrInitial(){
         if (null == lastNode) {
-            return Node.findById(Node.class, 0); // Node with id 0 being info center
+            lastNode = Node.findById(Node.class, INITIAL_POI_ID);
         }
         return lastNode;
     }
