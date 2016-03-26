@@ -24,7 +24,6 @@ import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
-import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
@@ -65,7 +64,7 @@ public class MainActivity extends BaseActivity
         BaseApplication.setGlobalContext(this);
         initActionBar();
         initNavigationDrawer();
-        DbContentManager.initDatabaseContent();
+//        DbContentManager.initDatabaseContent(null);
         setParentViewDimensions();
 
         PreferenceHelper.getInstance().init(this);

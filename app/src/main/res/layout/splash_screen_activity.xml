@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
-
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/white" />
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/white">
 
     <ImageView
         android:id="@+id/imageView"
@@ -15,4 +10,14 @@
         android:src = "@drawable/moeb_logo"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="69dp"
+        android:indeterminate="true"
+        android:visibility="invisible"/>
 </RelativeLayout>

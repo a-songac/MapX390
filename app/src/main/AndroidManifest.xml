@@ -16,9 +16,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
         android:name=".application.MapXApplication"
-            android:allowBackup="true"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -36,45 +38,46 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="soen390.mapx.model" />
 
-        <!--Splash Screen Activity-->
+        <!-- Splash Screen Activity -->
         <activity
             android:name=".activity.SplashScreenActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <!--initLangActivity Activity-->
+        <!-- initLangActivity Activity -->
         <activity
             android:name=".activity.InitLanguageActivity"
-            android:label="@string/app_name"
             android:configChanges="orientation"
+            android:label="@string/app_name"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <!--Main Activity-->
+        <!-- Main Activity -->
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask">
-
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
+        <!-- Full Screen Activity for Images -->
         <activity
             android:name=".activity.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme"/>
+            android:theme="@style/FullscreenTheme" />
 
+        <!-- Media Player Screen Activity -->
         <activity
             android:name=".activity.MediaPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

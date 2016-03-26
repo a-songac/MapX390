@@ -26,13 +26,14 @@ public class DbContentManager {
     /**
      * Init database content in first use
      */
-    public static void initDatabaseContent() {
+    public static void initDatabaseContent(JsonElement root) {
 
 
 
         if (true || !PreferenceHelper.getInstance().isDbInitPreference()) {//TODO TEMP reparse
 
-            JsonElement root = DummyData.loadJSON(); //TODO temp
+            if (root ==null)
+                root = DummyData.loadJSON(); //TODO temp
 
             if (null != root) {
                 clearDb(); //TODO temp

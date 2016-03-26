@@ -14,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.application.MapXApplication;
@@ -31,27 +30,26 @@ public class DummyData {
      */
     public static JsonElement loadJSON() {
         JsonParser jsonParser = new JsonParser();
+        JsonElement json = null;
 
         AssetManager assetManager = MapXApplication.getGlobalContext().getAssets();
         try {
 
             InputStream input = assetManager.open("dummyData.json");
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
-            return jsonParser.parse(br).getAsJsonObject();
+            json = jsonParser.parse(br).getAsJsonObject();
+
+            input.close();
+            br.close();
 
         } catch (IOException e) {
             LogUtils.error(DummyData.class, "loadJSON", Log.getStackTraceString(e));
         }
 
-        return null;
+
+        return json;
 
     }
-
-    public static String[] dummyImages() {
-        String[] imagesPathsDummy = {"old_radio", "moeb_logo", "gramophone_victrola"};
-        return imagesPathsDummy;
-    }
-
 
     public static JSONArray dummyMedia() {
         JSONArray poiArr = new JSONArray();
