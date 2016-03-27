@@ -57,6 +57,9 @@ public class Node extends SugarRecord {
     private Long iBeaconId;
     private Long qrId;
 
+    @Ignore
+    private Description description = null;
+
     /**
      * Default constructor
      */
@@ -90,24 +93,30 @@ public class Node extends SugarRecord {
      */
     private String getDescription(boolean isTitle) {
 
-        Description ndDesc =
-                Description.getDescription(
-                        PreferenceHelper.getInstance().getLanguagePreference(),
-                        Description.POI_DESC,
-                        this.getId()
-                        );
+        if (null == description || !description.getLanguage().equals(PreferenceHelper.getInstance().getLanguagePreference())) {
+            Description ndDesc =
+                    Description.getDescription(
+                            PreferenceHelper.getInstance().getLanguagePreference(),
+                            Description.POI_DESC,
+                            this.getId()
+                    );
 
-        if (null != ndDesc) {
-            return isTitle? ndDesc.getTitle(): ndDesc.getDescription();
-        }
+            description = ndDesc;
 
-        ndDesc = Description.getDescription(
+            if (null == description) {
+
+                ndDesc = Description.getDescription(
                         ConstantsHelper.PREF_LANGUAGE_ENGLISH,
                         Description.POI_DESC,
                         this.getId()
                 );
-        if (null != ndDesc)
-            return isTitle? ndDesc.getTitle(): ndDesc.getDescription();
+
+                description = ndDesc;
+            }
+        }
+
+        if (null != description)
+            return isTitle? description.getTitle(): description.getDescription();
 
         return null;
 
