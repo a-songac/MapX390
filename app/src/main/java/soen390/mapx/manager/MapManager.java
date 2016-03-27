@@ -92,6 +92,8 @@ public class MapManager {
 
     public static ArrayList<Integer> getCurrentPath(){ return currentPath; }
 
+    public static Node getNextPoiCheckpointInPath() {return nextPoiCheckpointInPath; }
+
     /**
      * Launch the storyline mode
      * @param storylineId
@@ -360,7 +362,7 @@ public class MapManager {
      * @return
      */
     private static boolean isComingBackOnRightPath() {
-        for (int i = 0; i < nextPoiCheckpointPositionInPath; i++) {
+        for (int i = 1; i < nextPoiCheckpointPositionInPath; i++) { //ignore index 0 because it is former current position
             if (getLastNodeOrInitial().getId() == (long)currentPath.get(i)) {
                 return true;
             }
@@ -374,26 +376,34 @@ public class MapManager {
      * @param poi
      */
     public static void reachPOI(Node poi) {
-        lastNode = poi;
-        if (navigationMode || storylineMode) {
 
-            if (poi.getId().equals(currentNodeDestination.getId())) {
+        if (!lastNode.getId().equals(poi.getId())) {
 
-                resetState();
+            lastNode = poi;
 
-            } else if (poi.getId().equals(nextPoiCheckpointInPath.getId())) {
+            if (navigationMode || storylineMode) {
 
-                updatePath();
+                if (poi.getId().equals(currentNodeDestination.getId())) {
 
-            } else {
-                if (navigationMode)
-                    computePath();
-                else
-                    adjustPathStoryline();
+                    if (storylineMode && !currentNodeDestination.getId().equals(nextPoiCheckpointInPath.getId()))
+                        adjustPathStoryline();
+                    else
+                        resetState();
+
+                } else if (poi.getId().equals(nextPoiCheckpointInPath.getId())) {
+
+                    updatePath();
+
+                } else {
+                    if (navigationMode)
+                        computePath();
+                    else
+                        adjustPathStoryline();
+                }
             }
-        }
 
-        MapJSBridge.getInstance().reachedNode(poi.getId());
+            MapJSBridge.getInstance().reachedNode(poi.getId());
+        }
     }
 
     /**
