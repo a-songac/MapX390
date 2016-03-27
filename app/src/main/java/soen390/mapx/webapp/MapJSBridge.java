@@ -93,4 +93,16 @@ public class MapJSBridge {
             }
         });
     }
+
+    /**
+     * Switch to the floor on which the user is if necessary
+     */
+    public void changeToPOIFloor(String nodeId){
+        final String nodeID = nodeId;
+        webView.post(new Runnable() {
+            public void run() {
+                webView.evaluateJavascript("controller.changeToPOIFloor(" + nodeID + ")", null);
+            }
+        });
+    }
 }
