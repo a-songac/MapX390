@@ -38,6 +38,8 @@ public class MapManager {
     private static String currentFloor = null;
     private static String zoomLevel = null;
     private static String[] currentView = new String[2];
+    private static boolean pendingStorylineStart = false;
+    private static Long pendingStorylineId = null;
 
     public static boolean isStorylineMode() { return storylineMode; }
 
@@ -136,7 +138,7 @@ public class MapManager {
      * Start a storyline, but verify first the user is at starting point
      * @param storyline
      */
-    private static void launchStorylineStartingPointCheck(Storyline storyline) {
+    private static void launchStorylineStartingPointCheck(final Storyline storyline) {
 
         Context context = MapXApplication.getGlobalContext();
 
@@ -149,6 +151,8 @@ public class MapManager {
                 @Override
                 public void onPositiveResponse() {
                     launchNavigation(INITIAL_POI_ID);
+                    pendingStorylineId = storyline.getId();
+                    pendingStorylineStart = true;
                 }
 
                 @Override
@@ -387,8 +391,17 @@ public class MapManager {
 
                     if (storylineMode && !currentNodeDestination.getId().equals(nextPoiCheckpointInPath.getId()))
                         adjustPathStoryline();
-                    else
+                    else {
+
                         resetState();
+
+                        if (pendingStorylineStart && lastNode.getId() == INITIAL_POI_ID) {
+
+                            launchStoryline(pendingStorylineId);
+                            pendingStorylineStart = false;
+                            pendingStorylineId = null;
+                        }
+                    }
 
                 } else if (poi.getId().equals(nextPoiCheckpointInPath.getId())) {
 
