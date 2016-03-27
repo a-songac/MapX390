@@ -167,7 +167,7 @@ function POIManager(){
 	};
 
 	this.clickPOI = function(poiID){
-		console.log('poiManager.clickPOI()');
+		console.log('poiManager.clickPOI() - poiID: ' + poiID);
 		for(var i = 0; i < poiElements.length; i++){
 			var marker = poiElements[i];
 

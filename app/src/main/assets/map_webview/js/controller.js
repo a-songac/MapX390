@@ -77,6 +77,7 @@ function Controller(){
 			this.startNavigation();
 		}
 
+		console.log('Webview initialized');
 		Android.initialized();
 	};
 
@@ -130,6 +131,25 @@ function Controller(){
 		//if(Android.isInStorylineMode()){
 			this.poiManager.clickPOI(Android.getUserPosition());
 		//}
+	};
+
+	/* Called by Android to display floor and view of specific POI */
+	this.changeToPOIFloor = function(poiID){
+		console.log("controller.changeToPOIFloor - poiID: " + poiID);
+		var poisJSON = this.poiManager.getPOISJSON();
+		var floor;
+
+		for(var i = 0; i < poisJSON.length; i++){
+			var poi = poisJSON[i];
+
+			if(parseInt(poi["_id"]) == parseInt(poiID)){
+				floor = parseInt(poi["floor"]);
+				break;
+			}
+		}
+
+		this.floorManager.clickFloor(floor);
+		this.poiManager.clickPOI(poiID);
 	};
 }
 
