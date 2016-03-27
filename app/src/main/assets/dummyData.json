@@ -64,9 +64,9 @@
 		"floorID": "2",
 		"iBeacon":
 		{
-		  "uuid": "<TODO>",
-		  "major": "0",
-		  "minor": "0"
+		  "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
+		  "major": "32424",
+		  "minor": "62674"
 		},
 		"media":
 		{
@@ -191,9 +191,9 @@
 		"floorID": "2",
 		"iBeacon":
 		{
-		  "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
-		  "major": "32424",
-		  "minor": "62674"
+		  "uuid": "0",
+		  "major": "0",
+		  "minor": "0"
 		},
 		"media":
 		{
