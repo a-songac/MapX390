@@ -18,6 +18,7 @@ import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.manager.NodeManager;
 import soen390.mapx.model.Node;
 import soen390.mapx.ui.adapter.POISearchListAdapter;
+import soen390.mapx.webapp.MapJSBridge;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,7 +60,7 @@ public class POIsListFragment extends ListFragment {
         NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
         Node node = POISearchListAdapter.class.cast(getListAdapter()).getItem(position);
         UiUtils.displayToast("Show poi on map: " + node.getId());
-        //TODO show poi in map
+        MapJSBridge.getInstance().changeToPOIFloor(node.getId().toString());
 
     }
 
