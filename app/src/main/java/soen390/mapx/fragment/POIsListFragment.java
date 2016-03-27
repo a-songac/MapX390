@@ -1,18 +1,21 @@
 package soen390.mapx.fragment;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import soen390.mapx.POISearchTextWatcher;
 import soen390.mapx.R;
-import soen390.mapx.UiUtils;
+import soen390.mapx.application.MapXApplication;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.manager.NodeManager;
@@ -51,6 +54,14 @@ public class POIsListFragment extends ListFragment {
                 .getActionBar().getCustomView().findViewById(R.id.poi_search_edit_text);
         searchEditText.addTextChangedListener(new POISearchTextWatcher(listAdapter));
 
+        searchEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus)
+                    hideKeyboardFrom(MapXApplication.getGlobalContext(), v);
+            }
+        });
+
     }
 
     @Override
@@ -61,6 +72,16 @@ public class POIsListFragment extends ListFragment {
         Node node = POISearchListAdapter.class.cast(getListAdapter()).getItem(position);
         MapJSBridge.getInstance().changeToPOIFloor(node.getId().toString());
 
+    }
+
+    /**
+     * Hide soft keyboard
+     * @param context
+     * @param view
+     */
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
 }
