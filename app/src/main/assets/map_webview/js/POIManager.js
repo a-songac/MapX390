@@ -41,7 +41,7 @@ function POIManager(){
 
 			var poi = poisJSON[i];
 			if(parseInt(currentFloor) === parseInt(poi["floor"]) && poi["type"] != "t"){
-				var popupContent 
+				var popupContent; 
 
 				if(parseInt(poi["_id"]) == parseInt(Android.getUserPosition())){
 					popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p>";
