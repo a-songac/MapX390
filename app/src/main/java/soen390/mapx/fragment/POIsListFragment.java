@@ -59,7 +59,6 @@ public class POIsListFragment extends ListFragment {
 
         NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
         Node node = POISearchListAdapter.class.cast(getListAdapter()).getItem(position);
-        UiUtils.displayToast("Show poi on map: " + node.getId());
         MapJSBridge.getInstance().changeToPOIFloor(node.getId().toString());
 
     }
