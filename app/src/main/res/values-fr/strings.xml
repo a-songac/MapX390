@@ -35,6 +35,7 @@
     <!-- POI -->
     <string name="poi_selected_as_destination">En destination vers l\'exposition %1$s</string>
     <string name="poi_leave_navigation">Quitter la navigation</string>
+    <string name="search_text_view_placeholder">Entez un nom</string>
 
     <!-- Storylines -->
     <string name="storyline_list_item_start">DÉBUTER LE TOUR</string>

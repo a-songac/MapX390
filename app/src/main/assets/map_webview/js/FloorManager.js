@@ -124,6 +124,7 @@ function FloorManager(){
 	};
 
 	this.clickFloor = function(floor){
+		console.log("floorManager.clickFloor() - floor: " + floor);
 		for(var i = 0; i < floorButtons.length; i++){
 			var floorBtn = floorButtons[i];
 
