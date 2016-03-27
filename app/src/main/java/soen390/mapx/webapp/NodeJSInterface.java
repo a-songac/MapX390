@@ -282,6 +282,21 @@ public class NodeJSInterface {
     }
 
     /**
+     * Get id of next POI to visit in a storyline tour
+     * @return
+     */
+    @JavascriptInterface
+    public String getNextPOIInStoryline() {
+        Node nextPOI = MapManager.getNextPoiCheckpointInPath();
+
+        if (null != nextPOI) {
+            return String.valueOf(nextPOI.getId());
+        }
+
+        return null;
+    }
+
+    /**
      * Given a list of POIs build a JSON corresponding to it
      * @param nodes List of POIs
      * @return JSON corresponding to the lsit of POIs
