@@ -29,7 +29,6 @@ import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
-import soen390.mapx.helper.NotificationHelper;
 import soen390.mapx.helper.PreferenceHelper;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Node;
@@ -137,9 +136,8 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToSettingsFragment(false);
 
         } else if (id == R.id.nav_help_feedback) {
-            //TODO Temporary, for testing purposes
-            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(2));
-            MapManager.reachPOI(Node.listAll(Node.class).get(2));
+            //TODO
+
         } else if (id == R.id.nav_poi_beacon_stub)  {
             AlertDialogHelper.showPOIBeaconStubDialog();
         }

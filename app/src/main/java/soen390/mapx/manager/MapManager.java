@@ -38,6 +38,8 @@ public class MapManager {
     private static String currentFloor = null;
     private static String zoomLevel = null;
     private static String[] currentView = new String[2];
+    private static boolean pendingStorylineStart = false;
+    private static Storyline pendingStoryline = null;
 
     public static boolean isStorylineMode() { return storylineMode; }
 
@@ -100,6 +102,9 @@ public class MapManager {
      */
     public static void launchStoryline(Long storylineId) {
 
+        pendingStorylineStart = false;
+        pendingStoryline = null;
+
         final Storyline storyline = Storyline.findById(Storyline.class, storylineId);
 
         Context context = MapXApplication.getGlobalContext();
@@ -136,7 +141,7 @@ public class MapManager {
      * Start a storyline, but verify first the user is at starting point
      * @param storyline
      */
-    private static void launchStorylineStartingPointCheck(Storyline storyline) {
+    private static void launchStorylineStartingPointCheck(final Storyline storyline) {
 
         Context context = MapXApplication.getGlobalContext();
 
@@ -149,6 +154,8 @@ public class MapManager {
                 @Override
                 public void onPositiveResponse() {
                     launchNavigation(INITIAL_POI_ID);
+                    pendingStoryline = storyline;
+                    pendingStorylineStart = true;
                 }
 
                 @Override
@@ -387,8 +394,14 @@ public class MapManager {
 
                     if (storylineMode && !currentNodeDestination.getId().equals(nextPoiCheckpointInPath.getId()))
                         adjustPathStoryline();
-                    else
+                    else {
+
                         resetState();
+
+                        if (pendingStorylineStart && lastNode.getId() == INITIAL_POI_ID)
+                            startPendingStoryline();
+
+                    }
 
                 } else if (poi.getId().equals(nextPoiCheckpointInPath.getId())) {
 
@@ -404,6 +417,32 @@ public class MapManager {
 
             MapJSBridge.getInstance().reachedNode(poi.getId());
         }
+    }
+
+    /**
+     * Start a pending storyline (when the user was not a the starting point when starting it)
+     */
+    public static void startPendingStoryline() {
+
+        Context context = MapXApplication.getGlobalContext();
+
+        AlertDialogHelper.showAlertDialog(context.getString(
+                        R.string.storyline_start_pending),
+                context.getString(
+                        R.string.storyline_start_pending_message,
+                        pendingStoryline.getTitle()),
+                new IDialogResponseCallBack() {
+                    @Override
+                    public void onPositiveResponse() {
+                        MapManager.launchStoryline(pendingStoryline.getId());
+                    }
+
+                    @Override
+                    public void onNegativeResponse() {
+                        pendingStorylineStart = false;
+                        pendingStoryline = null;
+                    }
+                });
     }
 
     /**
