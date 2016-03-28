@@ -27,7 +27,7 @@ public class POISearchTextWatcher implements TextWatcher{
 
     @Override
     public void afterTextChanged(Editable s) {
-        listAdapter.getFilter().filter(s.toString().toLowerCase());
+        listAdapter.getFilter().filter(s.toString());
     }
 
 }

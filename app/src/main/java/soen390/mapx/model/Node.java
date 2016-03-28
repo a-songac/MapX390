@@ -58,7 +58,7 @@ public class Node extends SugarRecord implements Comparable<Node> {
     private Long qrId;
 
     @Ignore
-    private Description description;
+    private Description description = null;
 
     /**
      * Default constructor
@@ -93,34 +93,26 @@ public class Node extends SugarRecord implements Comparable<Node> {
      */
     private String getDescription(boolean isTitle) {
 
-        if (null == description || description.getLanguage().equals(PreferenceHelper.getInstance().getLanguagePreference())) {
-            Description ndDesc =
+        if (null == description || !description.getLanguage().equals(PreferenceHelper.getInstance().getLanguagePreference())) {
+            description =
                     Description.getDescription(
                             PreferenceHelper.getInstance().getLanguagePreference(),
                             Description.POI_DESC,
                             this.getId()
                     );
 
-            description = ndDesc;
+            if (null == description) {
 
-            if (null != ndDesc) {
-                return isTitle ? ndDesc.getTitle() : ndDesc.getDescription();
+                description = Description.getDescription(
+                        ConstantsHelper.PREF_LANGUAGE_ENGLISH,
+                        Description.POI_DESC,
+                        this.getId()
+                );
             }
-
-            ndDesc = Description.getDescription(
-                    ConstantsHelper.PREF_LANGUAGE_ENGLISH,
-                    Description.POI_DESC,
-                    this.getId()
-            );
-
-            description = ndDesc;
-
-            if (null != ndDesc)
-                return isTitle ? ndDesc.getTitle() : ndDesc.getDescription();
-
-        } else {
-            return isTitle ? description.getTitle() : description.getDescription();
         }
+
+        if (null != description)
+            return isTitle? description.getTitle(): description.getDescription();
 
         return null;
 

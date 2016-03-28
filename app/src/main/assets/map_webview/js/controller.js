@@ -120,7 +120,8 @@ function Controller(){
 		if(Android.isInMode()){
 			this.pathManager.updatePath();
 		}
-
+		
+		this.poiManager.changePopupContent();
 		this.poiManager.clickPOI(Android.getUserPosition());
 	};
 

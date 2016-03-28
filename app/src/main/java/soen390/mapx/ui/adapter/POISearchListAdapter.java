@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,12 +83,12 @@ public class POISearchListAdapter extends ArrayAdapter<Node> implements Filterab
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
-            String filterString = constraint.toString().toLowerCase();
+            String filterString = removeAccents(constraint.toString().toLowerCase().trim());
 
             tempList = new ArrayList<>();
 
             for (Node node : fullList) {
-                if (node.getTitle().toLowerCase().contains(filterString)) {
+                if (removeAccents(node.getTitle().toLowerCase()).contains(filterString)) {
                     tempList.add(node);
                 }
             }
@@ -105,6 +106,18 @@ public class POISearchListAdapter extends ArrayAdapter<Node> implements Filterab
             filteredList = (List<Node>)results.values;
             notifyDataSetChanged();
         }
+    }
+
+    /**
+     * Remove accents from texts
+     * @param text
+     * @return
+     */
+    public static String removeAccents(String text) {
+        return text == null ?
+                null :
+                Normalizer.normalize(text, Normalizer.Form.NFD)
+                    .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
 
 
