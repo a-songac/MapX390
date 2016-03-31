@@ -18,6 +18,7 @@ public class ConstantsHelper {
     public static final String MEDIA_PAGER_POI_ID = "media_pager_poi_id";
     public static final String IMAGE_FULL_FRAGMENT_PATH = "image_full_fragment_path";
     public static final String IMAGE_FULL_FRAGMENT_CAPTION = "image_full_fragment_caption";
+    public static final String POIS_SEARCH_LIST_FRAGMENT_TAG = "pois_search_list_fragment_tag";
 
     /**
      * Preferences

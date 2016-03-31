@@ -4,6 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="welcome">Bienvenue/Welcome</string>
+    <string name="quit">Quit</string>
+    <string name="quit_message">Do you really want to quit?</string>
+
 
     <string name="action_settings">Settings</string>
 
@@ -20,6 +23,7 @@
     <string name="navigation_drawer_qr_scanner">QR Scanner</string>
     <string name="navigation_drawer_settings">Settings</string>
     <string name="navigation_drawer_help_feedback">Help &amp; Feedback</string>
+    <string name="navigation_drawer_beacon_stub">POI Beacon Stub</string>
 
     <!-- action bar -->
     <string name="action_bar_search">Search Museum</string>
@@ -34,6 +38,7 @@
     <!-- POI -->
     <string name="poi_selected_as_destination">Selected exhibition point %1$s as destination</string>
     <string name="poi_leave_navigation">Leave Navigation</string>
+    <string name="search_text_view_placeholder">Enter POI Name</string>
 
     <!-- Storylines -->
     <string name="storyline_list_item_start">START STORYLINE</string>
@@ -43,6 +48,10 @@
     <string name="storyline_change">New Storyline</string>
     <string name="storyline_change_message_sl">Do you want to leave the current storyline for the newly selected one: %1$s?</string>
     <string name="storyline_change_message_poi">Do you want to leave the current navigation for this storyline: %1$s?</string>
+    <string name="storyline_go_to_starting_point">Starting Point</string>
+    <string name="storyline_go_to_starting_point_message">To start a storyline, you must be at the starting point (info center).  Do you want to launch the navigation towards the starting point?</string>
+    <string name="storyline_start_pending">Start Stoyline</string>
+    <string name="storyline_start_pending_message">Do you want to start the previously selected storyline: %1$s?</string>
 
     <!-- Navigation -->
     <string name="navigation_leave">Leave Navigation</string>
@@ -50,6 +59,8 @@
     <string name="navigation_change">New Destination</string>
     <string name="navigation_change_message_sl">Do you want to leave the current storyline for the newly selected point of interest: %1$s?</string>
     <string name="navigation_change_message_poi">Do you want to leave the current navigation for the newly selected one: %1$s?</string>
+    <string name="navigation_already_at_poi">Your last position corresponds to the chosen destination.</string>
+
 
 
     <!-- Web Client strings -->

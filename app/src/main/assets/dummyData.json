@@ -41,11 +41,11 @@
         [
           {
             "language": "en",
-            "title": "Generic Title 1"
+            "title": "Info Center"
           },
           {
             "language": "fr",
-            "title": "Titre Generique 1"
+            "title": "Centre d'information"
           }
         ],
         "description":
@@ -64,9 +64,9 @@
         "floorID": "2",
         "iBeacon":
         {
-          "uuid": "<TODO>",
-          "major": "0",
-          "minor": "0"
+          "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
+          "major": "32424",
+          "minor": "62674"
         },
         "media":
         {
@@ -93,7 +93,7 @@
             {
               "path": "moeb_point1",
               "language": "en",
-              "caption": "Nipper"
+              "caption": "Video 1"
             }
           ],
           "audio":
@@ -191,9 +191,9 @@
         "floorID": "2",
         "iBeacon":
         {
-          "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
-          "major": "32424",
-          "minor": "62674"
+          "uuid": "0",
+          "major": "0",
+          "minor": "0"
         },
         "media":
         {
@@ -210,7 +210,7 @@
             {
               "path": "moeb_point2",
               "language": "en",
-              "caption": "Title 2"
+              "caption": "Video 2"
             }
           ],
           "audio":
@@ -325,17 +325,17 @@
           "video":
           [
             {
-              "path": "<TODO>",
-              "language": "<TODO>",
-              "caption": "<TODO>"
+              "path": "moeb_point4",
+              "language": "en",
+              "caption": "Video 4"
             }
           ],
           "audio":
           [
             {
-              "path": "moeb_point3",
-              "language": "en",
-              "caption": "Title 3"
+              "path": "<TODO>",
+              "language": "<TODO>",
+              "caption": "<TODO>"
             }
           ]
         },

@@ -188,7 +188,7 @@ public class NodeJSInterface {
     @JavascriptInterface
     public String getUserPosition() {
 
-        Node lastNode = MapManager.getLastNode();
+        Node lastNode = MapManager.getLastNodeOrInitial();
 
         if (null != lastNode) {
             return String.valueOf(lastNode.getId());
@@ -204,7 +204,7 @@ public class NodeJSInterface {
     @JavascriptInterface
     public void viewInfo(String poiID) {
         LogUtils.info(NodeJSInterface.class, "viewInfo", "View info for poi " + poiID);
-        //NavigationHelper.getInstance().navigateToMediaPagerFragment(MapManager.getLastNode().getId());
+        //NavigationHelper.getInstance().navigateToMediaPagerFragment(MapManager.getLastNodeOrInitial().getId());
         NavigationHelper.getInstance().navigateToMediaPagerFragment(Long.parseLong(poiID));
     }
 
@@ -214,7 +214,7 @@ public class NodeJSInterface {
      */
     @JavascriptInterface
     public String getCurrentPOIFloor() {
-        Node lastNode = MapManager.getLastNode();
+        Node lastNode = MapManager.getLastNodeOrInitial();
         if (null != lastNode) {
             return lastNode.getFloorId();
         }
@@ -279,6 +279,21 @@ public class NodeJSInterface {
     @JavascriptInterface
     public void setCurrentFloor(String floor){
         MapManager.setCurrentFloor(floor);
+    }
+
+    /**
+     * Get id of next POI to visit in a storyline tour
+     * @return
+     */
+    @JavascriptInterface
+    public String getNextPOIInStoryline() {
+        Node nextPOI = MapManager.getNextPoiCheckpointInPath();
+
+        if (null != nextPOI) {
+            return String.valueOf(nextPOI.getId());
+        }
+
+        return null;
     }
 
     /**

@@ -33,10 +33,8 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
-            int position = extras.getInt(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY);
-            Long poiId = extras.getLong(ConstantsHelper.POI_ID_INTENT_EXTRA_KEY);
-            Node poi = Node.findById(Node.class, poiId);
-            initVideoPlayer(position, poi);
+            Long mediaId = extras.getLong(ConstantsHelper.POI_ID_INTENT_EXTRA_KEY);
+            initVideoPlayer(mediaId);
         }
     }
 
@@ -93,25 +91,16 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
     /**
      * Init video player
-     * @param position
+     * @param mediaId
      */
-    private void initVideoPlayer(int position, Node poi) {
-
-        Long storylineId = MapManager.isStorylineMode()?
-                MapManager.getCurrentStoryline().getId():
-                -1L;
-
-        //Add all media content audio + video
-        List<ExpositionContent> expositionContentList = poi.getContent(storylineId, ExpositionContent.VIDEO_TYPE);
-        expositionContentList.addAll(poi.getContent(storylineId, ExpositionContent.AUDIO_TYPE));
-
+    private void initVideoPlayer(Long mediaId) {
         videoView = (VideoView) findViewById(R.id.videoView);
-
+        ExpositionContent expositionContent = ExpositionContent.findById(ExpositionContent.class, mediaId);
         if (videoView != null) {
             Uri uri = Uri.parse("android.resource://" + getPackageName() +
-                    "/" + getResources().getIdentifier(expositionContentList.get(position).getContent(), "raw", getPackageName()));
+                    "/" + getResources().getIdentifier(expositionContent.getContent(), "raw", getPackageName()));
 
-            setActionBar(expositionContentList.get(position).getTitle());
+            setActionBar(expositionContent.getTitle());
 
             MediaController mediaController = new MediaController(this);
             mediaController.setAnchorView(videoView);

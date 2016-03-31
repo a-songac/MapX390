@@ -11,6 +11,7 @@ import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.MapFragment;
 import soen390.mapx.fragment.MediaViewPagerFragment;
+import soen390.mapx.fragment.POIsListFragment;
 import soen390.mapx.fragment.SettingsFragment;
 import soen390.mapx.fragment.StorylineListFragment;
 import soen390.mapx.manager.MapManager;
@@ -123,9 +124,23 @@ public class NavigationHelper {
     }
 
     /**
+     * Add pois search list fragment
+     */
+    public void navigateToPOIsSearchFragment() {
+        addFragment(
+                new POIsListFragment(),
+                false,
+                true,
+                ConstantsHelper.POIS_SEARCH_LIST_FRAGMENT_TAG,
+                null
+        );
+    }
+
+    /**
      * Pop fragments in the back stack until the map fragment is reached
      */
     public void popFragmentBackStackToMapFragment() {
+
         getSupportFragmentManager().popBackStackImmediate(ConstantsHelper.MAP_FRAGMENT_BAC_KSTACK_ENTRY_NAME, 0);
         MapManager.syncActionBarStateWithCurrentMode();
     }

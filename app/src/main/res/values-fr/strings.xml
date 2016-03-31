@@ -5,6 +5,8 @@
 
     <string name="navigation_drawer_open">Ouvrir la barre de navigation</string>
     <string name="navigation_drawer_close">Fermer la barre de navigation</string>
+    <string name="quit">Quitter</string>
+    <string name="quit_message">Vouez-vous vraiment quitter?</string>
 
     <string name="action_settings">Paramètres</string>
 
@@ -33,6 +35,7 @@
     <!-- POI -->
     <string name="poi_selected_as_destination">En destination vers l\'exposition %1$s</string>
     <string name="poi_leave_navigation">Quitter la navigation</string>
+    <string name="search_text_view_placeholder">Entez un nom</string>
 
     <!-- Storylines -->
     <string name="storyline_list_item_start">DÉBUTER LE TOUR</string>
@@ -41,6 +44,10 @@
     <string name="storyline_start_toast">Le tour %1$s a débuté</string>
     <string name="storyline_change_message_poi">Voulez-vous changer la destination actuelle pour l\'histoire choisie: %1$s?</string>
     <string name="storyline_change_message_sl">Voulez-vous changer l\'histoire actuelle pour celle choisie: %1$s?</string>
+    <string name="storyline_go_to_starting_point">Point de départ</string>
+    <string name="storyline_go_to_starting_point_message">Pour débuter une histoire, vous devez être au point de départ (centre d\'information).  Voulez-vous lancer la navigation vers le point de départ?</string>
+    <string name="storyline_start_pending">Commencer l\'histoire</string>
+    <string name="storyline_start_pending_message">Voulez-vous commencer l\'histoire choisie précédemment: %1$s?</string>
 
     <!-- Navigation -->
     <string name="navigation_leave">Quiter la Destination</string>
@@ -48,6 +55,7 @@
     <string name="navigation_change">Nouvelle destination</string>
     <string name="navigation_change_message_poi">Voulez-vous changer la destination actuelle pour celle choisie: %1$s?</string>
     <string name="navigation_change_message_sl">Voulez-vous changer la destination actuelle pour l\'histoire choisie: %1$s?</string>
+    <string name="navigation_already_at_poi">Votre dernière position correspond à la destination choisie.</string>
 
     <!-- Web Client strings -->
     <string name="web_go_to_destination">Aller vers ce point</string>

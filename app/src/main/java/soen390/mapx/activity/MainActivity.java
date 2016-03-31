@@ -23,11 +23,12 @@ import java.util.Locale;
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.application.MapXApplication;
+import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
+import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
-import soen390.mapx.helper.NotificationHelper;
 import soen390.mapx.helper.PreferenceHelper;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Node;
@@ -96,7 +97,23 @@ public class MainActivity extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (NavigationHelper.getInstance().getContainerFragment().getTag().equals(ConstantsHelper.MAP_FRAGMENT_TAG)) {
+                AlertDialogHelper.showAlertDialog(
+                        getString(R.string.quit),
+                        getString(R.string.quit_message),
+                        new IDialogResponseCallBack() {
+                    @Override
+                    public void onPositiveResponse() {
+                        MainActivity.class.cast(MapXApplication.getGlobalContext()).supportFinishAfterTransition();
+                    }
+
+                    @Override
+                    public void onNegativeResponse() {}
+                });
+
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -119,9 +136,10 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToSettingsFragment(false);
 
         } else if (id == R.id.nav_help_feedback) {
-            //TODO Temporary, for testing purposes
-            NotificationHelper.getInstance().showPOIReachedNotification(Node.listAll(Node.class).get(2));
-            MapManager.reachPOI(Node.listAll(Node.class).get(2));
+            //TODO
+
+        } else if (id == R.id.nav_poi_beacon_stub)  {
+            AlertDialogHelper.showPOIBeaconStubDialog();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -135,10 +153,15 @@ public class MainActivity extends BaseActivity
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.map_in_mode_options, menu);
 
-        if (NavigationHelper.getInstance().isMapFragmentDisplayed() && (MapManager.isNavigationMode() || MapManager.isStorylineMode()))
+        if (NavigationHelper.getInstance().isMapFragmentDisplayed()) {
+            menu.getItem(1).setVisible(MapManager.isNavigationMode() || MapManager.isStorylineMode());
             menu.getItem(0).setVisible(true);
-        else
+        }
+        else {
+            menu.getItem(1).setVisible(false);
             menu.getItem(0).setVisible(false);
+
+        }
 
         return true;
     }
@@ -149,6 +172,9 @@ public class MainActivity extends BaseActivity
         switch (item.getItemId()) {
             case R.id.map_options_cancel_mode:
                 MapManager.leaveCurrentMode();
+                return true;
+            case R.id.map_options_search:
+                NavigationHelper.getInstance().navigateToPOIsSearchFragment();
                 return true;
 
             default:
@@ -275,7 +301,7 @@ public class MainActivity extends BaseActivity
                 NavigationHelper.getInstance().navigateToStorylineFragment();
                 break;
             case ConstantsHelper.MEDIA_PAGER_FRAGMENT_TAG:
-                Node lastPOI = MapManager.getLastNode();
+                Node lastPOI = MapManager.getLastNodeOrInitial();
                 Long poiID = null != lastPOI?
                         lastPOI.getId():
                         0L;

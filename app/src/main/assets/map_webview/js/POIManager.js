@@ -41,7 +41,13 @@ function POIManager(){
 
 			var poi = poisJSON[i];
 			if(parseInt(currentFloor) === parseInt(poi["floor"]) && poi["type"] != "t"){
-				var popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.poiManager.navigateToPOI(this)'>" + buttonLabel + "</button>";
+				var popupContent; 
+
+				if(parseInt(poi["_id"]) == parseInt(Android.getUserPosition())){
+					popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p>";
+				}else{
+					popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.poiManager.navigateToPOI(this)'>" + buttonLabel + "</button>";
+				}
 
 				var x = -mapWidth + (offsetX + parseInt(poi["x_coord"]));
 				var y = -mapHeight + (offsetY + parseInt(poi["y_coord"]));
@@ -89,6 +95,8 @@ function POIManager(){
 			if(Android.isInNavigationMode() || !Android.isInMode()){
 				if(parseInt(marker.poiID) == parseInt(sourcePOI) || parseInt(marker.poiID) == parseInt(destinationPOI)){
 					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
+				}else if(parseInt(marker.poiID) == parseInt(Android.getUserPosition())){
+					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p>";
 				}else{
 					popupContent = "<p id='mapx-poi-title'>"+ marker.poiTitle +"</p><button id='mapx-poi-button' data-poi-title='"+  marker.poiTitle +"' data-poi-id='"+  marker.poiID +"' " + javascriptMethod + ">" + buttonLabel + "</button>";
 				}
@@ -127,30 +135,30 @@ function POIManager(){
 
 	this.getNextPOI = function(){
 		var nodeId;
-		var nextPOI;
-		var path = controller.pathManager.getPath();
-
-		for(var i = 1; i < path.length; i++){
-			nodeId = path[i];
-
-			for(var o = 0; o < poisJSON.length; o++){
-				var poi = poisJSON[o];
-
-				if(parseInt(poi["_id"]) == parseInt(nodeId)){
-					if(poi["type"] != "t"){
-						nextPOI = nodeId;
-					}else{
-						break;
-					}
-				}
-			}
-
-			if(!nextPOI){
-				continue;
-			}else{
-				break;
-			}
-		}
+		var nextPOI = Android.getNextPOIInStoryline();
+//		var path = controller.pathManager.getPath();
+//
+//		for(var i = 1; i < path.length; i++){
+//			nodeId = path[i];
+//
+//			for(var o = 0; o < poisJSON.length; o++){
+//				var poi = poisJSON[o];
+//
+//				if(parseInt(poi["_id"]) == parseInt(nodeId)){
+//					if(poi["type"] != "t"){
+//						nextPOI = nodeId;
+//					}else{
+//						break;
+//					}
+//				}
+//			}
+//
+//			if(!nextPOI){
+//				continue;
+//			}else{
+//				break;
+//			}
+//		}
 
 		return nextPOI;
 	};
@@ -167,7 +175,7 @@ function POIManager(){
 	};
 
 	this.clickPOI = function(poiID){
-		console.log('poiManager.clickPOI()');
+		console.log('poiManager.clickPOI() - poiID: ' + poiID);
 		for(var i = 0; i < poiElements.length; i++){
 			var marker = poiElements[i];
 

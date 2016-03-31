@@ -88,13 +88,12 @@ public class POIMediaFragment extends ListFragment implements IBaseFragment {
         super.onListItemClick(l, v, position, id);
 
         Intent intent = new Intent(getContext(), MediaPlayerActivity.class);
-
         Bundle args = getArguments();
         if (args != null) {
             intent.putExtra(ConstantsHelper.POI_ID_INTENT_EXTRA_KEY, args.getLong(ConstantsHelper.MEDIA_PAGER_POI_ID, 0L));
         }
 
-        intent.putExtra(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY, position);
+        intent.putExtra(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY, ((ExpositionContent) l.getAdapter().getItem(position)).getId());
         startActivity(intent);
 
         fullyShowHalfHiddenItem(position);

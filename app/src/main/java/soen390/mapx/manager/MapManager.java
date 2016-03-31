@@ -3,6 +3,7 @@ package soen390.mapx.manager;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import soen390.mapx.R;
 import soen390.mapx.UiUtils;
@@ -24,15 +25,21 @@ import soen390.mapx.webapp.MapJSBridge;
  */
 public class MapManager {
 
+    private static final long INITIAL_POI_ID = 0L;
+
     private static boolean storylineMode = false;
     private static boolean  navigationMode = false;
-    private static Node lastNode = null; //TODO set initial POI as museum info center maybe
+    private static Node lastNode = null;
     private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
     private static ArrayList<Integer> currentPath = null;
+    private static int nextPoiCheckpointPositionInPath = -1;
+    private static Node nextPoiCheckpointInPath = null;
     private static String currentFloor = null;
     private static String zoomLevel = null;
     private static String[] currentView = new String[2];
+    private static boolean pendingStorylineStart = false;
+    private static Storyline pendingStoryline = null;
 
     public static boolean isStorylineMode() { return storylineMode; }
 
@@ -78,20 +85,25 @@ public class MapManager {
         currentFloor = cFloor;
     }
 
-    public static Node getLastNode(){
+    public static Node getLastNodeOrInitial(){
         if (null == lastNode) {
-            return Node.findById(Node.class, 0);
+            lastNode = Node.findById(Node.class, INITIAL_POI_ID);
         }
         return lastNode;
     }
 
     public static ArrayList<Integer> getCurrentPath(){ return currentPath; }
 
+    public static Node getNextPoiCheckpointInPath() {return nextPoiCheckpointInPath; }
+
     /**
      * Launch the storyline mode
      * @param storylineId
      */
     public static void launchStoryline(Long storylineId) {
+
+        pendingStorylineStart = false;
+        pendingStoryline = null;
 
         final Storyline storyline = Storyline.findById(Storyline.class, storylineId);
 
@@ -111,7 +123,7 @@ public class MapManager {
                         public void onPositiveResponse() {
                             //MapJSBridge.getInstance().leaveNavigation();
                             resetState();
-                            launchStoryline(storyline);
+                            launchStorylineStartingPointCheck(storyline);
                         }
 
                         @Override
@@ -120,7 +132,39 @@ public class MapManager {
                         }
                     });
         } else {
-            launchStoryline(storyline);
+            launchStorylineStartingPointCheck(storyline);
+        }
+
+    }
+
+    /**
+     * Start a storyline, but verify first the user is at starting point
+     * @param storyline
+     */
+    private static void launchStorylineStartingPointCheck(final Storyline storyline) {
+
+        Context context = MapXApplication.getGlobalContext();
+
+        if (INITIAL_POI_ID != getLastNodeOrInitial().getId()) {
+
+            AlertDialogHelper.showAlertDialog(
+                    context.getString(R.string.storyline_go_to_starting_point),
+                    context.getString(R.string.storyline_go_to_starting_point_message),
+                    new IDialogResponseCallBack() {
+                @Override
+                public void onPositiveResponse() {
+                    launchNavigation(INITIAL_POI_ID);
+                    pendingStoryline = storyline;
+                    pendingStorylineStart = true;
+                }
+
+                @Override
+                public void onNegativeResponse() {
+
+                }
+            });
+        } else {
+            launchStorylineHelper(storyline);
         }
 
     }
@@ -129,7 +173,7 @@ public class MapManager {
      * Launch Storyline helper
      * @param storyline
      */
-    private static void launchStoryline(Storyline storyline) {
+    private static void launchStorylineHelper(Storyline storyline) {
 
         if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
 
@@ -142,6 +186,8 @@ public class MapManager {
         currentStoryline = storyline;
 
         currentPath = storyline.getPath();
+        establishNextPoiCheckpoint();
+        currentNodeDestination = Node.findById(Node.class,currentPath.get(currentPath.size()-1));
 
         syncActionBarStateWithCurrentMode();
 
@@ -160,40 +206,47 @@ public class MapManager {
      */
     public static void launchNavigation(Long poiId) {
 
-        final Node newNode = Node.findById(Node.class, poiId);
+        if (poiId.equals(getLastNodeOrInitial().getId())) {
 
-        final Context context = MapXApplication.getGlobalContext();
+            UiUtils.displayToastLong(MapXApplication.getGlobalContext().getString(R.string.navigation_already_at_poi));
 
-        if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
-
-            NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
-
-        }
-
-        if (navigationMode || storylineMode) {
-
-            int messageId = navigationMode?
-                    R.string.navigation_change_message_poi:
-                    R.string.navigation_change_message_sl;
-
-            AlertDialogHelper.showAlertDialog(
-                    context.getString(R.string.navigation_change),
-                    context.getString(messageId, newNode.getTitle()),
-                    new IDialogResponseCallBack() {
-                        @Override
-                        public void onPositiveResponse() {
-                            //MapJSBridge.getInstance().leaveNavigation();
-                            resetState();
-                            launchNavigation(newNode, context);
-                        }
-
-                        @Override
-                        public void onNegativeResponse() {
-
-                        }
-                    });
         } else {
-            launchNavigation(newNode, context);
+
+            final Node newNode = Node.findById(Node.class, poiId);
+
+            final Context context = MapXApplication.getGlobalContext();
+
+            if (!NavigationHelper.getInstance().isMapFragmentDisplayed()) {
+
+                NavigationHelper.getInstance().popFragmentBackStackToMapFragment();
+
+            }
+
+            if (navigationMode || storylineMode) {
+
+                int messageId = navigationMode ?
+                        R.string.navigation_change_message_poi :
+                        R.string.navigation_change_message_sl;
+
+                AlertDialogHelper.showAlertDialog(
+                        context.getString(R.string.navigation_change),
+                        context.getString(messageId, newNode.getTitle()),
+                        new IDialogResponseCallBack() {
+                            @Override
+                            public void onPositiveResponse() {
+                                //MapJSBridge.getInstance().leaveNavigation();
+                                resetState();
+                                launchNavigation(newNode, context);
+                            }
+
+                            @Override
+                            public void onNegativeResponse() {
+
+                            }
+                        });
+            } else {
+                launchNavigation(newNode, context);
+            }
         }
 
     }
@@ -210,13 +263,7 @@ public class MapManager {
 
         syncActionBarStateWithCurrentMode();
 
-        if(MapManager.getLastNode() == null){
-            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), 0);
-            currentPath = PathFinder.getShortestPath(pathTree,0, newNode.getId().intValue());
-        }else{
-            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNode().getId());
-            currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNode().getId().intValue(), newNode.getId().intValue());
-        }
+        computePath();
 
         MapJSBridge.getInstance().drawPath();
 
@@ -226,14 +273,176 @@ public class MapManager {
 
     }
 
+    /**
+     * Establish the position in the path where the next POI checkpoint is.
+     * This checkpoint corresponds to a POI that will be detected (ibeacon) as the user progresses but
+     * that is not the final destination.
+     *
+     * Keep track of the position of this poi in the path list, plus keep track of the id of the poi node
+     *
+     */
+    private static void establishNextPoiCheckpoint() {
+        Node node;
+        for (int i = 1; i < currentPath.size(); i++) {
+            node = Node.findById(Node.class,currentPath.get(i));
+            if (node.isPointOfInterest()) {
+                nextPoiCheckpointInPath = node;
+                nextPoiCheckpointPositionInPath = i;
+                break;
+            }
+        }
+
+    }
+
+    /**
+     * Update path as the user progresses on the right path.
+     * IOW, remove the path steps that were reached from the currentPath list and update next checkpoint
+     */
+    private static void updatePath() {
+        trimPath();
+        establishNextPoiCheckpoint();
+    }
+
+    /**
+     * Remove reached Nodes from the path so that the first node in the currentPath list is the current position
+     */
+    private static void trimPath(){
+        for (int i=0; i < nextPoiCheckpointPositionInPath; i++) {
+            currentPath.remove(0);
+        }
+    }
+
+    /**
+     * Remove reached nodes until the given poi
+     * @param poiId: poi where the user is
+     */
+    private static void trimPath(long poiId) {
+        for (int i=0; i < nextPoiCheckpointPositionInPath; i++) {
+            currentPath.remove(0);
+            if (currentPath.get(0) == poiId) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Compute path and draw it in on map
+     */
+    private static void computePath() {
+        int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNodeOrInitial().getId());
+        currentPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNodeOrInitial().getId().intValue(), currentNodeDestination.getId().intValue());
+        establishNextPoiCheckpoint();
+
+        MapJSBridge.getInstance().drawPath();
+    }
+
+    /**
+     * Adjust path of the storyline if user deviated.
+     * Add the path that will guide him back on the right track
+     */
+    private static void adjustPathStoryline() {
+
+        if (!isComingBackOnRightPath()) {
+
+            List<Integer> adjustPath;
+            int[] pathTree = PathFinder.computeShortestPath(WeightedGraph.getInstance(Edge.listAll(Edge.class), Node.count(Node.class)), MapManager.getLastNodeOrInitial().getId());
+            adjustPath = PathFinder.getShortestPath(pathTree, MapManager.getLastNodeOrInitial().getId().intValue(), nextPoiCheckpointInPath.getId().intValue());
+            adjustPath.remove(adjustPath.size() - 1);
+            trimPath();
+            currentPath.addAll(0, adjustPath);
+            for (int i=0; i < currentPath.size(); i++) {
+                if (nextPoiCheckpointInPath.getId() == (long)currentPath.get(i)) {
+                    nextPoiCheckpointPositionInPath = i;
+                    break;
+                }
+            }
+
+        } else {
+            trimPath(getLastNodeOrInitial().getId());
+        }
+
+    }
+
+    /**
+     * Given that user went wrong way while in storyline, verify if he is currently coming
+     * back towards the next POI he is supposed to visit in the storyline tour.
+     * @return
+     */
+    private static boolean isComingBackOnRightPath() {
+        for (int i = 1; i < nextPoiCheckpointPositionInPath; i++) { //ignore index 0 because it is former current position
+            if (getLastNodeOrInitial().getId() == (long)currentPath.get(i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     /**
      * Reached a POI
      * @param poi
      */
     public static void reachPOI(Node poi) {
-        lastNode = poi;
-        MapJSBridge.getInstance().reachedNode(poi.getId());
+
+        if (!lastNode.getId().equals(poi.getId())) {
+
+            lastNode = poi;
+
+            if (navigationMode || storylineMode) {
+
+                if (poi.getId().equals(currentNodeDestination.getId())) {
+
+                    if (storylineMode && !currentNodeDestination.getId().equals(nextPoiCheckpointInPath.getId()))
+                        adjustPathStoryline();
+                    else {
+
+                        resetState();
+
+                        if (pendingStorylineStart && lastNode.getId() == INITIAL_POI_ID)
+                            startPendingStoryline();
+
+                    }
+
+                } else if (poi.getId().equals(nextPoiCheckpointInPath.getId())) {
+
+                    updatePath();
+
+                } else {
+                    if (navigationMode)
+                        computePath();
+                    else
+                        adjustPathStoryline();
+                }
+            }
+
+            MapJSBridge.getInstance().reachedNode(poi.getId());
+        }
+    }
+
+    /**
+     * Start a pending storyline (when the user was not a the starting point when starting it)
+     */
+    public static void startPendingStoryline() {
+
+        Context context = MapXApplication.getGlobalContext();
+
+        AlertDialogHelper.showAlertDialog(context.getString(
+                        R.string.storyline_start_pending),
+                context.getString(
+                        R.string.storyline_start_pending_message,
+                        pendingStoryline.getTitle()),
+                new IDialogResponseCallBack() {
+                    @Override
+                    public void onPositiveResponse() {
+                        MapManager.launchStoryline(pendingStoryline.getId());
+                    }
+
+                    @Override
+                    public void onNegativeResponse() {
+                        pendingStorylineStart = false;
+                        pendingStoryline = null;
+                    }
+                });
     }
 
     /**
@@ -283,12 +492,17 @@ public class MapManager {
 
     }
 
+    /**
+     * Set the modes to null
+     */
     public static void resetState(){
         navigationMode = false;
         storylineMode = false;
         currentStoryline = null;
         currentNodeDestination = null;
         currentPath = null;
+        nextPoiCheckpointPositionInPath = -1;
+        nextPoiCheckpointInPath = null;
 
         syncActionBarStateWithCurrentMode();
 
