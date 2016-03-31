@@ -42,6 +42,13 @@ public class PoiMediaListAdapter extends ArrayAdapter<ExpositionContent> {
     }
 
     @Override
+    public ExpositionContent getItem(int position){
+        if(items.size() < 0){
+            return null;
+        }
+        return items.get(position);
+    }
+    @Override
     public long getItemId(int position)
     {
         return position;
