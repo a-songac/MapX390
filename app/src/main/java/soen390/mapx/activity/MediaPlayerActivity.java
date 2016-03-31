@@ -33,7 +33,7 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
-            Long mediaId = extras.getLong(ConstantsHelper.POI_ID_INTENT_EXTRA_KEY);
+            Long mediaId = extras.getLong(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY);
             initVideoPlayer(mediaId);
         }
     }
