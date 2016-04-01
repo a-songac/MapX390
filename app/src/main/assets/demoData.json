@@ -2,7 +2,7 @@
   "floorPlan": [
     {
       "floorID": "3",
-      "imagePath": "/floor/3/floor3.png",
+      "imagePath": "floor/3/floor3.png",
       "imageWidth": 2313,
       "imageHeight": 2328,
       "cropBoxDimensions": {
@@ -69,7 +69,34 @@
                   "language": "EN",
                   "description": "<div>Professor's office</div><div><b>blueberry</b></div>"
                 }
-              ]
+              ],
+              "media":
+              {
+                "image":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ],
+                "video":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ],
+                "audio":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -132,7 +159,34 @@
                   "language": "EN",
                   "description": "<div>Read the instructions carefully for your safety!</div><div><b>Mint</b></div>"
                 }
-              ]
+              ],
+              "media":
+              {
+                "image":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ],
+                "video":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ],
+                "audio":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ]
+              }
             }
           ]
         },
@@ -184,7 +238,34 @@
                   "language": "EN",
                   "description": "<div>Get some rest. It's over!</div><div><b>Icy</b></div>"
                 }
-              ]
+              ],
+              "media":
+              {
+                "image":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ],
+                "video":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ],
+                "audio":
+                [
+                  {
+                    "path": "<TODO>",
+                    "language": "<TODO>",
+                    "caption": "<TODO>"
+                  }
+                ]
+              }
             }
           ]
         }
@@ -324,9 +405,16 @@
   ],
   "storyline": [
     {
-      "id": 0,
-      "title": "Demo Storyline",
-      "description": "Let's see how good is your mobile app!",
+      "id": 0,"title": [{
+      "language": "en",
+      "title": "Demo Storyline"
+    }
+    ],
+      "description": [{
+        "language": "en",
+        "description": "Let's see how good is your mobile app!"
+      }
+      ],
       "walkingTimeInMinutes": 20,
       "path": [
         0,
