@@ -67,7 +67,7 @@ public class MapEditorContentJSONParser {
 
             poiJsonObj = poiArr.get(i).getAsJsonObject();
 
-            beaconJsonObj = poiJsonObj.get("iBeacon").getAsJsonObject();
+            beaconJsonObj = poiJsonObj.get("ibeacon").getAsJsonObject();
 
             beacons.add(new IBeacon(
                     beaconJsonObj.get("uuid").getAsString(),
@@ -105,7 +105,7 @@ public class MapEditorContentJSONParser {
             poiJsonObj = poiArr.get(i).getAsJsonObject();
 
             floor = Floor.find(Floor.class, "floor_id=?", poiJsonObj.get("floorID").getAsString()).get(0);
-            beaconJsonObj = poiJsonObj.get("iBeacon").getAsJsonObject();
+            beaconJsonObj = poiJsonObj.get("ibeacon").getAsJsonObject();
             beacons = IBeacon.find(
                     IBeacon.class,
                     "uuid = ? AND minor=? AND major=?",
