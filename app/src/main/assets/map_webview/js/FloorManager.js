@@ -37,6 +37,11 @@ function FloorManager(){
 
 			imageUrl = floorJSON[i]["floor_path"];
 
+			//If path starts with /, it'll be start from outside the webview. TODO: Temporary fix, as image path should start from storage folder, not webview folder
+			if(imageURL.charAt(0) == "/"){
+				imageURL.subString(1);
+			}
+
 			var imageBounds = [[south, west], [north, east]];
 	    	var imageOverlay = L.imageOverlay(imageUrl, imageBounds);
 	    	imageOverlay.addTo(map);
@@ -139,7 +144,6 @@ function FloorManager(){
 		for(var i = 0; i < floorButtons.length; i++){
 			var floorBtn = floorButtons[i];
 
-			//TODO: Maybe change, if floor can be something other than int
 			if(parseInt($(floorBtn).attr("data-floorId")) == parseInt(floor)){
 				$(floorBtn).click();
 			}
