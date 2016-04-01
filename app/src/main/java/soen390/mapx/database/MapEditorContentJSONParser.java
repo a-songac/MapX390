@@ -156,8 +156,8 @@ public class MapEditorContentJSONParser {
                     potJsonObj.get("id").getAsLong(),
                     potJsonObj.get("x").getAsInt(),
                     potJsonObj.get("y").getAsInt(),
-                    label,
-                    label,
+                    getType(label),
+                    getSubType(label),
                     //getType(labelJsonObject.get("label").getAsString()),
                     //getSubType(labelJsonObject.get("label").getAsString()),
                     floor.getFloorId(),
@@ -187,7 +187,7 @@ public class MapEditorContentJSONParser {
                 return Node.SERVICE_TYPE;
 
         }
-        return Node.POI_TYPE;
+        return Node.TRANSITION_TYPE;
     }
 
     /**
@@ -278,10 +278,10 @@ public class MapEditorContentJSONParser {
                 descJsonObj = descJsonArr.get(j).getAsJsonObject();
 
                 titleMap.put(
-                        titleJsonObj.get("language").getAsString(),
+                        titleJsonObj.get("language").getAsString().toLowerCase(),
                         titleJsonObj.get("title").getAsString());
                 descMap.put(
-                        descJsonObj.get("language").getAsString(),
+                        descJsonObj.get("language").getAsString().toLowerCase(),
                         descJsonObj.get("description").getAsString());
 
             }
@@ -465,7 +465,7 @@ public class MapEditorContentJSONParser {
 
             contents.add(new ExpositionContent(
                     nodeId,
-                    contentJsonObj.get("language").getAsString(),
+                    contentJsonObj.get("language").getAsString().toLowerCase(),
                     type,
                     storylineId,
                     contentJsonObj.get("caption").getAsString(),
@@ -511,11 +511,11 @@ public class MapEditorContentJSONParser {
             descJsonObj = descJsonArr.get(j).getAsJsonObject();
 
             titleMap.put(
-                    titleJsonObj.get("language").getAsString(),
-                    titleJsonObj.get("title").getAsString());
+                    titleJsonObj.get("language").getAsString().toLowerCase(),
+                    titleJsonObj.get("title").getAsString().toLowerCase());
             descMap.put(
-                    descJsonObj.get("language").getAsString(),
-                    descJsonObj.get("description").getAsString());
+                    descJsonObj.get("language").getAsString().toLowerCase(),
+                    descJsonObj.get("description").getAsString().toLowerCase());
 
         }
 
