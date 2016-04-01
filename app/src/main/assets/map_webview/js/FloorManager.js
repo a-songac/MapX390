@@ -38,8 +38,8 @@ function FloorManager(){
 			imageUrl = floorJSON[i]["floor_path"];
 
 			//If path starts with /, it'll be start from outside the webview. TODO: Temporary fix, as image path should start from storage folder, not webview folder
-			if(imageURL.charAt(0) == "/"){
-				imageURL.subString(1);
+			if(imageUrl.charAt(0) == "/"){
+				imageUrl = imageUrl.substring(1);
 			}
 
 			var imageBounds = [[south, west], [north, east]];
