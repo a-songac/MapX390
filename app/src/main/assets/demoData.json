@@ -2,7 +2,7 @@
   "floorPlan": [
     {
       "floorID": "3",
-      "imagePath": "floor/3/floor3.png",
+      "imagePath": "/floor/3/floor3.png",
       "imageWidth": 2313,
       "imageHeight": 2328,
       "cropBoxDimensions": {
