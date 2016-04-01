@@ -141,6 +141,7 @@ public class MapEditorContentJSONParser {
 
         JsonObject potJsonObj, labelJsonObject;
         Floor floor;
+        String label;
 
 
         for (int i = 0; i < potArr.size(); i++) {
@@ -148,14 +149,17 @@ public class MapEditorContentJSONParser {
             potJsonObj = potArr.get(i).getAsJsonObject();
 
             floor = Floor.find(Floor.class, "floor_id=?", potJsonObj.get("floorID").getAsString()).get(0);
-            labelJsonObject = potJsonObj.get("label").getAsJsonObject();
+            //labelJsonObject = potJsonObj.get("label").getAsJsonObject();
+            label = potJsonObj.get("label").getAsString();
 
             pots.add(new Node(
                     potJsonObj.get("id").getAsLong(),
                     potJsonObj.get("x").getAsInt(),
                     potJsonObj.get("y").getAsInt(),
-                    getType(labelJsonObject.get("label").getAsString()),
-                    getSubType(labelJsonObject.get("label").getAsString()),
+                    label,
+                    label,
+                    //getType(labelJsonObject.get("label").getAsString()),
+                    //getSubType(labelJsonObject.get("label").getAsString()),
                     floor.getFloorId(),
                     null
             ));
