@@ -1,0 +1,347 @@
+{
+  "floorPlan": [
+    {
+      "floorID": "3",
+      "imagePath": "/floor/3/floor3.png",
+      "imageWidth": 2313,
+      "imageHeight": 2328,
+      "cropBoxDimensions": {
+        "left": 0,
+        "top": 51.23175416133162,
+        "width": 395,
+        "height": 397.53649167733676
+      }
+    }
+  ],
+  "node": [
+    {
+      "poi": [
+        {
+          "id": 0,
+          "title": [
+            {
+              "language": "EN",
+              "title": "EV 3.187"
+            }
+          ],
+          "x": 1888.1632653061224,
+          "y": 508.35164835164835,
+          "color": "Blue",
+          "description": [
+            {
+              "language": "EN",
+              "description": "<div>Professor's office</div><div><b>blueberry</b></div>"
+            }
+          ],
+          "floorID": "3",
+          "ibeacon": {
+            "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+            "major": "59520",
+            "minor": "56840"
+          },
+          "media": {
+            "image": [],
+            "video": [
+              {
+                "path": "video/MOEB POINT 1 - Small.mov",
+                "language": "EN",
+                "caption": "MOEB Point 1"
+              },
+              {
+                "path": "video/MOEB_Introduction - Small.mov",
+                "language": "EN",
+                "caption": "MOEB Intro"
+              }
+            ],
+            "audio": []
+          },
+          "storyPoint": [
+            {
+              "storylineID": 0,
+              "title": [
+                {
+                  "language": "EN",
+                  "title": "EV 3.187"
+                }
+              ],
+              "description": [
+                {
+                  "language": "EN",
+                  "description": "<div>Professor's office</div><div><b>blueberry</b></div>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "title": [
+            {
+              "language": "EN",
+              "title": "Evacuation instructions"
+            }
+          ],
+          "x": 944.0816326530612,
+          "y": 399.4191522762951,
+          "color": "Orange",
+          "description": [
+            {
+              "language": "EN",
+              "description": "<div>Read the instructions carefully for your safety!</div><div><b>Mint</b></div>"
+            }
+          ],
+          "floorID": "3",
+          "ibeacon": {
+            "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+            "major": "11163",
+            "minor": "7229"
+          },
+          "media": {
+            "image": [
+              {
+                "path": "image/evacuation-route-arrow-floor-sign-sf-0055.png",
+                "language": "EN",
+                "caption": "Follow the exit signs"
+              }
+            ],
+            "video": [
+              {
+                "path": "video/MOEB POINT 2  - Small.mov",
+                "language": "EN",
+                "caption": "MOEB Point 2"
+              },
+              {
+                "path": "video/MOEB POINT 4 - Small.mov",
+                "language": "EN",
+                "caption": "MOEB Point 4"
+              }
+            ],
+            "audio": []
+          },
+          "storyPoint": [
+            {
+              "storylineID": 0,
+              "title": [
+                {
+                  "language": "EN",
+                  "title": "Evacuation instructions"
+                }
+              ],
+              "description": [
+                {
+                  "language": "EN",
+                  "description": "<div>Read the instructions carefully for your safety!</div><div><b>Mint</b></div>"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": [
+            {
+              "language": "EN",
+              "title": "End of your demo"
+            }
+          ],
+          "x": 508.35164835164835,
+          "y": 399.4191522762951,
+          "color": "Violet",
+          "description": [
+            {
+              "language": "EN",
+              "description": "<div>Get some rest. It's over!</div><div><b>Icy</b></div>"
+            }
+          ],
+          "floorID": "3",
+          "ibeacon": {
+            "uuid": "B9407F30-F5F8-466E-AFF9-25556B57FE6D",
+            "major": "32561",
+            "minor": "47495"
+          },
+          "media": {
+            "image": [],
+            "video": [
+              {
+                "path": "video/MOEB POINT 4 - Small.mov",
+                "language": "EN",
+                "caption": "MOEB Point 4"
+              }
+            ],
+            "audio": []
+          },
+          "storyPoint": [
+            {
+              "storylineID": 0,
+              "title": [
+                {
+                  "language": "EN",
+                  "title": "End of your demo"
+                }
+              ],
+              "description": [
+                {
+                  "language": "EN",
+                  "description": "<div>Get some rest. It's over!</div><div><b>Icy</b></div>"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "pot": [
+        {
+          "id": 3,
+          "title": "pot1",
+          "x": 1815.541601255887,
+          "y": 544.6624803767661,
+          "label": "None",
+          "color": "Green",
+          "floorID": "3"
+        },
+        {
+          "id": 4,
+          "title": "pot2",
+          "x": 1815.541601255887,
+          "y": 726.2166405023547,
+          "label": "None",
+          "color": "Green",
+          "floorID": "3"
+        },
+        {
+          "id": 5,
+          "title": "pot3",
+          "x": 1779.2307692307693,
+          "y": 762.5274725274725,
+          "label": "None",
+          "color": "Green",
+          "floorID": "3"
+        },
+        {
+          "id": 6,
+          "title": "pot4",
+          "x": 1779.2307692307693,
+          "y": 944.0816326530612,
+          "label": "None",
+          "color": "Green",
+          "floorID": "3"
+        },
+        {
+          "id": 7,
+          "title": "pot5",
+          "x": 1161.9466248037677,
+          "y": 944.0816326530612,
+          "label": "None",
+          "color": "Green",
+          "floorID": "3"
+        },
+        {
+          "id": 8,
+          "title": "pot6",
+          "x": 1161.9466248037677,
+          "y": 435.72998430141286,
+          "label": "None",
+          "color": "Green",
+          "floorID": "3"
+        },
+        {
+          "id": 9,
+          "title": "pot7",
+          "x": 835.149136577708,
+          "y": 435.72998430141286,
+          "label": "None",
+          "color": "Green",
+          "floorID": "3"
+        },
+        {
+          "id": 10,
+          "title": "pot8",
+          "x": 1815.541601255887,
+          "y": 435.72998430141286,
+          "label": "None",
+          "color": "Red",
+          "floorID": "3"
+        }
+      ]
+    }
+  ],
+  "edge": [
+    {
+      "startNode": 0,
+      "endNode": 3,
+      "distance": 22.360679774997898
+    },
+    {
+      "startNode": 3,
+      "endNode": 4,
+      "distance": 50
+    },
+    {
+      "startNode": 4,
+      "endNode": 5,
+      "distance": 14.142135623730951
+    },
+    {
+      "startNode": 5,
+      "endNode": 6,
+      "distance": 50
+    },
+    {
+      "startNode": 6,
+      "endNode": 7,
+      "distance": 170
+    },
+    {
+      "startNode": 8,
+      "endNode": 7,
+      "distance": 140
+    },
+    {
+      "startNode": 8,
+      "endNode": 10,
+      "distance": 180
+    },
+    {
+      "startNode": 10,
+      "endNode": 3,
+      "distance": 30
+    },
+    {
+      "startNode": 1,
+      "endNode": 8,
+      "distance": 60.8276253029822
+    },
+    {
+      "startNode": 1,
+      "endNode": 9,
+      "distance": 31.622776601683793
+    },
+    {
+      "startNode": 9,
+      "endNode": 2,
+      "distance": 90.55385138137417
+    }
+  ],
+  "storyline": [
+    {
+      "id": 0,
+      "title": "Demo Storyline",
+      "description": "Let's see how good is your mobile app!",
+      "walkingTimeInMinutes": 20,
+      "path": [
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        1,
+        9,
+        2
+      ],
+      "floorsCovered": 1,
+      "thumbnail": "thumbnail/ninja.png"
+    }
+  ]
+}

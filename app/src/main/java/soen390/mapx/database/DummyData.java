@@ -35,7 +35,7 @@ public class DummyData {
         AssetManager assetManager = MapXApplication.getGlobalContext().getAssets();
         try {
 
-            InputStream input = assetManager.open("dummyData.json");
+            InputStream input = assetManager.open("demoData.json");
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
             return jsonParser.parse(br).getAsJsonObject();
 
