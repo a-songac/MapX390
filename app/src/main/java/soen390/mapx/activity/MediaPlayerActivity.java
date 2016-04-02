@@ -9,17 +9,16 @@ import android.view.MenuItem;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
-import soen390.mapx.database.DummyData;
 import soen390.mapx.helper.ConstantsHelper;
+import soen390.mapx.manager.MapManager;
+import soen390.mapx.model.ExpositionContent;
+import soen390.mapx.model.Node;
 
-/**
- * Media Player Activity
- */
+
 public class MediaPlayerActivity extends AppCompatActivity {
 
     private VideoView videoView = null;
@@ -34,11 +33,11 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
-            int position = extras.getInt(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY);
-            initVideoPlayer(position);
+            Long mediaId = extras.getLong(ConstantsHelper.POI_MEDIA_START_POSITION_INTENT_EXTRA_KEY);
+            initVideoPlayer(mediaId);
         }
     }
-    
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -92,28 +91,24 @@ public class MediaPlayerActivity extends AppCompatActivity {
 
     /**
      * Init video player
-     * @param position
+     * @param mediaId
      */
-    private void initVideoPlayer(int position) {
-        Uri uri = null;
-        try {
-            JSONObject media = DummyData.dummyMedia().getJSONObject(position);
-            videoView = (VideoView) findViewById(R.id.videoView);
+    private void initVideoPlayer(Long mediaId) {
+        videoView = (VideoView) findViewById(R.id.videoView);
+        ExpositionContent expositionContent = ExpositionContent.findById(ExpositionContent.class, mediaId);
+        if (videoView != null) {
+            Uri uri = Uri.parse("android.resource://" + getPackageName() +
+                    "/" + getResources().getIdentifier(expositionContent.getContent(), "raw", getPackageName()));
 
-            uri = Uri.parse("android.resource://" + getPackageName() +
-                    "/" + getResources().getIdentifier(DummyData.dummyMedia().getJSONObject(position).getString("path"), "raw", getPackageName()));
+            setActionBar(expositionContent.getTitle());
 
-            setActionBar(media.getString("title"));
-        }catch (JSONException e) {
-            e.printStackTrace();
+            MediaController mediaController = new MediaController(this);
+            mediaController.setAnchorView(videoView);
+
+            videoView.setMediaController(mediaController);
+            videoView.setVideoURI(uri);
+            videoView.start();
         }
-
-        MediaController mediaController= new MediaController(this);
-        mediaController.setAnchorView(videoView);
-
-        videoView.setMediaController(mediaController);
-        videoView.setVideoURI(uri);
-        videoView.start();
 
     }
 }
