@@ -23,9 +23,9 @@ function Controller(){
 			var MIN_ZOOM = -2, MAX_ZOOM = 0, INIT_ZOOM = -1;
 			var INIT_POSITION_X = 0, INIT_POSITION_Y = 0;
 
-			var south = -1100, east = 500, north = 1100, west = -500;
-			self.mapWidth = 500;
-			self.mapHeight = 1050;
+			var south = -1500, east = 1500, north = 1500, west = -1500;
+			self.mapWidth = 1500;
+			self.mapHeight = 1500;
 
 			//Map settings
 			map = L.map('map', {
@@ -52,7 +52,7 @@ function Controller(){
 				self.floorManager.clickFloor(Android.getCurrentFloor());
 				map.setView(lngLat, zoomLevel);
 			}else{
-				self.floorManager.clickFloor(1);
+				self.floorManager.clickFloor(3);
 				self.mapManager.setCurrentView();
 				self.mapManager.setZoomLevel();
 			}
