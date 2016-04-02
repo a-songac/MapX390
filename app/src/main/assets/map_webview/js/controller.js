@@ -23,9 +23,28 @@ function Controller(){
 			var MIN_ZOOM = -2, MAX_ZOOM = 0, INIT_ZOOM = -1;
 			var INIT_POSITION_X = 0, INIT_POSITION_Y = 0;
 
-			var south = -1500, east = 1500, north = 1500, west = -1500;
-			self.mapWidth = 1500;
-			self.mapHeight = 1500;
+			// var south = -1500, east = 1500, north = 1500, west = -1500;
+			// self.mapWidth = 1500;
+			// self.mapHeight = 1500;
+
+			var floorJSON = self.floorManager.getJSON();
+			var maxWidth = 0; maxHeight = 0;
+			for(var i = 0; i < floorJSON.length; i++){
+				var floor = floorJSON[i];
+
+				if(maxWidth < parseInt(floor["floor_width"])){
+					maxWidth = floor["floor_width"];
+				}
+
+				if(maxHeight < parseInt(floor["floor_height"])){
+					maxHeight = floor["floor_height"];
+				}
+			}
+
+			self.mapWidth = maxWidth/2 + 275;
+			self.mapHeight = maxHeight/2 + 275;
+
+			south = -self.mapHeight; east = self.mapWidth; north = self.mapHeight; west = -self.mapWidth;
 
 			//Map settings
 			map = L.map('map', {
@@ -52,7 +71,6 @@ function Controller(){
 				self.floorManager.clickFloor(Android.getCurrentFloor());
 				map.setView(lngLat, zoomLevel);
 			}else{
-				var floors = self.floorManager.getFloorsArr();
 				var first_floor = floors[0];
 
 				self.floorManager.clickFloor(first_floor.num);
@@ -61,16 +79,17 @@ function Controller(){
 			}
 		}
 
-		setMap();
-
 		this.pathManager = new PathManager();
 		this.poiManager = new POIManager();
 		this.floorManager = new FloorManager();
 		this.mapManager = new MapManager();
 		this.userManager = new UserManager();
+		
+		this.floorManager.initialize();
+		setMap();
 
 		this.mapManager.initialize();
-		this.floorManager.initialize();
+		this.floorManager.initializeFollowUp();
 		this.poiManager.initialize();
 		setViewToFirstFloor();
 		this.poiManager.setPOIs();

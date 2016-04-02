@@ -6,12 +6,19 @@ function FloorManager(){
 
 	this.initialize = function(){
 		this.setJSON();
+	};
+
+	this.initializeFollowUp = function(){
 		this.setFloorImages();
 		this.setFloorLevelUIControl();
 	};
 
 	this.setJSON = function(){
 		floorJSON = JSON.parse(Android.getFloorsJSON());
+	};
+
+	this.getJSON = function(){
+		return floorJSON;
 	};
 
 	this.setCurrentFloor = function(floor){
