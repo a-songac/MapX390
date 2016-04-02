@@ -52,7 +52,10 @@ function Controller(){
 				self.floorManager.clickFloor(Android.getCurrentFloor());
 				map.setView(lngLat, zoomLevel);
 			}else{
-				self.floorManager.clickFloor(3);
+				var floors = self.floorManager.getFloorsArr();
+				var first_floor = floors[0];
+
+				self.floorManager.clickFloor(first_floor.num);
 				self.mapManager.setCurrentView();
 				self.mapManager.setZoomLevel();
 			}
