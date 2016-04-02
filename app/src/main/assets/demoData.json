@@ -3,8 +3,8 @@
     {
       "floorID": "3",
       "imagePath": "/floor/3/floor3.png",
-      "imageWidth": 2313,
-      "imageHeight": 2328,
+      "imageWidth": 2343,
+      "imageHeight": 2352,
       "cropBoxDimensions": {
         "left": 0,
         "top": 51.23175416133162,
