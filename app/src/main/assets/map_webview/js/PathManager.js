@@ -62,7 +62,8 @@ function PathManager(){
 				var poi = poisJSON[i];
 				if(parseInt(currentFloor) == parseInt(poi["floor"]) && ( parseInt(poi["_id"]) == parseInt(currentNode) || parseInt(poi["_id"]) == parseInt(pastNode) ) ){
 					var x = -mapWidth + (offsetX + parseInt(poi["x_coord"]));
-					var y = -mapHeight + (offsetY + parseInt(poi["y_coord"]));
+					var y = mapHeight - (offsetY + parseInt(poi["y_coord"]));
+					console.log("X " + poi["x_coord"]);
 					latLng.push([y,x]);
 					continue;
 				}

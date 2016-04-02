@@ -49,8 +49,8 @@ function POIManager(){
 					popupContent = "<p id='mapx-poi-title'>"+ poi["title"] +"</p><button id='mapx-poi-button' data-poi-title='"+ poi["title"] +"' data-poi-id='"+ poi["_id"]+"' onclick='controller.poiManager.navigateToPOI(this)'>" + buttonLabel + "</button>";
 				}
 
-				var x = -mapWidth + (offsetX + parseInt(poi["x_coord"]));
-				var y = -mapHeight + (offsetY + parseInt(poi["y_coord"]));
+				var x = -mapWidth + offsetX + parseInt(poi["x_coord"]);	
+				var y = mapHeight - offsetY - parseInt(poi["y_coord"]);
 				
 				var getInfoLabel = languageJSON["web_view_info"];
 				popupContent += "<button onclick='controller.poiManager.showInfo(this)' data-poi-id='"+  poi["_id"] +"' >" + getInfoLabel + "</button>";

@@ -16,7 +16,7 @@ function UserManager(){
 			var poi = poisJSON[i];
 			if(parseInt(currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
 				var x = -controller.mapWidth + (controller.offsetX + parseInt(poi["x_coord"]));
-				var y = -controller.mapHeight + (controller.offsetY + parseInt(poi["y_coord"]));
+				var y = controller.mapHeight - (controller.offsetY + parseInt(poi["y_coord"]));
 				latLng = [y,x];
 				break;
 			}
