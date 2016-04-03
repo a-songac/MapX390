@@ -512,10 +512,10 @@ public class MapEditorContentJSONParser {
 
             titleMap.put(
                     titleJsonObj.get("language").getAsString().toLowerCase(),
-                    titleJsonObj.get("title").getAsString().toLowerCase());
+                    titleJsonObj.get("title").getAsString());
             descMap.put(
                     descJsonObj.get("language").getAsString().toLowerCase(),
-                    descJsonObj.get("description").getAsString().toLowerCase());
+                    android.text.Html.fromHtml(descJsonObj.get("description").getAsString()).toString());
 
         }
 
