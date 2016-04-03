@@ -108,16 +108,19 @@ function Controller(){
 
 	/* Called by Android to start navigation mode */
 	this.startNavigation = function(){
-			this.pathManager.drawPath();
+		this.pathManager.drawPath();
 
-			var poiElements = this.poiManager.getPOIElements();
+		var poiElements = this.poiManager.getPOIElements();
 
-			for(var i = 0; i < poiElements.length; i++){
-				var marker = poiElements[i];
-				marker.closePopup();
-			}
+		for(var i = 0; i < poiElements.length; i++){
+			var marker = poiElements[i];
+			marker.closePopup();
+		}
 
-			this.poiManager.changePopupContent();
+		this.poiManager.changePopupContent();
+
+		this.floorManager.showUserLocatedFloor();
+		this.poiManager.clickPOI(Android.getUserPosition());
 	};
 
 	/* Called by Android to cancel navigation mode */
