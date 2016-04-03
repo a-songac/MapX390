@@ -551,7 +551,7 @@ public class MapManager {
         }
 
         // if drawer is not enabled, then it means the home button was enabled (when in poi info fragment)
-        if (!MainActivity.isDrawerEnabled()) {
+        if (!MainActivity.class.cast(MapXApplication.getGlobalContext()).isDrawerEnabled()) {
             ActionBarHelper.getInstance().disableHomeAsUp();
             MainActivity.class.cast(MapXApplication.getGlobalContext()).enableDrawer(true);
         }

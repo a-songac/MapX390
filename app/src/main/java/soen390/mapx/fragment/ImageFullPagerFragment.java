@@ -13,7 +13,7 @@ import com.arnaud.android.core.fragment.IBaseFragment;
 
 import soen390.mapx.BitmapUtils;
 import soen390.mapx.R;
-import soen390.mapx.activity.MainActivity;
+import soen390.mapx.UiUtils;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.manager.ContentManager;
 
@@ -71,8 +71,8 @@ public class ImageFullPagerFragment extends Fragment implements IBaseFragment {
                     Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(
                             getResources(),
                             imageResourceId,
-                            MainActivity.getWidth(),
-                            MainActivity.getHeight());
+                            UiUtils.getRootViewWidth(),
+                            UiUtils.getRootViewHeight());
                     imageView.setImageBitmap(bitmap);
 
                 }

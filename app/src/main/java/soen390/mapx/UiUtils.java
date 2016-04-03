@@ -10,6 +10,25 @@ import soen390.mapx.application.MapXApplication;
  */
 public class UiUtils {
 
+    private static int rootViewHeight = 0;
+    private static int rootViewWidth = 0;
+
+    public static int getRootViewHeight() {
+        return rootViewHeight;
+    }
+
+    public static void setRootViewHeight(int rootViewHeight) {
+        UiUtils.rootViewHeight = rootViewHeight;
+    }
+
+    public static int getRootViewWidth() {
+        return rootViewWidth;
+    }
+
+    public static void setRootViewWidth(int rootViewWidth) {
+        UiUtils.rootViewWidth = rootViewWidth;
+    }
+
     /**
      * Display toast message
      * @param msg : message to display

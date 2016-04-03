@@ -22,6 +22,7 @@ import java.util.Locale;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
+import soen390.mapx.UiUtils;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
@@ -41,17 +42,8 @@ public class MainActivity extends BaseActivity
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
-    private static boolean drawerEnabled = true;
-    private static int height = 0;
-    private static int width = 0;
+    private boolean drawerEnabled = true;
 
-    public static int getHeight() {
-        return height;
-    }
-
-    public static int getWidth() {
-        return width;
-    }
     private boolean poiReachedFromNotification = false;
 
     @Override
@@ -338,7 +330,7 @@ public class MainActivity extends BaseActivity
      * Whether the drawer toggle is enabled
      * @return
      */
-    public static boolean isDrawerEnabled(){
+    public boolean isDrawerEnabled(){
         return drawerEnabled;
     }
 
@@ -349,13 +341,13 @@ public class MainActivity extends BaseActivity
      */
     private void setParentViewDimensions() {
 
-        if (MainActivity.height == 0 || MainActivity.width ==0) {
+        if (UiUtils.getRootViewHeight() == 0 ||UiUtils.getRootViewWidth() ==0) {
             final View root = findViewById(R.id.container);
             root.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
-                    MainActivity.height = root.getHeight();
-                    MainActivity.width = root.getWidth();
+                    UiUtils.setRootViewHeight(root.getHeight());
+                    UiUtils.setRootViewWidth(root.getWidth());
                     root.getViewTreeObserver().removeOnPreDrawListener(this);
                     return true;
                 }
