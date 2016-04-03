@@ -43,12 +43,7 @@
             "image": [],
             "video": [
               {
-                "path": "video/MOEB POINT 1 - Small.mov",
-                "language": "EN",
-                "caption": "MOEB Point 1"
-              },
-              {
-                "path": "video/MOEB_Introduction - Small.mov",
+                "path": "moeb_introduction",
                 "language": "EN",
                 "caption": "MOEB Intro"
               }
@@ -83,19 +78,13 @@
                 "video":
                 [
                   {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
+                    "path": "moeb_point1",
+                    "language": "EN",
+                    "caption": "MOEB Point 1"
                   }
                 ],
                 "audio":
-                [
-                  {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
-                  }
-                ]
+                []
               }
             }
           ]
@@ -126,21 +115,16 @@
           "media": {
             "image": [
               {
-                "path": "image/evacuation-route-arrow-floor-sign-sf-0055.png",
+                "path": "evacuation",
                 "language": "EN",
                 "caption": "Follow the exit signs"
               }
             ],
             "video": [
               {
-                "path": "video/MOEB POINT 2  - Small.mov",
+                "path": "moeb_point2",
                 "language": "EN",
-                "caption": "MOEB Point 2"
-              },
-              {
-                "path": "video/MOEB POINT 4 - Small.mov",
-                "language": "EN",
-                "caption": "MOEB Point 4"
+                "caption": "MOEB Point 2 - free"
               }
             ],
             "audio": []
@@ -165,27 +149,21 @@
                 "image":
                 [
                   {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
+                    "path": "evacuation",
+                    "language": "EN",
+                    "caption": "Follow the exit signs"
                   }
                 ],
                 "video":
                 [
                   {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
+                    "path": "moeb_point2",
+                    "language": "EN",
+                    "caption": "MOEB Point 2"
                   }
                 ],
                 "audio":
-                [
-                  {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
-                  }
-                ]
+                []
               }
             }
           ]
@@ -217,9 +195,9 @@
             "image": [],
             "video": [
               {
-                "path": "video/MOEB POINT 4 - Small.mov",
+                "path": "moeb_point4",
                 "language": "EN",
-                "caption": "MOEB Point 4"
+                "caption": "MOEB Point 4 - free"
               }
             ],
             "audio": []
@@ -242,19 +220,13 @@
               "media":
               {
                 "image":
-                [
-                  {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
-                  }
-                ],
+                [],
                 "video":
                 [
                   {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
+                    "path": "moeb_point4",
+                    "language": "EN",
+                    "caption": "MOEB Point 4"
                   }
                 ],
                 "audio":

@@ -429,9 +429,9 @@ public class MapEditorContentJSONParser {
                         storylineId));
 
                 contents.addAll(parseMediaContents(
-                        storyPointMediaJsonObj.get("video").getAsJsonArray(),
+                        storyPointMediaJsonObj.get("audio").getAsJsonArray(),
                         nodeId,
-                        ExpositionContent.VIDEO_TYPE,
+                        ExpositionContent.AUDIO_TYPE,
                         storylineId));
 
                 contents.addAll(parseStorylinePointTextContent(
