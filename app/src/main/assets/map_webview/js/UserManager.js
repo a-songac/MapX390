@@ -75,4 +75,16 @@ function UserManager(){
 	this.getUserMarker = function(){
 		return userMarker;
 	};
+
+	this.centerToUserPOI = function(userPOI){
+		var poiElements = controller.poiManager.getPOIElements();
+		for(var i = 0; i < poiElements.length; i++){
+			var marker = poiElements[i];
+
+			if(parseInt(marker.poiID) ==  parseInt(userPOI)){
+				map.setView(marker.getLatLng());
+				controller.mapManager.setCurrentView();
+			}
+		}
+	};
 }

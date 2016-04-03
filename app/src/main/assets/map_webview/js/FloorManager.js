@@ -135,15 +135,7 @@ function FloorManager(){
 
 		this.clickFloor(floor);
 
-		var poiElements = controller.poiManager.getPOIElements();
-		for(var i = 0; i < poiElements.length; i++){
-			var marker = poiElements[i];
-
-			if(parseInt(marker.poiID) ==  parseInt(userPOI)){
-				map.setView(marker.getLatLng());
-				controller.mapManager.setCurrentView();
-			}
-		}
+		controller.userManager.centerToUserPOI(userPOI);
 	};
 
 	this.clickFloor = function(floor){
