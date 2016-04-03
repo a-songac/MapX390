@@ -94,6 +94,9 @@ function Controller(){
 		setViewToFirstFloor();
 		this.poiManager.setPOIs();
 
+		//Center to user position, if the correct floor is shown
+		var userPOI = Android.getUserPosition();
+		this.userManager.centerToUserPOI(userPOI);
 
 		if(Android.isInMode()){
 			this.startNavigation();
