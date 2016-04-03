@@ -9,7 +9,6 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 import com.arnaud.android.core.fragment.IBaseFragment;
 
-import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.ConstantsHelper;
@@ -23,18 +22,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
 
     /**
      * Create new instance of settings fragment
-     * @param triggerLanguageSettings: whether trigger the language settings upon loading the fragment
      * @return Fragment
      */
-    public static SettingsFragment newInstance(boolean triggerLanguageSettings) {
+    public static SettingsFragment newInstance() {
 
-        Bundle arguments = new Bundle();
-        if (triggerLanguageSettings) {
-            arguments.putBoolean(ConstantsHelper.SETTINGS_FRAGMENT_ARG_KEY_TRIGGER_LANGUAGE, true);
-        }
-        SettingsFragment settingsFragment = new SettingsFragment();
-        settingsFragment.setArguments(arguments);
-        return settingsFragment;
+        return new SettingsFragment();
 
     }
 
@@ -51,20 +43,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements IBaseF
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getView().setBackgroundColor(Color.WHITE);
+        if (getView() != null)
+            getView().setBackgroundColor(Color.WHITE);
 
         ActionBarHelper.getInstance().setSettingsFragmentActionBar();
         getActivity().invalidateOptionsMenu();
-
-        if (null != getArguments()) {
-
-            if (getArguments().getBoolean(ConstantsHelper.SETTINGS_FRAGMENT_ARG_KEY_TRIGGER_LANGUAGE)) {
-
-                getPreferenceScreen().findPreference(ConstantsHelper.PREF_LANGUAGE_KEY).performClick(); //TODO performclick not triggered
-                LogUtils.info(this.getClass(), "onActivityCreated" , "click perform click");
-
-            }
-        }
 
     }
 

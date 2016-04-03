@@ -55,8 +55,10 @@ public class FullscreenActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     /**
@@ -89,7 +91,7 @@ public class FullscreenActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                // Do nothing
             }
 
             @Override
@@ -99,7 +101,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                // Do nothing
             }
         });
 

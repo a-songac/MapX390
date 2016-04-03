@@ -2,7 +2,6 @@ package soen390.mapx.manager;
 
 import android.content.Context;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import soen390.mapx.R;
@@ -25,6 +24,8 @@ import soen390.mapx.webapp.MapJSBridge;
  */
 public class MapManager {
 
+    private MapManager() {}
+
     private static final long INITIAL_POI_ID = 0L;
 
     private static boolean storylineMode = false;
@@ -32,7 +33,7 @@ public class MapManager {
     private static Node lastNode = null;
     private static Node currentNodeDestination = null;
     private static Storyline currentStoryline = null;
-    private static ArrayList<Integer> currentPath = null;
+    private static List<Integer> currentPath = null;
     private static int nextPoiCheckpointPositionInPath = -1;
     private static Node nextPoiCheckpointInPath = null;
     private static String currentFloor = null;
@@ -57,7 +58,7 @@ public class MapManager {
      * Update the path when the user progresses
      * @param updatedPath
      */
-    public static void setCurrentPath(ArrayList<Integer> updatedPath){
+    public static void setCurrentPath(List<Integer> updatedPath){
         currentPath = updatedPath;
     }
 
@@ -92,7 +93,7 @@ public class MapManager {
         return lastNode;
     }
 
-    public static ArrayList<Integer> getCurrentPath(){ return currentPath; }
+    public static List<Integer> getCurrentPath(){ return currentPath; }
 
     public static Node getNextPoiCheckpointInPath() {return nextPoiCheckpointInPath; }
 
@@ -121,14 +122,13 @@ public class MapManager {
                     new IDialogResponseCallBack() {
                         @Override
                         public void onPositiveResponse() {
-                            //MapJSBridge.getInstance().leaveNavigation();
                             resetState();
                             launchStorylineStartingPointCheck(storyline);
                         }
 
                         @Override
                         public void onNegativeResponse() {
-
+                            // do nothing
                         }
                     });
         } else {
@@ -160,7 +160,7 @@ public class MapManager {
 
                 @Override
                 public void onNegativeResponse() {
-
+                    // do nothing
                 }
             });
         } else {
@@ -234,14 +234,13 @@ public class MapManager {
                         new IDialogResponseCallBack() {
                             @Override
                             public void onPositiveResponse() {
-                                //MapJSBridge.getInstance().leaveNavigation();
                                 resetState();
                                 launchNavigation(newNode, context);
                             }
 
                             @Override
                             public void onNegativeResponse() {
-
+                                // do nothing
                             }
                         });
             } else {

@@ -10,6 +10,8 @@ import soen390.mapx.application.MapXApplication;
  */
 public class UiUtils {
 
+    private UiUtils(){}
+
     private static int rootViewHeight = 0;
     private static int rootViewWidth = 0;
 

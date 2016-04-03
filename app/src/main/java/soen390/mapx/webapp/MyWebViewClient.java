@@ -11,6 +11,5 @@ public class MyWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
-        //TODO trigger function to load  POI and display them on the map
     }
 }

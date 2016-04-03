@@ -32,7 +32,6 @@ import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.PreferenceHelper;
 import soen390.mapx.manager.MapManager;
-import soen390.mapx.model.Node;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -100,7 +99,7 @@ public class MainActivity extends BaseActivity
                     }
 
                     @Override
-                    public void onNegativeResponse() {}
+                    public void onNegativeResponse() {/* Do nothing */}
                 });
 
             } else {
@@ -121,14 +120,10 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
-            //TODO Temporary, for testing purposes
-            NavigationHelper.getInstance().navigateToMediaPagerFragment(0L);
+            // Bar scanner not implemented yet
 
         } else if (id == R.id.nav_settings) {
-            NavigationHelper.getInstance().navigateToSettingsFragment(false);
-
-        } else if (id == R.id.nav_help_feedback) {
-            //TODO
+            NavigationHelper.getInstance().navigateToSettingsFragment();
 
         } else if (id == R.id.nav_poi_beacon_stub)  {
             AlertDialogHelper.showPOIBeaconStubDialog();
@@ -287,17 +282,13 @@ public class MainActivity extends BaseActivity
                 break;
 
             case ConstantsHelper.SETTINGS_FRAGMENT_TAG:
-                NavigationHelper.getInstance().navigateToSettingsFragment(false);
+                NavigationHelper.getInstance().navigateToSettingsFragment();
                 break;
             case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
                 NavigationHelper.getInstance().navigateToStorylineFragment();
                 break;
             case ConstantsHelper.MEDIA_PAGER_FRAGMENT_TAG:
-                Node lastPOI = MapManager.getLastNodeOrInitial();
-                Long poiID = null != lastPOI?
-                        lastPOI.getId():
-                        0L;
-                NavigationHelper.getInstance().navigateToMediaPagerFragment(poiID);
+                NavigationHelper.getInstance().navigateToMediaPagerFragment(MapManager.getLastNodeOrInitial().getId());
                 break;
 
             default:

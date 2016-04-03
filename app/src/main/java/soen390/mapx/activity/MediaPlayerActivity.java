@@ -9,14 +9,10 @@ import android.view.MenuItem;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-import java.util.List;
-
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.helper.ConstantsHelper;
-import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.ExpositionContent;
-import soen390.mapx.model.Node;
 
 
 public class MediaPlayerActivity extends AppCompatActivity {
@@ -44,8 +40,11 @@ public class MediaPlayerActivity extends AppCompatActivity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     @Override
