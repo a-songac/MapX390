@@ -71,4 +71,7 @@
     <string name="tab_info">Info</string>
     <string name="tab_images">Images</string>
     <string name="tab_media">Media</string>
+
+    <!-- QR Scanner -->
+    <string name="qr_scanner_result">Code QR</string>
 </resources>

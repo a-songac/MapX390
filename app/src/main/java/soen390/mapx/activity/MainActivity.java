@@ -17,6 +17,8 @@ import android.view.ViewTreeObserver;
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
 import com.estimote.sdk.SystemRequirementsChecker;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.Locale;
 
@@ -120,7 +122,7 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
-            // Bar scanner not implemented yet
+            new IntentIntegrator(this).initiateScan();
 
         } else if (id == R.id.nav_settings) {
             NavigationHelper.getInstance().navigateToSettingsFragment();
@@ -346,4 +348,12 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (null != result) {
+            AlertDialogHelper.showQRResultDialog(getString(R.string.qr_scanner_result), result.getContents());
+        }
+    }
 }
