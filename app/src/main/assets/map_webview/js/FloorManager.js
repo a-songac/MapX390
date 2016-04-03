@@ -55,7 +55,6 @@ function FloorManager(){
 	    	imageOverlay.setOpacity(0);
 
 	    	var floor_num = floorJSON[i]["floor_num"];
-	    	console.log("FLOOR: " + floor_num);
 
 	    	floors.push({
 	    		leafletObj:imageOverlay,
