@@ -282,7 +282,7 @@ public class MapEditorContentJSONParser {
                         titleJsonObj.get("title").getAsString());
                 descMap.put(
                         descJsonObj.get("language").getAsString().toLowerCase(),
-                        descJsonObj.get("description").getAsString());
+                        android.text.Html.fromHtml(descJsonObj.get("description").getAsString()).toString());
 
             }
 
