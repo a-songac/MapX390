@@ -24,7 +24,7 @@ import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
 public class StorylineListFragment extends ListFragment implements IBaseFragment {
 
     private View expandedView = null;
-    public static int expandedPosition = -1;
+    private int expandedPosition = -1;
 
     /**
      * Create new instance of Profile fragment
@@ -59,7 +59,7 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
         ActionBarHelper.getInstance().setStorylineFragmentActionBar();
         getActivity().invalidateOptionsMenu();
 
-        StorylineListAdapter listAdapter = new StorylineListAdapter(getActivity(), Storyline.listAll(Storyline.class));
+        StorylineListAdapter listAdapter = new StorylineListAdapter(this, getActivity(), Storyline.listAll(Storyline.class));
         setListAdapter(listAdapter);
 
     }
@@ -110,4 +110,11 @@ public class StorylineListFragment extends ListFragment implements IBaseFragment
 
     }
 
+    public int getExpandedPosition() {
+        return expandedPosition;
+    }
+
+    public void setExpandedPosition(int expandedPosition) {
+        this.expandedPosition = expandedPosition;
+    }
 }

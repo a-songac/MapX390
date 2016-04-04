@@ -20,15 +20,15 @@ import soen390.mapx.ui.view.holder.StorylineListItemViewHolder;
  */
 public class StorylineListAdapter extends ArrayAdapter<Storyline> {
 
-    private Context context;
     private StorylineListItemViewHolder viewHolder;
+    private StorylineListFragment storylineListFragment;
 
     /**
      * Constructor
      */
-    public StorylineListAdapter(Context context, List<Storyline> items) {
+    public StorylineListAdapter(StorylineListFragment storylineListFragment, Context context, List<Storyline> items) {
         super(context, R.layout.story_line_list_item, items);
-        this.context = context;
+        this.storylineListFragment = storylineListFragment;
     }
 
 
@@ -49,7 +49,7 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
 
         Storyline storyline = getItem(position);
 
-        if (position == StorylineListFragment.expandedPosition) {
+        if (position == storylineListFragment.getExpandedPosition()) {
             viewHolder.expand(context);
         } else {
             viewHolder.collapse(context);
@@ -74,7 +74,7 @@ public class StorylineListAdapter extends ArrayAdapter<Storyline> {
             public void onClick(View v) {
 
                 MapManager.launchStoryline(storyline.getId());
-                StorylineListFragment.expandedPosition = -1;
+                storylineListFragment.setExpandedPosition(-1);
 
             }
         });

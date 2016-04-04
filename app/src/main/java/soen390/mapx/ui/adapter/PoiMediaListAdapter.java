@@ -7,15 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import soen390.mapx.BitmapUtils;
-
 import java.util.List;
 
+import soen390.mapx.BitmapUtils;
 import soen390.mapx.R;
-import soen390.mapx.activity.MainActivity;
+import soen390.mapx.UiUtils;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.model.ExpositionContent;
-import soen390.mapx.ui.view.holder.*;
+import soen390.mapx.ui.view.holder.MediaListItemViewHolder;
 
 /**
  * List Adapter for poi media list fragment
@@ -93,8 +92,8 @@ public class PoiMediaListAdapter extends ArrayAdapter<ExpositionContent> {
         viewHolder.getImageThumbnail().setImageBitmap(BitmapUtils.decodeSampledBitmapFromResource(
                 context.getResources(),
                 R.drawable.moeb_logo,
-                MainActivity.getWidth(),
-                BitmapUtils.dpToPx((int)context.getResources().getDimension(R.dimen.stoyline_list_item_height))));
+                UiUtils.getRootViewWidth(),
+                BitmapUtils.dpToPx((int) context.getResources().getDimension(R.dimen.stoyline_list_item_height))));
 
     }
 

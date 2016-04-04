@@ -239,7 +239,7 @@ public class NodeJSInterface {
         }
 
         catch(Exception e){
-            //Maybe add error call?
+            LogUtils.error(this.getClass(), "getPath", e.getMessage());
             return null;
         }
     }
@@ -302,7 +302,6 @@ public class NodeJSInterface {
      * @return JSON corresponding to the lsit of POIs
      */
     public JSONArray buildPOIJSON(List<Node> nodes){
-        JSONObject jsonObj = new JSONObject();
 
         JSONArray poiArr = new JSONArray();
         JSONObject poisObj;
@@ -319,10 +318,9 @@ public class NodeJSInterface {
                 poiArr.put(poisObj);
             }
 
-//            jsonObj.put("poi", poiArr);
 
         } catch (JSONException e){
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), "buildPOIJSON", e.getMessage());
         }
 
         return poiArr;
@@ -333,8 +331,6 @@ public class NodeJSInterface {
      * @return JSON corresponding to the list of floors
      */
     public JSONArray buildFloorJSON(List<Floor> floors){
-        JSONObject jsonObj = new JSONObject();
-
         JSONArray floorArr = new JSONArray();
         JSONObject floorObj;
 
@@ -349,10 +345,8 @@ public class NodeJSInterface {
                 floorArr.put(floorObj);
             }
 
-//            jsonObj.put("floor", floorArr);
-
         } catch (JSONException e){
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), "buildFloorJSON", e.getMessage());
         }
 
         return floorArr;

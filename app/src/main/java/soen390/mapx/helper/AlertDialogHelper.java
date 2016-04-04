@@ -70,4 +70,25 @@ public class AlertDialogHelper {
         dialog.show();
     }
 
+    /**
+     * Display the content of the QR code
+     * @param title
+     * @param message
+     */
+    public static void showQRResultDialog(String title, String message) {
+        Context context = MapXApplication.getGlobalContext();
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                       // do nothing
+                    }
+                })
+                .create();
+        dialog.show();
+    }
+
 }

@@ -78,11 +78,10 @@ public class NavigationHelper {
 
     /**
      * Add settings fragment over current fragment (always map fragment)
-     * @param triggerLanguage : whether trigger the language settings upon loading the fragment
      */
-    public void navigateToSettingsFragment(boolean triggerLanguage) {
+    public void navigateToSettingsFragment() {
 
-        Fragment settingsFragment = SettingsFragment.newInstance(triggerLanguage);
+        Fragment settingsFragment = SettingsFragment.newInstance();
 
         addFragment(
                 settingsFragment,

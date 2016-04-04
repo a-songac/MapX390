@@ -17,11 +17,14 @@ import android.view.ViewTreeObserver;
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
 import com.estimote.sdk.SystemRequirementsChecker;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.Locale;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
+import soen390.mapx.UiUtils;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
 import soen390.mapx.database.DbContentManager;
@@ -31,7 +34,6 @@ import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
 import soen390.mapx.helper.PreferenceHelper;
 import soen390.mapx.manager.MapManager;
-import soen390.mapx.model.Node;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -41,17 +43,8 @@ public class MainActivity extends BaseActivity
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     private NavigationView navigationView;
-    private static boolean drawerEnabled = true;
-    private static int height = 0;
-    private static int width = 0;
+    private boolean drawerEnabled = true;
 
-    public static int getHeight() {
-        return height;
-    }
-
-    public static int getWidth() {
-        return width;
-    }
     private boolean poiReachedFromNotification = false;
 
     @Override
@@ -108,7 +101,7 @@ public class MainActivity extends BaseActivity
                     }
 
                     @Override
-                    public void onNegativeResponse() {}
+                    public void onNegativeResponse() {/* Do nothing */}
                 });
 
             } else {
@@ -129,14 +122,10 @@ public class MainActivity extends BaseActivity
             NavigationHelper.getInstance().navigateToStorylineFragment();
 
         } else if (id == R.id.nav_qr_scanner) {
-            //TODO Temporary, for testing purposes
-            NavigationHelper.getInstance().navigateToMediaPagerFragment(0L);
+            new IntentIntegrator(this).initiateScan();
 
         } else if (id == R.id.nav_settings) {
-            NavigationHelper.getInstance().navigateToSettingsFragment(false);
-
-        } else if (id == R.id.nav_help_feedback) {
-            //TODO
+            NavigationHelper.getInstance().navigateToSettingsFragment();
 
         } else if (id == R.id.nav_poi_beacon_stub)  {
             AlertDialogHelper.showPOIBeaconStubDialog();
@@ -295,17 +284,13 @@ public class MainActivity extends BaseActivity
                 break;
 
             case ConstantsHelper.SETTINGS_FRAGMENT_TAG:
-                NavigationHelper.getInstance().navigateToSettingsFragment(false);
+                NavigationHelper.getInstance().navigateToSettingsFragment();
                 break;
             case ConstantsHelper.STORYLINE_FRAGMENT_TAG:
                 NavigationHelper.getInstance().navigateToStorylineFragment();
                 break;
             case ConstantsHelper.MEDIA_PAGER_FRAGMENT_TAG:
-                Node lastPOI = MapManager.getLastNodeOrInitial();
-                Long poiID = null != lastPOI?
-                        lastPOI.getId():
-                        0L;
-                NavigationHelper.getInstance().navigateToMediaPagerFragment(poiID);
+                NavigationHelper.getInstance().navigateToMediaPagerFragment(MapManager.getLastNodeOrInitial().getId());
                 break;
 
             default:
@@ -338,7 +323,7 @@ public class MainActivity extends BaseActivity
      * Whether the drawer toggle is enabled
      * @return
      */
-    public static boolean isDrawerEnabled(){
+    public boolean isDrawerEnabled(){
         return drawerEnabled;
     }
 
@@ -349,13 +334,13 @@ public class MainActivity extends BaseActivity
      */
     private void setParentViewDimensions() {
 
-        if (MainActivity.height == 0 || MainActivity.width ==0) {
+        if (UiUtils.getRootViewHeight() == 0 ||UiUtils.getRootViewWidth() ==0) {
             final View root = findViewById(R.id.container);
             root.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
-                    MainActivity.height = root.getHeight();
-                    MainActivity.width = root.getWidth();
+                    UiUtils.setRootViewHeight(root.getHeight());
+                    UiUtils.setRootViewWidth(root.getWidth());
                     root.getViewTreeObserver().removeOnPreDrawListener(this);
                     return true;
                 }
@@ -363,4 +348,12 @@ public class MainActivity extends BaseActivity
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (null != result) {
+            AlertDialogHelper.showQRResultDialog(getString(R.string.qr_scanner_result), result.getContents());
+        }
+    }
 }

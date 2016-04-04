@@ -63,8 +63,6 @@ public class MapJSBridge {
      */
     public void leaveStoryline(){
 
-        //TODO
-
         webView.post(new Runnable() {
             public void run() {
                 webView.evaluateJavascript("controller.cancelNavigation()", null);

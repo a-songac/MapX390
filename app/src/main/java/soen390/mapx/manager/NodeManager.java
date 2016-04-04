@@ -15,6 +15,8 @@ import soen390.mapx.model.Node;
  */
 public class NodeManager {
 
+    private NodeManager(){}
+
     private static List<Node> pois = null;
     private static List<Node> poisNameOrder = null;
 

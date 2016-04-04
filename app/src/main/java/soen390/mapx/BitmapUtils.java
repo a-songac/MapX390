@@ -9,6 +9,8 @@ import android.graphics.BitmapFactory;
  */
 public class BitmapUtils {
 
+    private BitmapUtils(){}
+
     /**
      *
      * @param options

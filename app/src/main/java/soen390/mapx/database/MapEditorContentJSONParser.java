@@ -22,6 +22,8 @@ import soen390.mapx.model.StorylineNode;
  */
 public class MapEditorContentJSONParser {
 
+    private MapEditorContentJSONParser(){}
+
     /**
      * Parse floor objects
      * @param floorArr
@@ -139,7 +141,7 @@ public class MapEditorContentJSONParser {
 
         List<Node> pots = new ArrayList<>();
 
-        JsonObject potJsonObj, labelJsonObject;
+        JsonObject potJsonObj;
         Floor floor;
         String label;
 
@@ -149,7 +151,6 @@ public class MapEditorContentJSONParser {
             potJsonObj = potArr.get(i).getAsJsonObject();
 
             floor = Floor.find(Floor.class, "floor_id=?", potJsonObj.get("floorID").getAsString()).get(0);
-            //labelJsonObject = potJsonObj.get("label").getAsJsonObject();
             label = potJsonObj.get("label").getAsString();
 
             pots.add(new Node(
@@ -158,8 +159,6 @@ public class MapEditorContentJSONParser {
                     potJsonObj.get("y").getAsInt(),
                     getType(label),
                     getSubType(label),
-                    //getType(labelJsonObject.get("label").getAsString()),
-                    //getSubType(labelJsonObject.get("label").getAsString()),
                     floor.getFloorId(),
                     null
             ));

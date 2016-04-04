@@ -255,4 +255,12 @@ public class Node extends SugarRecord implements Comparable<Node> {
     public int compareTo(Node another) {
         return this.getTitle().compareTo(another.getTitle());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Node) {
+            return this.getTitle().equals(((Node) o).getTitle());
+        }
+        return false;
+    }
 }
