@@ -1,9 +1,17 @@
 package soen390.mapx.database;
 
+import android.os.Environment;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.orm.SugarRecord;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import soen390.mapx.LogUtils;
@@ -25,12 +33,13 @@ public class DbContentManager {
 
     private DbContentManager(){}
 
+    public static final String EXTERNAL_STORAGE_MAPX_DIR = "mapx";
+    public static final String JSON_FILE_NAME= "mapx.json";
+
     /**
      * Init database content in first use
      */
     public static void initDatabaseContent(JsonElement root) {
-
-
 
         if (true || !PreferenceHelper.getInstance().isDbInitPreference()) {//TODO TEMP reparse
 
@@ -46,6 +55,26 @@ public class DbContentManager {
             }
         }
 
+    }
+
+    /**
+     * Load JSON file used to seed the database
+     * @return
+     */
+    public static JsonElement prepareJSONSeed() {
+
+        try {
+            String dir = Environment.getExternalStorageDirectory()
+                    + File.separator + EXTERNAL_STORAGE_MAPX_DIR;
+            FileInputStream is = new FileInputStream(dir + File.separator + JSON_FILE_NAME);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            JsonParser jsonParser = new JsonParser();
+            return jsonParser.parse(br).getAsJsonObject();
+
+        } catch (FileNotFoundException e) {
+            LogUtils.error(DbContentManager.class, "prepareJSONSeed", e.getMessage() );
+        }
+        return null;
     }
 
     /**

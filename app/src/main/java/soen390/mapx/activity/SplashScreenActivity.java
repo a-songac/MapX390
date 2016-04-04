@@ -12,19 +12,16 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.google.gson.JsonElement;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -38,6 +35,7 @@ public class SplashScreenActivity extends Activity{
 
     private final static int SPLASH_TIME_OUT = 3000;
     private static boolean isDownloadingContent = true;
+    private DownloadJSON downloadJSONTask;
     private ProgressBar progressBar;
 
 
@@ -49,14 +47,16 @@ public class SplashScreenActivity extends Activity{
 
         PreferenceHelper.getInstance().init(this);
         progressBar = (ProgressBar)findViewById(R.id.progress_bar);
+        downloadJSONTask = new DownloadJSON();
 
-        if (isDownloadingContent) {
+        if (true || !PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
             if ((validateNetwork())) {
 
                 new DownloadJSON().execute();
 
             } else {
                 UiUtils.displayToastLong("Could not connect to network");
+                // TODO display button to re attempt download
             }
 
 
@@ -107,143 +107,240 @@ public class SplashScreenActivity extends Activity{
         return networkInfo != null && networkInfo.isConnected();
     }
 
+
+
+
+
+
+
     /**
      * Async task to download json
      */
-    private class DownloadJSON extends AsyncTask<Void, Integer, String> {
+    private class DownloadJSON extends AsyncTask<Void, Integer, Void> {
 
-        private final String JSON_URL = "http://users.encs.concordia.ca/~a_songac/dummyData.json";
+        public static final String JSON_URL = "http://users.encs.concordia.ca/~a_songac/mapx/demoData.json";
+        public static final String MEDIA_URL = "http://users.encs.concordia.ca/~a_songac/mapx/media/";
+        public static final String NB_MEDIA_FILES_SCRIPT_URL = MEDIA_URL + "nb_files.php";
+
 
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
+            progressBar.setIndeterminate(false);
+            progressBar.setMax(100);
 
-            
+
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected Void doInBackground(Void... params) {
             String data = null;
             try {
 
-                data = downloadUrl(JSON_URL);
+                downloadUrl(JSON_URL);
+                JsonArray files = getListOfMediaFiles();
+
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtils.error(this.getClass(), "doInBackground", e.getMessage());
             }
-            return data;
+
+            return null;
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
+            progressBar.setProgress(values[0]);
+
 
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(Void s) {
             super.onPostExecute(s);
-            quitOnDelay();
+            DbContentManager.initDatabaseContent(DbContentManager.prepareJSONSeed());
+            startNextActivity();
 
         }
-    }
 
-    private String downloadUrl(String urlString) throws IOException {
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-        HttpURLConnection connection = null;
-        String dir = "";
-        // Only display the first 500 characters of the retrieved
-        // web page content.
-        int len = 500;
 
-        try {
-            URL url = new URL(urlString);
+        /**
+         * Download content
+         *
+         * @param urlString
+         * @return
+         * @throws IOException
+         */
+        private void downloadUrl(String urlString) throws IOException {
+
+            InputStream inputStream = null;
+            HttpURLConnection connection = null;
+            String dir = Environment.getExternalStorageDirectory()
+                    + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR;
+
+            try {
+
+                connection = establishUrlConnection(urlString);
+
+                int fileLength = connection.getContentLength();
+
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+
+                    File folder = new File(dir); //folder name
+
+                    if (folder.mkdirs() || folder.isDirectory()) {
+
+                        inputStream = connection.getInputStream();
+                        downloadConnectionData(
+                                inputStream,
+                                dir
+                                        + File.separator
+                                        + DbContentManager.JSON_FILE_NAME,
+                                fileLength);
+
+                    } else {
+                        // TODO impossible to create map x directory
+                    }
+                } else {
+                    // TODO device does not have external storage
+                }
+
+            } finally {
+                try {
+                    if (inputStream != null)
+                        inputStream.close();
+                } catch (IOException ignored) {
+                }
+
+                if (connection != null)
+                    connection.disconnect();
+            }
+
+        }
+
+        /**
+         * Get the list of media files to download
+         * @return
+         */
+        public JsonArray getListOfMediaFiles() throws IOException{
+
+            HttpURLConnection connection = null;
+            JsonArray filesJson;
+            JsonParser jsonParser = new JsonParser();
+            InputStream inputStream = null;
+
+            try {
+
+                connection = establishUrlConnection(DownloadJSON.NB_MEDIA_FILES_SCRIPT_URL);
+                inputStream = connection.getInputStream();
+                String files = readConnectionContent(inputStream);
+
+                LogUtils.info(this.getClass(), "getListOfMediaFiles", "Content: " + files);
+                filesJson = jsonParser.parse(files).getAsJsonArray();
+
+            } finally {
+
+                if (inputStream != null)
+                    inputStream.close();
+
+                if (connection != null)
+                    connection.disconnect();
+            }
+
+            return filesJson;
+        }
+
+        /**
+         * Establish the connection
+         * @param urlStr
+         * @throws IOException
+         */
+        public HttpURLConnection establishUrlConnection(String urlStr) throws IOException{
+
+            HttpURLConnection connection;
+            URL url = new URL(urlStr);
             connection = (HttpURLConnection) url.openConnection();
             connection.setReadTimeout(10000);
             connection.setConnectTimeout(15000);
             connection.setRequestMethod("GET");
             connection.setDoInput(true);
-
             connection.connect();
-            int response = connection.getResponseCode();
-            LogUtils.info(this.getClass(), "downloadUrl", "The response is: " + response);
-            int fileLength = connection.getContentLength();
-            LogUtils.info(this.getClass(), "downloadUrl", "Content length: " + fileLength);
-
-
-            dir = "";
-            if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-                //handle case of no SDCARD present
-            } else {
-                dir = Environment.getExternalStorageDirectory()+ File.separator + "mapx";
-                //create folder
-                File folder = new File(dir); //folder name
-                folder.mkdirs();
-
-                //create file
-                File file = new File(dir, "mapx.json");
-            }
-
-
-            inputStream = connection.getInputStream();
-            outputStream = new FileOutputStream(dir + File.separator + "mapx.json");
-
-            byte data[] = new byte[4096];
-            long total = 0;
-            int count;
-            while ((count = inputStream.read(data)) != -1) {
-                // allow canceling with back button
-//                if (isCancelled()) {
-//                    input.close();
-//                    return null;
-//                }
-                total += count;
-
-                // publishing the progress....
-                if (fileLength > 0) // only if total length is known
-//                    publishProgress((int) (total * 100 / fileLength));
-
-                outputStream.write(data, 0, count);
-            }
-
-//            // Convert the InputStream into a string
-//            String contentAsString = readIt(inputStream, len);
-//            return contentAsString;
-
-            // Makes sure that the InputStream is closed after the app is
-            // finished using it.
-
-        } finally {
-            try {
-                if (outputStream != null)
-                    outputStream.close();
-                if (inputStream != null)
-                    inputStream.close();
-            } catch (IOException ignored) {
-            }
-
-            if (connection != null)
-                connection.disconnect();
+            return connection;
         }
 
+        /**
+         * Get string of connection inputstream
+         * @param inputStream
+         * @return
+         * @throws IOException
+         */
+        public String readConnectionContent(InputStream inputStream) throws IOException{
 
-        FileInputStream is= new FileInputStream(dir + File.separator + "mapx.json");
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        JsonParser jsonParser = new JsonParser();
-        JsonElement jsonElement = jsonParser.parse(br).getAsJsonObject();
-        DbContentManager.initDatabaseContent(jsonElement);
+            BufferedReader reader = null;
 
-        return "";
+            try {
+                String line;
+                StringBuilder sb = new StringBuilder();
+                reader = new BufferedReader(new InputStreamReader(
+                        inputStream));
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line + "\n");
+                }
+
+                return sb.toString();
+            } finally {
+                if (null != reader)
+                    reader.close();
+            }
+        }
+
+        /**
+         * Download connection content
+         */
+        public void downloadConnectionData(InputStream inputStream, String path, int fileLength)
+                throws IOException{
+
+            OutputStream outputStream = null;
+            try {
+                outputStream = new FileOutputStream(path);
+
+                byte data[] = new byte[4096];
+                long total = 0;
+                int count;
+
+
+                while ((count = inputStream.read(data)) != -1) {
+                    total += count;
+
+                    // publishing the progress....
+                    if (fileLength > 0) // only if total length is known
+                        publishProgress((int) (total * 100 / fileLength));
+
+                    outputStream.write(data, 0, count);
+                }
+            } finally {
+
+                if (null != outputStream)
+                    outputStream.close();
+            }
+
+
+        }
+
+        /**
+         * Download all media files
+         */
+        public void downloadMediaFiles(JsonArray filesJsonArray) {
+
+            
+
+
+        }
+
     }
 
-    public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
-        Reader reader = null;
-        reader = new InputStreamReader(stream, "UTF-8");
-        char[] buffer = new char[len];
-        reader.read(buffer);
-        return new String(buffer);
-    }
 }
