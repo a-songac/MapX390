@@ -67,7 +67,7 @@ public class MapEditorContentJSONParser {
 
             poiJsonObj = poiArr.get(i).getAsJsonObject();
 
-            beaconJsonObj = poiJsonObj.get("iBeacon").getAsJsonObject();
+            beaconJsonObj = poiJsonObj.get("ibeacon").getAsJsonObject();
 
             beacons.add(new IBeacon(
                     beaconJsonObj.get("uuid").getAsString(),
@@ -105,7 +105,7 @@ public class MapEditorContentJSONParser {
             poiJsonObj = poiArr.get(i).getAsJsonObject();
 
             floor = Floor.find(Floor.class, "floor_id=?", poiJsonObj.get("floorID").getAsString()).get(0);
-            beaconJsonObj = poiJsonObj.get("iBeacon").getAsJsonObject();
+            beaconJsonObj = poiJsonObj.get("ibeacon").getAsJsonObject();
             beacons = IBeacon.find(
                     IBeacon.class,
                     "uuid = ? AND minor=? AND major=?",
@@ -141,6 +141,7 @@ public class MapEditorContentJSONParser {
 
         JsonObject potJsonObj, labelJsonObject;
         Floor floor;
+        String label;
 
 
         for (int i = 0; i < potArr.size(); i++) {
@@ -148,14 +149,17 @@ public class MapEditorContentJSONParser {
             potJsonObj = potArr.get(i).getAsJsonObject();
 
             floor = Floor.find(Floor.class, "floor_id=?", potJsonObj.get("floorID").getAsString()).get(0);
-            labelJsonObject = potJsonObj.get("label").getAsJsonObject();
+            //labelJsonObject = potJsonObj.get("label").getAsJsonObject();
+            label = potJsonObj.get("label").getAsString();
 
             pots.add(new Node(
                     potJsonObj.get("id").getAsLong(),
                     potJsonObj.get("x").getAsInt(),
                     potJsonObj.get("y").getAsInt(),
-                    getType(labelJsonObject.get("label").getAsString()),
-                    getSubType(labelJsonObject.get("label").getAsString()),
+                    getType(label),
+                    getSubType(label),
+                    //getType(labelJsonObject.get("label").getAsString()),
+                    //getSubType(labelJsonObject.get("label").getAsString()),
                     floor.getFloorId(),
                     null
             ));
@@ -183,7 +187,7 @@ public class MapEditorContentJSONParser {
                 return Node.SERVICE_TYPE;
 
         }
-        return Node.POI_TYPE;
+        return Node.TRANSITION_TYPE;
     }
 
     /**
@@ -274,11 +278,11 @@ public class MapEditorContentJSONParser {
                 descJsonObj = descJsonArr.get(j).getAsJsonObject();
 
                 titleMap.put(
-                        titleJsonObj.get("language").getAsString(),
+                        titleJsonObj.get("language").getAsString().toLowerCase(),
                         titleJsonObj.get("title").getAsString());
                 descMap.put(
-                        descJsonObj.get("language").getAsString(),
-                        descJsonObj.get("description").getAsString());
+                        descJsonObj.get("language").getAsString().toLowerCase(),
+                        android.text.Html.fromHtml(descJsonObj.get("description").getAsString()).toString());
 
             }
 
@@ -425,9 +429,9 @@ public class MapEditorContentJSONParser {
                         storylineId));
 
                 contents.addAll(parseMediaContents(
-                        storyPointMediaJsonObj.get("video").getAsJsonArray(),
+                        storyPointMediaJsonObj.get("audio").getAsJsonArray(),
                         nodeId,
-                        ExpositionContent.VIDEO_TYPE,
+                        ExpositionContent.AUDIO_TYPE,
                         storylineId));
 
                 contents.addAll(parseStorylinePointTextContent(
@@ -461,7 +465,7 @@ public class MapEditorContentJSONParser {
 
             contents.add(new ExpositionContent(
                     nodeId,
-                    contentJsonObj.get("language").getAsString(),
+                    contentJsonObj.get("language").getAsString().toLowerCase(),
                     type,
                     storylineId,
                     contentJsonObj.get("caption").getAsString(),
@@ -507,11 +511,11 @@ public class MapEditorContentJSONParser {
             descJsonObj = descJsonArr.get(j).getAsJsonObject();
 
             titleMap.put(
-                    titleJsonObj.get("language").getAsString(),
+                    titleJsonObj.get("language").getAsString().toLowerCase(),
                     titleJsonObj.get("title").getAsString());
             descMap.put(
-                    descJsonObj.get("language").getAsString(),
-                    descJsonObj.get("description").getAsString());
+                    descJsonObj.get("language").getAsString().toLowerCase(),
+                    android.text.Html.fromHtml(descJsonObj.get("description").getAsString()).toString());
 
         }
 

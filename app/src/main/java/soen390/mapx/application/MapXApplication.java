@@ -45,6 +45,7 @@ public class MapXApplication extends BaseApplication {
      */
     private void initIBeaconMonitoring() {
         beaconManager = new BeaconManager(getApplicationContext());
+        beaconManager.setBackgroundScanPeriod(5000,10000);
 
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {

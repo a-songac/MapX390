@@ -6,12 +6,19 @@ function FloorManager(){
 
 	this.initialize = function(){
 		this.setJSON();
+	};
+
+	this.initializeFollowUp = function(){
 		this.setFloorImages();
 		this.setFloorLevelUIControl();
 	};
 
 	this.setJSON = function(){
 		floorJSON = JSON.parse(Android.getFloorsJSON());
+	};
+
+	this.getJSON = function(){
+		return floorJSON;
 	};
 
 	this.setCurrentFloor = function(floor){
@@ -37,16 +44,24 @@ function FloorManager(){
 
 			imageUrl = floorJSON[i]["floor_path"];
 
+			//If path starts with /, it'll be start from outside the webview. TODO: Temporary fix, as image path should start from storage folder, not webview folder
+			if(imageUrl.charAt(0) == "/"){
+				imageUrl = imageUrl.substring(1);
+			}
+
 			var imageBounds = [[south, west], [north, east]];
 	    	var imageOverlay = L.imageOverlay(imageUrl, imageBounds);
 	    	imageOverlay.addTo(map);
 	    	imageOverlay.setOpacity(0);
 
+	    	var floor_num = floorJSON[i]["floor_num"];
+
 	    	floors.push({
 	    		leafletObj:imageOverlay,
 	    		north: north,
 	    		east: east,
-	    		imageUrl: imageUrl
+	    		imageUrl: imageUrl,
+	    		num: floor_num
 	    	});
     	}
 	};
@@ -65,8 +80,8 @@ function FloorManager(){
 		for(var i = 0; i < levels; i++){
 			var levelControl = document.createElement("a");
 			$(levelControl).prop("href", "#");
-			$(levelControl).text(i+1);
-			$(levelControl).attr("data-floorId", i+1);  //TOCHANGE for id attribute in JSON in future sprint
+			$(levelControl).text(floors[i].num);
+			$(levelControl).attr("data-floorId", floors[i].num); 
 
 			//First floor has to have the selected css
 			if(i === 0){
@@ -90,7 +105,14 @@ function FloorManager(){
 				}
 
 				var level = parseInt($(this).text());
-				var updatedFloorOverlay = floors[level-1];
+				var updatedFloorOverlay; //= floors[level-1];
+
+				for(var i = 0; i < floors.length; i++){
+					if(parseInt(floors[i].num) == level){
+						updatedFloorOverlay = floors[i];
+						break;
+					}
+				}
 
 				self.setCurrentFloor(level);
 				updatedFloorOverlay.leafletObj.setOpacity(1);
@@ -112,15 +134,7 @@ function FloorManager(){
 
 		this.clickFloor(floor);
 
-		var poiElements = controller.poiManager.getPOIElements();
-		for(var i = 0; i < poiElements.length; i++){
-			var marker = poiElements[i];
-
-			if(parseInt(marker.poiID) ==  parseInt(userPOI)){
-				map.setView(marker.getLatLng());
-				controller.mapManager.setCurrentView();
-			}
-		}
+		controller.userManager.centerToUserPOI(userPOI);
 	};
 
 	this.clickFloor = function(floor){
@@ -128,7 +142,6 @@ function FloorManager(){
 		for(var i = 0; i < floorButtons.length; i++){
 			var floorBtn = floorButtons[i];
 
-			//TODO: Maybe change, if floor can be something other than int
 			if(parseInt($(floorBtn).attr("data-floorId")) == parseInt(floor)){
 				$(floorBtn).click();
 			}
