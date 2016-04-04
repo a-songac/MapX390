@@ -7,6 +7,8 @@ import android.util.Log;
  */
 public class LogUtils {
 
+    private LogUtils(){}
+
     /**
      * Tag for Soluteo log
      */

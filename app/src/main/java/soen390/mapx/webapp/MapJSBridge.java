@@ -63,8 +63,6 @@ public class MapJSBridge {
      */
     public void leaveStoryline(){
 
-        //TODO
-
         webView.post(new Runnable() {
             public void run() {
                 webView.evaluateJavascript("controller.cancelNavigation()", null);
@@ -90,6 +88,18 @@ public class MapJSBridge {
         webView.post(new Runnable() {
             public void run() {
                 webView.evaluateJavascript("controller.changeToUserLocationFloor()", null);
+            }
+        });
+    }
+
+    /**
+     * Switch to the floor on which the user is if necessary
+     */
+    public void changeToPOIFloor(String nodeId){
+        final String nodeID = nodeId;
+        webView.post(new Runnable() {
+            public void run() {
+                webView.evaluateJavascript("controller.changeToPOIFloor(" + nodeID + ")", null);
             }
         });
     }

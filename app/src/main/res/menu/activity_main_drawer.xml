@@ -21,11 +21,6 @@
             android:title="@string/navigation_drawer_settings" />
 
         <item
-            android:id="@+id/nav_help_feedback"
-            android:icon="@drawable/ic_help_black_24dp"
-            android:title="@string/navigation_drawer_help_feedback" />
-
-        <item
             android:id="@+id/nav_poi_beacon_stub"
             android:icon="@drawable/ic_help_black_24dp"
             android:title="@string/navigation_drawer_beacon_stub" />

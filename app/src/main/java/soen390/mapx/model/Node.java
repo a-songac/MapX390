@@ -13,7 +13,7 @@ import soen390.mapx.helper.PreferenceHelper;
  * Node model.
  */
 
-public class Node extends SugarRecord {
+public class Node extends SugarRecord implements Comparable<Node> {
 
     @Ignore
     public static final String POI_TYPE = "p";
@@ -57,6 +57,9 @@ public class Node extends SugarRecord {
     private Long iBeaconId;
     private Long qrId;
 
+    @Ignore
+    private Description description = null;
+
     /**
      * Default constructor
      */
@@ -90,24 +93,26 @@ public class Node extends SugarRecord {
      */
     private String getDescription(boolean isTitle) {
 
-        Description ndDesc =
-                Description.getDescription(
-                        PreferenceHelper.getInstance().getLanguagePreference(),
-                        Description.POI_DESC,
-                        this.getId()
-                        );
+        if (null == description || !description.getLanguage().equals(PreferenceHelper.getInstance().getLanguagePreference())) {
+            description =
+                    Description.getDescription(
+                            PreferenceHelper.getInstance().getLanguagePreference(),
+                            Description.POI_DESC,
+                            this.getId()
+                    );
 
-        if (null != ndDesc) {
-            return isTitle? ndDesc.getTitle(): ndDesc.getDescription();
-        }
+            if (null == description) {
 
-        ndDesc = Description.getDescription(
+                description = Description.getDescription(
                         ConstantsHelper.PREF_LANGUAGE_ENGLISH,
                         Description.POI_DESC,
                         this.getId()
                 );
-        if (null != ndDesc)
-            return isTitle? ndDesc.getTitle(): ndDesc.getDescription();
+            }
+        }
+
+        if (null != description)
+            return isTitle? description.getTitle(): description.getDescription();
 
         return null;
 
@@ -244,5 +249,18 @@ public class Node extends SugarRecord {
         }
         return expositionContents;
 
+    }
+
+    @Override
+    public int compareTo(Node another) {
+        return this.getTitle().compareTo(another.getTitle());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Node) {
+            return this.getTitle().equals(((Node) o).getTitle());
+        }
+        return false;
     }
 }

@@ -24,7 +24,7 @@ public class MapXApplication extends BaseApplication {
         SugarContext.init(this);
 
 
-        virtualDevice = Build.FINGERPRINT.startsWith("generic") || "generic".equals(Build.BRAND.toLowerCase()) || Build.FINGERPRINT.contains("vbox");
+        virtualDevice = Build.FINGERPRINT.startsWith("generic") || "generic".equalsIgnoreCase(Build.BRAND) || Build.FINGERPRINT.contains("vbox");
         LogUtils.info(this.getClass(), "onCreate" , "Build FINGERPRINT: " + Build.FINGERPRINT);
         LogUtils.info(this.getClass(), "onCreate" , "Build BRAND: " + Build.BRAND);
 
@@ -45,6 +45,7 @@ public class MapXApplication extends BaseApplication {
      */
     private void initIBeaconMonitoring() {
         beaconManager = new BeaconManager(getApplicationContext());
+        beaconManager.setBackgroundScanPeriod(5000,10000);
 
 
         beaconManager.connect(new BeaconManager.ServiceReadyCallback() {

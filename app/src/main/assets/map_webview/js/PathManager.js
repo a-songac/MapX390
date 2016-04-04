@@ -62,7 +62,7 @@ function PathManager(){
 				var poi = poisJSON[i];
 				if(parseInt(currentFloor) == parseInt(poi["floor"]) && ( parseInt(poi["_id"]) == parseInt(currentNode) || parseInt(poi["_id"]) == parseInt(pastNode) ) ){
 					var x = -mapWidth + (offsetX + parseInt(poi["x_coord"]));
-					var y = -mapHeight + (offsetY + parseInt(poi["y_coord"]));
+					var y = mapHeight - (offsetY + parseInt(poi["y_coord"]));
 					latLng.push([y,x]);
 					continue;
 				}
@@ -91,50 +91,65 @@ function PathManager(){
 	}
 
 	this.updatePath = function(){
-		console.log('updating path');
-		var userMarkerLatlng = controller.userManager.getUserMarker().getLatLng();
-
-		var userPOI = Android.getUserPosition();
-		while(path.length !== 0){
-			if(parseInt(userPOI) === parseInt(path[0])){
-				break;
-			}
-
-			path.shift();
-		}
-
-		sourcePoiId = path[0];
-		
 		if(Android.isInStorylineMode()){
 			controller.poiManager.changeDestinationPOIIcon({
 				imagePath: 'js/images/marker-icon-2x.png',
 			});
 
-			destinationPoiId = controller.poiManager.getNextPOI();
+			// destinationPoiId = controller.poiManager.getNextPOI();
 
-			controller.poiManager.changeDestinationPOIIcon({
-				imagePath : 'js/images/pin1.png'
-			}); 
+			// controller.poiManager.changeDestinationPOIIcon({
+			// 	imagePath : 'js/images/pin1.png'
+			// }); 
 		}
 
-		var stringPath = [];
-		for(var i = 0; i < path.length; i++){
-			stringPath.push(path[i].toString());
-		}
+		this.deletePath();
+		this.drawPath();
 
-		Android.setPath(stringPath);
+		// console.log('updating path');
+		// var userMarkerLatlng = controller.userManager.getUserMarker().getLatLng();
 
-		while(polylines.length !== 0){
-			var pathElement = polylines[0];
-			var latLngs = pathElement.getLatLngs();
+		// var userPOI = Android.getUserPosition();
+		// while(path.length !== 0){
+		// 	if(parseInt(userPOI) === parseInt(path[0])){
+		// 		break;
+		// 	}
 
-			if(parseInt(userMarkerLatlng.lng) === parseInt(latLngs[0].lng) && parseInt(userMarkerLatlng.lat) === parseInt(latLngs[0].lat)){
-				break;
-			}
+		// 	path.shift();
+		// }
 
-			map.removeLayer(polylines[0]);
-			polylines.shift();
-		}
+		// sourcePoiId = path[0];
+		
+		// if(Android.isInStorylineMode()){
+		// 	controller.poiManager.changeDestinationPOIIcon({
+		// 		imagePath: 'js/images/marker-icon-2x.png',
+		// 	});
+
+		// 	destinationPoiId = controller.poiManager.getNextPOI();
+
+		// 	controller.poiManager.changeDestinationPOIIcon({
+		// 		imagePath : 'js/images/pin1.png'
+		// 	}); 
+		// }
+
+		// var stringPath = [];
+		// for(var i = 0; i < path.length; i++){
+		// 	stringPath.push(path[i].toString());
+		// }
+
+		// Android.setPath(stringPath);
+
+		// while(polylines.length !== 0){
+		// 	var pathElement = polylines[0];
+		// 	var latLngs = pathElement.getLatLngs();
+
+		// 	if(parseInt(userMarkerLatlng.lng) === parseInt(latLngs[0].lng) && parseInt(userMarkerLatlng.lat) === parseInt(latLngs[0].lat)){
+		// 		break;
+		// 	}
+
+		// 	map.removeLayer(polylines[0]);
+		// 	polylines.shift();
+		// }
 	};
 
 	this.getPath = function(){

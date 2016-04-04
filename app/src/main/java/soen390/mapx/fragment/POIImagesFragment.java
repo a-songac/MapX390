@@ -75,6 +75,7 @@ public class POIImagesFragment extends Fragment implements IBaseFragment {
 
     @Override
     public void onBackPressed() {
+        // do nothing
     }
 
     /**

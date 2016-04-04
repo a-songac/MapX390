@@ -6,10 +6,6 @@ import android.util.Log;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +31,7 @@ public class DummyData {
         AssetManager assetManager = MapXApplication.getGlobalContext().getAssets();
         try {
 
-            InputStream input = assetManager.open("dummyData.json");
+            InputStream input = assetManager.open("demoData.json");
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
             json = jsonParser.parse(br).getAsJsonObject();
 
@@ -48,52 +44,5 @@ public class DummyData {
 
 
         return json;
-
     }
-
-    public static JSONArray dummyMedia() {
-        JSONArray poiArr = new JSONArray();
-        JSONObject poisObj;
-
-        try {
-
-            poisObj = new JSONObject();
-            poisObj.put("_id", 1);
-            poisObj.put("title", "Nipper");
-            poisObj.put("description", "Lorem ipsum");
-            poisObj.put("path", "moeb_point1");
-            poisObj.put("type", "V");
-            poiArr.put(poisObj);
-
-            poisObj = new JSONObject();
-            poisObj.put("_id", 2);
-            poisObj.put("title", "Video 2");
-            poisObj.put("description", "Lorem ipsum");
-            poisObj.put("path", "moeb_point2");
-            poisObj.put("type", "V");
-            poiArr.put(poisObj);
-
-            poisObj = new JSONObject();
-            poisObj.put("_id", 3);
-            poisObj.put("title", "Video 3");
-            poisObj.put("description", "Lorem ipsum");
-            poisObj.put("path", "moeb_point3");
-            poisObj.put("type", "V");
-            poiArr.put(poisObj);
-
-            poisObj = new JSONObject();
-            poisObj.put("_id", 4);
-            poisObj.put("title", "Audio 1");
-            poisObj.put("description", "Lorem ipsum");
-            poisObj.put("path", "moeb_point4");
-            poisObj.put("type", "A");
-            poiArr.put(poisObj);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return poiArr;
-    }
-
 }

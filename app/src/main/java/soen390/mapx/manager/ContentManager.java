@@ -7,6 +7,8 @@ import android.content.Context;
  */
 public class ContentManager {
 
+    private ContentManager(){}
+
     /**
      * Get resource id for an image name
      * @param context

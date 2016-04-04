@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import java.util.List;
 
 import soen390.mapx.BitmapUtils;
-import soen390.mapx.activity.MainActivity;
+import soen390.mapx.UiUtils;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.manager.ContentManager;
 import soen390.mapx.model.ExpositionContent;
@@ -73,7 +73,7 @@ public class PoiImageAdapter extends BaseAdapter {
             Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(
                     context.getResources(),
                     imageResourceId,
-                    MainActivity.getWidth() / 2,//gridView has 2 columns
+                    UiUtils.getRootViewWidth() / 2,//gridView has 2 columns
                     BitmapUtils.dpToPx(GRID_ITEM_HEIGHT_IN_DP));
             imageView.setImageBitmap(bitmap);
         }

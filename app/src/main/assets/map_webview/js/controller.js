@@ -23,9 +23,28 @@ function Controller(){
 			var MIN_ZOOM = -2, MAX_ZOOM = 0, INIT_ZOOM = -1;
 			var INIT_POSITION_X = 0, INIT_POSITION_Y = 0;
 
-			var south = -1100, east = 500, north = 1100, west = -500;
-			self.mapWidth = 500;
-			self.mapHeight = 1050;
+			// var south = -1500, east = 1500, north = 1500, west = -1500;
+			// self.mapWidth = 1500;
+			// self.mapHeight = 1500;
+
+			var floorJSON = self.floorManager.getJSON();
+			var maxWidth = 0; maxHeight = 0;
+			for(var i = 0; i < floorJSON.length; i++){
+				var floor = floorJSON[i];
+
+				if(maxWidth < parseInt(floor["floor_width"])){
+					maxWidth = floor["floor_width"];
+				}
+
+				if(maxHeight < parseInt(floor["floor_height"])){
+					maxHeight = floor["floor_height"];
+				}
+			}
+
+			self.mapWidth = maxWidth/2 + 275;
+			self.mapHeight = maxHeight/2 + 275;
+
+			south = -self.mapHeight; east = self.mapWidth; north = self.mapHeight; west = -self.mapWidth;
 
 			//Map settings
 			map = L.map('map', {
@@ -52,46 +71,56 @@ function Controller(){
 				self.floorManager.clickFloor(Android.getCurrentFloor());
 				map.setView(lngLat, zoomLevel);
 			}else{
-				self.floorManager.clickFloor(1);
+				var first_floor = floors[0];
+
+				self.floorManager.clickFloor(first_floor.num);
 				self.mapManager.setCurrentView();
 				self.mapManager.setZoomLevel();
 			}
 		}
-
-		setMap();
 
 		this.pathManager = new PathManager();
 		this.poiManager = new POIManager();
 		this.floorManager = new FloorManager();
 		this.mapManager = new MapManager();
 		this.userManager = new UserManager();
+		
+		this.floorManager.initialize();
+		setMap();
 
 		this.mapManager.initialize();
-		this.floorManager.initialize();
+		this.floorManager.initializeFollowUp();
 		this.poiManager.initialize();
 		setViewToFirstFloor();
 		this.poiManager.setPOIs();
 
+		//Center to user position, if the correct floor is shown
+		var userPOI = Android.getUserPosition();
+		this.userManager.centerToUserPOI(userPOI);
 
 		if(Android.isInMode()){
 			this.startNavigation();
 		}
 
+		console.log('Webview initialized');
 		Android.initialized();
 	};
 
 	/* Called by Android to start navigation mode */
 	this.startNavigation = function(){
-			this.pathManager.drawPath();
+		this.pathManager.drawPath();
 
-			var poiElements = this.poiManager.getPOIElements();
+		var poiElements = this.poiManager.getPOIElements();
 
-			for(var i = 0; i < poiElements.length; i++){
-				var marker = poiElements[i];
-				marker.closePopup();
-			}
+		for(var i = 0; i < poiElements.length; i++){
+			var marker = poiElements[i];
+			marker.closePopup();
+		}
 
-			this.poiManager.changePopupContent();
+		this.poiManager.changePopupContent();
+
+		this.floorManager.showUserLocatedFloor();
+		this.poiManager.clickPOI(Android.getUserPosition());
 	};
 
 	/* Called by Android to cancel navigation mode */
@@ -119,7 +148,8 @@ function Controller(){
 		if(Android.isInMode()){
 			this.pathManager.updatePath();
 		}
-
+		
+		this.poiManager.changePopupContent();
 		this.poiManager.clickPOI(Android.getUserPosition());
 	};
 
@@ -130,6 +160,25 @@ function Controller(){
 		//if(Android.isInStorylineMode()){
 			this.poiManager.clickPOI(Android.getUserPosition());
 		//}
+	};
+
+	/* Called by Android to display floor and view of specific POI */
+	this.changeToPOIFloor = function(poiID){
+		console.log("controller.changeToPOIFloor - poiID: " + poiID);
+		var poisJSON = this.poiManager.getPOISJSON();
+		var floor;
+
+		for(var i = 0; i < poisJSON.length; i++){
+			var poi = poisJSON[i];
+
+			if(parseInt(poi["_id"]) == parseInt(poiID)){
+				floor = parseInt(poi["floor"]);
+				break;
+			}
+		}
+
+		this.floorManager.clickFloor(floor);
+		this.poiManager.clickPOI(poiID);
 	};
 }
 

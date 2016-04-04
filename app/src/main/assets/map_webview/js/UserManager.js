@@ -16,7 +16,7 @@ function UserManager(){
 			var poi = poisJSON[i];
 			if(parseInt(currentFloor) == parseInt(poi["floor"]) && parseInt(poi["_id"]) == parseInt(userPOI) ){
 				var x = -controller.mapWidth + (controller.offsetX + parseInt(poi["x_coord"]));
-				var y = -controller.mapHeight + (controller.offsetY + parseInt(poi["y_coord"]));
+				var y = controller.mapHeight - (controller.offsetY + parseInt(poi["y_coord"]));
 				latLng = [y,x];
 				break;
 			}
@@ -74,5 +74,17 @@ function UserManager(){
 
 	this.getUserMarker = function(){
 		return userMarker;
+	};
+
+	this.centerToUserPOI = function(userPOI){
+		var poiElements = controller.poiManager.getPOIElements();
+		for(var i = 0; i < poiElements.length; i++){
+			var marker = poiElements[i];
+
+			if(parseInt(marker.poiID) ==  parseInt(userPOI)){
+				map.setView(marker.getLatLng());
+				controller.mapManager.setCurrentView();
+			}
+		}
 	};
 }

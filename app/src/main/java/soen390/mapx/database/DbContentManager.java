@@ -23,6 +23,8 @@ import soen390.mapx.model.StorylineNode;
  */
 public class DbContentManager {
 
+    private DbContentManager(){}
+
     /**
      * Init database content in first use
      */

@@ -2,6 +2,7 @@ package soen390.mapx.manager;
 
 import com.estimote.sdk.Beacon;
 
+import java.util.Collections;
 import java.util.List;
 
 import soen390.mapx.LogUtils;
@@ -14,7 +15,10 @@ import soen390.mapx.model.Node;
  */
 public class NodeManager {
 
+    private NodeManager(){}
+
     private static List<Node> pois = null;
+    private static List<Node> poisNameOrder = null;
 
     /**
      * Link detected ibeacon with actualPOI node
@@ -80,6 +84,18 @@ public class NodeManager {
         }
         return pois;
 
+    }
+
+    /**
+     * Get all POIs ordered by name
+     * @return
+     */
+    public static List<Node> getAllPOIsOrderedByName() {
+        if (null == poisNameOrder) {
+            poisNameOrder = Node.find(Node.class, "type = ?", Node.POI_TYPE);
+            Collections.sort(poisNameOrder);
+        }
+        return poisNameOrder;
     }
 
     

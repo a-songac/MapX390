@@ -11,6 +11,7 @@ import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.fragment.MapFragment;
 import soen390.mapx.fragment.MediaViewPagerFragment;
+import soen390.mapx.fragment.POIsListFragment;
 import soen390.mapx.fragment.SettingsFragment;
 import soen390.mapx.fragment.StorylineListFragment;
 import soen390.mapx.manager.MapManager;
@@ -77,11 +78,10 @@ public class NavigationHelper {
 
     /**
      * Add settings fragment over current fragment (always map fragment)
-     * @param triggerLanguage : whether trigger the language settings upon loading the fragment
      */
-    public void navigateToSettingsFragment(boolean triggerLanguage) {
+    public void navigateToSettingsFragment() {
 
-        Fragment settingsFragment = SettingsFragment.newInstance(triggerLanguage);
+        Fragment settingsFragment = SettingsFragment.newInstance();
 
         addFragment(
                 settingsFragment,
@@ -120,6 +120,19 @@ public class NavigationHelper {
                 null
         );
 
+    }
+
+    /**
+     * Add pois search list fragment
+     */
+    public void navigateToPOIsSearchFragment() {
+        addFragment(
+                new POIsListFragment(),
+                false,
+                true,
+                ConstantsHelper.POIS_SEARCH_LIST_FRAGMENT_TAG,
+                null
+        );
     }
 
     /**

@@ -46,7 +46,7 @@ public class NodeJSInterfaceTest {
     }
 
     /**
-     * TODO No longer testable as junit test, requires to be tested on the device with db content. TO BE REVIEWED LATER
+     *  No longer testable as junit test, requires to be tested on the device with db content. TO BE REVIEWED LATER
      */
     @Ignore
     public void testgetPOIsJSON() {

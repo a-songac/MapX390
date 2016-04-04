@@ -38,6 +38,7 @@
     <!-- POI -->
     <string name="poi_selected_as_destination">Selected exhibition point %1$s as destination</string>
     <string name="poi_leave_navigation">Leave Navigation</string>
+    <string name="search_text_view_placeholder">Enter POI Name</string>
 
     <!-- Storylines -->
     <string name="storyline_list_item_start">START STORYLINE</string>
@@ -49,6 +50,8 @@
     <string name="storyline_change_message_poi">Do you want to leave the current navigation for this storyline: %1$s?</string>
     <string name="storyline_go_to_starting_point">Starting Point</string>
     <string name="storyline_go_to_starting_point_message">To start a storyline, you must be at the starting point (info center).  Do you want to launch the navigation towards the starting point?</string>
+    <string name="storyline_start_pending">Start Stoyline</string>
+    <string name="storyline_start_pending_message">Do you want to start the previously selected storyline: %1$s?</string>
 
     <!-- Navigation -->
     <string name="navigation_leave">Leave Navigation</string>
@@ -74,5 +77,8 @@
     <string name="tab_info">Info</string>
     <string name="tab_images">Images</string>
     <string name="tab_media">Media</string>
+
+    <!-- QR Scanner -->
+    <string name="qr_scanner_result">QR Code</string>
 
 </resources>
