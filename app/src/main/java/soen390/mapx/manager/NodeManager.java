@@ -92,7 +92,7 @@ public class NodeManager {
      */
     public static List<Node> getAllPOIsOrderedByName() {
         if (null == poisNameOrder) {
-            poisNameOrder = getAllPOIs();
+            poisNameOrder = Node.find(Node.class, "type = ?", Node.POI_TYPE);
             Collections.sort(poisNameOrder);
         }
         return poisNameOrder;
