@@ -136,11 +136,16 @@ public class SplashScreenActivity extends Activity{
 
         @Override
         protected Void doInBackground(Void... params) {
-            String data = null;
             try {
 
-                downloadUrl(JSON_URL);
+                String dir = Environment.getExternalStorageDirectory()
+                        + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
+                        + File.separator + DbContentManager.JSON_FILE_NAME;
+
+                downloadUrl(JSON_URL, dir);
+
                 JsonArray files = getListOfMediaFiles();
+                downloadMediaFiles(files);
 
 
             } catch (IOException e) {
@@ -174,7 +179,7 @@ public class SplashScreenActivity extends Activity{
          * @return
          * @throws IOException
          */
-        private void downloadUrl(String urlString) throws IOException {
+        private void downloadUrl(String urlString, String downloadDestination) throws IOException {
 
             InputStream inputStream = null;
             HttpURLConnection connection = null;
@@ -196,9 +201,7 @@ public class SplashScreenActivity extends Activity{
                         inputStream = connection.getInputStream();
                         downloadConnectionData(
                                 inputStream,
-                                dir
-                                        + File.separator
-                                        + DbContentManager.JSON_FILE_NAME,
+                                downloadDestination,
                                 fileLength);
 
                     } else {
@@ -334,9 +337,23 @@ public class SplashScreenActivity extends Activity{
         /**
          * Download all media files
          */
-        public void downloadMediaFiles(JsonArray filesJsonArray) {
+        public void downloadMediaFiles(JsonArray filesJsonArray) throws IOException {
 
-            
+            String fileName;
+
+            for(int i = 0; i < filesJsonArray.size(); i++) {
+
+                fileName = filesJsonArray.get(i).getAsString();
+
+                String destination =
+                        Environment.getExternalStorageDirectory()
+                        + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
+                        + File.separator + fileName;
+
+                downloadUrl(MEDIA_URL + fileName, destination);
+                LogUtils.info(this.getClass(), "downloadMediaFiles", "Downloaded " + fileName);
+
+            }
 
 
         }
