@@ -10,26 +10,27 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonParser;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.UiUtils;
 import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.PreferenceHelper;
+import soen390.mapx.manager.ContentManager;
+import soen390.mapx.model.ExpositionContent;
+import soen390.mapx.model.Floor;
 
 public class SplashScreenActivity extends Activity{
 
@@ -37,6 +38,8 @@ public class SplashScreenActivity extends Activity{
     private static boolean isDownloadingContent = true;
     private DownloadJSON downloadJSONTask;
     private ProgressBar progressBar;
+    private TextView status;
+    private Button retry;
 
 
 
@@ -50,10 +53,23 @@ public class SplashScreenActivity extends Activity{
         downloadJSONTask = new DownloadJSON();
 
         if (true || !PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
+
             if ((validateNetwork())) {
 
-                new DownloadJSON().execute();
+                String destinationDirectory = Environment.getExternalStorageDirectory()
+                        + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR;
+                File folder = new File(destinationDirectory);
 
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && (folder.mkdirs() || folder.isDirectory())) {
+
+                    new DownloadJSON().execute();
+
+                } else {
+                    LogUtils.error(this.getClass(), "downloadUrl", "Device does not have or cannot access external storage");
+                    UiUtils.displayToastLong(getString(R.string.no_external_storage));
+                    //TODO show error status in UI
+
+                }
             } else {
                 UiUtils.displayToastLong("Could not connect to network");
                 // TODO display button to re attempt download
@@ -123,14 +139,10 @@ public class SplashScreenActivity extends Activity{
         public static final String NB_MEDIA_FILES_SCRIPT_URL = MEDIA_URL + "nb_files.php";
 
 
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             progressBar.setVisibility(View.VISIBLE);
-            progressBar.setIndeterminate(false);
-            progressBar.setMax(100);
-
 
         }
 
@@ -138,14 +150,10 @@ public class SplashScreenActivity extends Activity{
         protected Void doInBackground(Void... params) {
             try {
 
-                String dir = Environment.getExternalStorageDirectory()
-                        + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
-                        + File.separator + DbContentManager.JSON_FILE_NAME;
-
-                downloadUrl(JSON_URL, dir);
-
-                JsonArray files = getListOfMediaFiles();
-                downloadMediaFiles(files);
+                downloadJson();
+                DbContentManager.initDatabaseContent(DbContentManager.prepareJSONSeed());
+                downloadExpositionContentMediaFiles();
+                downloadFloorMaps();
 
 
             } catch (IOException e) {
@@ -166,9 +174,20 @@ public class SplashScreenActivity extends Activity{
         @Override
         protected void onPostExecute(Void s) {
             super.onPostExecute(s);
-            DbContentManager.initDatabaseContent(DbContentManager.prepareJSONSeed());
             startNextActivity();
 
+        }
+
+        /**
+         * Download json
+         * @throws IOException
+         */
+        private void downloadJson() throws IOException{
+            String dir = Environment.getExternalStorageDirectory()
+                    + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
+                    + File.separator + DbContentManager.JSON_FILE_NAME;
+
+            downloadUrl(JSON_URL, dir);
         }
 
 
@@ -183,7 +202,7 @@ public class SplashScreenActivity extends Activity{
 
             InputStream inputStream = null;
             HttpURLConnection connection = null;
-            String dir = Environment.getExternalStorageDirectory()
+            String destinationDirectory = Environment.getExternalStorageDirectory()
                     + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR;
 
             try {
@@ -194,7 +213,7 @@ public class SplashScreenActivity extends Activity{
 
                 if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 
-                    File folder = new File(dir); //folder name
+                    File folder = new File(destinationDirectory); //folder name
 
                     if (folder.mkdirs() || folder.isDirectory()) {
 
@@ -205,10 +224,10 @@ public class SplashScreenActivity extends Activity{
                                 fileLength);
 
                     } else {
-                        // TODO impossible to create map x directory
+                        LogUtils.error(this.getClass(), "downloadUrl", "Impossible to create mapx directory");
                     }
                 } else {
-                    // TODO device does not have external storage
+                    LogUtils.error(this.getClass(), "downloadUrl", "Device does not have external storage");
                 }
 
             } finally {
@@ -224,37 +243,6 @@ public class SplashScreenActivity extends Activity{
 
         }
 
-        /**
-         * Get the list of media files to download
-         * @return
-         */
-        public JsonArray getListOfMediaFiles() throws IOException{
-
-            HttpURLConnection connection = null;
-            JsonArray filesJson;
-            JsonParser jsonParser = new JsonParser();
-            InputStream inputStream = null;
-
-            try {
-
-                connection = establishUrlConnection(DownloadJSON.NB_MEDIA_FILES_SCRIPT_URL);
-                inputStream = connection.getInputStream();
-                String files = readConnectionContent(inputStream);
-
-                LogUtils.info(this.getClass(), "getListOfMediaFiles", "Content: " + files);
-                filesJson = jsonParser.parse(files).getAsJsonArray();
-
-            } finally {
-
-                if (inputStream != null)
-                    inputStream.close();
-
-                if (connection != null)
-                    connection.disconnect();
-            }
-
-            return filesJson;
-        }
 
         /**
          * Establish the connection
@@ -274,32 +262,6 @@ public class SplashScreenActivity extends Activity{
             return connection;
         }
 
-        /**
-         * Get string of connection inputstream
-         * @param inputStream
-         * @return
-         * @throws IOException
-         */
-        public String readConnectionContent(InputStream inputStream) throws IOException{
-
-            BufferedReader reader = null;
-
-            try {
-                String line;
-                StringBuilder sb = new StringBuilder();
-                reader = new BufferedReader(new InputStreamReader(
-                        inputStream));
-
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line + "\n");
-                }
-
-                return sb.toString();
-            } finally {
-                if (null != reader)
-                    reader.close();
-            }
-        }
 
         /**
          * Download connection content
@@ -312,17 +274,9 @@ public class SplashScreenActivity extends Activity{
                 outputStream = new FileOutputStream(path);
 
                 byte data[] = new byte[4096];
-                long total = 0;
                 int count;
 
-
                 while ((count = inputStream.read(data)) != -1) {
-                    total += count;
-
-                    // publishing the progress....
-                    if (fileLength > 0) // only if total length is known
-                        publishProgress((int) (total * 100 / fileLength));
-
                     outputStream.write(data, 0, count);
                 }
             } finally {
@@ -330,32 +284,75 @@ public class SplashScreenActivity extends Activity{
                 if (null != outputStream)
                     outputStream.close();
             }
+        }
 
+
+        /**
+         * Download Exposition content media files
+         * @throws IOException
+         */
+        private void downloadExpositionContentMediaFiles() throws IOException {
+
+            String path, destinationPath;
+            List<ExpositionContent> mediaContents = ContentManager.getAllExpositionMediaContents();
+            for (ExpositionContent expositionContent: mediaContents) {
+
+                path = destinationPath = expositionContent.getContent();
+
+
+                if (-1 != path.lastIndexOf(File.separator)) {
+                    destinationPath = getFileNameOnly(path);
+                    expositionContent.setContent(destinationPath);
+                    expositionContent.save();
+                }
+
+                String destination =
+                        Environment.getExternalStorageDirectory()
+                                + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
+                                + File.separator + destinationPath;
+                downloadUrl(MEDIA_URL + path, destination);
+
+                LogUtils.info(this.getClass(), "downloadMediaFiles", "Downloaded media content: " + path);
+
+            }
 
         }
 
         /**
-         * Download all media files
+         * Download floor maps
+         * @throws IOException
          */
-        public void downloadMediaFiles(JsonArray filesJsonArray) throws IOException {
+        private void downloadFloorMaps() throws IOException {
 
-            String fileName;
+            String path, destinationPath;
+            List<Floor> floors = Floor.listAll(Floor.class);
+            for (Floor floor: floors) {
 
-            for(int i = 0; i < filesJsonArray.size(); i++) {
+                path = destinationPath = floor.getImageFilePath();
 
-                fileName = filesJsonArray.get(i).getAsString();
+                if (-1 != path.lastIndexOf(File.separator)) {
+                    destinationPath = getFileNameOnly(path);
+                    floor.setImageFilePath(destinationPath);
+                    floor.save();
+                }
 
                 String destination =
                         Environment.getExternalStorageDirectory()
-                        + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
-                        + File.separator + fileName;
+                                + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
+                                + File.separator + destinationPath;
+                downloadUrl(MEDIA_URL + path, destination);
 
-                downloadUrl(MEDIA_URL + fileName, destination);
-                LogUtils.info(this.getClass(), "downloadMediaFiles", "Downloaded " + fileName);
-
+                LogUtils.info(this.getClass(), "downloadFloorMaps", "Downloaded floor map: " + path);
             }
+        }
 
-
+        /**
+         * Get only the name of the file
+         * @param path
+         * @return
+         */
+        private String getFileNameOnly(String path) {
+            return path.substring(path.lastIndexOf(File.separator) + 1);
         }
 
     }

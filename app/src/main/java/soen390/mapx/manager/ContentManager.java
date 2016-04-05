@@ -2,6 +2,10 @@ package soen390.mapx.manager;
 
 import android.content.Context;
 
+import java.util.List;
+
+import soen390.mapx.model.ExpositionContent;
+
 /**
  * Content Manager
  */
@@ -17,5 +21,20 @@ public class ContentManager {
      */
     public static int getImageResourceId(Context context, String imagePath) {
         return context.getResources().getIdentifier(imagePath, "drawable", context.getPackageName());
+    }
+
+    /**
+     * Get all media contents
+     * @return
+     */
+    public static List<ExpositionContent> getAllExpositionMediaContents() {
+
+        return ExpositionContent.find(
+                ExpositionContent.class,
+                "type=? OR type=? OR type=?",
+                ExpositionContent.AUDIO_TYPE,
+                ExpositionContent.IMAGE_TYPE,
+                ExpositionContent.VIDEO_TYPE);
+
     }
 }
