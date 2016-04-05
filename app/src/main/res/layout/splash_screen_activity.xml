@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    android:id="@+id/root"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/white">
 
@@ -20,4 +22,24 @@
         android:layout_marginTop="69dp"
         android:indeterminate="true"
         android:visibility="invisible"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_connection_retry"
+        android:id="@+id/retry_button"
+        android:layout_alignTop="@+id/progress_bar"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/error"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/no_external_storage_short"
+        android:gravity="center"
+        android:layout_alignBottom="@+id/progress_bar"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -10,9 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,15 +28,13 @@ import soen390.mapx.helper.PreferenceHelper;
 import soen390.mapx.manager.ContentManager;
 import soen390.mapx.model.ExpositionContent;
 import soen390.mapx.model.Floor;
+import soen390.mapx.ui.view.holder.SplashScreenActivityViewHolder;
 
 public class SplashScreenActivity extends Activity{
 
     private final static int SPLASH_TIME_OUT = 3000;
-    private static boolean isDownloadingContent = true;
     private DownloadJSON downloadJSONTask;
-    private ProgressBar progressBar;
-    private TextView status;
-    private Button retry;
+    private SplashScreenActivityViewHolder viewHolder;
 
 
 
@@ -48,9 +43,11 @@ public class SplashScreenActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen_activity);
 
+        viewHolder = new SplashScreenActivityViewHolder(findViewById(R.id.root));
+
         PreferenceHelper.getInstance().init(this);
-        progressBar = (ProgressBar)findViewById(R.id.progress_bar);
         downloadJSONTask = new DownloadJSON();
+        setRetryButton();
 
         if (true || !PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
 
@@ -67,20 +64,34 @@ public class SplashScreenActivity extends Activity{
                 } else {
                     LogUtils.error(this.getClass(), "downloadUrl", "Device does not have or cannot access external storage");
                     UiUtils.displayToastLong(getString(R.string.no_external_storage));
-                    //TODO show error status in UI
+                    viewHolder.getError().setVisibility(View.VISIBLE);
 
                 }
             } else {
-                UiUtils.displayToastLong("Could not connect to network");
-                // TODO display button to re attempt download
+
+                UiUtils.displayToastLong(getString(R.string.no_connection_toast));
+                viewHolder.getRetryButton().setVisibility(View.VISIBLE);
             }
 
 
         } else {
             quitOnDelay();
         }
+    }
 
-
+    /**
+     * set connection retry button
+     */
+    private void setRetryButton() {
+        viewHolder.getRetryButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validateNetwork()) {
+                    downloadJSONTask.execute();
+                    viewHolder.getRetryButton().setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     /**
@@ -142,7 +153,7 @@ public class SplashScreenActivity extends Activity{
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
+            viewHolder.getProgressBar().setVisibility(View.VISIBLE);
 
         }
 
@@ -166,8 +177,7 @@ public class SplashScreenActivity extends Activity{
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            progressBar.setProgress(values[0]);
-
+            // No updates for now
 
         }
 
