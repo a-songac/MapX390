@@ -15,11 +15,13 @@ public class MediaPagerAdapter extends FragmentStatePagerAdapter {
 
     private int numOfTabs;
     private Long poiId;
+    private boolean hasMedia;
 
-    public MediaPagerAdapter(FragmentManager fm, int numOfTabs, Long poiId) {
+    public MediaPagerAdapter(FragmentManager fm, int numOfTabs, Long poiId, boolean hasMedia) {
         super(fm);
         this.numOfTabs = numOfTabs;
         this.poiId = poiId;
+        this.hasMedia = hasMedia;
     }
 
     @Override
@@ -27,10 +29,16 @@ public class MediaPagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 return POIInfoFragment.newInstance(poiId);
+
             case 1:
+                if (numOfTabs == 2 && hasMedia) {
+                    return POIMediaFragment.newInstance(poiId);
+                }
                 return POIImagesFragment.newInstance(poiId);
+
             case 2:
                 return POIMediaFragment.newInstance(poiId);
+
             default:
                 return POIInfoFragment.newInstance(poiId);
         }
