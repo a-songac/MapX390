@@ -193,9 +193,7 @@ public class SplashScreenActivity extends Activity{
          * @throws IOException
          */
         private void downloadJson() throws IOException{
-            String dir = Environment.getExternalStorageDirectory()
-                    + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
-                    + File.separator + DbContentManager.JSON_FILE_NAME;
+            String dir = ContentManager.getMediaDirectoryPath() + DbContentManager.JSON_FILE_NAME;
 
             downloadUrl(JSON_URL, dir);
         }
@@ -212,8 +210,7 @@ public class SplashScreenActivity extends Activity{
 
             InputStream inputStream = null;
             HttpURLConnection connection = null;
-            String destinationDirectory = Environment.getExternalStorageDirectory()
-                    + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR;
+            String destinationDirectory = ContentManager.getMediaDirectoryPath() + DbContentManager.EXTERNAL_STORAGE_MAPX_DIR;
 
             try {
 

@@ -1,9 +1,12 @@
 package soen390.mapx.manager;
 
 import android.content.Context;
+import android.os.Environment;
 
+import java.io.File;
 import java.util.List;
 
+import soen390.mapx.database.DbContentManager;
 import soen390.mapx.model.ExpositionContent;
 
 /**
@@ -36,5 +39,14 @@ public class ContentManager {
                 ExpositionContent.IMAGE_TYPE,
                 ExpositionContent.VIDEO_TYPE);
 
+    }
+
+    /**
+     * Get media directory path
+     * @return
+     */
+    public static String getMediaDirectoryPath() {
+        return Environment.getExternalStorageDirectory()
+                + File.separator + DbContentManager.EXTERNAL_STORAGE_MAPX_DIR + File.separator;
     }
 }

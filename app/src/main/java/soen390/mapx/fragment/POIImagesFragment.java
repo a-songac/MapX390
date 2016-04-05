@@ -27,6 +27,11 @@ public class POIImagesFragment extends Fragment implements IBaseFragment {
 
 
     /**
+     * Height for the images in the grid veiw
+     */
+    public static final int GRID_ITEM_HEIGHT_IN_DP = 150;
+
+    /**
      * Create new instance of Profile fragment
      * @return ProfileFragment : ProfileFragment new instance
      */
