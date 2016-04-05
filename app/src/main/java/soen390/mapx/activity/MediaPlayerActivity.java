@@ -12,6 +12,7 @@ import android.widget.VideoView;
 import soen390.mapx.LogUtils;
 import soen390.mapx.R;
 import soen390.mapx.helper.ConstantsHelper;
+import soen390.mapx.manager.ContentManager;
 import soen390.mapx.model.ExpositionContent;
 
 
@@ -96,8 +97,8 @@ public class MediaPlayerActivity extends AppCompatActivity {
         videoView = (VideoView) findViewById(R.id.videoView);
         ExpositionContent expositionContent = ExpositionContent.findById(ExpositionContent.class, mediaId);
         if (videoView != null) {
-            Uri uri = Uri.parse("android.resource://" + getPackageName() +
-                    "/" + getResources().getIdentifier(expositionContent.getContent(), "raw", getPackageName()));
+
+            Uri uri = Uri.parse(ContentManager.getMediaDirectoryPath() + expositionContent.getContent());
 
             setActionBar(expositionContent.getTitle());
 
