@@ -1,11 +1,14 @@
 package soen390.mapx.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -43,39 +46,31 @@ public class SplashScreenActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen_activity);
 
-        viewHolder = new SplashScreenActivityViewHolder(findViewById(R.id.root));
-
-        PreferenceHelper.getInstance().init(this);
-        downloadJSONTask = new DownloadJSON();
-        setRetryButton();
-
-        if (!PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
-
-            if ((validateNetwork())) {
-
-                String destinationDirectory = Environment.getExternalStorageDirectory()
-                        + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR;
-                File folder = new File(destinationDirectory);
-
-                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && (folder.mkdirs() || folder.isDirectory())) {
-
-                    new DownloadJSON().execute();
-
-                } else {
-                    LogUtils.error(this.getClass(), "downloadUrl", "Device does not have or cannot access external storage");
-                    UiUtils.displayToastLong(getString(R.string.no_external_storage));
-                    viewHolder.getError().setVisibility(View.VISIBLE);
-
-                }
-            } else {
-
-                UiUtils.displayToastLong(getString(R.string.no_connection_toast));
-                viewHolder.getRetryButton().setVisibility(View.VISIBLE);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, 1);
+            }else{
+                continueOnCreate();
             }
+        }else{
+            continueOnCreate();
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    continueOnCreate();
+                }else{
+                    //App won't work
+                }
 
-        } else {
-            quitOnDelay();
+                return;
+            }
         }
     }
 
@@ -134,7 +129,42 @@ public class SplashScreenActivity extends Activity{
         return networkInfo != null && networkInfo.isConnected();
     }
 
+    private void continueOnCreate(){
+        viewHolder = new SplashScreenActivityViewHolder(findViewById(R.id.root));
 
+        PreferenceHelper.getInstance().init(this);
+        downloadJSONTask = new DownloadJSON();
+        setRetryButton();
+
+        if (true || !PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
+
+            if ((validateNetwork())) {
+
+                String destinationDirectory = Environment.getExternalStorageDirectory()
+                        + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR;
+                File folder = new File(destinationDirectory);
+
+                if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED) && (folder.mkdirs() || folder.isDirectory())) {
+
+                    new DownloadJSON().execute();
+
+                } else {
+                    LogUtils.error(this.getClass(), "downloadUrl", "Device does not have or cannot access external storage");
+                    UiUtils.displayToastLong(getString(R.string.no_external_storage));
+                    viewHolder.getError().setVisibility(View.VISIBLE);
+
+                }
+            } else {
+
+                UiUtils.displayToastLong(getString(R.string.no_connection_toast));
+                viewHolder.getRetryButton().setVisibility(View.VISIBLE);
+            }
+
+
+        } else {
+            quitOnDelay();
+        }
+    }
 
 
 
