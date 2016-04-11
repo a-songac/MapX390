@@ -184,6 +184,7 @@ public class SplashScreenActivity extends Activity{
         protected void onPreExecute() {
             super.onPreExecute();
             viewHolder.getProgressBar().setVisibility(View.VISIBLE);
+            viewHolder.getProgressBar().setProgress(0);
 
         }
 
@@ -192,9 +193,13 @@ public class SplashScreenActivity extends Activity{
             try {
 
                 downloadJson();
+                publishProgress(10);
                 DbContentManager.initDatabaseContent(DbContentManager.prepareJSONSeed());
-                downloadExpositionContentMediaFiles();
+                publishProgress(30);
                 downloadFloorMaps();
+                publishProgress(50);
+                downloadExpositionContentMediaFiles();
+
 
 
             } catch (IOException e) {
@@ -207,7 +212,7 @@ public class SplashScreenActivity extends Activity{
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            // No updates for now
+            viewHolder.getProgressBar().setProgress(values[0]);
 
         }
 
@@ -330,8 +335,11 @@ public class SplashScreenActivity extends Activity{
          */
         private void downloadExpositionContentMediaFiles() throws IOException {
 
+            int total, i, progress;
             String path, destinationPath, adjustedPath;
             List<ExpositionContent> mediaContents = ContentManager.getAllExpositionMediaContents();
+            total = mediaContents.size();
+            i = 1;
             for (ExpositionContent expositionContent: mediaContents) {
 
                 path = destinationPath = adjustedPath = expositionContent.getContent();
@@ -354,6 +362,8 @@ public class SplashScreenActivity extends Activity{
                 downloadUrl(MEDIA_URL + adjustedPath, destination);
 
                 LogUtils.info(this.getClass(), "downloadMediaFiles", "Downloaded media content: " + path);
+                progress = (int)((double)i++/total * 50 + 50);
+                publishProgress(((int)progress));
 
             }
 
