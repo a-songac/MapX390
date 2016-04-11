@@ -330,11 +330,11 @@ public class SplashScreenActivity extends Activity{
          */
         private void downloadExpositionContentMediaFiles() throws IOException {
 
-            String path, destinationPath;
+            String path, destinationPath, adjustedPath;
             List<ExpositionContent> mediaContents = ContentManager.getAllExpositionMediaContents();
             for (ExpositionContent expositionContent: mediaContents) {
 
-                path = destinationPath = expositionContent.getContent();
+                path = destinationPath = adjustedPath = expositionContent.getContent();
 
 
                 if (-1 != path.lastIndexOf(File.separator)) {
@@ -347,7 +347,11 @@ public class SplashScreenActivity extends Activity{
                         Environment.getExternalStorageDirectory()
                                 + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
                                 + File.separator + destinationPath;
-                downloadUrl(MEDIA_URL + path, destination);
+
+                if (path.charAt(0) == File.separatorChar)
+                    adjustedPath = path.substring(1);
+
+                downloadUrl(MEDIA_URL + adjustedPath, destination);
 
                 LogUtils.info(this.getClass(), "downloadMediaFiles", "Downloaded media content: " + path);
 
@@ -361,11 +365,11 @@ public class SplashScreenActivity extends Activity{
          */
         private void downloadFloorMaps() throws IOException {
 
-            String path, destinationPath;
+            String path, destinationPath, adjustedPath;
             List<Floor> floors = Floor.listAll(Floor.class);
             for (Floor floor: floors) {
 
-                path = destinationPath = floor.getImageFilePath();
+                path = destinationPath = adjustedPath = floor.getImageFilePath();
 
                 if (-1 != path.lastIndexOf(File.separator)) {
                     destinationPath = getFileNameOnly(path);
@@ -377,7 +381,11 @@ public class SplashScreenActivity extends Activity{
                         Environment.getExternalStorageDirectory()
                                 + File.separator +DbContentManager.EXTERNAL_STORAGE_MAPX_DIR
                                 + File.separator + destinationPath;
-                downloadUrl(MEDIA_URL + path, destination);
+
+                if (path.charAt(0) == File.separatorChar)
+                    adjustedPath = path.substring(1);
+
+                downloadUrl(MEDIA_URL + adjustedPath, destination);
 
                 LogUtils.info(this.getClass(), "downloadFloorMaps", "Downloaded floor map: " + path);
             }
