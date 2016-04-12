@@ -4,6 +4,7 @@ import android.os.Environment;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.orm.SugarRecord;
 
@@ -83,12 +84,19 @@ public class DbContentManager {
      */
     public static void persistJsonContent(JsonElement root) {
 
+        JsonArray poiArr, potArr;
         JsonArray floorArr = root.getAsJsonObject().get("floorPlan").getAsJsonArray();
         JsonArray storylineArr = root.getAsJsonObject().get("storyline").getAsJsonArray();
         JsonArray edgeArr = root.getAsJsonObject().get("edge").getAsJsonArray();
-        JsonArray nodeArr = root.getAsJsonObject().get("node").getAsJsonArray();
-        JsonArray poiArr = nodeArr.get(0).getAsJsonObject().get("poi").getAsJsonArray();
-        JsonArray potArr = nodeArr.get(0).getAsJsonObject().get("pot").getAsJsonArray();
+        if (root.getAsJsonObject().get("node").isJsonArray()) {
+            JsonArray nodeArr = root.getAsJsonObject().get("node").getAsJsonArray();
+            poiArr = nodeArr.get(0).getAsJsonObject().get("poi").getAsJsonArray();
+            potArr = nodeArr.get(0).getAsJsonObject().get("pot").getAsJsonArray();
+        } else {
+            JsonObject nodeObj = root.getAsJsonObject().get("node").getAsJsonObject();
+            poiArr = nodeObj.get("poi").getAsJsonArray();
+            potArr = nodeObj.get("pot").getAsJsonArray();
+        }
 
 
 
