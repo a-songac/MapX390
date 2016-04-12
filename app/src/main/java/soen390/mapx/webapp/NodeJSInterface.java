@@ -17,7 +17,6 @@ import soen390.mapx.R;
 import soen390.mapx.activity.MainActivity;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.helper.NavigationHelper;
-import soen390.mapx.manager.ContentManager;
 import soen390.mapx.manager.MapManager;
 import soen390.mapx.model.Floor;
 import soen390.mapx.model.Node;
@@ -340,7 +339,8 @@ public class NodeJSInterface {
                 floorObj = new JSONObject();
                 floorObj.put("floor_num", floor.getFloorId());
                 floorObj.put("floor_id", String.valueOf(floor.getId()));
-                floorObj.put("floor_path", "file://" + ContentManager.getMediaDirectoryPath() + floor.getImageFilePath());
+//                floorObj.put("floor_path", "file://" + ContentManager.getMediaDirectoryPath() + floor.getImageFilePath());
+                floorObj.put("floor_path", "tiles/" + floor.getImageFilePath());
                 floorObj.put("floor_width", floor.getImageWidth());
                 floorObj.put("floor_height", floor.getImageHeight());
                 floorArr.put(floorObj);
