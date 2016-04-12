@@ -2,7 +2,7 @@
   "floorPlan": [
     {
       "floorID": "3",
-      "imagePath": "/floor/3/floor3.png",
+      "imagePath": "floor/3/floor3.png",
       "imageWidth": 2343,
       "imageHeight": 2352,
       "cropBoxDimensions": {
@@ -43,7 +43,7 @@
             "image": [],
             "video": [
               {
-                "path": "moeb_introduction",
+                "path": "moeb_introduction.mp4",
                 "language": "EN",
                 "caption": "MOEB Intro"
               }
@@ -68,17 +68,11 @@
               "media":
               {
                 "image":
-                [
-                  {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
-                  }
-                ],
+                [],
                 "video":
                 [
                   {
-                    "path": "moeb_point1",
+                    "path": "moeb_point1.mp4",
                     "language": "EN",
                     "caption": "MOEB Point 1"
                   }
@@ -115,14 +109,14 @@
           "media": {
             "image": [
               {
-                "path": "evacuation",
+                "path": "evacuation.png",
                 "language": "EN",
                 "caption": "Follow the exit signs"
               }
             ],
             "video": [
               {
-                "path": "moeb_point2",
+                "path": "moeb_point2.mp4",
                 "language": "EN",
                 "caption": "MOEB Point 2 - free"
               }
@@ -149,7 +143,7 @@
                 "image":
                 [
                   {
-                    "path": "evacuation",
+                    "path": "evacuation.png",
                     "language": "EN",
                     "caption": "Follow the exit signs"
                   }
@@ -157,7 +151,7 @@
                 "video":
                 [
                   {
-                    "path": "moeb_point2",
+                    "path": "moeb_point2.mp4",
                     "language": "EN",
                     "caption": "MOEB Point 2"
                   }
@@ -195,7 +189,7 @@
             "image": [],
             "video": [
               {
-                "path": "moeb_point4",
+                "path": "moeb_point4.mp4",
                 "language": "EN",
                 "caption": "MOEB Point 4 - free"
               }
@@ -224,19 +218,13 @@
                 "video":
                 [
                   {
-                    "path": "moeb_point4",
+                    "path": "moeb_point4.mp4",
                     "language": "EN",
                     "caption": "MOEB Point 4"
                   }
                 ],
                 "audio":
-                [
-                  {
-                    "path": "<TODO>",
-                    "language": "<TODO>",
-                    "caption": "<TODO>"
-                  }
-                ]
+                []
               }
             }
           ]

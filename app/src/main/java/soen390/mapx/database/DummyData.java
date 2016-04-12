@@ -26,20 +26,23 @@ public class DummyData {
      */
     public static JsonElement loadJSON() {
         JsonParser jsonParser = new JsonParser();
+        JsonElement json = null;
 
         AssetManager assetManager = MapXApplication.getGlobalContext().getAssets();
         try {
 
             InputStream input = assetManager.open("demoData.json");
             BufferedReader br = new BufferedReader(new InputStreamReader(input));
-            return jsonParser.parse(br).getAsJsonObject();
+            json = jsonParser.parse(br).getAsJsonObject();
+
+            input.close();
+            br.close();
 
         } catch (IOException e) {
             LogUtils.error(DummyData.class, "loadJSON", Log.getStackTraceString(e));
         }
 
-        return null;
 
+        return json;
     }
-
 }

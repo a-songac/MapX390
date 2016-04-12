@@ -1,7 +1,6 @@
 package soen390.mapx.fragment;
 
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,9 +10,7 @@ import android.widget.ImageView;
 
 import soen390.mapx.BitmapUtils;
 import soen390.mapx.R;
-import soen390.mapx.UiUtils;
 import soen390.mapx.helper.ConstantsHelper;
-import soen390.mapx.manager.ContentManager;
 
 /**
  * Image full fragment
@@ -63,17 +60,7 @@ public class ImageFullPagerFragment extends Fragment {
             if (null != root) {
 
                 ImageView imageView = (ImageView) root.findViewById(R.id.full_image_view);
-                int imageResourceId = ContentManager.getImageResourceId(getContext(), imagePath);
-                if (0 != imageResourceId) {
-
-                    Bitmap bitmap = BitmapUtils.decodeSampledBitmapFromResource(
-                            getResources(),
-                            imageResourceId,
-                            UiUtils.getRootViewWidth(),
-                            UiUtils.getRootViewHeight());
-                    imageView.setImageBitmap(bitmap);
-
-                }
+                imageView.setImageBitmap(BitmapUtils.loadBitmap(imagePath));
             }
         }
     }

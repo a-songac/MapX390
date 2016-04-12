@@ -80,8 +80,8 @@ public class PoiMediaListAdapter extends ArrayAdapter<ExpositionContent> {
      */
     public void bindDataToView(final ExpositionContent media) {
 
-        viewHolder.getTitle().setText(media.getContent());
-        viewHolder.getDescription().setText(media.getTitle());
+        viewHolder.getTitle().setText(media.getTitle());
+        viewHolder.getDescription().setText(media.getLanguage());
 
         if(media.isVideo()){
             viewHolder.getImageMediaType().setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_theaters_black_48dp));

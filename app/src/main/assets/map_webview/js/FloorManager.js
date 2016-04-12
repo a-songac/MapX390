@@ -1,6 +1,6 @@
 function FloorManager(){
 	var floorJSON = [];
-	var floors = [];
+	var floors = {};
 	var currentFloor;
 	var floorButtons = [];
 
@@ -44,6 +44,8 @@ function FloorManager(){
 
 			imageUrl = floorJSON[i]["floor_path"];
 
+			console.log("ImageURL: " + imageUrl);
+
 			//If path starts with /, it'll be start from outside the webview. TODO: Temporary fix, as image path should start from storage folder, not webview folder
 			if(imageUrl.charAt(0) == "/"){
 				imageUrl = imageUrl.substring(1);
@@ -56,13 +58,13 @@ function FloorManager(){
 
 	    	var floor_num = floorJSON[i]["floor_num"];
 
-	    	floors.push({
-	    		leafletObj:imageOverlay,
-	    		north: north,
-	    		east: east,
-	    		imageUrl: imageUrl,
-	    		num: floor_num
-	    	});
+	    	floors[parseInt(floor_num)-1] = {
+						    		leafletObj:imageOverlay,
+						    		north: north,
+						    		east: east,
+						    		imageUrl: imageUrl,
+						    		num: floor_num
+						    	};
     	}
 	};
 
@@ -77,14 +79,15 @@ function FloorManager(){
 		$(".leaflet-bottom.leaflet-right").prepend(levelControlContainer);
 
 		//Loop for creating every floor button
-		for(var i = 0; i < levels; i++){
+		var counter = 0;
+		for(var key in floors){
 			var levelControl = document.createElement("a");
 			$(levelControl).prop("href", "#");
-			$(levelControl).text(floors[i].num);
-			$(levelControl).attr("data-floorId", floors[i].num); 
+			$(levelControl).text(floors[key].num);
+			$(levelControl).attr("data-floorId", floors[key].num); 
 
 			//First floor has to have the selected css
-			if(i === 0){
+			if(counter === 0){
 				$(levelControl).css("background-color", "#ccc");
 			}
 
@@ -107,9 +110,9 @@ function FloorManager(){
 				var level = parseInt($(this).text());
 				var updatedFloorOverlay; //= floors[level-1];
 
-				for(var i = 0; i < floors.length; i++){
-					if(parseInt(floors[i].num) == level){
-						updatedFloorOverlay = floors[i];
+				for(var key in floors){
+					if(parseInt(floors[key].num) == level){
+						updatedFloorOverlay = floors[key];
 						break;
 					}
 				}
@@ -125,6 +128,8 @@ function FloorManager(){
 			//Prepend the floor button to the floor control element
 			$(levelControlContainer).prepend(levelControl);
 			floorButtons.push(levelControl);
+
+			counter++;
 		}
 	};
 

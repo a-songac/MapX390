@@ -128,7 +128,9 @@ public class NotificationHelper {
                 .setContentText(message)
                 .setContentIntent(pendingIntent)
                 .setVibrate(vibrationPattern)
-                .setPriority(Notification.PRIORITY_MAX);
+                .setPriority(Notification.PRIORITY_MAX)
+                .setSound(Uri.parse("android.resource://"
+                        + context.getPackageName() + "/" + R.raw.poi_reached_sound));
 
         if (null != largeIcon){
             notificationBuilder.setLargeIcon(largeIcon);

@@ -30,7 +30,9 @@ public class POIInfoFragmentViewBinder extends BaseViewBinder {
 
         String title;
         String description;
-        if (MapManager.isStorylineMode()) {
+        // verify storyline mode and that the poi is in the storyline
+        if (MapManager.isStorylineMode() &&
+                !poi.getContent(MapManager.getCurrentStoryline().getId(), ExpositionContent.TEXT_TYPE).isEmpty()) {
             Long storylineId = MapManager.getCurrentStoryline().getId();
             ExpositionContent content =
                     poi.getContent(storylineId, ExpositionContent.TEXT_TYPE).get(0);

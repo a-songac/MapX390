@@ -71,7 +71,18 @@ function Controller(){
 				self.floorManager.clickFloor(Android.getCurrentFloor());
 				map.setView(lngLat, zoomLevel);
 			}else{
-				var first_floor = floors[0];
+				var counter = 0;
+				var first_floor;
+
+				while(true){
+					//if exists
+					if(floors[counter]){
+						first_floor = floors[counter];
+						break;
+					}else{
+						counter++;
+					}
+				}
 
 				self.floorManager.clickFloor(first_floor.num);
 				self.mapManager.setCurrentView();

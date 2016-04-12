@@ -16,6 +16,8 @@ import soen390.mapx.activity.MainActivity;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.ConstantsHelper;
 import soen390.mapx.helper.NavigationHelper;
+import soen390.mapx.manager.MapManager;
+import soen390.mapx.model.ExpositionContent;
 import soen390.mapx.model.Node;
 import soen390.mapx.ui.adapter.MediaPagerAdapter;
 
@@ -24,6 +26,8 @@ import soen390.mapx.ui.adapter.MediaPagerAdapter;
  */
 public class MediaViewPagerFragment extends Fragment implements IBaseFragment {
 
+
+    Node poi = null;
 
     /**
      * Create new instance of Profile fragment
@@ -63,7 +67,7 @@ public class MediaViewPagerFragment extends Fragment implements IBaseFragment {
         if (args != null) {
 
             Long  poiId = args.getLong(ConstantsHelper.MEDIA_PAGER_POI_ID, 0L);
-            Node poi = Node.findById(Node.class, poiId);
+            poi = Node.findById(Node.class, poiId);
             ActionBarHelper.getInstance().setMediaContentActionBar(poi.getTitle());
             getActivity().invalidateOptionsMenu();
 
@@ -86,15 +90,30 @@ public class MediaViewPagerFragment extends Fragment implements IBaseFragment {
      */
     private void initTabPager(View root, Long poiId) {
 
+        Long storylineId = MapManager.isStorylineMode() ?
+                MapManager.getCurrentStoryline().getId() :
+                -1L;
+        boolean hasMedia = false;
+
         TabLayout tabLayout = (TabLayout) root.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(getString(R.string.tab_info)));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_images));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_media));
+
+        if (!poi.getContent(storylineId, ExpositionContent.IMAGE_TYPE).isEmpty()) {
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_images));
+        }
+
+        if (!poi.getContent(storylineId, ExpositionContent.VIDEO_TYPE).isEmpty() ||
+                !poi.getContent(storylineId, ExpositionContent.AUDIO_TYPE).isEmpty() ) {
+            tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_media));
+            hasMedia = true;
+        }
+
+
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) root.findViewById(R.id.pager);
         final MediaPagerAdapter adapter =
-                new MediaPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount(), poiId);
+                new MediaPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount(), poiId, hasMedia);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

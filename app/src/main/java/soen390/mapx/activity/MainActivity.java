@@ -2,6 +2,7 @@ package soen390.mapx.activity;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.URLUtil;
 
 import com.arnaud.android.core.activity.BaseActivity;
 import com.arnaud.android.core.application.BaseApplication;
@@ -27,7 +29,6 @@ import soen390.mapx.R;
 import soen390.mapx.UiUtils;
 import soen390.mapx.application.MapXApplication;
 import soen390.mapx.callback.IDialogResponseCallBack;
-import soen390.mapx.database.DbContentManager;
 import soen390.mapx.helper.ActionBarHelper;
 import soen390.mapx.helper.AlertDialogHelper;
 import soen390.mapx.helper.ConstantsHelper;
@@ -57,7 +58,7 @@ public class MainActivity extends BaseActivity
         BaseApplication.setGlobalContext(this);
         initActionBar();
         initNavigationDrawer();
-        DbContentManager.initDatabaseContent();
+//        DbContentManager.initDatabaseContent(null);
         setParentViewDimensions();
 
         PreferenceHelper.getInstance().init(this);
@@ -353,7 +354,13 @@ public class MainActivity extends BaseActivity
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (null != result) {
-            AlertDialogHelper.showQRResultDialog(getString(R.string.qr_scanner_result), result.getContents());
+            String string = result.getContents();
+
+            if (URLUtil.isHttpUrl(string)) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(string)));
+            } else {
+                AlertDialogHelper.showQRResultDialog(getString(R.string.qr_scanner_result), result.getContents());
+            }
         }
     }
 }

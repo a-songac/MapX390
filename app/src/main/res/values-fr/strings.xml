@@ -8,6 +8,11 @@
     <string name="quit">Quitter</string>
     <string name="quit_message">Vouez-vous vraiment quitter?</string>
 
+    <string name="no_external_storage">Erreur: Stockage externe absent ou non accessible; impossible de télécharger les données</string>
+    <string name="no_external_storage_short">Erreur: stockage externe bsent</string>
+    <string name="no_connection_retry">Réessayer la connexion</string>
+    <string name="no_connection_toast">Impossible d\'établir une connexion au réseau</string>
+
     <string name="action_settings">Paramètres</string>
 
     <string name="ok">Ok</string>

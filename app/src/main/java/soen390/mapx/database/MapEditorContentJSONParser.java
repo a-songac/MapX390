@@ -233,8 +233,8 @@ public class MapEditorContentJSONParser {
             storylines.add(new Storyline(
                     slJsonObj.get("id").getAsLong(),
                     slJsonObj.get("thumbnail").getAsString(),
-                    slJsonObj.get("walkingTimeInMinutes").getAsInt(), //TODO to verify
-                    slJsonObj.get("floorsCovered").getAsInt(), //TODO to verify
+                    Integer.getInteger(slJsonObj.get("walkingTimeInMinutes").getAsString(), 0),
+                    0, //TODO JSON provides array of the floors covered
                     "#57B657" //TODO no color in json schema
             ));
             LogUtils.info(MapEditorContentJSONParser.class, "parseStorylines", "Parsed storyline: " + slJsonObj.get("id").getAsString());

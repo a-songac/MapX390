@@ -62,7 +62,7 @@
         "x": "547",
         "y": "872",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "b9407f30-f5f8-466e-aff9-25556b57fe6d",
           "major": "32424",
@@ -189,7 +189,7 @@
         "x": "769",
         "y": "943",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "0",
           "major": "0",
@@ -306,7 +306,7 @@
         "x": "794",
         "y": "997",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -423,7 +423,7 @@
         "x": "802",
         "y": "1169",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -540,7 +540,7 @@
         "x": "696",
         "y": "348",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -657,7 +657,7 @@
         "x": "636",
         "y": "215",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -774,7 +774,7 @@
         "x": "383",
         "y": "234",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -891,7 +891,7 @@
         "x": "227",
         "y": "329",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -1008,7 +1008,7 @@
         "x": "164",
         "y": "813",
         "floorID": "2",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -1125,7 +1125,7 @@
         "x": "225",
         "y": "592",
         "floorID": "3",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -1242,7 +1242,7 @@
         "x": "177",
         "y": "204",
         "floorID": "3",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -1359,7 +1359,7 @@
         "x": "209",
         "y": "212",
         "floorID": "4",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -1476,7 +1476,7 @@
         "x": "217",
         "y": "201",
         "floorID": "5",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -1593,7 +1593,7 @@
         "x": "217",
         "y": "590",
         "floorID": "5",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",
@@ -1710,7 +1710,7 @@
         "x": "155",
         "y": "805",
         "floorID": "5",
-        "iBeacon":
+        "ibeacon":
         {
           "uuid": "<TODO>",
           "major": "0",

@@ -1,9 +1,18 @@
 package soen390.mapx.database;
 
+import android.os.Environment;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.orm.SugarRecord;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 import soen390.mapx.LogUtils;
@@ -25,16 +34,18 @@ public class DbContentManager {
 
     private DbContentManager(){}
 
+    public static final String EXTERNAL_STORAGE_MAPX_DIR = "mapx";
+    public static final String JSON_FILE_NAME= "mapx.json";
+
     /**
      * Init database content in first use
      */
-    public static void initDatabaseContent() {
-
-
+    public static void initDatabaseContent(JsonElement root) {
 
         if (true || !PreferenceHelper.getInstance().isDbInitPreference()) {//TODO TEMP reparse
 
-            JsonElement root = DummyData.loadJSON(); //TODO temp
+            if (root ==null)
+                root = DummyData.loadJSON(); //TODO temp
 
             if (null != root) {
                 clearDb(); //TODO temp
@@ -48,17 +59,44 @@ public class DbContentManager {
     }
 
     /**
+     * Load JSON file used to seed the database
+     * @return
+     */
+    public static JsonElement prepareJSONSeed() {
+
+        try {
+            String dir = Environment.getExternalStorageDirectory()
+                    + File.separator + EXTERNAL_STORAGE_MAPX_DIR;
+            FileInputStream is = new FileInputStream(dir + File.separator + JSON_FILE_NAME);
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            JsonParser jsonParser = new JsonParser();
+            return jsonParser.parse(br).getAsJsonObject();
+
+        } catch (FileNotFoundException e) {
+            LogUtils.error(DbContentManager.class, "prepareJSONSeed", e.getMessage() );
+        }
+        return null;
+    }
+
+    /**
      * Parse JSON received from map editor
      * @param root
      */
     public static void persistJsonContent(JsonElement root) {
 
+        JsonArray poiArr, potArr;
         JsonArray floorArr = root.getAsJsonObject().get("floorPlan").getAsJsonArray();
         JsonArray storylineArr = root.getAsJsonObject().get("storyline").getAsJsonArray();
         JsonArray edgeArr = root.getAsJsonObject().get("edge").getAsJsonArray();
-        JsonArray nodeArr = root.getAsJsonObject().get("node").getAsJsonArray();
-        JsonArray poiArr = nodeArr.get(0).getAsJsonObject().get("poi").getAsJsonArray();
-        JsonArray potArr = nodeArr.get(0).getAsJsonObject().get("pot").getAsJsonArray();
+        if (root.getAsJsonObject().get("node").isJsonArray()) {
+            JsonArray nodeArr = root.getAsJsonObject().get("node").getAsJsonArray();
+            poiArr = nodeArr.get(0).getAsJsonObject().get("poi").getAsJsonArray();
+            potArr = nodeArr.get(0).getAsJsonObject().get("pot").getAsJsonArray();
+        } else {
+            JsonObject nodeObj = root.getAsJsonObject().get("node").getAsJsonObject();
+            poiArr = nodeObj.get("poi").getAsJsonArray();
+            potArr = nodeObj.get("pot").getAsJsonArray();
+        }
 
 
 
