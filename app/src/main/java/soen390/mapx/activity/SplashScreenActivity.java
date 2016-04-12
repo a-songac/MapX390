@@ -136,7 +136,7 @@ public class SplashScreenActivity extends Activity{
         downloadJSONTask = new DownloadJSON();
         setRetryButton();
 
-        if (true || !PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
+        if (!PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
 
             if ((validateNetwork())) {
 
