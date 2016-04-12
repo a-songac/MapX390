@@ -136,7 +136,7 @@ public class SplashScreenActivity extends Activity{
         downloadJSONTask = new DownloadJSON();
         setRetryButton();
 
-        if (true || !PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
+        if (!PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
 
             if ((validateNetwork())) {
 
@@ -167,16 +167,18 @@ public class SplashScreenActivity extends Activity{
     }
 
 
-
-
+    @Override
+    public void onBackPressed() {
+        // ignore call in order to complete download
+    }
 
     /**
      * Async task to download json
      */
     private class DownloadJSON extends AsyncTask<Void, Integer, Void> {
 
-        public static final String JSON_URL = "http://users.encs.concordia.ca/~a_songac/mapx/demoData.json";
-        public static final String MEDIA_URL = "http://users.encs.concordia.ca/~a_songac/mapx/media/";
+        public static final String JSON_URL = "http://users.encs.concordia.ca/~a_songac/mapx/data.json";
+        public static final String MEDIA_URL = "http://users.encs.concordia.ca/~a_songac/mapx/";
         public static final String NB_MEDIA_FILES_SCRIPT_URL = MEDIA_URL + "nb_files.php";
 
 
@@ -343,12 +345,14 @@ public class SplashScreenActivity extends Activity{
             for (ExpositionContent expositionContent: mediaContents) {
 
                 path = destinationPath = adjustedPath = expositionContent.getContent();
+                LogUtils.info(this.getClass(), "downloadMediaFiles", "path as it is in json: " + path);
 
 
                 if (-1 != path.lastIndexOf(File.separator)) {
                     destinationPath = getFileNameOnly(path);
                     expositionContent.setContent(destinationPath);
                     expositionContent.save();
+                    LogUtils.info(this.getClass(), "downloadMediaFiles", "path adjusted for local storage: " + destinationPath);
                 }
 
                 String destination =
@@ -380,11 +384,13 @@ public class SplashScreenActivity extends Activity{
             for (Floor floor: floors) {
 
                 path = destinationPath = adjustedPath = floor.getImageFilePath();
+                LogUtils.info(this.getClass(), "downloadFloorMaps", "path as it is in json: " + path);
 
                 if (-1 != path.lastIndexOf(File.separator)) {
                     destinationPath = getFileNameOnly(path);
                     floor.setImageFilePath(destinationPath);
                     floor.save();
+                    LogUtils.info(this.getClass(), "downloadFloorMaps", "path adjusted for local storage: " + destinationPath);
                 }
 
                 String destination =
