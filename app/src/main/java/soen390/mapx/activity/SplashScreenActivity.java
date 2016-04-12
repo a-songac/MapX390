@@ -177,7 +177,7 @@ public class SplashScreenActivity extends Activity{
      */
     private class DownloadJSON extends AsyncTask<Void, Integer, Void> {
 
-        public static final String JSON_URL = "http://users.encs.concordia.ca/~a_songac/mapx/data.json";
+        public static final String JSON_URL = "http://users.encs.concordia.ca/~a_songac/mapx/mapDataCorrectId.json";
         public static final String MEDIA_URL = "http://users.encs.concordia.ca/~a_songac/mapx/";
         public static final String NB_MEDIA_FILES_SCRIPT_URL = MEDIA_URL + "nb_files.php";
 
