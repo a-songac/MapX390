@@ -3,6 +3,8 @@ package soen390.mapx.model;
 import com.orm.SugarRecord;
 import com.orm.dsl.Ignore;
 
+import java.io.File;
+
 /**
  * Exhibition Content model
  */
@@ -58,6 +60,8 @@ public class ExpositionContent extends SugarRecord {
     }
 
     public String getContent() {
+        if (content.charAt(0) == File.separatorChar)
+            return content.substring(1);
         return content;
     }
 
