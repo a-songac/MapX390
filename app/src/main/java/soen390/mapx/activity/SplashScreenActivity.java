@@ -136,7 +136,7 @@ public class SplashScreenActivity extends Activity{
         downloadJSONTask = new DownloadJSON();
         setRetryButton();
 
-        if (!PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
+        if (true || !PreferenceHelper.getInstance().isDbInitPreference()) { //TODO check if updates
 
             if ((validateNetwork())) {
 
@@ -363,7 +363,12 @@ public class SplashScreenActivity extends Activity{
                 if (path.charAt(0) == File.separatorChar)
                     adjustedPath = path.substring(1);
 
-                downloadUrl(MEDIA_URL + adjustedPath, destination);
+                File destinationFile = new File(destination);
+                if (!destinationFile.isFile()) {
+                    downloadUrl(MEDIA_URL + adjustedPath, destination);
+                } else {
+                    LogUtils.info(this.getClass(), "downloadMediaFiles", "File to download already exists");
+                }
 
                 LogUtils.info(this.getClass(), "downloadMediaFiles", "Downloaded media content: " + path);
                 progress = (int)((double)i++/total * 50 + 50);
