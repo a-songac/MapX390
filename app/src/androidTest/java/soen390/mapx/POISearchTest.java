@@ -1,5 +1,8 @@
 package soen390.mapx;
 
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.assertion.ViewAssertions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -13,7 +16,7 @@ import soen390.mapx.activity.MainActivity;
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -31,18 +34,9 @@ public class POISearchTest {
     @Test
     public void searchPOIName() {
 
-        onView(withContentDescription(getResourceString(R.string.action_bar_search))).perform(click());
-        onView(withContentDescription(getResourceString(R.string.search_text_view_placeholder))).perform(click());
-
-
-       /*
-       onView(withId(R.id.poi_search_edit_text)).perform(click());
-
-       onView(withContentDescription(getResourceString(R.string.navigation_drawer_open))).perform(click());
-        onView(withText(R.string.action_settings)).perform(click());
-        onView(withText(R.string.settings_language)).perform(click());
-        onView(withText(R.string.language_french)).perform(click());
-        onView(withText(R.string.settings_language)).check(matches(withText("Langues")));*/
+        onView(withId(R.id.)).perform(click());
+        onView(withId(R.id.poi_search_edit_text)).perform(ViewActions.typeText("="));
+        onView(withId(R.id.list)).check(ViewAssertions.matches(ViewMatchers.withText("")));
     }
 
 }
