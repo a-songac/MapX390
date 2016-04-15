@@ -2,7 +2,6 @@ package soen390.mapx;
 
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -33,10 +32,9 @@ public class POISearchTest {
 
     @Test
     public void searchPOIName() {
-
-        onView(withId(R.id.)).perform(click());
+        onView(withId(R.id.map_options_search)).perform(click());
         onView(withId(R.id.poi_search_edit_text)).perform(ViewActions.typeText("="));
-        onView(withId(R.id.list)).check(ViewAssertions.matches(ViewMatchers.withText("")));
+        onView(withId(R.id.list)).check(ViewAssertions.doesNotExist());
     }
 
 }
